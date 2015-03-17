@@ -7,15 +7,16 @@
 // CWebApplication properties can be configured here.
 return array(
 	'basePath'=>dirname(__FILE__).DIRECTORY_SEPARATOR.'..',
-	'name'=>'My Web Application',
+	'name'=>'Sigma Site',
 
 	// preloading 'log' component
 	'preload'=>array('log'),
 
 	// autoloading model and component classes
 	'import'=>array(
-		'application.models.*',
-        'application.models.ext.*',
+        'application.models.orm*',
+		'application.models.forms*',
+        'application.models.orm.ext.*',
         'application.helpers.*',
 		'application.components.*',
 	),
@@ -58,8 +59,6 @@ return array(
                 '<language:\w{2}>/<controller:\w+>/<action:\w+>/*'=>'<controller>/<action>',
 
                 '/' => 'main/index',
-
-				
 			),
 		),
 		
@@ -92,8 +91,10 @@ return array(
 
 	// application-level parameters that can be accessed
 	// using Yii::app()->params['paramName']
-	'params'=>array(
-		// this is used in contact page
-		'adminEmail'=>'webmaster@example.com',
-	),
+    'params'=>array(
+        // this is used in contact page
+        'sourceLanguage' => 'en',
+        'defaultLanguage' => 'en',
+        'defaultAdminLanguage' => 'en'
+    ),
 );
