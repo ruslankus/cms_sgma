@@ -26,8 +26,6 @@ class Trl
     
     public function getLabel($labelName)
     {
-        exit('booo');
-
         if(array_key_exists($labelName,$this->_arrLabels)){
             if(empty($this->_arrLabels[$labelName])){
                 return '!'.$labelName;    

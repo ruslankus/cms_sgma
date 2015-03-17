@@ -10,7 +10,8 @@ class MainController extends Controller
         $this->title = "SIGMA";
         $this->description = "Index Page";
 
-        $val = Trl::t()->getLabel('label');
+//        $val = Trl::t()->getLabel('label');
+        $test = ExtLabels::model()->getLabels(Yii::app()->language);
         Debug::out(Yii::app()->language);
         exit('test');
 
