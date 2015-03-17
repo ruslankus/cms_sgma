@@ -18,17 +18,23 @@ class Trl
     private function __construct() {
         $currLng = Yii::app()->language;
         $this->_arrLabels = ExtLabels::model()->getLabels($currLng);
-        $this->_arrMessages = ExtMessage::model()->getMessage($currLng);
+        //$this->_arrMessages = FormMessages::model()->getLabels();
     }
         
     private function __clone(){}
     
     public function getLabel($labelName)
     {
+        $curent_lang = Yii::app()->language;
         if(array_key_exists($labelName,$this->_arrLabels)){
-            return $this->_arrLabels[$labelName];
+            if(empty($this->_arrLabels[$labelName])){
+                return '!'.$labelName;    
+            }else{
+                return $this->_arrLabels[$labelName];    
+            } 
+            
         }else{
-            return $labelName;  
+            return '*'.$labelName;  
         }
     }//getLabel
     
@@ -36,9 +42,14 @@ class Trl
     public function getMsg($message){
         
         if(array_key_exists($message,$this->_arrMessages)){
-            return $this->_arrMessages[$message];
+            if(empty($this->_arrMessages[$message])){
+                return '!'.$message;    
+            }else{
+                return $this->_arrMessages[$message];    
+            }
+           
         }else{
-            return $message;  
+            return '*'.$message;  
         }
     }//getMessage
  
