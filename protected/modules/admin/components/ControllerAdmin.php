@@ -41,6 +41,7 @@ class ControllerAdmin extends CController
 
         return false;
     }
+    
 
     /**
      * Override constructor

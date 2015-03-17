@@ -19,8 +19,10 @@ Class ExtMessages extends Messages
     public function getLabels($currLng) {
 
         $arrLabels = array();
-        $sql = "SELECT t1.label , t2.value FROM messages t1 JOIN messages_trl t2 ON t2.translation_id = t1.id
-        JOIN languages t3 ON t2.lng_id = t3.id WHERE t3.prefix = :prefix";
+        $sql  = "SELECT t1.label , t2.value FROM messages t1 ";
+        $sql .= "JOIN messages_trl t2 ON t2.translation_id = t1.id ";
+        $sql .= "JOIN languages t3 ON t2.lng_id = t3.id ";
+        $sql .= "WHERE t3.prefix = :prefix";
         $params[':prefix'] = $currLng;
         $con = $this->dbConnection;
         $data=$con->createCommand($sql)->queryAll(true,$params);
