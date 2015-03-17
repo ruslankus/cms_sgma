@@ -1,30 +1,36 @@
 <?php
 
 /**
- * This is the model class for table "faq".
+ * This is the model class for table "pages".
  *
- * The followings are the available columns in table 'faq':
+ * The followings are the available columns in table 'pages':
  * @property integer $id
- * @property integer $page_id
  * @property string $label
+ * @property integer $status_id
+ * @property integer $type_id
+ * @property integer $parent_id
+ * @property string $branch
  * @property integer $time_created
  * @property integer $time_updated
  * @property integer $last_change_by
  * @property integer $priority
  *
  * The followings are the available model relations:
- * @property Pages $page
- * @property FaqToProduct[] $faqToProducts
- * @property FaqTrl[] $faqTrls
+ * @property Faq[] $faqs
+ * @property MenuToPage[] $menuToPages
+ * @property News[] $news
+ * @property ContentTypes $type
+ * @property PagesTrl[] $pagesTrls
+ * @property Products[] $products
  */
-class Faq extends CActiveRecord
+class Pages extends CActiveRecord
 {
 	/**
 	 * @return string the associated database table name
 	 */
 	public function tableName()
 	{
-		return 'faq';
+		return 'pages';
 	}
 
 	/**
@@ -35,11 +41,12 @@ class Faq extends CActiveRecord
 		// NOTE: you should only define rules for those attributes that
 		// will receive user inputs.
 		return array(
-			array('page_id, time_created, time_updated, last_change_by, priority', 'numerical', 'integerOnly'=>true),
+			array('status_id, type_id, parent_id, time_created, time_updated, last_change_by, priority', 'numerical', 'integerOnly'=>true),
 			array('label', 'length', 'max'=>128),
+			array('branch', 'length', 'max'=>512),
 			// The following rule is used by search().
 			// @todo Please remove those attributes that should not be searched.
-			array('id, page_id, label, time_created, time_updated, last_change_by, priority', 'safe', 'on'=>'search'),
+			array('id, label, status_id, type_id, parent_id, branch, time_created, time_updated, last_change_by, priority', 'safe', 'on'=>'search'),
 		);
 	}
 
@@ -51,9 +58,12 @@ class Faq extends CActiveRecord
 		// NOTE: you may need to adjust the relation name and the related
 		// class name for the relations automatically generated below.
 		return array(
-			'page' => array(self::BELONGS_TO, 'Pages', 'page_id'),
-			'faqToProducts' => array(self::HAS_MANY, 'FaqToProduct', 'faq_id'),
-			'faqTrls' => array(self::HAS_MANY, 'FaqTrl', 'faq_id'),
+			'faqs' => array(self::HAS_MANY, 'Faq', 'page_id'),
+			'menuToPages' => array(self::HAS_MANY, 'MenuToPage', 'page_id'),
+			'news' => array(self::HAS_MANY, 'News', 'page_id'),
+			'type' => array(self::BELONGS_TO, 'ContentTypes', 'type_id'),
+			'pagesTrls' => array(self::HAS_MANY, 'PagesTrl', 'page_id'),
+			'products' => array(self::HAS_MANY, 'Products', 'page_id'),
 		);
 	}
 
@@ -64,8 +74,11 @@ class Faq extends CActiveRecord
 	{
 		return array(
 			'id' => 'ID',
-			'page_id' => 'Page',
 			'label' => 'Label',
+			'status_id' => 'Status',
+			'type_id' => 'Type',
+			'parent_id' => 'Parent',
+			'branch' => 'Branch',
 			'time_created' => 'Time Created',
 			'time_updated' => 'Time Updated',
 			'last_change_by' => 'Last Change By',
@@ -92,8 +105,11 @@ class Faq extends CActiveRecord
 		$criteria=new CDbCriteria;
 
 		$criteria->compare('id',$this->id);
-		$criteria->compare('page_id',$this->page_id);
 		$criteria->compare('label',$this->label,true);
+		$criteria->compare('status_id',$this->status_id);
+		$criteria->compare('type_id',$this->type_id);
+		$criteria->compare('parent_id',$this->parent_id);
+		$criteria->compare('branch',$this->branch,true);
 		$criteria->compare('time_created',$this->time_created);
 		$criteria->compare('time_updated',$this->time_updated);
 		$criteria->compare('last_change_by',$this->last_change_by);
@@ -108,7 +124,7 @@ class Faq extends CActiveRecord
 	 * Returns the static model of the specified AR class.
 	 * Please note that you should have this exact method in all your CActiveRecord descendants!
 	 * @param string $className active record class name.
-	 * @return Faq the static model class
+	 * @return Pages the static model class
 	 */
 	public static function model($className=__CLASS__)
 	{

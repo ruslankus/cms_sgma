@@ -1,12 +1,14 @@
 <?php
 
 /**
- * This is the model class for table "faq".
+ * This is the model class for table "news".
  *
- * The followings are the available columns in table 'faq':
+ * The followings are the available columns in table 'news':
  * @property integer $id
  * @property integer $page_id
+ * @property integer $status_id
  * @property string $label
+ * @property string $branch
  * @property integer $time_created
  * @property integer $time_updated
  * @property integer $last_change_by
@@ -14,17 +16,16 @@
  *
  * The followings are the available model relations:
  * @property Pages $page
- * @property FaqToProduct[] $faqToProducts
- * @property FaqTrl[] $faqTrls
+ * @property NewsTrl[] $newsTrls
  */
-class Faq extends CActiveRecord
+class News extends CActiveRecord
 {
 	/**
 	 * @return string the associated database table name
 	 */
 	public function tableName()
 	{
-		return 'faq';
+		return 'news';
 	}
 
 	/**
@@ -35,11 +36,11 @@ class Faq extends CActiveRecord
 		// NOTE: you should only define rules for those attributes that
 		// will receive user inputs.
 		return array(
-			array('page_id, time_created, time_updated, last_change_by, priority', 'numerical', 'integerOnly'=>true),
-			array('label', 'length', 'max'=>128),
+			array('page_id, status_id, time_created, time_updated, last_change_by, priority', 'numerical', 'integerOnly'=>true),
+			array('label, branch', 'length', 'max'=>128),
 			// The following rule is used by search().
 			// @todo Please remove those attributes that should not be searched.
-			array('id, page_id, label, time_created, time_updated, last_change_by, priority', 'safe', 'on'=>'search'),
+			array('id, page_id, status_id, label, branch, time_created, time_updated, last_change_by, priority', 'safe', 'on'=>'search'),
 		);
 	}
 
@@ -52,8 +53,7 @@ class Faq extends CActiveRecord
 		// class name for the relations automatically generated below.
 		return array(
 			'page' => array(self::BELONGS_TO, 'Pages', 'page_id'),
-			'faqToProducts' => array(self::HAS_MANY, 'FaqToProduct', 'faq_id'),
-			'faqTrls' => array(self::HAS_MANY, 'FaqTrl', 'faq_id'),
+			'newsTrls' => array(self::HAS_MANY, 'NewsTrl', 'item_id'),
 		);
 	}
 
@@ -65,7 +65,9 @@ class Faq extends CActiveRecord
 		return array(
 			'id' => 'ID',
 			'page_id' => 'Page',
+			'status_id' => 'Status',
 			'label' => 'Label',
+			'branch' => 'Branch',
 			'time_created' => 'Time Created',
 			'time_updated' => 'Time Updated',
 			'last_change_by' => 'Last Change By',
@@ -93,7 +95,9 @@ class Faq extends CActiveRecord
 
 		$criteria->compare('id',$this->id);
 		$criteria->compare('page_id',$this->page_id);
+		$criteria->compare('status_id',$this->status_id);
 		$criteria->compare('label',$this->label,true);
+		$criteria->compare('branch',$this->branch,true);
 		$criteria->compare('time_created',$this->time_created);
 		$criteria->compare('time_updated',$this->time_updated);
 		$criteria->compare('last_change_by',$this->last_change_by);
@@ -108,7 +112,7 @@ class Faq extends CActiveRecord
 	 * Returns the static model of the specified AR class.
 	 * Please note that you should have this exact method in all your CActiveRecord descendants!
 	 * @param string $className active record class name.
-	 * @return Faq the static model class
+	 * @return News the static model class
 	 */
 	public static function model($className=__CLASS__)
 	{

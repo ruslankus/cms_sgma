@@ -1,30 +1,25 @@
 <?php
 
 /**
- * This is the model class for table "faq".
+ * This is the model class for table "features_to_product".
  *
- * The followings are the available columns in table 'faq':
- * @property integer $id
- * @property integer $page_id
- * @property string $label
- * @property integer $time_created
- * @property integer $time_updated
- * @property integer $last_change_by
- * @property integer $priority
+ * The followings are the available columns in table 'features_to_product':
+ * @property integer $int
+ * @property integer $feature_id
+ * @property integer $product_id
  *
  * The followings are the available model relations:
- * @property Pages $page
- * @property FaqToProduct[] $faqToProducts
- * @property FaqTrl[] $faqTrls
+ * @property Products $product
+ * @property Features $feature
  */
-class Faq extends CActiveRecord
+class FeaturesToProduct extends CActiveRecord
 {
 	/**
 	 * @return string the associated database table name
 	 */
 	public function tableName()
 	{
-		return 'faq';
+		return 'features_to_product';
 	}
 
 	/**
@@ -35,11 +30,10 @@ class Faq extends CActiveRecord
 		// NOTE: you should only define rules for those attributes that
 		// will receive user inputs.
 		return array(
-			array('page_id, time_created, time_updated, last_change_by, priority', 'numerical', 'integerOnly'=>true),
-			array('label', 'length', 'max'=>128),
+			array('feature_id, product_id', 'numerical', 'integerOnly'=>true),
 			// The following rule is used by search().
 			// @todo Please remove those attributes that should not be searched.
-			array('id, page_id, label, time_created, time_updated, last_change_by, priority', 'safe', 'on'=>'search'),
+			array('int, feature_id, product_id', 'safe', 'on'=>'search'),
 		);
 	}
 
@@ -51,9 +45,8 @@ class Faq extends CActiveRecord
 		// NOTE: you may need to adjust the relation name and the related
 		// class name for the relations automatically generated below.
 		return array(
-			'page' => array(self::BELONGS_TO, 'Pages', 'page_id'),
-			'faqToProducts' => array(self::HAS_MANY, 'FaqToProduct', 'faq_id'),
-			'faqTrls' => array(self::HAS_MANY, 'FaqTrl', 'faq_id'),
+			'product' => array(self::BELONGS_TO, 'Products', 'product_id'),
+			'feature' => array(self::BELONGS_TO, 'Features', 'feature_id'),
 		);
 	}
 
@@ -63,13 +56,9 @@ class Faq extends CActiveRecord
 	public function attributeLabels()
 	{
 		return array(
-			'id' => 'ID',
-			'page_id' => 'Page',
-			'label' => 'Label',
-			'time_created' => 'Time Created',
-			'time_updated' => 'Time Updated',
-			'last_change_by' => 'Last Change By',
-			'priority' => 'Priority',
+			'int' => 'Int',
+			'feature_id' => 'Feature',
+			'product_id' => 'Product',
 		);
 	}
 
@@ -91,13 +80,9 @@ class Faq extends CActiveRecord
 
 		$criteria=new CDbCriteria;
 
-		$criteria->compare('id',$this->id);
-		$criteria->compare('page_id',$this->page_id);
-		$criteria->compare('label',$this->label,true);
-		$criteria->compare('time_created',$this->time_created);
-		$criteria->compare('time_updated',$this->time_updated);
-		$criteria->compare('last_change_by',$this->last_change_by);
-		$criteria->compare('priority',$this->priority);
+		$criteria->compare('int',$this->int);
+		$criteria->compare('feature_id',$this->feature_id);
+		$criteria->compare('product_id',$this->product_id);
 
 		return new CActiveDataProvider($this, array(
 			'criteria'=>$criteria,
@@ -108,7 +93,7 @@ class Faq extends CActiveRecord
 	 * Returns the static model of the specified AR class.
 	 * Please note that you should have this exact method in all your CActiveRecord descendants!
 	 * @param string $className active record class name.
-	 * @return Faq the static model class
+	 * @return FeaturesToProduct the static model class
 	 */
 	public static function model($className=__CLASS__)
 	{
