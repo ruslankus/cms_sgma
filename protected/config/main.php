@@ -30,6 +30,7 @@ return array(
 			// If removed, Gii defaults to localhost only. Edit carefully to taste.
 			'ipFilters'=>array('127.0.0.1','::1'),
 		),
+        'admin',
 		
 	),
 
@@ -51,6 +52,11 @@ return array(
                 'gii'=>'gii',
                 'gii/<controller:\w+>'=>'gii/<controller>',
                 'gii/<controller:\w+>/<action:\w+>'=>'gii/<controller>/<action>',
+                
+                
+                'admin' => 'admin/main/index',
+                '<language:\w{2}>/admin'=>'admin/main/index',
+                '<language:\w{2}>/admin/<controller:\w+>'=>'admin/<controller>/index',                   
 
                 '<language:\w{2}>' => 'main/index',
                 '<language:\w{2}>/<controller:\w+>'=>'<controller>/index',
