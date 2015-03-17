@@ -7,7 +7,7 @@ class MainController extends ControllerAdmin
      */
     public function actionIndex()
 	{
-        $this->renderText('You in ADMINKA now!!!');
+        $this->render('index');
 	}
 
 
@@ -35,5 +35,14 @@ class MainController extends ControllerAdmin
         }
 
         $this->render('login',array('form_mdl' => $form));
+    }
+
+    /**
+     * Logout
+     */
+    public function actionLogout()
+    {
+        Yii::app()->user->logout(false);
+        $this->redirect(Yii::app()->createUrl('/admin/main/index'));
     }
 }

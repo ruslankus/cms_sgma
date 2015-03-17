@@ -11,6 +11,7 @@ class ControllerAdmin extends CController
 
         'main' => array(
             'index' => array(ExtUserRoles::ROLE_ADMIN,ExtUserRoles::ROLE_ROOT),
+            'logout' => array(ExtUserRoles::ROLE_ROOT,ExtUserRoles::ROLE_ADMIN)
         ),
     );
 
