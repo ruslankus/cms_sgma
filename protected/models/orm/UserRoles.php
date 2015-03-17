@@ -1,23 +1,23 @@
 <?php
 
 /**
- * This is the model class for table "label".
+ * This is the model class for table "user_roles".
  *
- * The followings are the available columns in table 'label':
+ * The followings are the available columns in table 'user_roles':
  * @property integer $id
  * @property string $label
  *
  * The followings are the available model relations:
- * @property LabelTrl[] $labelTrls
+ * @property Users[] $users
  */
-class Label extends CActiveRecord
+class UserRoles extends CActiveRecord
 {
 	/**
 	 * @return string the associated database table name
 	 */
 	public function tableName()
 	{
-		return 'label';
+		return 'user_roles';
 	}
 
 	/**
@@ -28,7 +28,7 @@ class Label extends CActiveRecord
 		// NOTE: you should only define rules for those attributes that
 		// will receive user inputs.
 		return array(
-			array('label', 'length', 'max'=>256),
+			array('label', 'length', 'max'=>128),
 			// The following rule is used by search().
 			// @todo Please remove those attributes that should not be searched.
 			array('id, label', 'safe', 'on'=>'search'),
@@ -43,7 +43,7 @@ class Label extends CActiveRecord
 		// NOTE: you may need to adjust the relation name and the related
 		// class name for the relations automatically generated below.
 		return array(
-			'labelTrls' => array(self::HAS_MANY, 'LabelTrl', 'label_id'),
+			'users' => array(self::HAS_MANY, 'Users', 'role_id'),
 		);
 	}
 
@@ -88,7 +88,7 @@ class Label extends CActiveRecord
 	 * Returns the static model of the specified AR class.
 	 * Please note that you should have this exact method in all your CActiveRecord descendants!
 	 * @param string $className active record class name.
-	 * @return Label the static model class
+	 * @return UserRoles the static model class
 	 */
 	public static function model($className=__CLASS__)
 	{

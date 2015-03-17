@@ -1,25 +1,27 @@
 <?php
 
 /**
- * This is the model class for table "languages".
+ * This is the model class for table "faq_lng".
  *
- * The followings are the available columns in table 'languages':
+ * The followings are the available columns in table 'faq_lng':
  * @property integer $id
- * @property string $name
- * @property string $prefix
+ * @property integer $lng_id
+ * @property integer $faq_id
+ * @property integer $question
+ * @property integer $answer
  *
  * The followings are the available model relations:
- * @property MenusLng[] $menusLngs
- * @property TranslationsLng[] $translationsLngs
+ * @property Faq $faq
+ * @property Languages $lng
  */
-class Languages extends CActiveRecord
+class FaqLng extends CActiveRecord
 {
 	/**
 	 * @return string the associated database table name
 	 */
 	public function tableName()
 	{
-		return 'languages';
+		return 'faq_lng';
 	}
 
 	/**
@@ -30,11 +32,10 @@ class Languages extends CActiveRecord
 		// NOTE: you should only define rules for those attributes that
 		// will receive user inputs.
 		return array(
-			array('name', 'length', 'max'=>64),
-			array('prefix', 'length', 'max'=>16),
+			array('lng_id, faq_id, question, answer', 'numerical', 'integerOnly'=>true),
 			// The following rule is used by search().
 			// @todo Please remove those attributes that should not be searched.
-			array('id, name, prefix', 'safe', 'on'=>'search'),
+			array('id, lng_id, faq_id, question, answer', 'safe', 'on'=>'search'),
 		);
 	}
 
@@ -46,8 +47,8 @@ class Languages extends CActiveRecord
 		// NOTE: you may need to adjust the relation name and the related
 		// class name for the relations automatically generated below.
 		return array(
-			'menusLngs' => array(self::HAS_MANY, 'MenusLng', 'lng_id'),
-			'translationsLngs' => array(self::HAS_MANY, 'TranslationsLng', 'lng_id'),
+			'faq' => array(self::BELONGS_TO, 'Faq', 'faq_id'),
+			'lng' => array(self::BELONGS_TO, 'Languages', 'lng_id'),
 		);
 	}
 
@@ -58,8 +59,10 @@ class Languages extends CActiveRecord
 	{
 		return array(
 			'id' => 'ID',
-			'name' => 'Name',
-			'prefix' => 'Prefix',
+			'lng_id' => 'Lng',
+			'faq_id' => 'Faq',
+			'question' => 'Question',
+			'answer' => 'Answer',
 		);
 	}
 
@@ -82,8 +85,10 @@ class Languages extends CActiveRecord
 		$criteria=new CDbCriteria;
 
 		$criteria->compare('id',$this->id);
-		$criteria->compare('name',$this->name,true);
-		$criteria->compare('prefix',$this->prefix,true);
+		$criteria->compare('lng_id',$this->lng_id);
+		$criteria->compare('faq_id',$this->faq_id);
+		$criteria->compare('question',$this->question);
+		$criteria->compare('answer',$this->answer);
 
 		return new CActiveDataProvider($this, array(
 			'criteria'=>$criteria,
@@ -94,7 +99,7 @@ class Languages extends CActiveRecord
 	 * Returns the static model of the specified AR class.
 	 * Please note that you should have this exact method in all your CActiveRecord descendants!
 	 * @param string $className active record class name.
-	 * @return Languages the static model class
+	 * @return FaqLng the static model class
 	 */
 	public static function model($className=__CLASS__)
 	{
