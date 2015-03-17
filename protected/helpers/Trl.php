@@ -16,6 +16,7 @@ class Trl
     }
     
     private function __construct() {
+
         $currLng = Yii::app()->language;
         $this->_arrLabels = ExtLabels::model()->getLabels($currLng);
         //$this->_arrMessages = FormMessages::model()->getLabels();
@@ -25,7 +26,8 @@ class Trl
     
     public function getLabel($labelName)
     {
-        $curent_lang = Yii::app()->language;
+        exit('booo');
+
         if(array_key_exists($labelName,$this->_arrLabels)){
             if(empty($this->_arrLabels[$labelName])){
                 return '!'.$labelName;    
