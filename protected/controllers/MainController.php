@@ -11,6 +11,5 @@ class MainController extends Controller
         $this->description = "Index Page";
 
         $this->renderText("Hello world");
-
     }
 }

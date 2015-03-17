@@ -52,18 +52,28 @@ return array(
                 'gii'=>'gii',
                 'gii/<controller:\w+>'=>'gii/<controller>',
                 'gii/<controller:\w+>/<action:\w+>'=>'gii/<controller>/<action>',
-                
-                
-                'admin' => 'admin/main/index',
-                '<language:\w{2}>/admin'=>'admin/main/index',
-                '<language:\w{2}>/admin/<controller:\w+>'=>'admin/<controller>/index',                   
 
+
+                /**
+                 * Routes for admin module
+                 */
+
+                '<language:\w{2}>/admin' => 'admin/main/index',
+                '<language:\w{2}>/admin/<controller:\w+>'=>'admin/<controller>/index',
+                '<language:\w{2}>/admin/<controller:\w+>/<id:\d+>'=>'admin/<controller>/view',
+                '<language:\w{2}>/admin/<controller:\w+>/<action:\w+>/<id:\d+>/*'=>'admin/<controller>/<action>',
+                '<language:\w{2}>/admin/<controller:\w+>/<action:\w+>/*'=>'admin/<controller>/<action>',
+                'admin/' => 'admin/main/index',
+
+
+                /**
+                 * Basic site routes
+                 */
                 '<language:\w{2}>' => 'main/index',
                 '<language:\w{2}>/<controller:\w+>'=>'<controller>/index',
                 '<language:\w{2}>/<controller:\w+>/<id:\d+>'=>'<controller>/view',
                 '<language:\w{2}>/<controller:\w+>/<action:\w+>/<id:\d+>/*'=>'<controller>/<action>',
                 '<language:\w{2}>/<controller:\w+>/<action:\w+>/*'=>'<controller>/<action>',
-
                 '/' => 'main/index',
 			),
 		),

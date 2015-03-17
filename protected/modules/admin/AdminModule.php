@@ -12,6 +12,8 @@ class AdminModule extends CWebModule
 		// import the module-level models and components
 		$this->setImport(array(
 			'admin.models.*',
+            'admin.models.forms.*',
+            'admin.models.orm.*',
 			'admin.components.*',
 		));
         
@@ -20,7 +22,7 @@ class AdminModule extends CWebModule
             'errorAction'=>'admin',
             ),
         ));
-        
+
 	}
 
 	public function beforeControllerAction($controller, $action)
