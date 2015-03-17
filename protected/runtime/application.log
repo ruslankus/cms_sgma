@@ -246,3 +246,27 @@ REQUEST_URI=/ua/site/index
 in C:\OpenServer\domains\ysigma.local\protected\models\ext\ExtLabels.php (9)
 in C:\OpenServer\domains\ysigma.local\protected\helpers\Trl.php (20)
 in C:\OpenServer\domains\ysigma.local\protected\helpers\Trl.php (13)
+2015/03/17 16:14:18 [error] [exception.CHttpException.404] exception 'CHttpException' with message 'Unable to resolve the request "main/index".' in C:\OpenServer\domains\_git\sigma_cms\framework\web\CWebApplication.php:286
+Stack trace:
+#0 C:\OpenServer\domains\_git\sigma_cms\framework\web\CWebApplication.php(141): CWebApplication->runController('main/index')
+#1 C:\OpenServer\domains\_git\sigma_cms\framework\base\CApplication.php(184): CWebApplication->processRequest()
+#2 C:\OpenServer\domains\_git\sigma_cms\index.php(13): CApplication->run()
+#3 {main}
+REQUEST_URI=/
+---
+2015/03/17 16:14:19 [error] [exception.CHttpException.404] exception 'CHttpException' with message 'Unable to resolve the request "favicon.ico".' in C:\OpenServer\domains\_git\sigma_cms\framework\web\CWebApplication.php:286
+Stack trace:
+#0 C:\OpenServer\domains\_git\sigma_cms\framework\web\CWebApplication.php(141): CWebApplication->runController('favicon.ico')
+#1 C:\OpenServer\domains\_git\sigma_cms\framework\base\CApplication.php(184): CWebApplication->processRequest()
+#2 C:\OpenServer\domains\_git\sigma_cms\index.php(13): CApplication->run()
+#3 {main}
+REQUEST_URI=/favicon.ico
+---
+2015/03/17 16:14:19 [error] [exception.CHttpException.404] exception 'CHttpException' with message 'Unable to resolve the request "favicon.ico".' in C:\OpenServer\domains\_git\sigma_cms\framework\web\CWebApplication.php:286
+Stack trace:
+#0 C:\OpenServer\domains\_git\sigma_cms\framework\web\CWebApplication.php(141): CWebApplication->runController('favicon.ico')
+#1 C:\OpenServer\domains\_git\sigma_cms\framework\base\CApplication.php(184): CWebApplication->processRequest()
+#2 C:\OpenServer\domains\_git\sigma_cms\index.php(13): CApplication->run()
+#3 {main}
+REQUEST_URI=/favicon.ico
+---

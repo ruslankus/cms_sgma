@@ -1,7 +1,11 @@
 <?php
 Class ExtLanguages extends Languages
 {
-    
+
+    /**
+     * @param string $className
+     * @return ExtLanguages
+     */
     public static function model($className=__CLASS__)
     {
     	return parent::model($className);
