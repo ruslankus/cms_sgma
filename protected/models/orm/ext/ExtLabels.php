@@ -17,8 +17,10 @@ Class ExtLabels extends Labels
      */
     public function getLabels($currLng) {
         $arrLabels = array();
-        $sql = "SELECT t1.label , t2.value FROM labels t1 JOIN labels_trl t2 ON t2.translation_id = t1.id
-        JOIN languages t3 ON t2.lng_id = t3.id WHERE t3.prefix = :prefix";
+        $sql  = "SELECT t1.label , t2.value FROM labels t1 ";
+        $sql .= "JOIN labels_trl t2 ON t2.translation_id = t1.id ";
+        $sql .= "JOIN languages t3 ON t2.lng_id = t3.id ";
+        $sql .= "WHERE t3.prefix = :prefix";
         $params[':prefix'] = $currLng;
         $con = $this->dbConnection;
         $data=$con->createCommand($sql)->queryAll(true,$params);
