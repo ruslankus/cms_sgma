@@ -35,11 +35,12 @@ class ControllerAdmin extends CController
 
         if(!$user->isGuest)
         {
-            //get user from db
-            $dbUser = ExtUsers::model()->findByPk($user->getState('id'));
+            //get user role
+            $role = $user->getState('role');
+            $arrAllowedRoles = $this->accessRulesForRoles[$controller][$action];
 
             //return true if user's role is allowed
-            return in_array($dbUser->role_id,$this->accessRulesForRoles[$controller][$action]);
+            return in_array($role,$arrAllowedRoles);
         }
 
         return false;

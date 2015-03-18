@@ -36,6 +36,7 @@ class AdminIdentity extends CUserIdentity
                 $this->setState('name',$user->name);
                 $this->setState('surname',$user->surname);
                 $this->setState('email',$user->email);
+                $this->setState('role',$user->role_id);
             }
         }
         //if user not found
