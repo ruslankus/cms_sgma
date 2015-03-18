@@ -62,8 +62,14 @@ class ControllerAdmin extends CController
 
         Yii::app()->clientScript->registerCssFile(
             Yii::app()->assetManager->publish(
-                Yii::getPathOfAlias('modules.admin.assets').'/css/main.css'
+                Yii::getPathOfAlias('admin.assets').'/css/main.css'
             )
+        );
+
+        Yii::app()->clientScript->registerScriptFile(
+            Yii::app()->assetManager->publish(
+                Yii::getPathOfAlias('admin.assets').'/js/main.js'
+            ),CClientScript::POS_END
         );
 
         //if current action - not login

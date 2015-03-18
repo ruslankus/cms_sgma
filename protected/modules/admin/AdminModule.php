@@ -24,6 +24,7 @@ class AdminModule extends CWebModule
             'admin.models.forms.*',
             'admin.models.orm.*',
 			'admin.components.*',
+            'admin.helpers.*'
 		));
         
         Yii::app()->setComponents(array(
