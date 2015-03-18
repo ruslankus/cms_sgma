@@ -1,0 +1,364 @@
+/* -------- header navigation (cart icon) --------- */
+		.nav-item { margin: 0 10px 0 10px; }
+		.nav-cart { width: 215px; height: 50px; margin: 0 10px 0 10px;  }
+		.nav-cart > span
+			{
+				position: absolute; display: block; right: 65px; top: 12px; text-align: right;
+				font-size: 10px;
+				line-height: 100%;
+				text-transform: uppercase;
+				color: #fff;
+				font-family: 'PARANGON_430C';
+				font-weight: 600;
+			}
+		.nav-cart > span > span
+			{
+				color: #00aae4;
+			}
+			
+		/* -------- header navigation --------- */
+		header > nav > .left
+			{
+				float: left;
+			}
+		header > nav > .right
+			{
+				float: right;
+			}
+		/* -------- header navigation end --------- */
+		/* -------- sidebar navigation --------- */
+		.sidebar
+			{
+				width: 100%;
+				height: 64px;
+				display: block;
+				position: relative;
+			}
+		.sidebar > ul
+			{
+				width: 750px;
+				margin: 0 auto;
+				list-style-type: none;
+				text-align: left;
+			}
+		.sidebar > ul > li
+			{
+				padding: 21px 0px 0px 12px;
+				display: inline-block;
+			}
+		/* --------sidebar navigation end --------- */
+		/* -------- news --------- */
+		.news > hr
+			{
+				background: none;
+				height: 30px;
+				border: none;
+				margin: 0;
+			}
+		/* -------- news end --------- */
+		/* -------- header navigation --------- */
+		header > nav
+			{
+				width: 720px;
+			}
+		/* -------- header navigation end--------- */
+		/* -------- banner slider --------- */
+		.slider
+			{
+				width: 720px;
+				height: 500px;
+			}
+		.slider > .carousel
+			{
+				width: 720px;
+				height: 454px;
+				float: none;
+			}
+		.slider > .carousel > .items > a > span
+			{
+				position: absolute;
+				top: 15px;
+			}
+		.slider > .carousel > .items > a > .params
+			{
+				position: absolute;
+				top: 100px;
+				left: 50px;
+				height: 330px;
+				width: 50px;
+			}
+		.slider > .carousel > .items > a > .params > .param
+			{
+				margin: 1px;
+			}
+		.slider > .carousel > .items > a > img
+			{
+				width: 720px;
+				height:454px;
+			}
+		.slider > .thumbs
+			{
+				width: 720px;
+				height: 46px;
+				float: none;
+				text-align: right;
+			}
+		.slider > .thumbs > .items > a
+			{
+				display: inline-block;
+				width: 16px;
+				height: 16px;
+				border-radius: 16px;
+				background-color: #1d2f6b;
+				margin: 15px 15px 0 0;
+				-webkit-transition: 0.3s;
+				-moz-transition: 0.3s;
+				-ms-transition: 0.3s;
+				-o-transition: 0.3s;
+				transition: 0.3s;
+			}
+		.slider > .thumbs > .items > a:hover,
+		.slider > .thumbs > .items > a.active
+			{
+				background-color: #00aae4;
+			}
+		.slider > .thumbs > .items > a > img
+			{
+				display: none;
+			}
+		/* -------- banner slider end --------- */
+		/* -------- news (products, updates) --------- */
+		.news > .row,
+		.news > .row > .carousel
+			{
+				width: 750px;
+			}
+		.news > .row.products > .carousel > .items > a
+			{
+				width: 350px;
+			}
+		.news > .row.products > .nav,
+		.news > .row.updates > .nav
+			{
+				display: none;
+			}
+		.news > .row.updates > .carousel > .items > div
+			{
+				width: 342px;
+			}
+		/* -------- news end --------- */
+		/* -------- contacts --------- */
+		.contact
+			{
+				width: 720px;
+				margin: 0 auto;
+			}
+		.contact > .col > div
+			{
+				position: relative;
+				width: 656px;
+			}
+		/* -------- contacts (feedback) --------- */
+		.contact > .feedback > div
+			{
+				height: 570px;
+			}
+		.contact > .feedback > div label
+			{
+				position: absolute;
+			}
+		.contact > .feedback > div input
+			{
+				position: absolute;
+			}
+		.contact > .feedback > div label[for=name] { left: 7px; top: 95px; }
+		.contact > .feedback > div label[for=email] { left: 340px; top: 95px; }
+		.contact > .feedback > div label[for=message] { left: 7px; top: 172px; }
+		.contact > .feedback > div label[for=code] { left: 7px; top: 360px; }
+		.contact > .feedback > div .info { left: 7px; top: 490px; width: 250px; }
+		.contact > .feedback > div input#name { left: 7px; top: 110px; width: 310px; }
+		.contact > .feedback > div input#email{ left: 340px; top: 110px; width: 310px; }
+		.contact > .feedback > div input#code{ left: 7px; top: 380px; width: 310px; }
+		.contact > .feedback > div input[type=submit]{ right: 0px; top: 490px;  }
+		.contact > .feedback > div img{ left: 340px; top: 383px; position: absolute; }
+		.contact > .feedback > div textarea { left: 7px; top: 190px; width: 642px; position: absolute;  }
+		
+		/* -------- contacts (phone, address, etc) --------- */
+		.contact > .contacts
+			{
+				height: 450px;
+			}
+		.contact > .contacts > div
+			{
+				text-align: left;
+			}
+		.contact > .contacts > div > hr
+			{
+				border: none;
+				background: url('../images/hr-contact.jpg') center left repeat-x;
+				height: 30px;
+				width: 530px;
+				margin-left: 5px;
+			}
+		.contact > .contacts > div > .vr
+			{
+				border: none;
+				background: url('../images/hr-contact-v.jpg') top center repeat-y;
+				width: 30px;
+				height: 300px;
+				position: absolute;
+				top: 85px;
+				left: 555px;
+			}
+		.contact > .contacts > div > .col-x-1,
+		.contact > .contacts > div > .col-x-2
+			{
+				width: 530px;
+				display: inline-block;
+				text-align: left;
+			}
+		.contact > .contacts > div > .col-x-3
+			{
+				width: 50px;
+				position: absolute;
+				right: 10px;
+				top: 175px;
+			}
+		.contact > .contacts > div > .col-x-1 div
+			{
+				float: left;
+				width: 50%;
+			}
+		.contact > .contacts > div > .col-x-1 address
+			{
+				float: right;
+				width: 50%;
+				text-align: right;
+			}
+		.hides { display: none; }
+		/* -------- contacts end --------- */
+		.fluid-center
+			{
+				width: 720px;
+			}
+		.fluid-center .map
+		{
+			width: 720px;
+			height: 425px;
+			background: url(../images/map-1140.jpg) center center no-repeat;
+		}
+		.faq-item > article,
+		.faq-item > div > article
+			{
+				width: 720px;
+			}
+		.instruction-zone > table.top,
+		.instruction-zone > table.manuals
+			{
+				width: 720px;
+			}
+		.instruction-zone > table.manuals tr > .model,
+		.instruction-zone > .top  tr > .model
+			{
+				width: 335px;
+			}
+		.instruction-zone > .top  tr > .manual,
+		.instruction-zone > table.manuals tr > .manual > table
+			{
+				width: 385px;
+			}
+		.catalog-zone > a.item
+			{
+				width: 350px;
+			}
+		.catalog-zone > a.item:nth-child(3n)
+			{
+				margin-left: 0px;
+				margin-right: 0px;
+			}
+		.catalog-zone > a.item:nth-child(2n)
+			{
+				margin-right: 11px;
+			}
+		.catalog-zone > a.item > .params
+			{
+				left: 10px;
+				bottom: 10px;
+			}
+		.catalog-zone > a.item > .name
+			{
+				width: 210px;
+			}
+		.press-more > .fluid-center > img
+			{
+				max-width: 720px;
+			}
+		.shop-list
+			{
+				width: 720px;
+			}
+		.shop-list > .shop-item:nth-child(4n+1)
+			{
+				margin-right: 0px;
+			}
+		.shop-list > .shop-item
+			{
+				margin-right: 15.8px;
+			}
+		.search-bar
+			{
+				width: 720px;
+				height: 175px;
+			}
+		.search-bar .partner-type { top: 40px; left: 40px; width: 120px; text-align: right; }
+		.search-bar .partner-country { top: 40px; left: 380px; }
+		.search-bar .partner-city { top: 115px; left: 40px; width: 120px; text-align: right; }
+
+		.search-bar #sel-partner,
+		.search-bar #sel-country,
+		.search-bar #sel-city
+			{
+				width: 180px;
+				background: #fff url(../images/faq-out.png) 155px center no-repeat;
+			}
+		.search-bar #sel-partner { top: 30px;left:180px;}
+		.search-bar #sel-country { top: 30px; left: 450px; }
+		.search-bar #sel-city { top: 105px; left: 180px; }
+
+		.search-bar input
+			{
+				top: 100px;
+				left:407px;
+			}
+		/* -------- item-zone --------- */
+		.page-list,
+		.page-list > .carousel  div
+			{
+				width: 720px;
+			}
+		.page-list > .carousel  div > .parameters
+			{
+				width: 720px;
+			}
+		/* image slider*/
+		.item-zone,
+		.image-slider,
+		.image-slider > .navi
+			{
+				width: 720px;
+			}
+		.image-slider > .carousel > .items > div
+			{
+				width: 720px;
+				height: 400px;
+			}
+		.image-slider > .carousel
+			{
+				width: 726px;
+				height: 400px;
+			}
+		.image-slider > .thumbs,
+		.image-slider > .thumbs > .items
+			{
+				width: 520px;
+			}

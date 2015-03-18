@@ -7,6 +7,7 @@ class MainController extends Controller
      */
     public function actionIndex()
     {
+    	$this->layout = "site";
         $this->title = "SIGMA";
         $this->description = "Index Page";
 
