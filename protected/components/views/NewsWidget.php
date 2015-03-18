@@ -1,7 +1,7 @@
 <h1>Новинки</h1>
 <div class="carousel">
 	<div class="items">
-		<a href="item.html" style="background-image: url('products/thumb_1.png')">
+		<a href="item.html" style="background-image: url('images/products/thumb_1.png')">
 			<span class="name">X-treme PQ15</span>
 			<span class="stock bg-red">СКОРО !!!</span>
 			<div class="params small">
@@ -13,7 +13,7 @@
 				<div class="param usb"></div>
 			</div><!--/params-->
 		</a><!-- /product item -->
-		<a href="item.html" style="background-image: url('products/thumb_2.png')">
+		<a href="item.html" style="background-image: url('images/products/thumb_2.png')">
 			<span class="name">X-treme AT67 Kantri</span>
 			<span class="stock bg-blue">Новинка</span>
 			<div class="params small">
@@ -24,7 +24,7 @@
 				<div class="param lighter"></div>
 			</div><!--/params-->
 		</a><!-- /product item -->
-		<a href="item.html" style="background-image: url('products/thumb_3.png')">
+		<a href="item.html" style="background-image: url('images/products/thumb_3.png')">
 			<span class="name">Comfort 50 Light</span>
 			<span class="stock bg-blue">Новинка</span>
 			<div class="icon"></div>
