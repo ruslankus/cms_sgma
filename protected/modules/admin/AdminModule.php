@@ -3,12 +3,23 @@
 class AdminModule extends CWebModule
 {
 	public $defaultController='main';
-    public static $adminMenu = array(
 
-        'main' => array('title' => 'Main', 'default' => 'index', 'actions' => array(
-            'index' => array('title' => 'Information', 'html_id' => '', 'html_class' => '', 'html_style' => '', 'icon' => ''),
-            'logout' => array('title' => 'Exit', 'html_id' => '', 'html_class' => '', 'html_style' => '', 'icon' => ''),
-            'pages' => array('title' => 'Pages', 'html_id' => '', 'html_class' => '', 'html_style' => '', 'icon' => '')
+    public static $adminMenu = array(
+        'main' => array('title' => 'Dashboard', 'default' => 'index', 'icon' => '', 'html_class' => '', 'html_style' => '', 'actions' => array(
+            'index' => array('title' => 'Dashboard', 'html_id' => '', 'html_class' => '', 'html_style' => '', 'icon' => ''),
+        )),
+        'menu' => array('title' => 'Menu', 'default' => 'index', 'icon' => '', 'html_class' => '', 'html_style' => '', 'actions' => array(
+            'index' => array('title' => 'Dashboard', 'html_id' => '', 'html_class' => '', 'html_style' => '', 'icon' => ''),
+        )),
+        'pages' => array('title' => 'Pages', 'default' => 'index', 'icon' => '', 'html_class' => '', 'html_style' => '', 'actions' => array(
+            'index' => array('title' => 'Pages', 'html_id' => '', 'html_class' => '', 'html_style' => '', 'icon' => ''),
+        )),
+        'products' => array('title' => 'Products', 'default' => 'index', 'icon' => '', 'html_class' => '', 'html_style' => '', 'actions' => array(
+            'index' => array('title' => 'Products', 'html_id' => '', 'html_class' => '', 'html_style' => '', 'icon' => ''),
+            'categories' => array('title' => 'Products', 'html_id' => '', 'html_class' => '', 'html_style' => '', 'icon' => ''),
+        )),
+        'settings' => array('title' => 'Settings', 'default' => 'index', 'icon' => '', 'html_class' => '', 'html_style' => '', 'actions' => array(
+            'index' => array('title' => 'Products', 'html_id' => '', 'html_class' => '', 'html_style' => '', 'icon' => ''),
         )),
     );
 

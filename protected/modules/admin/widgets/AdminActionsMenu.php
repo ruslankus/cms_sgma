@@ -12,8 +12,15 @@ class AdminActionsMenu extends CWidget {
      * Widget entry point
      */
     public function run(){
+
+        $arrActions = array();
+
         //render top menu widget
-        $arrActions = AdminModule::$adminMenu[$this->currentController]['actions'];
+        if(isset(AdminModule::$adminMenu[$this->currentController]['actions']))
+        {
+            $arrActions = AdminModule::$adminMenu[$this->currentController]['actions'];
+        }
+
         $this->render('adminActionsMenu',array('current_controller' => $this->currentController, 'current_action' => $this->currentAction, 'actions' => $arrActions));
     }
 

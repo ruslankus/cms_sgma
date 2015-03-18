@@ -21,7 +21,6 @@ class ControllerAdmin extends CController
     public $description = "Content Management System";
     public $keywords = "";
 
-
     /**
      * Check if user allowed to admin's module controllers and actions
      * @param CWebUser $user
@@ -97,15 +96,17 @@ class ControllerAdmin extends CController
     protected function beforeAction($action) {
 
 
-        //register css and js for all files
-        Yii::app()->clientScript->registerCssFile(
-            Yii::app()->assetManager->publish(Yii::getPathOfAlias('admin.assets').'/css/main.css')
-        );
+        //publish dir to assets (fonts, css, js, images)
+        $publishedPath = Yii::app()->assetManager->publish(Yii::getPathOfAlias('admin.assets'));
 
-        Yii::app()->clientScript->registerScriptFile(
-            Yii::app()->assetManager->publish( Yii::getPathOfAlias('admin.assets').'/js/main.js'),
-            CClientScript::POS_END
-        );
+        //register css
+        Yii::app()->clientScript->registerCssFile($publishedPath.'/css/jquery-ui.min.css');
+        Yii::app()->clientScript->registerCssFile($publishedPath.'/css/style.css');
+
+        //register scripts
+        Yii::app()->clientScript->registerScriptFile($publishedPath.'/js/jquery-1.11.2.min.js',CClientScript::POS_END);
+        Yii::app()->clientScript->registerScriptFile($publishedPath.'/js/jquery-ui.min.js',CClientScript::POS_END);
+        Yii::app()->clientScript->registerScriptFile($publishedPath.'/js/panel.js',CClientScript::POS_END);
 
         //if current action - not login
         if($action->id != 'login')

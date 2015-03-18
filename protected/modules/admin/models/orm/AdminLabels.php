@@ -20,7 +20,6 @@ Class AdminLabels extends ExtLabels
         $con = Yii::createComponent(array(
             'class' => 'CDbConnection',
             'connectionString' => 'sqlite:'.Yii::app()->getModule('admin')->getBasePath().'/data/translations.db',
-//            'connectionString' => 'sqlite:/protected/modules/admin/data/translations.db',
         ));
 
         self::$db=$con;
