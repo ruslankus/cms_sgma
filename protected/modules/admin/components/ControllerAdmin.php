@@ -15,8 +15,11 @@ class ControllerAdmin extends CController
         ),
     );
 
-    public $title = "SIGMA";
+    public $layout='/layouts/main';
+    public $title = "SIGMA CMS";
     public $description = "Content Management System";
+    public $keywords = "";
+
 
     /**
      * Check if user allowed to admin's module controllers and actions

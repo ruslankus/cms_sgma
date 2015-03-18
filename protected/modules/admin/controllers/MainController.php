@@ -16,6 +16,11 @@ class MainController extends ControllerAdmin
      */
     public function actionLogin()
     {
+        //use 'login' layout for this action
+        $this->layout = '/layouts/login';
+
+        //set page description
+        $this->description = "Login";
 
         if(!Yii::app()->user->isGuest)
         {
@@ -38,11 +43,11 @@ class MainController extends ControllerAdmin
     }
 
     /**
-     * Logout
+     * Logout - just performs logout and redirects back to login
      */
     public function actionLogout()
     {
         Yii::app()->user->logout(false);
-        $this->redirect(Yii::app()->createUrl('/admin/main/index'));
+        $this->redirect(Yii::app()->createUrl('/admin/main/login'));
     }
 }
