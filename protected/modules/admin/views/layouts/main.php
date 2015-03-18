@@ -6,7 +6,6 @@
 <head>
 	<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
 	<meta name="language" content="en">
-	<link rel="stylesheet" type="text/css" href="<?php echo Yii::app()->request->baseUrl; ?>/css/admin/main.css">
 	<title><?php echo $this->title." - ".$this->description; ?></title>
 </head>
 
@@ -15,7 +14,6 @@
 <span>Menu(controllers):</span>
 <?php $this->widget('admin.widgets.AdminControllersMenu',array('current' => Yii::app()->controller->id)); ?>
 <br>
-
 <span>Sub-menu(actions):</span>
 <?php $this->widget('admin.widgets.AdminActionsMenu',array('currentController' => Yii::app()->controller->id, 'currentAction' => Yii::app()->controller->action->id)); ?>
 <br>

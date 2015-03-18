@@ -60,6 +60,12 @@ class ControllerAdmin extends CController
      */
     protected function beforeAction($action) {
 
+        Yii::app()->clientScript->registerCssFile(
+            Yii::app()->assetManager->publish(
+                Yii::getPathOfAlias('modules.admin.assets').'/css/main.css'
+            )
+        );
+
         //if current action - not login
         if($action->id != 'login')
         {
