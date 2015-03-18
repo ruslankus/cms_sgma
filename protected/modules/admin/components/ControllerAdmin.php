@@ -51,7 +51,43 @@ class ControllerAdmin extends CController
 
         return false;
     }
-    
+
+    /**
+     * Constructor override - to assign language
+     * @param string $id
+     * @param null $module
+     */
+    public function __construct($id,$module=null)
+    {
+        //set default ime-zone
+        date_default_timezone_set('Europe/Vilnius');
+
+        $language = Yii::app()->request->getParam('language',Yii::app()->params['defaultLanguage']);
+        $this->setLanguage($language);
+
+        parent::__construct($id,$module);
+    }
+
+    /**
+     * Setup the language
+     * @param $lng
+     */
+    public function setLanguage($lng)
+    {
+        $objUser = Yii::app()->user;
+        $request = Yii::app()->request;
+
+        Yii::app()->language = $lng;
+        $objUser->setState('language', $lng);
+        $request->cookies['language'] = new CHttpCookie('lng', $lng);
+
+        if ($objUser->hasState('language')) {
+            Yii::app()->language = $objUser->getState('language');
+        }
+        elseif (isset($request->cookies['language'])) {
+            Yii::app()->language = $request->cookies['language']->value;
+        }
+    }
 
     /**
      * Override before action method
@@ -60,16 +96,15 @@ class ControllerAdmin extends CController
      */
     protected function beforeAction($action) {
 
+
+        //register css and js for all files
         Yii::app()->clientScript->registerCssFile(
-            Yii::app()->assetManager->publish(
-                Yii::getPathOfAlias('admin.assets').'/css/main.css'
-            )
+            Yii::app()->assetManager->publish(Yii::getPathOfAlias('admin.assets').'/css/main.css')
         );
 
         Yii::app()->clientScript->registerScriptFile(
-            Yii::app()->assetManager->publish(
-                Yii::getPathOfAlias('admin.assets').'/js/main.js'
-            ),CClientScript::POS_END
+            Yii::app()->assetManager->publish( Yii::getPathOfAlias('admin.assets').'/js/main.js'),
+            CClientScript::POS_END
         );
 
         //if current action - not login

@@ -3,7 +3,6 @@
 class AdminModule extends CWebModule
 {
 	public $defaultController='main';
-
     public static $adminMenu = array(
 
         'main' => array('title' => 'Main', 'default' => 'index', 'actions' => array(
@@ -32,7 +31,6 @@ class AdminModule extends CWebModule
             'errorAction'=>'admin',
             ),
         ));
-
 	}
 
 	public function beforeControllerAction($controller, $action)
