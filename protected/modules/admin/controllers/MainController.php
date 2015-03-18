@@ -22,6 +22,7 @@ class MainController extends ControllerAdmin
         //set page description
         $this->description = "Login";
 
+        
         if(!Yii::app()->user->isGuest)
         {
             $this->redirect(Yii::app()->createUrl('/admin/main/index'));

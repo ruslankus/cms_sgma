@@ -40,6 +40,11 @@ class ControllerAdmin extends CController
             $role = $user->getState('role');
             $arrAllowedRoles = $this->accessRulesForRoles[$controller][$action];
 
+            if(empty($arrAllowedRoles))
+            {
+                return false;
+            }
+
             //return true if user's role is allowed
             return in_array($role,$arrAllowedRoles);
         }
@@ -59,9 +64,8 @@ class ControllerAdmin extends CController
         if($action->id != 'login')
         {
             //if user not allowed to this controller and action
-            if(!$this->isUserAllowed(Yii::app()->user,Yii::app()->controller->id,$action->id))
+            if(!$this->isUserAllowed(Yii::app()->user,$action->controller->id,$action->id))
             {
-                //redirect to login
                 $this->redirect(Yii::app()->createUrl('/admin/main/login'));
             }
         }
