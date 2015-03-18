@@ -67,19 +67,19 @@
 		</div><!-- / mini -->
 	</nav><!--/sidebar -->
 	<section class="slider">
-		<?php $this->widget('BanersWidget'); ?>
+		<?php $this->widget('application.widgets.BanersWidget'); ?>
 	</section><!--/slider -->
 	<section class="news">
 		<div class="row products">
-			<?php $this->widget('NewsWidget'); ?>
+			<?php $this->widget('application.widgets.NewsWidget'); ?>
 		</div><!--/row products -->
 		<hr/>
 		<div class="row updates">
-			<?php $this->widget('LastnewsWidget'); ?>
+			<?php $this->widget('application.widgets.LastnewsWidget'); ?>
 		</div><!--/row updates-->
 	</section><!--/New-->
 	<section class="contact">
-		<?php $this->widget('ContformWidget'); ?>
+		<?php $this->widget('application.widgets.ContformWidget'); ?>
 	</section><!--/contact -->
 	<footer>
 		<div>
