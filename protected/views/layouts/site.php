@@ -67,194 +67,19 @@
 		</div><!-- / mini -->
 	</nav><!--/sidebar -->
 	<section class="slider">
-		<div class="carousel">
-			<div class="items">
-				<a href="item.html">
-					<img src="banner/banner_1.png" alt="slide" />
-					<span>Comfort 50 Light</span>
-					<div class="params">
-						<div class="param az"></div>
-						<div class="param battery"></div>
-						<div class="param bluetooth"></div>
-						<div class="param fm"></div>
-						<div class="param sos"></div>
-						<div class="param lighter"></div>
-					</div><!--/params-->
-				</a>
-				<a href="item.html">
-					<img src="banner/banner_2.png" alt="slide" />
-					<span>Sigma Gold</span>
-					<div class="params">
-						<div class="param az"></div>
-						<div class="param battery"></div>
-						<div class="param bluetooth"></div>
-						<div class="param fm"></div>
-						<div class="param sos"></div>
-						<div class="param lighter"></div>
-					</div><!--/params-->
-				</a>
-				<a href="item.html">
-					<img src="banner/banner_3.png" alt="slide" />
-					<span>Comfort</span>
-					<div class="params">
-						<div class="param bluetooth"></div>
-					</div><!--/params-->
-				</a>
-			</div><!-- /items -->
-		</div><!-- /carousel -->
-		<div class="thumbs">
-			<div class="items">
-				<a href="#"><img src="banner/banner_1_thumb.png" alt="slide" /></a>
-				<a href="#"><img src="banner/banner_2_thumb.png" alt="slide" /></a>
-				<a href="#"><img src="banner/banner_3_thumb.png" alt="slide" /></a>
-			</div><!-- /items -->
-		</div><!-- /thumbs -->
-		<div class="clearfix"></div>
-		<hr/>
+		<?php $this->widget('BanersWidget'); ?>
 	</section><!--/slider -->
 	<section class="news">
 		<div class="row products">
-			<h1>Новинки</h1>
-			<div class="carousel">
-				<div class="items">
-					<a href="item.html" style="background-image: url('products/thumb_1.png')">
-						<span class="name">X-treme PQ15</span>
-						<span class="stock bg-red">СКОРО !!!</span>
-						<div class="params small">
-							<div class="param bluetooth"></div>
-							<div class="param dualsim"></div>
-							<div class="param ips"></div>
-							<div class="param android"></div>
-							<div class="param navi"></div>
-							<div class="param usb"></div>
-						</div><!--/params-->
-					</a><!-- /product item -->
-					<a href="item.html" style="background-image: url('products/thumb_2.png')">
-						<span class="name">X-treme AT67 Kantri</span>
-						<span class="stock bg-blue">Новинка</span>
-						<div class="params small">
-							<div class="param w95"></div>
-							<div class="param bluetooth"></div>
-							<div class="param fm"></div>
-							<div class="param ip67"></div>
-							<div class="param lighter"></div>
-						</div><!--/params-->
-					</a><!-- /product item -->
-					<a href="item.html" style="background-image: url('products/thumb_3.png')">
-						<span class="name">Comfort 50 Light</span>
-						<span class="stock bg-blue">Новинка</span>
-						<div class="icon"></div>
-						<div class="params small">
-							<div class="param az"></div>
-							<div class="param battery"></div>
-							<div class="param bluetooth"></div>
-							<div class="param fm"></div>
-							<div class="param sos"></div>
-							<div class="param lighter"></div>
-						</div><!--/params-->
-					</a><!-- /product item -->
-				</div><!--/items -->
-			</div><!-- /carousel -->
-			<div class="nav">
-				<span class="back"></span>
-				<span class="forward"></span>
-			</div><!--/Nav-->
+			<?php $this->widget('NewsWidget'); ?>
 		</div><!--/row products -->
 		<hr/>
 		<div class="row updates">
-			<h1>Последние новости</h1>
-			<div class="carousel">
-				<div class="items">
-					<div>
-						<img src="images/update_1.png" alt="update" />
-						<article>
-							<header>Новинка от Sigma mobile – X-treme AT67 Kantri – самый маленький защищенный мобильный телефон с функцией Bluetooth-терминала</header>
-							<time>2014.10.24</time>
-							<p>Новинка от Sigma mobile- X-treme AT67 Kantri – самый маленький защищенный мобильный телефон ... </p>
-						</article>
-						<div><a href="press-more.html">Читать дальше</a></div><!-- / button -->
-					</div><!-- / update item -->
-					<div>
-						<img src="images/update_2.png" alt="update" />
-						<article>
-							<header>Защищенная Bluetooth стерео  гарнитура AvantreeJogger</header>
-							<time>2014.10.24</time>
-							<p>Украинский поставщик прочных смартфонов Sigma Mobile вывел на рынок свою версию водонепроницаемой Bluetooth – гарнитуры под названием AvantreeJogger. </p>
-						</article>
-						<div><a href="press-more.html">Читать дальше</a></div><!-- / button -->
-					</div><!-- / update item -->
-					<div>
-						<img src="images/update_1.png" alt="update" />
-						<article>
-							<header>Новинка в линейке аксессуаров Sigma mobile – Bluetooth стереогарнитура Avantree Jogger</header>
-							<time>2014.10.24</time>
-							<p>Линейка аксессуаров к телефонам Sigma mobile пополнилась новинкой – Bluetooth стереогарнитурой Avantree Jogger.</p>
-						</article>
-						<div><a href="press-more.html">Читать дальше</a></div><!-- / button -->
-					</div><!-- /update item -->
-				</div><!-- /items-->
-			</div><!--/updates carousel -->
-			<div class="nav">
-				<span class="back"></span>
-				<span class="forward"></span>
-			</div><!--/Nav-->
-			<div class="mar-30"></div>
+			<?php $this->widget('LastnewsWidget'); ?>
 		</div><!--/row updates-->
 	</section><!--/New-->
 	<section class="contact">
-		<div class="col feedback">
-			<div>
-				<h1>Обратная связь</h1>
-				<form>
-					<label for="name">Ваше имя<span>*</span></label>
-					<input type="text" name="name" id="name" />
-					<label for="email">Email<span>*</span></label>
-					<input type="text" name="email" id="email" />
-					<label for="message">Сообщение<span>*</span></label>
-					<textarea name="message" id="message"></textarea>
-					<label for="code">Проверочный код<span>*</span></label>
-					<input type="text" name="code" id="code" />
-					<img src="images/captcha.jpg" alt="Captcha" />
-					<div class="clearfix mar-30"></div>
-					<label class="info"><span>*</span>- звездочкой отмечены поля, обязательные к заполнению!</label>
-					<input type="submit" value="Отравить" />
-					<div class="clearfix mar-30"></div>
-				</form>
-			</div><!-- /feedback centering -->
-		</div><!--/col feedback -->
-		<div class="col contacts">
-			<div>
-				<h1>Контакты</h1>
-				<div class="col-x-1">
-					<span>Sigma mobile-Украина  (Главный офис)</span>
-					<div>04073, г.Киев, пр-т.<br/>Московский, 8<br/>Телефон: +38(044) 383-47-54</div>
-					<address>
-						<a href="mailto:info@sigmamobile.net">info@sigmamobile.net</a><br/>
-						<a href="mailto:service@sigmamobile.net">service@sigmamobile.net</a><br/>
-						<a href="mailto:sales@sigmamobile.net">sales@sigmamobile.net</a>
-					</address>
-				</div><!--/col-x-1 -->
-				<hr/>
-				<div class="col-x-2">
-					<span>График работы:</span>
-					<div class="clearfix mar-15"></div>
-					<div class="left">Понедельник – Четверг<br/>Пятница<br/>Суббота-Воскресенье</div>
-					<div class="right">10.00-18.00<br/>10.00-17.00<br/>выходной</div>
-					<div class="clearfix mar-15"></div>
-				</div><!--/col-x-2 -->
-				<hr class="hides"/>
-				<div class="col-x-3">
-					<address>
-						<a class="skype" href="skype:lol?chat" title="Skype"></a>
-						<a class="twitter" href="#" title="Twitter"></a>
-						<a class="facebook" href="#" title="Facebook"></a>
-					</address>
-				</div><!--/col-x-3 -->
-				<div class="vr"></div>
-				<div class="clearfix"></div>
-			</div><!-- / contact centering -->
-		</div><!--/col contacts -->
-		<div class="clearfix"></div>
+		<?php $this->widget('ContformWidget'); ?>
 	</section><!--/contact -->
 	<footer>
 		<div>
