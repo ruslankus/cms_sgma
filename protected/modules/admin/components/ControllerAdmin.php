@@ -47,17 +47,6 @@ class ControllerAdmin extends CController
     
 
     /**
-     * Override constructor
-     * @param string $id
-     * @param null $module
-     */
-    public function __construct($id,$module=null)
-    {
-        $this->layout = '/layouts/main';
-        parent::__construct($id,$module);
-    }
-
-    /**
      * Override before action method
      * @param CAction $action
      * @return bool|void

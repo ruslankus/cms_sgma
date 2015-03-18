@@ -46,6 +46,6 @@ class AdminIdentity extends CUserIdentity
         }
 
         //return error status
-        return !$this->errorCode;
+        return $this->errorCode;
 	}
 }
