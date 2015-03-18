@@ -11,8 +11,16 @@
 </head>
 
 <body>
+
+<span>Menu(controllers):</span>
+<?php $this->widget('admin.widgets.AdminControllersMenu',array('current' => Yii::app()->controller->id)); ?>
+<br>
+
+<span>Sub-menu(actions):</span>
+<?php $this->widget('admin.widgets.AdminActionsMenu',array('currentController' => Yii::app()->controller->id, 'currentAction' => Yii::app()->controller->action->id)); ?>
+<br>
+
 <?php echo $content; ?>
-THIS IS MAIN ADMIN LAYOUT
 </body>
 
 </html>
