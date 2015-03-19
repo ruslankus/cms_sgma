@@ -27,6 +27,8 @@ class Controller extends CController
 
         $language = Yii::app()->request->getParam('language',Yii::app()->params['defaultLanguage']);
         $this->setLanguage($language);
+        
+        //Yii::app()->theme = "classic";
 
         parent::__construct($id,$module);
     }
