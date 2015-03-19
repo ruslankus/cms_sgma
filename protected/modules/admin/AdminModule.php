@@ -33,7 +33,7 @@ class AdminModule extends CWebModule
             'default' => 'index',
             'icon' => '',
             'html_class' => 'products',
-            'actions' => array('index' => array('title' => 'Products'),'categories' => array('title' => 'Products'),
+            'actions' => array('index' => array('title' => 'Products'),'categories' => array('title' => 'Categories'),
         )),
         'settings' => array(
             'title' => 'Settings',

@@ -2,11 +2,12 @@
 
 class MainController extends Controller
 {
-    
+    /*
     public function init(){
         Yii::app()->theme = "new_theme";
     }
-    
+    */
+
     /**
      * Entry
      */

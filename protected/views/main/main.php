@@ -1,1 +1,1 @@
-defoult theme
+default
