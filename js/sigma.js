@@ -11,60 +11,24 @@
 		this.click( function( e )
 			{
 				e.preventDefault();
-				//if ($(this).hasClass("menu-item-open") == true && $(window).width() < 780)
-				if ($(this).hasClass("menu-item-open") == true)
-					{
-						$(this).removeClass("menu-item-open"); // class rotates indicator
-						sidebar.hide("blind",300);
-					}
-				else
-					{
-						$(this).addClass("menu-item-open");
-						sidebar.show("blind",300);
-					}
+				$(this).toggleClass("menu-item-open");
+				sidebar.toggle("blind",300);
 				$(this).removeClass("menu-item-hover"); // class moving menu indicator up and down.
 			});
-		
+		sidebar.find("ul > li").each( function() {
+			if( $( this ).children( 'ul' ).length > 0 )
+				$( this ).addClass( 'hasChild' );     
+		});
+		$( '.sidebar > ul > li.hasChild > a' ).click( function(e) {
+			e.preventDefault();
+			$( this ).parent().addClass("active");
+			$( this ).parent().siblings().removeClass("active");
+			$(".sidebar > ul > li.hasChild > ul").hide();
+			$( this ).parent().children( 'ul' ).fadeIn( 300 );
+		});
+		$(".sidebar > ul > li.hasChild:first-of-type > ul").fadeIn( 300 );
 		this.mouseover(function( e ){$(this).addClass("menu-item-hover");}).mouseout(function(){$(this).removeClass("menu-item-hover");});
-		
-		/*
-			PC 1280. Changes mini navigation on mouse hover.
-		*/
-		if ($(window).width() >= 1280)
-		{
-		$(".sidebar > ul > li").mouseover(function(e){
-				$(this).addClass("active");
-				$(this).siblings().removeClass("active");
-				$(".sidebar > .mini > div").find("ul").hide();
-				$(".sidebar > .mini > div").find("ul[data-mini='"+$(this).attr("data-for")+"']").show();
-			});
-		}
-		if ($(window).width() < 1280 && $(window).width() > 480)
-		{
-			$(".sidebar > ul > li[data-for]").click(function(e){
-				$(this).addClass("active");
-				$(this).siblings().removeClass("active");
-				var ul = $(".sidebar > .mini > div > ul[data-mini='"+$(this).attr("data-for")+"']");
-				ul.toggle();
-				ul.siblings().hide();
-				ul.css({"position":"absolute", "left":$(this).position().left});
-				
-				console.log($(this).attr("data-for"));
-			});
-		}
-		if ($(window).width() <= 480)
-		{
-			$(".sidebar > ul > li[data-for]").click(function(e){
-				$(this).addClass("active");
-				$(this).siblings().removeClass("active");
-				var ul = $(".sidebar > .mini > div > ul[data-mini='"+$(this).attr("data-for")+"']");
-				ul.toggle();
-				ul.siblings().hide();
-				ul.css({"position":"absolute", "left":($(this).position().left+60),"top":($(this).position().top+60)});
-				
-				console.log($(this).attr("data-for"));
-			});
-		}
+
 	};
 	/*
 		fixes menu icon indicator and sidebar
@@ -350,12 +314,9 @@
 		fixes slides/menu when window is resized or phone flipped.
 	*/
 	/* language bar */
-	$(".nav-item.language").click(function(e){
-		e.preventDefault();
+	$(".wrapper > .language").click(function(){
 		$(this).toggleClass("menu-item-open");
-		var ul = $(".lang-bar");
-		ul.toggle();
-		ul.css({"position":"absolute", "left":($(this).position().left+20),"top":($(this).position().top+50)});
+		$(".wrapper > .language > ul").fadeToggle(300);
 	});
 		
 	function fixes()
@@ -373,7 +334,7 @@
 	/*
 		run functions.
 	*/
-	$(".nav-item.menu").menu();
+	$("header > .wrapper > .menu").menu();
 	$("#go-to-top").go_to_top();
 	$(".slider").banner_slider();
 	$(".products").products_slider();

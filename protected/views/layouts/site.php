@@ -9,62 +9,51 @@
     <link href="<?php echo Yii::app()->request->baseUrl; ?>/css/jquery-ui.min.css" rel="stylesheet">
     <title>Sigma</title>
 	<!--[if lt IE 9]>
-    <script src="js/html5shiv.js"></script>
-	<link href="css/style-ie.css" rel="stylesheet">
+    <script src="<?php echo Yii::app()->request->baseUrl; ?>/js/html5shiv.js"></script>
+	<link href="<?php echo Yii::app()->request->baseUrl; ?>/css/style-ie.css" rel="stylesheet">
 	<![endif]-->
   </head>
   <body>
     <header>
-		<nav>
-			<div class="left">
-				<a class="logo" href="index.html" title="Home"></a>
-				<div class="slice"></div>
-				<a href="index.html" title="Menu" class="nav-item menu"><div></div></a>
-			</div><!--/left -->
-			<div class="right">
-				<div class="slice"></div>
-				<a href="gde-kupit.html" title="Cart" class="nav-cart">
-					<div></div>
-					<span>Перейти в<br/>магазин онлайн<br/>(<span>за пределами украины</span>)</span>
-				</a><!-- /nav-cart -->
-				<div class="slice"></div>
-				<a href="#" title="Search" class="nav-item search"></a>
-				<div class="slice"></div>
-				<a href="#" title="Language" class="nav-item language"><div class="hover"></div></a>
-				<div class="slice"></div>
-				<div class="lang-bar">
-					<a href="#" class="uk"></a>
-					<a href="#" class="ru"></a>
-					<a href="#" class="ua"></a>
-				</div>
-			</div><!--/right -->
-		</nav><!--/Navigation-->
+		<div class="wrapper">
+			<a href="index.html" title="Home" class="logo"></a>
+			<a href="index.html" title="Menu" class="menu"><span></span></a>
+			<div class="language ru">
+				<span></span>
+				<ul>
+					<li class="ru"><a href="ru.html"></a></li>
+					<li class="ua"><a href="ua.html"></a></li>
+					<li class="en"><a href="en.html"></a></li>
+				</ul>
+			</div><!--/language-->
+			
+			<div class="search"><a href="search.html"></a></div>
+			<div class="cart"><a href="gde-kupit.html"><span>Перейти в<br/>магазин онлайн<br/>(<span>за пределами украины</span>)</span></a></div>
+		</div><!--/wrapper-->
 	</header><!--/Header-->
 	<nav class="sidebar">
 		<ul>
-			<li data-for="1"><a href="javascript:void(0);">Каталог товаров</a></li>
-			<li data-for="2" class="active"><a href="javascript:void(0);">Поддержка</a></li>
-			<li><a href="gde-kupit.html">Где купить</a></li>
-			<li><a href="press.html">Пресс-центр</a></li>
-			<li><a href="contacts.html">Контакты</a></li>
-			<li><a href="about.html">О бренде</a></li>
-		</ul>
-		<div class="mini">
-			<div>
-				<ul data-mini="1">
+			<li class="active"><a href="catalog.html">Каталог товаров</a>
+				<ul>
 					<li><a href="catalog.html">Защищенные телефоны</a></li>
 					<li><a href="catalog.html">Защищенные планшеты</a></li>
 					<li><a href="catalog.html">Телефоны с функцией SOS</a></li>
 					<li><a href="catalog.html">Аксессуары и комплектующие</a></li>
 				</ul>
-				<ul data-mini="2">
+			</li>
+			<li><a href="service.html">Поддержка</a>
+				<ul>
 					<li><a href="service.html">сервис-центры</a></li>
 					<li><a href="warranty.html">гарантия</a></li>
 					<li><a href="instructions.html">настройки и инструкции</a></li>
 					<li><a href="faq.html">FAQ</a></li>
 				</ul>
-			</div>
-		</div><!-- / mini -->
+			</li>
+			<li><a href="gde-kupit.html">Где купить</a></li>
+			<li><a href="press.html">Пресс-центр</a></li>
+			<li><a href="contacts.html">Контакты</a></li>
+			<li><a href="about.html">О бренде</a></li>
+		</ul>
 	</nav><!--/sidebar -->
 	<section class="slider">
 		<?php $this->widget('application.widgets.BanersWidget'); ?>

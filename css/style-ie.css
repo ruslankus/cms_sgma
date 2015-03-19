@@ -1,9 +1,28 @@
-/* -------- header navigation (cart icon) --------- */
-		.nav-item { margin: 0 10px 0 10px; }
-		.nav-cart { width: 215px; height: 50px; margin: 0 10px 0 10px;  }
-		.nav-cart > span
+.w320 { display: inline-block; }
+		.s320 { display: none; }
+		
+		header > .wrapper > .menu { width: 84px; }
+		header > .wrapper > .logo
 			{
-				position: absolute; display: block; right: 65px; top: 12px; text-align: right;
+				width: 158px;
+			}
+		body > header > .wrapper > .cart
+			{
+				background: url(../images/icon-cart.png) 170px center no-repeat;
+				width: 235px;
+				height: 50px;
+				border-right: 1px dotted #0d73ad;
+				display: block;
+				position: relative;
+				float: right;
+			}
+		body > header > .wrapper > .cart > a > span
+			{
+				position: absolute;
+				display: block;
+				right: 85px;
+				top: 12px;
+				text-align: right;
 				font-size: 10px;
 				line-height: 100%;
 				text-transform: uppercase;
@@ -11,57 +30,84 @@
 				font-family: 'PARANGON_430C';
 				font-weight: 600;
 			}
-		.nav-cart > span > span
-			{
-				color: #00aae4;
-			}
-			
-		/* -------- header navigation --------- */
-		header > nav > .left
-			{
-				float: left;
-			}
-		header > nav > .right
-			{
-				float: right;
-			}
-		/* -------- header navigation end --------- */
-		/* -------- sidebar navigation --------- */
 		.sidebar
 			{
 				width: 100%;
-				height: 64px;
-				display: block;
+				z-index: 4;
+				height: 105px;
+				background: url(../images/sidebar-horizontal.png) center bottom repeat-x;
+				background-color: #00aae;
 				position: relative;
+				z-index: 4;
 			}
 		.sidebar > ul
 			{
-				width: 750px;
+				width: 780px;
+				height: 63px;
+				position: relative;
+				
 				margin: 0 auto;
 				list-style-type: none;
-				text-align: left;
 			}
 		.sidebar > ul > li
 			{
-				padding: 21px 0px 0px 12px;
+				height: 79px;
+				-webkit-transition: 0.3s;
+				-moz-transition: 0.3s;
+				-ms-transition: 0.3s;
+				-o-transition: 0.3s;
+				transition: 0.3s;
+				padding: 20px 8px 0px 8px;
 				display: inline-block;
 			}
-		/* --------sidebar navigation end --------- */
-		/* -------- news --------- */
-		.news > hr
+		.sidebar > ul > li > a
 			{
-				background: none;
-				height: 30px;
-				border: none;
-				margin: 0;
+				color: #fff;
+				text-decoration: none;
+				text-transform: uppercase;
+				font-family: "PARANGON_430C";
+				font-weight: 600;
+				font-size: 16px;
 			}
-		/* -------- news end --------- */
+		.sidebar > ul > li:hover,
+		.sidebar > ul > li.active
+			{
+				background-color: #1d4598;
+			}
+		
+		/* -------- header navigation end  --------- */
+		/* -------- sidebar navigation part 2  --------- */
+		.sidebar > ul > li > ul
+			{
+				width: 100%;
+				display: none;
+				position: absolute;
+				bottom: -40px;
+				left: 0px;
+			}
+		.sidebar > ul > li > ul > li
+			{
+				padding: 0 3px;
+				color: #fff;
+				display: inline-block;
+			}
+		.sidebar > ul > li > ul > li > a
+			{
+				color: #fff;
+				text-decoration: none;
+				text-transform: uppercase;
+				font-size: 12px;
+				font-family: "PARANGON_430C";
+				font-weight: 600;
+			}
+		/* -------- sidebar navigation end  --------- */
 		/* -------- header navigation --------- */
-		header > nav
+		header > .wrapper
 			{
 				width: 720px;
 			}
-		/* -------- header navigation end--------- */
+		
+		/* -------- header navigation end  --------- */
 		/* -------- banner slider --------- */
 		.slider
 			{
@@ -198,7 +244,7 @@
 				background: url('../images/hr-contact.jpg') center left repeat-x;
 				height: 30px;
 				width: 530px;
-				margin-left: 5px;
+				margin: 0;
 			}
 		.contact > .contacts > div > .vr
 			{
@@ -361,4 +407,46 @@
 		.image-slider > .thumbs > .items
 			{
 				width: 520px;
+			}
+		.sidebar > .mini
+			{
+				display: block;
+				position: relative;
+				top: -4px;
+				width: 720px;
+			}
+		.sidebar > .mini > div
+			{
+				width: 720px;
+				margin: 0 auto;
+				position: relative;
+			}
+		.sidebar > .mini > div > ul
+			{
+				list-style-type: none;
+				display: none;
+				position: absolute;
+				top: -5px;
+				left: 0;
+				height: auto;
+				background-color: #1d4598;
+			}
+		.sidebar > .mini > div > ul > li
+			{
+				padding: 2px 12px;
+				color: #fff;
+				display: block;
+			}
+		.sidebar > .mini > div > ul > li > a
+			{
+				color: #fff;
+				text-decoration: none;
+				text-transform: uppercase;
+				font-size: 12px;
+				font-family: "PARANGON_430C";
+				font-weight: 600;
+			}
+		.sidebar > .mini > div > ul > li > a:hover
+			{
+				text-decoration: underline;
 			}

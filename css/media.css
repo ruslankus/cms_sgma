@@ -6,13 +6,18 @@
 @media screen and (max-width: 479px)
 	{
 		/* -------- header --------- */
-		header > nav
+		header > .wrapper
 			{
 				width: 300px;
 			}
-		header > nav > .left > .logo
+		
+		header > .wrapper > .logo
 			{
 				width: 59px;
+			}
+		header > .wrapper > .menu
+			{
+				width: 58px;
 			}
 		/* -------- header end --------- */
 		/* -------- banner slider --------- */
@@ -337,70 +342,26 @@
 			{
 				width: 290px;
 			}
-		.sidebar > .mini
-			{
-				display: block;
-				position: absolute;
-				top: 0px;
-				left: 0;
-				width: 290px;
-			}
-		.sidebar > .mini > div
-			{
-				width: 290px;
-				margin: 0 auto;
-				position: relative;
-			}
-		.sidebar > .mini > div > ul
-			{
-				list-style-type: none;
-				display: none;
-				position: absolute;
-				top: -5px;
-				left: 0;
-				height: auto;
-				background-color: #1d4598;
-			}
-		.sidebar > .mini > div > ul > li
-			{
-				padding: 2px 12px;
-				color: #fff;
-				display: block;
-			}
-		.sidebar > .mini > div > ul > li > a
-			{
-				color: #fff;
-				text-decoration: none;
-				text-transform: uppercase;
-				font-size: 12px;
-				font-family: "PARANGON_430C";
-				font-weight: 600;
-			}
-		.sidebar > .mini > div > ul > li > a:hover
-			{
-				text-decoration: underline;
-			}
 	}
 @media screen and (min-width: 480px)
 	{
 		.w320 { display: inline-block; }
 		.s320 { display: none; }
+		
+		header > .wrapper > .menu { width: 84px; }
+		header > .wrapper > .logo
+			{
+				width: 158px;
+			}
 	}
 /* -------- devices among 480 - 780 --------- */
 @media screen and (min-width: 480px) and (max-width: 779px)
 	{
 		
 		/* -------- header, sidebar navigation --------- */
-		header > nav,
-		.sidebar > ul
+		header > .wrapper
 			{
 				width: 450px;
-			}
-		header > nav > .left > .slice,
-		header > nav > .right > .slice
-			{
-				margin-left: 5.5px;
-				margin-right: 5px;
 			}
 		/* -------- header, sidebar navigation end --------- */
 		/* -------- banner slider --------- */
@@ -806,37 +767,176 @@
 		{
 			width: 450px;
 		}
-		.sidebar > .mini
+	}
+
+/* -------- devices from 780 --------- */
+@media screen and (max-width: 779px)
+	{
+		body > header > .wrapper > .cart,
+		body > header > .wrapper > .language,
+		body > header > .wrapper > .search
 			{
-				display: block;
+			width: 58px;
+			}
+		/* -------- sidebar navigation --------- */
+		.sidebar
+			{
+				width: 100%;
+				background-color: #00aae4;
 				position: absolute;
-				top: 0px;
-				left: 0;
-				width: 480px;
-			}
-		.sidebar > .mini > div
-			{
-				width: 480px;
-				margin: 0 auto;
-				position: relative;
-			}
-		.sidebar > .mini > div > ul
-			{
-				list-style-type: none;
+				left: 0px;
 				display: none;
-				position: absolute;
-				top: -5px;
+				z-index: 4;
+			}
+		.sidebar > ul
+			{
+				min-width: 290px;
+				width: 100%;
+				list-style-type: none;
+				padding-bottom: 20px;
+			}
+		.sidebar > ul > li
+			{
+				position: relative;
+				width: 100%;
+			}
+		.sidebar > ul > li.active > a
+			{
+				padding-left: 40px;
+				background: url(../images/icon-sidebar-out.png) 25px 30px no-repeat;
+			}
+		.sidebar > ul > li > a
+			{
+				color: #fff;
+				text-decoration: none;
+				text-transform: uppercase;
+				font-family: "PARANGON_430C";
+				font-weight: 600;
+				font-size: 16px;
+				padding: 20px 20px 0px 20px;
+				display: block;
+			}
+		.sidebar > ul > li a:hover
+			{
+				text-decoration: underline;
+			}
+		.sidebar > ul > li > ul
+			{
+				width: 100%;
+				display: none;
+				background-color: #1d4598;
+				list-style-type: none;
+				position: relative;
+				right: 0;
 				left: 0;
-				height: auto;
+			}
+		.sidebar > ul > li > ul > li
+			{
+				padding: 0 3px;
+				color: #fff;
+			}
+		.sidebar > ul > li > ul > li > a
+			{
+				color: #fff;
+				text-decoration: none;
+				text-transform: uppercase;
+				font-size: 12px;
+				font-family: "PARANGON_430C";
+				font-weight: 600;
+				padding: 20px 20px 10px 20px;
+				display: block;
+				line-height: 1;
+			}
+}
+/* -------- devices among 780 and 970 --------- */
+@media screen and (min-width: 780px)
+	{
+		body > header > .wrapper > .cart
+			{
+				background: url(../images/icon-cart.png) 170px center no-repeat;
+				width: 235px;
+				height: 50px;
+				border-right: 1px dotted #0d73ad;
+				display: block;
+				position: relative;
+				float: right;
+			}
+		body > header > .wrapper > .cart > a > span
+			{
+				position: absolute;
+				display: block;
+				right: 85px;
+				top: 12px;
+				text-align: right;
+				font-size: 10px;
+				line-height: 100%;
+				text-transform: uppercase;
+				color: #fff;
+				font-family: 'PARANGON_430C';
+				font-weight: 600;
+			}
+		.sidebar
+			{
+				width: 100%;
+				z-index: 4;
+				height: 105px;
+				background: url(../images/sidebar-horizontal.png) center bottom repeat-x;
+				background-color: #00aae;
+				position: relative;
+				z-index: 4;
+			}
+		.sidebar > ul
+			{
+				width: 780px;
+				height: 63px;
+				position: relative;
+				
+				margin: 0 auto;
+				list-style-type: none;
+			}
+		.sidebar > ul > li
+			{
+				height: 79px;
+				-webkit-transition: 0.3s;
+				-moz-transition: 0.3s;
+				-ms-transition: 0.3s;
+				-o-transition: 0.3s;
+				transition: 0.3s;
+				padding: 20px 8px 0px 8px;
+				display: inline-block;
+			}
+		.sidebar > ul > li > a
+			{
+				color: #fff;
+				text-decoration: none;
+				text-transform: uppercase;
+				font-family: "PARANGON_430C";
+				font-weight: 600;
+				font-size: 16px;
+			}
+		.sidebar > ul > li:hover,
+		.sidebar > ul > li.active
+			{
 				background-color: #1d4598;
 			}
-		.sidebar > .mini > div > ul > li
+		
+		/* -------- header navigation end  --------- */
+		/* -------- sidebar navigation part 2  --------- */
+		.sidebar > ul > li > ul
 			{
-				padding: 2px 12px;
-				color: #fff;
-				display: block;
+				width: 100%;
+				display: none;
+				position: absolute;
+				bottom: -40px;
+				left: 0px;
 			}
-		.sidebar > .mini > div > ul > li > a
+		.sidebar > ul > li > ul > li
+			{
+				padding: 0 3px;
+				color: #fff;
+				display: inline-block;
+			}
+		.sidebar > ul > li > ul > li > a
 			{
 				color: #fff;
 				text-decoration: none;
@@ -845,84 +945,17 @@
 				font-family: "PARANGON_430C";
 				font-weight: 600;
 			}
-		.sidebar > .mini > div > ul > li > a:hover
-			{
-				text-decoration: underline;
-			}
+		/* -------- sidebar navigation end  --------- */
 	}
-
-/* -------- devices from 780 --------- */
-@media screen and (min-width: 780px)
-	{
-		
-		/* -------- header navigation (cart icon) --------- */
-		.nav-item { margin: 0 10px 0 10px; }
-		.nav-cart { width: 215px; height: 50px; margin: 0 10px 0 10px;  }
-		.nav-cart > span
-			{
-				position: absolute; display: block; right: 65px; top: 12px; text-align: right;
-				font-size: 10px;
-				line-height: 100%;
-				text-transform: uppercase;
-				color: #fff;
-				font-family: 'PARANGON_430C';
-				font-weight: 600;
-			}
-		.nav-cart > span > span
-			{
-				color: #00aae4;
-			}
-			
-		/* -------- header navigation --------- */
-		header > nav > .left
-			{
-				float: left;
-			}
-		header > nav > .right
-			{
-				float: right;
-			}
-		/* -------- header navigation end --------- */
-		/* -------- sidebar navigation --------- */
-		.sidebar
-			{
-				width: 100%;
-				height: 64px;
-				display: block;
-				position: relative;
-			}
-		.sidebar > ul
-			{
-				width: 730px;
-				margin: 0 auto;
-				list-style-type: none;
-				text-align: left;
-			}
-		.sidebar > ul > li
-			{
-				padding: 21px 0px 0px 12px;
-				display: inline-block;
-			}
-		/* --------sidebar navigation end --------- */
-		/* -------- news --------- */
-		.news > hr
-			{
-				background: none;
-				height: 30px;
-				border: none;
-				margin: 0;
-			}
-		/* -------- news end --------- */
-	}
-/* -------- devices among 780 and 970 --------- */
 @media screen and (min-width: 780px) and (max-width: 969px)
 	{
 		/* -------- header navigation --------- */
-		header > nav
+		header > .wrapper
 			{
 				width: 720px;
 			}
-		/* -------- header navigation end--------- */
+		
+		/* -------- header navigation end  --------- */
 		/* -------- banner slider --------- */
 		.slider
 			{
@@ -1270,17 +1303,24 @@
 @media screen and (min-width: 970px) and (max-width: 1279px)
 	{
 		/* -------- header navigation --------- */
-		header > nav
+		header > .wrapper
 			{
 				width: 940px;
 			}
 		/* -------- header navigation end--------- */
-		/* -------- sidebar navigation --------- */
 		.sidebar > ul
 			{
 				width: 940px;
 			}
-		/* -------- sidebar navigation end --------- */
+		.sidebar > ul > li
+			{
+				padding: 20px 20px 0px 20px;
+			}
+		.sidebar > ul > li > ul > li
+			{
+				padding: 0 12px;
+			}
+		/* -------- sidebar navigation end  --------- */
 		/* -------- banner slider --------- */
 		.slider
 			{
@@ -1603,77 +1643,25 @@
 @media screen and (min-width: 1280px)
 	{
 		/* -------- header navigation, sidebar navigation part 1 --------- */
-		header > nav,
+		header > .wrapper
+			{
+				width: 1140px;
+			}
+		.sidebar { height: 120px; }
 		.sidebar > ul
 			{
 				width: 1140px;
-				height: 77px;
+				height: 79px;
 			}
 		.sidebar > ul > li
 			{
-				height: 77px;
-				-webkit-transition: 0.3s;
-				-moz-transition: 0.3s;
-				-ms-transition: 0.3s;
-				-o-transition: 0.3s;
-				transition: 0.3s;
-				padding: 25px 12px 0px 12px;
+				padding: 27px 20px 0px 20px;
+				height: 80px;
 			}
-		.sidebar > ul > li:hover,
-		.sidebar > ul > li.active
+		.sidebar > ul > li > ul > li
 			{
-				background-color: #1d4598;
+				padding: 0 12px;
 			}
-		
-		/* -------- header navigation end  --------- */
-		/* -------- sidebar navigation part 2  --------- */
-		.sidebar
-			{
-				height: 120px;
-			}
-		.sidebar > .mini
-			{
-				height: 43px;
-				background-color: #1d4598;
-				width: 100%;
-				display: block;
-				position: relative;
-				top: 0px;
-			}
-		.sidebar > .mini > div
-			{
-				width: 1140px;
-				margin: 0 auto;
-				position: relative;
-			}
-		.sidebar > .mini > div > ul
-			{
-				list-style-type: none;
-				display: none;
-				position: absolute;
-				top: -5px;
-				left: 0;
-			}
-		.sidebar > .mini > div > ul > li
-			{
-				padding: 12px;
-				color: #fff;
-				display: inline-block;
-			}
-		.sidebar > .mini > div > ul > li > a
-			{
-				color: #fff;
-				text-decoration: none;
-				text-transform: uppercase;
-				font-size: 12px;
-				font-family: "PARANGON_430C";
-				font-weight: 600;
-			}
-		.sidebar > .mini > div > ul > li > a:hover
-			{
-				text-decoration: underline;
-			}
-		/* -------- sidebar navigation end  --------- */
 		/* -------- banner slider  --------- */
 		.slider
 			{
