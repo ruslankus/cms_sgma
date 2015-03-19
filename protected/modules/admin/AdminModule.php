@@ -52,6 +52,7 @@ class AdminModule extends CWebModule
 			'admin.models.*',
             'admin.models.forms.*',
             'admin.models.orm.*',
+            'admin.models.orm.ext.*',
 			'admin.components.*',
             'admin.helpers.*'
 		));

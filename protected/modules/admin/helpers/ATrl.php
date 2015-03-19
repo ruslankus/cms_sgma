@@ -25,8 +25,8 @@ class ATrl
     private function __construct() {
 
         $currLng = Yii::app()->language;
-        $this->_arrLabels = AdminLabels::model()->getLabels($currLng);
-        $this->_arrMessages = AdminMessages::model()->getLabels($currLng);
+        $this->_arrLabels = ExtAdminLabels::model()->getLabels($currLng);
+        $this->_arrMessages = ExtAdminMessages::model()->getLabels($currLng);
     }
 
     /**
