@@ -4,23 +4,42 @@ class AdminModule extends CWebModule
 {
 	public $defaultController='main';
 
+    /**
+     * Main menu of admin panel
+     * TODO: add access by role feature to menu
+     * @var array
+     */
     public static $adminMenu = array(
-        'main' => array('title' => 'Dashboard', 'default' => 'index', 'icon' => '', 'html_class' => '', 'html_style' => '', 'actions' => array(
-            'index' => array('title' => 'Dashboard', 'html_id' => '', 'html_class' => '', 'html_style' => '', 'icon' => ''),
+        'main' => array(
+            'title' => 'Dashboard',
+            'default' => 'index',
+            'icon' => '',
+            'html_class' => 'dashboard'),
+
+        'menu' => array(
+            'title' => 'Menu',
+            'default' => 'index',
+            'icon' => '',
+            'html_class' => 'pages'),
+
+        'pages' => array(
+            'title' => 'Pages',
+            'default' => 'index',
+            'icon' => '',
+            'html_class' => 'pages'),
+
+        'products' => array(
+            'title' => 'Products',
+            'default' => 'index',
+            'icon' => '',
+            'html_class' => 'products',
+            'actions' => array('index' => array('title' => 'Products'),'categories' => array('title' => 'Products'),
         )),
-        'menu' => array('title' => 'Menu', 'default' => 'index', 'icon' => '', 'html_class' => '', 'html_style' => '', 'actions' => array(
-            'index' => array('title' => 'Dashboard', 'html_id' => '', 'html_class' => '', 'html_style' => '', 'icon' => ''),
-        )),
-        'pages' => array('title' => 'Pages', 'default' => 'index', 'icon' => '', 'html_class' => '', 'html_style' => '', 'actions' => array(
-            'index' => array('title' => 'Pages', 'html_id' => '', 'html_class' => '', 'html_style' => '', 'icon' => ''),
-        )),
-        'products' => array('title' => 'Products', 'default' => 'index', 'icon' => '', 'html_class' => '', 'html_style' => '', 'actions' => array(
-            'index' => array('title' => 'Products', 'html_id' => '', 'html_class' => '', 'html_style' => '', 'icon' => ''),
-            'categories' => array('title' => 'Products', 'html_id' => '', 'html_class' => '', 'html_style' => '', 'icon' => ''),
-        )),
-        'settings' => array('title' => 'Settings', 'default' => 'index', 'icon' => '', 'html_class' => '', 'html_style' => '', 'actions' => array(
-            'index' => array('title' => 'Products', 'html_id' => '', 'html_class' => '', 'html_style' => '', 'icon' => ''),
-        )),
+        'settings' => array(
+            'title' => 'Settings',
+            'default' => 'index',
+            'icon' => '',
+            'html_class' => 'settings')
     );
 
     public function init()
