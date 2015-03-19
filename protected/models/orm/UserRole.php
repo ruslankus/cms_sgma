@@ -1,27 +1,25 @@
 <?php
 
 /**
- * This is the model class for table "faq_trl".
+ * This is the model class for table "user_role".
  *
- * The followings are the available columns in table 'faq_trl':
+ * The followings are the available columns in table 'user_role':
  * @property integer $id
- * @property integer $lng_id
- * @property integer $faq_id
- * @property integer $question
- * @property integer $answer
+ * @property string $label
+ * @property string $name
  *
  * The followings are the available model relations:
- * @property Faq $faq
- * @property Languages $lng
+ * @property Available[] $availables
+ * @property Users[] $users
  */
-class FaqTrl extends CActiveRecord
+class UserRole extends CActiveRecord
 {
 	/**
 	 * @return string the associated database table name
 	 */
 	public function tableName()
 	{
-		return 'faq_trl';
+		return 'user_role';
 	}
 
 	/**
@@ -32,10 +30,10 @@ class FaqTrl extends CActiveRecord
 		// NOTE: you should only define rules for those attributes that
 		// will receive user inputs.
 		return array(
-			array('lng_id, faq_id, question, answer', 'numerical', 'integerOnly'=>true),
+			array('label, name', 'length', 'max'=>256),
 			// The following rule is used by search().
 			// @todo Please remove those attributes that should not be searched.
-			array('id, lng_id, faq_id, question, answer', 'safe', 'on'=>'search'),
+			array('id, label, name', 'safe', 'on'=>'search'),
 		);
 	}
 
@@ -47,8 +45,8 @@ class FaqTrl extends CActiveRecord
 		// NOTE: you may need to adjust the relation name and the related
 		// class name for the relations automatically generated below.
 		return array(
-			'faq' => array(self::BELONGS_TO, 'Faq', 'faq_id'),
-			'lng' => array(self::BELONGS_TO, 'Languages', 'lng_id'),
+			'availables' => array(self::HAS_MANY, 'Available', 'role_id'),
+			'users' => array(self::HAS_MANY, 'Users', 'role_id'),
 		);
 	}
 
@@ -59,10 +57,8 @@ class FaqTrl extends CActiveRecord
 	{
 		return array(
 			'id' => 'ID',
-			'lng_id' => 'Lng',
-			'faq_id' => 'Faq',
-			'question' => 'Question',
-			'answer' => 'Answer',
+			'label' => 'Label',
+			'name' => 'Name',
 		);
 	}
 
@@ -85,10 +81,8 @@ class FaqTrl extends CActiveRecord
 		$criteria=new CDbCriteria;
 
 		$criteria->compare('id',$this->id);
-		$criteria->compare('lng_id',$this->lng_id);
-		$criteria->compare('faq_id',$this->faq_id);
-		$criteria->compare('question',$this->question);
-		$criteria->compare('answer',$this->answer);
+		$criteria->compare('label',$this->label,true);
+		$criteria->compare('name',$this->name,true);
 
 		return new CActiveDataProvider($this, array(
 			'criteria'=>$criteria,
@@ -99,7 +93,7 @@ class FaqTrl extends CActiveRecord
 	 * Returns the static model of the specified AR class.
 	 * Please note that you should have this exact method in all your CActiveRecord descendants!
 	 * @param string $className active record class name.
-	 * @return FaqTrl the static model class
+	 * @return UserRole the static model class
 	 */
 	public static function model($className=__CLASS__)
 	{

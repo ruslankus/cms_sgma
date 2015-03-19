@@ -1,20 +1,28 @@
 <?php
 
 /**
- * This is the model class for table "statuses".
+ * This is the model class for table "product_trl".
  *
- * The followings are the available columns in table 'statuses':
+ * The followings are the available columns in table 'product_trl':
  * @property integer $id
- * @property string $label
+ * @property string $name
+ * @property string $description
+ * @property string $text
+ * @property integer $product_id
+ * @property integer $lng_id
+ *
+ * The followings are the available model relations:
+ * @property Languages $lng
+ * @property Product $product
  */
-class Statuses extends CActiveRecord
+class ProductTrl extends CActiveRecord
 {
 	/**
 	 * @return string the associated database table name
 	 */
 	public function tableName()
 	{
-		return 'statuses';
+		return 'product_trl';
 	}
 
 	/**
@@ -25,10 +33,13 @@ class Statuses extends CActiveRecord
 		// NOTE: you should only define rules for those attributes that
 		// will receive user inputs.
 		return array(
-			array('label', 'length', 'max'=>128),
+			array('product_id, lng_id', 'numerical', 'integerOnly'=>true),
+			array('name', 'length', 'max'=>256),
+			array('description', 'length', 'max'=>2048),
+			array('text', 'safe'),
 			// The following rule is used by search().
 			// @todo Please remove those attributes that should not be searched.
-			array('id, label', 'safe', 'on'=>'search'),
+			array('id, name, description, text, product_id, lng_id', 'safe', 'on'=>'search'),
 		);
 	}
 
@@ -40,6 +51,8 @@ class Statuses extends CActiveRecord
 		// NOTE: you may need to adjust the relation name and the related
 		// class name for the relations automatically generated below.
 		return array(
+			'lng' => array(self::BELONGS_TO, 'Languages', 'lng_id'),
+			'product' => array(self::BELONGS_TO, 'Product', 'product_id'),
 		);
 	}
 
@@ -50,7 +63,11 @@ class Statuses extends CActiveRecord
 	{
 		return array(
 			'id' => 'ID',
-			'label' => 'Label',
+			'name' => 'Name',
+			'description' => 'Description',
+			'text' => 'Text',
+			'product_id' => 'Product',
+			'lng_id' => 'Lng',
 		);
 	}
 
@@ -73,7 +90,11 @@ class Statuses extends CActiveRecord
 		$criteria=new CDbCriteria;
 
 		$criteria->compare('id',$this->id);
-		$criteria->compare('label',$this->label,true);
+		$criteria->compare('name',$this->name,true);
+		$criteria->compare('description',$this->description,true);
+		$criteria->compare('text',$this->text,true);
+		$criteria->compare('product_id',$this->product_id);
+		$criteria->compare('lng_id',$this->lng_id);
 
 		return new CActiveDataProvider($this, array(
 			'criteria'=>$criteria,
@@ -84,7 +105,7 @@ class Statuses extends CActiveRecord
 	 * Returns the static model of the specified AR class.
 	 * Please note that you should have this exact method in all your CActiveRecord descendants!
 	 * @param string $className active record class name.
-	 * @return Statuses the static model class
+	 * @return ProductTrl the static model class
 	 */
 	public static function model($className=__CLASS__)
 	{

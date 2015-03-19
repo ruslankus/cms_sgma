@@ -1,27 +1,28 @@
 <?php
 
 /**
- * This is the model class for table "menus_trl".
+ * This is the model class for table "menu_item_trl".
  *
- * The followings are the available columns in table 'menus_trl':
+ * The followings are the available columns in table 'menu_item_trl':
  * @property integer $id
  * @property string $name
  * @property string $description
- * @property integer $menu_id
+ * @property string $text
+ * @property integer $menu_item_id
  * @property integer $lng_id
  *
  * The followings are the available model relations:
- * @property Menus $menu
  * @property Languages $lng
+ * @property MenuItem $menuItem
  */
-class MenusTrl extends CActiveRecord
+class MenuItemTrl extends CActiveRecord
 {
 	/**
 	 * @return string the associated database table name
 	 */
 	public function tableName()
 	{
-		return 'menus_trl';
+		return 'menu_item_trl';
 	}
 
 	/**
@@ -32,12 +33,13 @@ class MenusTrl extends CActiveRecord
 		// NOTE: you should only define rules for those attributes that
 		// will receive user inputs.
 		return array(
-			array('menu_id, lng_id', 'numerical', 'integerOnly'=>true),
-			array('name', 'length', 'max'=>128),
-			array('description', 'length', 'max'=>256),
+			array('menu_item_id, lng_id', 'numerical', 'integerOnly'=>true),
+			array('name', 'length', 'max'=>256),
+			array('description', 'length', 'max'=>2048),
+			array('text', 'safe'),
 			// The following rule is used by search().
 			// @todo Please remove those attributes that should not be searched.
-			array('id, name, description, menu_id, lng_id', 'safe', 'on'=>'search'),
+			array('id, name, description, text, menu_item_id, lng_id', 'safe', 'on'=>'search'),
 		);
 	}
 
@@ -49,8 +51,8 @@ class MenusTrl extends CActiveRecord
 		// NOTE: you may need to adjust the relation name and the related
 		// class name for the relations automatically generated below.
 		return array(
-			'menu' => array(self::BELONGS_TO, 'Menus', 'menu_id'),
 			'lng' => array(self::BELONGS_TO, 'Languages', 'lng_id'),
+			'menuItem' => array(self::BELONGS_TO, 'MenuItem', 'menu_item_id'),
 		);
 	}
 
@@ -63,7 +65,8 @@ class MenusTrl extends CActiveRecord
 			'id' => 'ID',
 			'name' => 'Name',
 			'description' => 'Description',
-			'menu_id' => 'Menu',
+			'text' => 'Text',
+			'menu_item_id' => 'Menu Item',
 			'lng_id' => 'Lng',
 		);
 	}
@@ -89,7 +92,8 @@ class MenusTrl extends CActiveRecord
 		$criteria->compare('id',$this->id);
 		$criteria->compare('name',$this->name,true);
 		$criteria->compare('description',$this->description,true);
-		$criteria->compare('menu_id',$this->menu_id);
+		$criteria->compare('text',$this->text,true);
+		$criteria->compare('menu_item_id',$this->menu_item_id);
 		$criteria->compare('lng_id',$this->lng_id);
 
 		return new CActiveDataProvider($this, array(
@@ -101,7 +105,7 @@ class MenusTrl extends CActiveRecord
 	 * Returns the static model of the specified AR class.
 	 * Please note that you should have this exact method in all your CActiveRecord descendants!
 	 * @param string $className active record class name.
-	 * @return MenusTrl the static model class
+	 * @return MenuItemTrl the static model class
 	 */
 	public static function model($className=__CLASS__)
 	{

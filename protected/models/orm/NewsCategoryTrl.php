@@ -1,28 +1,27 @@
 <?php
 
 /**
- * This is the model class for table "products_trl".
+ * This is the model class for table "news_category_trl".
  *
- * The followings are the available columns in table 'products_trl':
+ * The followings are the available columns in table 'news_category_trl':
  * @property integer $id
- * @property integer $item_id
- * @property integer $lng_id
  * @property string $name
  * @property string $description
  * @property string $text
+ * @property integer $news_category_id
+ * @property integer $lng_id
  *
  * The followings are the available model relations:
- * @property Products $item
- * @property Languages $lng
+ * @property NewsCategory $newsCategory
  */
-class ProductsTrl extends CActiveRecord
+class NewsCategoryTrl extends CActiveRecord
 {
 	/**
 	 * @return string the associated database table name
 	 */
 	public function tableName()
 	{
-		return 'products_trl';
+		return 'news_category_trl';
 	}
 
 	/**
@@ -33,13 +32,13 @@ class ProductsTrl extends CActiveRecord
 		// NOTE: you should only define rules for those attributes that
 		// will receive user inputs.
 		return array(
-			array('item_id, lng_id', 'numerical', 'integerOnly'=>true),
+			array('news_category_id, lng_id', 'numerical', 'integerOnly'=>true),
 			array('name', 'length', 'max'=>256),
 			array('description', 'length', 'max'=>2048),
 			array('text', 'safe'),
 			// The following rule is used by search().
 			// @todo Please remove those attributes that should not be searched.
-			array('id, item_id, lng_id, name, description, text', 'safe', 'on'=>'search'),
+			array('id, name, description, text, news_category_id, lng_id', 'safe', 'on'=>'search'),
 		);
 	}
 
@@ -51,8 +50,7 @@ class ProductsTrl extends CActiveRecord
 		// NOTE: you may need to adjust the relation name and the related
 		// class name for the relations automatically generated below.
 		return array(
-			'item' => array(self::BELONGS_TO, 'Products', 'item_id'),
-			'lng' => array(self::BELONGS_TO, 'Languages', 'lng_id'),
+			'newsCategory' => array(self::BELONGS_TO, 'NewsCategory', 'news_category_id'),
 		);
 	}
 
@@ -63,11 +61,11 @@ class ProductsTrl extends CActiveRecord
 	{
 		return array(
 			'id' => 'ID',
-			'item_id' => 'Item',
-			'lng_id' => 'Lng',
 			'name' => 'Name',
 			'description' => 'Description',
 			'text' => 'Text',
+			'news_category_id' => 'News Category',
+			'lng_id' => 'Lng',
 		);
 	}
 
@@ -90,11 +88,11 @@ class ProductsTrl extends CActiveRecord
 		$criteria=new CDbCriteria;
 
 		$criteria->compare('id',$this->id);
-		$criteria->compare('item_id',$this->item_id);
-		$criteria->compare('lng_id',$this->lng_id);
 		$criteria->compare('name',$this->name,true);
 		$criteria->compare('description',$this->description,true);
 		$criteria->compare('text',$this->text,true);
+		$criteria->compare('news_category_id',$this->news_category_id);
+		$criteria->compare('lng_id',$this->lng_id);
 
 		return new CActiveDataProvider($this, array(
 			'criteria'=>$criteria,
@@ -105,7 +103,7 @@ class ProductsTrl extends CActiveRecord
 	 * Returns the static model of the specified AR class.
 	 * Please note that you should have this exact method in all your CActiveRecord descendants!
 	 * @param string $className active record class name.
-	 * @return ProductsTrl the static model class
+	 * @return NewsCategoryTrl the static model class
 	 */
 	public static function model($className=__CLASS__)
 	{

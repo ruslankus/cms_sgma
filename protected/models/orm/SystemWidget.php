@@ -1,25 +1,25 @@
 <?php
 
 /**
- * This is the model class for table "menu_to_page".
+ * This is the model class for table "system_widget".
  *
- * The followings are the available columns in table 'menu_to_page':
+ * The followings are the available columns in table 'system_widget':
  * @property integer $id
- * @property integer $menu_id
- * @property integer $page_id
+ * @property string $label
+ * @property integer $type_id
  *
  * The followings are the available model relations:
- * @property Pages $page
- * @property Menus $menu
+ * @property SystemWidgetType $type
+ * @property SystemWidgetTrl[] $systemWidgetTrls
  */
-class MenuToPage extends CActiveRecord
+class SystemWidget extends CActiveRecord
 {
 	/**
 	 * @return string the associated database table name
 	 */
 	public function tableName()
 	{
-		return 'menu_to_page';
+		return 'system_widget';
 	}
 
 	/**
@@ -30,10 +30,11 @@ class MenuToPage extends CActiveRecord
 		// NOTE: you should only define rules for those attributes that
 		// will receive user inputs.
 		return array(
-			array('menu_id, page_id', 'numerical', 'integerOnly'=>true),
+			array('type_id', 'numerical', 'integerOnly'=>true),
+			array('label', 'length', 'max'=>128),
 			// The following rule is used by search().
 			// @todo Please remove those attributes that should not be searched.
-			array('id, menu_id, page_id', 'safe', 'on'=>'search'),
+			array('id, label, type_id', 'safe', 'on'=>'search'),
 		);
 	}
 
@@ -45,8 +46,8 @@ class MenuToPage extends CActiveRecord
 		// NOTE: you may need to adjust the relation name and the related
 		// class name for the relations automatically generated below.
 		return array(
-			'page' => array(self::BELONGS_TO, 'Pages', 'page_id'),
-			'menu' => array(self::BELONGS_TO, 'Menus', 'menu_id'),
+			'type' => array(self::BELONGS_TO, 'SystemWidgetType', 'type_id'),
+			'systemWidgetTrls' => array(self::HAS_MANY, 'SystemWidgetTrl', 'widget_id'),
 		);
 	}
 
@@ -57,8 +58,8 @@ class MenuToPage extends CActiveRecord
 	{
 		return array(
 			'id' => 'ID',
-			'menu_id' => 'Menu',
-			'page_id' => 'Page',
+			'label' => 'Label',
+			'type_id' => 'Type',
 		);
 	}
 
@@ -81,8 +82,8 @@ class MenuToPage extends CActiveRecord
 		$criteria=new CDbCriteria;
 
 		$criteria->compare('id',$this->id);
-		$criteria->compare('menu_id',$this->menu_id);
-		$criteria->compare('page_id',$this->page_id);
+		$criteria->compare('label',$this->label,true);
+		$criteria->compare('type_id',$this->type_id);
 
 		return new CActiveDataProvider($this, array(
 			'criteria'=>$criteria,
@@ -93,7 +94,7 @@ class MenuToPage extends CActiveRecord
 	 * Returns the static model of the specified AR class.
 	 * Please note that you should have this exact method in all your CActiveRecord descendants!
 	 * @param string $className active record class name.
-	 * @return MenuToPage the static model class
+	 * @return SystemWidget the static model class
 	 */
 	public static function model($className=__CLASS__)
 	{

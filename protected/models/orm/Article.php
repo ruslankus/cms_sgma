@@ -1,30 +1,30 @@
 <?php
 
 /**
- * This is the model class for table "images".
+ * This is the model class for table "article".
  *
- * The followings are the available columns in table 'images':
+ * The followings are the available columns in table 'article':
  * @property integer $id
- * @property integer $item_id
- * @property string $filename
  * @property string $label
- * @property integer $item_type_id
- * @property integer $time_created
- * @property integer $time_updated
- * @property integer $last_change_by
+ * @property integer $menu_item_id
+ * @property integer $status_id
  * @property integer $priority
+ * @property integer $time_created
+ * @property integer $time_update
+ * @property integer $last_change_by
  *
  * The followings are the available model relations:
- * @property ImagesTrl[] $imagesTrls
+ * @property MenuItem $menuItem
+ * @property ArticleTrl[] $articleTrls
  */
-class Images extends CActiveRecord
+class Article extends CActiveRecord
 {
 	/**
 	 * @return string the associated database table name
 	 */
 	public function tableName()
 	{
-		return 'images';
+		return 'article';
 	}
 
 	/**
@@ -35,12 +35,11 @@ class Images extends CActiveRecord
 		// NOTE: you should only define rules for those attributes that
 		// will receive user inputs.
 		return array(
-			array('item_id, item_type_id, time_created, time_updated, last_change_by, priority', 'numerical', 'integerOnly'=>true),
-			array('filename', 'length', 'max'=>256),
+			array('menu_item_id, status_id, priority, time_created, time_update, last_change_by', 'numerical', 'integerOnly'=>true),
 			array('label', 'length', 'max'=>128),
 			// The following rule is used by search().
 			// @todo Please remove those attributes that should not be searched.
-			array('id, item_id, filename, label, item_type_id, time_created, time_updated, last_change_by, priority', 'safe', 'on'=>'search'),
+			array('id, label, menu_item_id, status_id, priority, time_created, time_update, last_change_by', 'safe', 'on'=>'search'),
 		);
 	}
 
@@ -52,7 +51,8 @@ class Images extends CActiveRecord
 		// NOTE: you may need to adjust the relation name and the related
 		// class name for the relations automatically generated below.
 		return array(
-			'imagesTrls' => array(self::HAS_MANY, 'ImagesTrl', 'image_id'),
+			'menuItem' => array(self::BELONGS_TO, 'MenuItem', 'menu_item_id'),
+			'articleTrls' => array(self::HAS_MANY, 'ArticleTrl', 'article_id'),
 		);
 	}
 
@@ -63,14 +63,13 @@ class Images extends CActiveRecord
 	{
 		return array(
 			'id' => 'ID',
-			'item_id' => 'Item',
-			'filename' => 'Filename',
 			'label' => 'Label',
-			'item_type_id' => 'Item Type',
-			'time_created' => 'Time Created',
-			'time_updated' => 'Time Updated',
-			'last_change_by' => 'Last Change By',
+			'menu_item_id' => 'Menu Item',
+			'status_id' => 'Status',
 			'priority' => 'Priority',
+			'time_created' => 'Time Created',
+			'time_update' => 'Time Update',
+			'last_change_by' => 'Last Change By',
 		);
 	}
 
@@ -93,14 +92,13 @@ class Images extends CActiveRecord
 		$criteria=new CDbCriteria;
 
 		$criteria->compare('id',$this->id);
-		$criteria->compare('item_id',$this->item_id);
-		$criteria->compare('filename',$this->filename,true);
 		$criteria->compare('label',$this->label,true);
-		$criteria->compare('item_type_id',$this->item_type_id);
-		$criteria->compare('time_created',$this->time_created);
-		$criteria->compare('time_updated',$this->time_updated);
-		$criteria->compare('last_change_by',$this->last_change_by);
+		$criteria->compare('menu_item_id',$this->menu_item_id);
+		$criteria->compare('status_id',$this->status_id);
 		$criteria->compare('priority',$this->priority);
+		$criteria->compare('time_created',$this->time_created);
+		$criteria->compare('time_update',$this->time_update);
+		$criteria->compare('last_change_by',$this->last_change_by);
 
 		return new CActiveDataProvider($this, array(
 			'criteria'=>$criteria,
@@ -111,7 +109,7 @@ class Images extends CActiveRecord
 	 * Returns the static model of the specified AR class.
 	 * Please note that you should have this exact method in all your CActiveRecord descendants!
 	 * @param string $className active record class name.
-	 * @return Images the static model class
+	 * @return Article the static model class
 	 */
 	public static function model($className=__CLASS__)
 	{

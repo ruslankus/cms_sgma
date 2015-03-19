@@ -10,186 +10,127 @@ Target Server Type    : MYSQL
 Target Server Version : 50538
 File Encoding         : 65001
 
-Date: 2015-03-17 18:32:09
+Date: 2015-03-19 16:00:17
 */
 
 SET FOREIGN_KEY_CHECKS=0;
 
 -- ----------------------------
--- Table structure for `content_types`
+-- Table structure for `admin_actions`
 -- ----------------------------
-DROP TABLE IF EXISTS `content_types`;
-CREATE TABLE `content_types` (
+DROP TABLE IF EXISTS `admin_actions`;
+CREATE TABLE `admin_actions` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
-  `label` varchar(64) DEFAULT NULL,
-  PRIMARY KEY (`id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
-
--- ----------------------------
--- Records of content_types
--- ----------------------------
-
--- ----------------------------
--- Table structure for `faq`
--- ----------------------------
-DROP TABLE IF EXISTS `faq`;
-CREATE TABLE `faq` (
-  `id` int(11) NOT NULL AUTO_INCREMENT,
-  `page_id` int(11) DEFAULT NULL,
-  `label` varchar(128) DEFAULT NULL,
-  `time_created` int(11) DEFAULT NULL,
-  `time_updated` int(11) DEFAULT NULL,
-  `last_change_by` int(11) DEFAULT NULL,
-  `priority` int(11) DEFAULT NULL,
+  `name` varchar(255) DEFAULT NULL,
+  `controller_id` int(11) DEFAULT NULL,
   PRIMARY KEY (`id`),
-  KEY `page_id` (`page_id`),
-  CONSTRAINT `faq_ibfk_1` FOREIGN KEY (`page_id`) REFERENCES `pages` (`id`) ON DELETE CASCADE ON UPDATE NO ACTION
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+  KEY `controller_id` (`controller_id`),
+  CONSTRAINT `admin_actions_ibfk_1` FOREIGN KEY (`controller_id`) REFERENCES `admin_controllers` (`id`) ON DELETE CASCADE ON UPDATE NO ACTION
+) ENGINE=InnoDB AUTO_INCREMENT=7 DEFAULT CHARSET=utf8;
 
 -- ----------------------------
--- Records of faq
+-- Records of admin_actions
 -- ----------------------------
+INSERT INTO `admin_actions` VALUES ('1', 'index', '1');
+INSERT INTO `admin_actions` VALUES ('2', 'index', '2');
+INSERT INTO `admin_actions` VALUES ('3', 'index', '3');
+INSERT INTO `admin_actions` VALUES ('4', 'index', '4');
+INSERT INTO `admin_actions` VALUES ('5', 'index', '5');
+INSERT INTO `admin_actions` VALUES ('6', 'categories', '4');
 
 -- ----------------------------
--- Table structure for `faq_to_product`
+-- Table structure for `admin_controllers`
 -- ----------------------------
-DROP TABLE IF EXISTS `faq_to_product`;
-CREATE TABLE `faq_to_product` (
+DROP TABLE IF EXISTS `admin_controllers`;
+CREATE TABLE `admin_controllers` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
-  `product_id` int(11) DEFAULT NULL,
-  `faq_id` int(11) DEFAULT NULL,
-  PRIMARY KEY (`id`),
-  KEY `product_id` (`product_id`),
-  KEY `faq_id` (`faq_id`),
-  CONSTRAINT `faq_to_product_ibfk_1` FOREIGN KEY (`faq_id`) REFERENCES `faq` (`id`) ON DELETE CASCADE ON UPDATE NO ACTION,
-  CONSTRAINT `faq_to_product_ibfk_2` FOREIGN KEY (`product_id`) REFERENCES `products` (`id`) ON DELETE CASCADE ON UPDATE NO ACTION
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
-
--- ----------------------------
--- Records of faq_to_product
--- ----------------------------
-
--- ----------------------------
--- Table structure for `faq_trl`
--- ----------------------------
-DROP TABLE IF EXISTS `faq_trl`;
-CREATE TABLE `faq_trl` (
-  `id` int(11) NOT NULL AUTO_INCREMENT,
-  `lng_id` int(11) DEFAULT NULL,
-  `faq_id` int(11) DEFAULT NULL,
-  `question` int(11) DEFAULT NULL,
-  `answer` int(11) DEFAULT NULL,
-  PRIMARY KEY (`id`),
-  KEY `lng_id` (`lng_id`),
-  KEY `faq_id` (`faq_id`),
-  CONSTRAINT `faq_trl_ibfk_1` FOREIGN KEY (`faq_id`) REFERENCES `faq` (`id`) ON DELETE CASCADE ON UPDATE NO ACTION,
-  CONSTRAINT `faq_trl_ibfk_2` FOREIGN KEY (`lng_id`) REFERENCES `languages` (`id`) ON DELETE CASCADE ON UPDATE NO ACTION
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
-
--- ----------------------------
--- Records of faq_trl
--- ----------------------------
-
--- ----------------------------
--- Table structure for `features`
--- ----------------------------
-DROP TABLE IF EXISTS `features`;
-CREATE TABLE `features` (
-  `id` int(11) NOT NULL AUTO_INCREMENT,
-  `label` varchar(128) DEFAULT NULL,
-  `time_created` int(11) DEFAULT NULL,
-  `time_updated` int(11) DEFAULT NULL,
-  `last_change_by` int(11) DEFAULT NULL,
-  `priority` int(11) DEFAULT NULL,
-  PRIMARY KEY (`id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
-
--- ----------------------------
--- Records of features
--- ----------------------------
-
--- ----------------------------
--- Table structure for `features_to_product`
--- ----------------------------
-DROP TABLE IF EXISTS `features_to_product`;
-CREATE TABLE `features_to_product` (
-  `int` int(11) NOT NULL AUTO_INCREMENT,
-  `feature_id` int(11) DEFAULT NULL,
-  `product_id` int(11) DEFAULT NULL,
-  PRIMARY KEY (`int`),
-  KEY `feature_id` (`feature_id`),
-  KEY `product_id` (`product_id`),
-  CONSTRAINT `features_to_product_ibfk_1` FOREIGN KEY (`product_id`) REFERENCES `products` (`id`) ON DELETE CASCADE ON UPDATE NO ACTION,
-  CONSTRAINT `features_to_product_ibfk_2` FOREIGN KEY (`feature_id`) REFERENCES `features` (`id`) ON DELETE CASCADE ON UPDATE NO ACTION
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
-
--- ----------------------------
--- Records of features_to_product
--- ----------------------------
-
--- ----------------------------
--- Table structure for `features_trl`
--- ----------------------------
-DROP TABLE IF EXISTS `features_trl`;
-CREATE TABLE `features_trl` (
-  `id` int(11) NOT NULL AUTO_INCREMENT,
-  `lng_id` int(11) DEFAULT NULL,
-  `feature_id` int(11) DEFAULT NULL,
   `name` varchar(256) DEFAULT NULL,
-  `description` varchar(1024) DEFAULT NULL,
-  `text` text,
-  PRIMARY KEY (`id`),
-  KEY `lng_id` (`lng_id`),
-  KEY `feature_id` (`feature_id`),
-  CONSTRAINT `features_trl_ibfk_1` FOREIGN KEY (`feature_id`) REFERENCES `features` (`id`) ON DELETE CASCADE ON UPDATE NO ACTION,
-  CONSTRAINT `features_trl_ibfk_2` FOREIGN KEY (`lng_id`) REFERENCES `languages` (`id`) ON DELETE CASCADE ON UPDATE NO ACTION
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
-
--- ----------------------------
--- Records of features_trl
--- ----------------------------
-
--- ----------------------------
--- Table structure for `images`
--- ----------------------------
-DROP TABLE IF EXISTS `images`;
-CREATE TABLE `images` (
-  `id` int(11) NOT NULL AUTO_INCREMENT,
-  `item_id` int(11) DEFAULT NULL,
-  `filename` varchar(256) DEFAULT NULL,
-  `label` varchar(128) DEFAULT NULL,
-  `item_type_id` int(11) DEFAULT NULL,
-  `time_created` int(11) DEFAULT NULL,
-  `time_updated` int(11) DEFAULT NULL,
-  `last_change_by` int(11) DEFAULT NULL,
-  `priority` int(11) DEFAULT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=6 DEFAULT CHARSET=utf8;
 
 -- ----------------------------
--- Records of images
+-- Records of admin_controllers
 -- ----------------------------
+INSERT INTO `admin_controllers` VALUES ('1', 'main');
+INSERT INTO `admin_controllers` VALUES ('2', 'menu');
+INSERT INTO `admin_controllers` VALUES ('3', 'pages');
+INSERT INTO `admin_controllers` VALUES ('4', 'products');
+INSERT INTO `admin_controllers` VALUES ('5', 'settings');
 
 -- ----------------------------
--- Table structure for `images_trl`
+-- Table structure for `article`
 -- ----------------------------
-DROP TABLE IF EXISTS `images_trl`;
-CREATE TABLE `images_trl` (
-  `id` int(11) NOT NULL DEFAULT '0',
-  `lng_id` int(11) DEFAULT NULL,
-  `image_id` int(11) DEFAULT NULL,
-  `name` varchar(128) DEFAULT NULL,
-  `description` varchar(2048) DEFAULT NULL,
+DROP TABLE IF EXISTS `article`;
+CREATE TABLE `article` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `label` char(128) DEFAULT NULL,
+  `menu_item_id` int(11) DEFAULT NULL,
+  `status_id` int(11) DEFAULT NULL,
+  `priority` int(11) DEFAULT NULL,
+  `time_created` int(11) DEFAULT NULL,
+  `time_update` int(11) DEFAULT NULL,
+  `last_change_by` int(11) DEFAULT NULL,
   PRIMARY KEY (`id`),
-  KEY `lng_id` (`lng_id`),
-  KEY `images_lng_ibfk_2` (`image_id`),
-  CONSTRAINT `images_trl_ibfk_1` FOREIGN KEY (`image_id`) REFERENCES `images` (`id`) ON DELETE CASCADE ON UPDATE NO ACTION,
-  CONSTRAINT `images_trl_ibfk_2` FOREIGN KEY (`lng_id`) REFERENCES `languages` (`id`) ON DELETE CASCADE ON UPDATE NO ACTION
+  KEY `menu_item_id` (`menu_item_id`),
+  CONSTRAINT `article_ibfk_1` FOREIGN KEY (`menu_item_id`) REFERENCES `menu_item` (`id`) ON DELETE CASCADE ON UPDATE NO ACTION
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 -- ----------------------------
--- Records of images_trl
+-- Records of article
 -- ----------------------------
+
+-- ----------------------------
+-- Table structure for `article_trl`
+-- ----------------------------
+DROP TABLE IF EXISTS `article_trl`;
+CREATE TABLE `article_trl` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `name` varchar(256) DEFAULT NULL,
+  `description` varchar(2048) DEFAULT NULL,
+  `text` text,
+  `article_id` int(11) DEFAULT NULL,
+  `lng_id` int(11) DEFAULT NULL,
+  PRIMARY KEY (`id`),
+  KEY `article_id` (`article_id`),
+  KEY `lng_id` (`lng_id`),
+  CONSTRAINT `article_trl_ibfk_1` FOREIGN KEY (`lng_id`) REFERENCES `languages` (`id`) ON DELETE CASCADE ON UPDATE NO ACTION,
+  CONSTRAINT `article_trl_ibfk_2` FOREIGN KEY (`article_id`) REFERENCES `article` (`id`) ON DELETE CASCADE ON UPDATE NO ACTION
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+-- ----------------------------
+-- Records of article_trl
+-- ----------------------------
+
+-- ----------------------------
+-- Table structure for `available`
+-- ----------------------------
+DROP TABLE IF EXISTS `available`;
+CREATE TABLE `available` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `action_id` int(11) DEFAULT NULL,
+  `role_id` int(11) DEFAULT NULL,
+  PRIMARY KEY (`id`),
+  KEY `action_id` (`action_id`),
+  KEY `role_id` (`role_id`),
+  CONSTRAINT `available_ibfk_1` FOREIGN KEY (`role_id`) REFERENCES `user_role` (`id`) ON DELETE CASCADE ON UPDATE NO ACTION,
+  CONSTRAINT `available_ibfk_2` FOREIGN KEY (`action_id`) REFERENCES `admin_actions` (`id`) ON DELETE CASCADE ON UPDATE NO ACTION
+) ENGINE=InnoDB AUTO_INCREMENT=13 DEFAULT CHARSET=utf8;
+
+-- ----------------------------
+-- Records of available
+-- ----------------------------
+INSERT INTO `available` VALUES ('1', '1', '1');
+INSERT INTO `available` VALUES ('2', '2', '1');
+INSERT INTO `available` VALUES ('3', '3', '1');
+INSERT INTO `available` VALUES ('4', '4', '1');
+INSERT INTO `available` VALUES ('5', '5', '1');
+INSERT INTO `available` VALUES ('6', '6', '1');
+INSERT INTO `available` VALUES ('7', '1', '2');
+INSERT INTO `available` VALUES ('8', '2', '2');
+INSERT INTO `available` VALUES ('9', '3', '2');
+INSERT INTO `available` VALUES ('10', '4', '2');
+INSERT INTO `available` VALUES ('11', '5', '2');
+INSERT INTO `available` VALUES ('12', '6', '2');
 
 -- ----------------------------
 -- Table structure for `labels`
@@ -216,8 +157,8 @@ INSERT INTO `labels` VALUES ('1', 'label', '0', '0', '0', '0');
 DROP TABLE IF EXISTS `labels_trl`;
 CREATE TABLE `labels_trl` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
-  `lng_id` int(11) DEFAULT NULL,
   `translation_id` int(11) DEFAULT NULL,
+  `lng_id` int(11) DEFAULT NULL,
   `value` varchar(256) DEFAULT NULL,
   PRIMARY KEY (`id`),
   KEY `labels_lng_ibfk_1` (`translation_id`),
@@ -230,7 +171,7 @@ CREATE TABLE `labels_trl` (
 -- Records of labels_trl
 -- ----------------------------
 INSERT INTO `labels_trl` VALUES ('1', '1', '1', 'label');
-INSERT INTO `labels_trl` VALUES ('2', '2', '1', 'метка');
+INSERT INTO `labels_trl` VALUES ('2', '1', '2', 'метка');
 
 -- ----------------------------
 -- Table structure for `languages`
@@ -240,72 +181,118 @@ CREATE TABLE `languages` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
   `name` varchar(64) DEFAULT NULL,
   `prefix` varchar(16) DEFAULT NULL,
+  `icon` varchar(128) DEFAULT NULL,
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=utf8;
 
 -- ----------------------------
 -- Records of languages
 -- ----------------------------
-INSERT INTO `languages` VALUES ('1', 'english', 'en');
-INSERT INTO `languages` VALUES ('2', 'русский', 'ru');
+INSERT INTO `languages` VALUES ('1', 'english', 'en', null);
+INSERT INTO `languages` VALUES ('2', 'русский', 'ru', null);
 
 -- ----------------------------
--- Table structure for `menus`
+-- Table structure for `menu`
 -- ----------------------------
-DROP TABLE IF EXISTS `menus`;
-CREATE TABLE `menus` (
+DROP TABLE IF EXISTS `menu`;
+CREATE TABLE `menu` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
-  `label` varchar(64) DEFAULT NULL,
+  `label` varchar(128) DEFAULT NULL,
   `status_id` int(11) DEFAULT NULL,
+  `priority` int(11) DEFAULT NULL,
   `time_created` int(11) DEFAULT NULL,
   `time_updated` int(11) DEFAULT NULL,
   `last_change_by` int(11) DEFAULT NULL,
-  `priority` int(11) DEFAULT NULL,
+  `position_id` int(11) DEFAULT NULL,
+  `template_name` varchar(512) DEFAULT NULL,
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 -- ----------------------------
--- Records of menus
+-- Records of menu
 -- ----------------------------
 
 -- ----------------------------
--- Table structure for `menus_trl`
+-- Table structure for `menu_item`
 -- ----------------------------
-DROP TABLE IF EXISTS `menus_trl`;
-CREATE TABLE `menus_trl` (
+DROP TABLE IF EXISTS `menu_item`;
+CREATE TABLE `menu_item` (
+  `menu_id` int(11) DEFAULT NULL,
   `id` int(11) NOT NULL AUTO_INCREMENT,
-  `name` varchar(128) DEFAULT NULL,
-  `description` varchar(256) DEFAULT NULL,
+  `parent_id` int(11) DEFAULT NULL,
+  `priority` int(11) DEFAULT NULL,
+  `type_id` int(11) DEFAULT NULL,
+  `status_id` int(11) DEFAULT NULL,
+  `time_created` int(11) DEFAULT NULL,
+  `time_updated` int(11) DEFAULT NULL,
+  `last_change_by` int(11) DEFAULT NULL,
+  PRIMARY KEY (`id`),
+  KEY `menu_id` (`menu_id`),
+  KEY `type_id` (`type_id`),
+  CONSTRAINT `menu_item_ibfk_1` FOREIGN KEY (`type_id`) REFERENCES `menu_item_type` (`id`) ON DELETE NO ACTION ON UPDATE NO ACTION,
+  CONSTRAINT `menu_item_ibfk_2` FOREIGN KEY (`menu_id`) REFERENCES `menu` (`id`) ON DELETE CASCADE ON UPDATE NO ACTION
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+-- ----------------------------
+-- Records of menu_item
+-- ----------------------------
+
+-- ----------------------------
+-- Table structure for `menu_item_trl`
+-- ----------------------------
+DROP TABLE IF EXISTS `menu_item_trl`;
+CREATE TABLE `menu_item_trl` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `name` varchar(256) DEFAULT NULL,
+  `description` varchar(2048) DEFAULT NULL,
+  `text` text,
+  `menu_item_id` int(11) DEFAULT NULL,
+  `lng_id` int(11) DEFAULT NULL,
+  PRIMARY KEY (`id`),
+  KEY `menu_item_id` (`menu_item_id`),
+  KEY `menu_item_trl_ibfk_2` (`lng_id`),
+  CONSTRAINT `menu_item_trl_ibfk_1` FOREIGN KEY (`lng_id`) REFERENCES `languages` (`id`) ON DELETE CASCADE ON UPDATE NO ACTION,
+  CONSTRAINT `menu_item_trl_ibfk_2` FOREIGN KEY (`menu_item_id`) REFERENCES `menu_item` (`id`) ON DELETE CASCADE ON UPDATE NO ACTION
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+-- ----------------------------
+-- Records of menu_item_trl
+-- ----------------------------
+
+-- ----------------------------
+-- Table structure for `menu_item_type`
+-- ----------------------------
+DROP TABLE IF EXISTS `menu_item_type`;
+CREATE TABLE `menu_item_type` (
+  `id` int(11) NOT NULL,
+  `label` varchar(128) DEFAULT NULL,
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+-- ----------------------------
+-- Records of menu_item_type
+-- ----------------------------
+
+-- ----------------------------
+-- Table structure for `menu_trl`
+-- ----------------------------
+DROP TABLE IF EXISTS `menu_trl`;
+CREATE TABLE `menu_trl` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `name` varchar(256) DEFAULT NULL,
+  `description` varchar(2048) DEFAULT NULL,
+  `text` text,
   `menu_id` int(11) DEFAULT NULL,
   `lng_id` int(11) DEFAULT NULL,
   PRIMARY KEY (`id`),
   KEY `menu_id` (`menu_id`),
   KEY `lng_id` (`lng_id`),
-  CONSTRAINT `menus_trl_ibfk_1` FOREIGN KEY (`menu_id`) REFERENCES `menus` (`id`) ON DELETE CASCADE,
-  CONSTRAINT `menus_trl_ibfk_2` FOREIGN KEY (`lng_id`) REFERENCES `languages` (`id`) ON DELETE CASCADE
+  CONSTRAINT `menu_trl_ibfk_1` FOREIGN KEY (`lng_id`) REFERENCES `languages` (`id`) ON DELETE CASCADE ON UPDATE NO ACTION,
+  CONSTRAINT `menu_trl_ibfk_2` FOREIGN KEY (`menu_id`) REFERENCES `menu` (`id`) ON DELETE CASCADE ON UPDATE NO ACTION
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 -- ----------------------------
--- Records of menus_trl
--- ----------------------------
-
--- ----------------------------
--- Table structure for `menu_to_page`
--- ----------------------------
-DROP TABLE IF EXISTS `menu_to_page`;
-CREATE TABLE `menu_to_page` (
-  `id` int(11) NOT NULL AUTO_INCREMENT,
-  `menu_id` int(11) DEFAULT NULL,
-  `page_id` int(11) DEFAULT NULL,
-  PRIMARY KEY (`id`),
-  KEY `menu_to_page_ibfk_1` (`menu_id`),
-  KEY `page_id` (`page_id`),
-  CONSTRAINT `menu_to_page_ibfk_1` FOREIGN KEY (`page_id`) REFERENCES `pages` (`id`) ON DELETE CASCADE,
-  CONSTRAINT `menu_to_page_ibfk_2` FOREIGN KEY (`menu_id`) REFERENCES `menus` (`id`) ON DELETE CASCADE
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
-
--- ----------------------------
--- Records of menu_to_page
+-- Records of menu_trl
 -- ----------------------------
 
 -- ----------------------------
@@ -332,8 +319,8 @@ CREATE TABLE `messages` (
 DROP TABLE IF EXISTS `messages_trl`;
 CREATE TABLE `messages_trl` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
-  `lng_id` int(11) DEFAULT NULL,
   `translation_id` int(11) DEFAULT NULL,
+  `lng_id` int(11) DEFAULT NULL,
   `value` varchar(256) DEFAULT NULL,
   PRIMARY KEY (`id`),
   KEY `labels_lng_ibfk_1` (`translation_id`),
@@ -352,21 +339,63 @@ CREATE TABLE `messages_trl` (
 DROP TABLE IF EXISTS `news`;
 CREATE TABLE `news` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
-  `page_id` int(11) DEFAULT NULL,
+  `category_id` int(11) DEFAULT NULL,
+  `label` char(128) DEFAULT NULL,
   `status_id` int(11) DEFAULT NULL,
-  `label` varchar(128) DEFAULT NULL,
-  `branch` varchar(128) DEFAULT NULL,
-  `time_created` int(11) DEFAULT NULL,
-  `time_updated` int(11) DEFAULT NULL,
-  `last_change_by` int(11) DEFAULT NULL,
   `priority` int(11) DEFAULT NULL,
+  `time_created` int(11) DEFAULT NULL,
+  `time_update` int(11) DEFAULT NULL,
+  `last_change_by` int(11) DEFAULT NULL,
   PRIMARY KEY (`id`),
-  KEY `page_id` (`page_id`),
-  CONSTRAINT `news_ibfk_1` FOREIGN KEY (`page_id`) REFERENCES `pages` (`id`) ON DELETE CASCADE
+  KEY `category_id` (`category_id`),
+  CONSTRAINT `news_ibfk_1` FOREIGN KEY (`category_id`) REFERENCES `news_category` (`id`) ON DELETE CASCADE ON UPDATE NO ACTION
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 -- ----------------------------
 -- Records of news
+-- ----------------------------
+
+-- ----------------------------
+-- Table structure for `news_category`
+-- ----------------------------
+DROP TABLE IF EXISTS `news_category`;
+CREATE TABLE `news_category` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `parent_id` int(11) DEFAULT NULL,
+  `menu_item_id` int(11) DEFAULT NULL,
+  `label` char(128) DEFAULT NULL,
+  `status_id` int(11) DEFAULT NULL,
+  `priority` int(11) DEFAULT NULL,
+  `time_created` int(11) DEFAULT NULL,
+  `time_update` int(11) DEFAULT NULL,
+  `last_change_by` int(11) DEFAULT NULL,
+  PRIMARY KEY (`id`),
+  KEY `menu_item_id` (`menu_item_id`),
+  CONSTRAINT `news_category_ibfk_1` FOREIGN KEY (`menu_item_id`) REFERENCES `menu_item` (`id`) ON DELETE CASCADE ON UPDATE NO ACTION
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+-- ----------------------------
+-- Records of news_category
+-- ----------------------------
+
+-- ----------------------------
+-- Table structure for `news_category_trl`
+-- ----------------------------
+DROP TABLE IF EXISTS `news_category_trl`;
+CREATE TABLE `news_category_trl` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `name` varchar(256) DEFAULT NULL,
+  `description` varchar(2048) DEFAULT NULL,
+  `text` text,
+  `news_category_id` int(11) DEFAULT NULL,
+  `lng_id` int(11) DEFAULT NULL,
+  PRIMARY KEY (`id`),
+  KEY `news_category_id` (`news_category_id`),
+  CONSTRAINT `news_category_trl_ibfk_1` FOREIGN KEY (`news_category_id`) REFERENCES `news_category` (`id`) ON DELETE CASCADE ON UPDATE NO ACTION
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+-- ----------------------------
+-- Records of news_category_trl
 -- ----------------------------
 
 -- ----------------------------
@@ -375,16 +404,16 @@ CREATE TABLE `news` (
 DROP TABLE IF EXISTS `news_trl`;
 CREATE TABLE `news_trl` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
-  `item_id` int(11) DEFAULT NULL,
-  `lng_id` int(11) DEFAULT NULL,
   `name` varchar(256) DEFAULT NULL,
   `description` varchar(2048) DEFAULT NULL,
   `text` text,
+  `news_id` int(11) DEFAULT NULL,
+  `lng_id` int(11) DEFAULT NULL,
   PRIMARY KEY (`id`),
-  KEY `item_id` (`item_id`),
+  KEY `news_id` (`news_id`),
   KEY `lng_id` (`lng_id`),
-  CONSTRAINT `news_trl_ibfk_1` FOREIGN KEY (`lng_id`) REFERENCES `languages` (`id`),
-  CONSTRAINT `news_trl_ibfk_2` FOREIGN KEY (`item_id`) REFERENCES `news` (`id`) ON DELETE CASCADE
+  CONSTRAINT `news_trl_ibfk_1` FOREIGN KEY (`lng_id`) REFERENCES `languages` (`id`) ON DELETE CASCADE ON UPDATE NO ACTION,
+  CONSTRAINT `news_trl_ibfk_2` FOREIGN KEY (`news_id`) REFERENCES `news` (`id`) ON DELETE CASCADE ON UPDATE NO ACTION
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 -- ----------------------------
@@ -392,110 +421,148 @@ CREATE TABLE `news_trl` (
 -- ----------------------------
 
 -- ----------------------------
--- Table structure for `pages`
+-- Table structure for `product`
 -- ----------------------------
-DROP TABLE IF EXISTS `pages`;
-CREATE TABLE `pages` (
+DROP TABLE IF EXISTS `product`;
+CREATE TABLE `product` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
-  `label` varchar(128) DEFAULT NULL,
+  `category_id` int(11) DEFAULT NULL,
+  `label` char(128) DEFAULT NULL,
   `status_id` int(11) DEFAULT NULL,
-  `type_id` int(11) DEFAULT NULL,
-  `parent_id` int(11) DEFAULT NULL,
-  `branch` varchar(512) DEFAULT NULL,
-  `time_created` int(11) DEFAULT NULL,
-  `time_updated` int(11) DEFAULT NULL,
-  `last_change_by` int(11) DEFAULT NULL,
   `priority` int(11) DEFAULT NULL,
-  PRIMARY KEY (`id`),
-  KEY `pages_ibfk_1` (`type_id`),
-  CONSTRAINT `pages_ibfk_1` FOREIGN KEY (`type_id`) REFERENCES `content_types` (`id`) ON DELETE SET NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
-
--- ----------------------------
--- Records of pages
--- ----------------------------
-
--- ----------------------------
--- Table structure for `pages_trl`
--- ----------------------------
-DROP TABLE IF EXISTS `pages_trl`;
-CREATE TABLE `pages_trl` (
-  `id` int(11) NOT NULL AUTO_INCREMENT,
-  `lng_id` int(11) DEFAULT NULL,
-  `page_id` int(11) DEFAULT NULL,
-  `name` varchar(256) DEFAULT NULL,
-  `description` varchar(1024) DEFAULT NULL,
-  `text` text,
-  PRIMARY KEY (`id`),
-  KEY `page_id` (`page_id`),
-  KEY `lng_id` (`lng_id`),
-  CONSTRAINT `pages_trl_ibfk_1` FOREIGN KEY (`lng_id`) REFERENCES `languages` (`id`) ON DELETE CASCADE ON UPDATE NO ACTION,
-  CONSTRAINT `pages_trl_ibfk_2` FOREIGN KEY (`page_id`) REFERENCES `pages` (`id`) ON DELETE CASCADE ON UPDATE NO ACTION
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
-
--- ----------------------------
--- Records of pages_trl
--- ----------------------------
-
--- ----------------------------
--- Table structure for `products`
--- ----------------------------
-DROP TABLE IF EXISTS `products`;
-CREATE TABLE `products` (
-  `id` int(11) NOT NULL AUTO_INCREMENT,
-  `page_id` int(11) DEFAULT NULL,
-  `status_id` int(11) DEFAULT NULL,
-  `label` varchar(128) DEFAULT NULL,
-  `branch` varchar(128) DEFAULT NULL,
   `price` int(11) DEFAULT NULL,
   `discount_price` int(11) DEFAULT NULL,
+  `is_new` int(11) DEFAULT NULL,
+  `stock_qnt` int(11) DEFAULT NULL,
   `time_created` int(11) DEFAULT NULL,
-  `time_updated` int(11) DEFAULT NULL,
+  `time_update` int(11) DEFAULT NULL,
   `last_change_by` int(11) DEFAULT NULL,
-  `priority` int(11) DEFAULT NULL,
   PRIMARY KEY (`id`),
-  KEY `page_id` (`page_id`),
-  CONSTRAINT `products_ibfk_1` FOREIGN KEY (`page_id`) REFERENCES `pages` (`id`) ON DELETE CASCADE
+  KEY `category_id` (`category_id`),
+  CONSTRAINT `product_ibfk_1` FOREIGN KEY (`category_id`) REFERENCES `product_category` (`id`) ON DELETE CASCADE ON UPDATE NO ACTION
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 -- ----------------------------
--- Records of products
+-- Records of product
 -- ----------------------------
 
 -- ----------------------------
--- Table structure for `products_trl`
+-- Table structure for `product_category`
 -- ----------------------------
-DROP TABLE IF EXISTS `products_trl`;
-CREATE TABLE `products_trl` (
+DROP TABLE IF EXISTS `product_category`;
+CREATE TABLE `product_category` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
-  `item_id` int(11) DEFAULT NULL,
-  `lng_id` int(11) DEFAULT NULL,
+  `parent_id` int(11) DEFAULT NULL,
+  `menu_item_id` int(11) DEFAULT NULL,
+  `label` char(128) DEFAULT NULL,
+  `status_id` int(11) DEFAULT NULL,
+  `priority` int(11) DEFAULT NULL,
+  `time_created` int(11) DEFAULT NULL,
+  `time_update` int(11) DEFAULT NULL,
+  `last_change_by` int(11) DEFAULT NULL,
+  PRIMARY KEY (`id`),
+  KEY `menu_item_id` (`menu_item_id`),
+  CONSTRAINT `product_category_ibfk_1` FOREIGN KEY (`menu_item_id`) REFERENCES `menu_item` (`id`) ON DELETE CASCADE ON UPDATE NO ACTION
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+-- ----------------------------
+-- Records of product_category
+-- ----------------------------
+
+-- ----------------------------
+-- Table structure for `product_category_trl`
+-- ----------------------------
+DROP TABLE IF EXISTS `product_category_trl`;
+CREATE TABLE `product_category_trl` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
   `name` varchar(256) DEFAULT NULL,
   `description` varchar(2048) DEFAULT NULL,
   `text` text,
+  `product_category_id` int(11) DEFAULT NULL,
+  `lng_id` int(11) DEFAULT NULL,
   PRIMARY KEY (`id`),
-  KEY `products_lng_ibfk_2` (`lng_id`),
-  KEY `products_lng_ibfk_1` (`item_id`),
-  CONSTRAINT `products_trl_ibfk_1` FOREIGN KEY (`item_id`) REFERENCES `products` (`id`) ON DELETE CASCADE ON UPDATE NO ACTION,
-  CONSTRAINT `products_trl_ibfk_2` FOREIGN KEY (`lng_id`) REFERENCES `languages` (`id`) ON DELETE CASCADE ON UPDATE NO ACTION
+  KEY `product_category_id` (`product_category_id`),
+  KEY `lng_id` (`lng_id`),
+  CONSTRAINT `product_category_trl_ibfk_1` FOREIGN KEY (`lng_id`) REFERENCES `languages` (`id`) ON DELETE CASCADE ON UPDATE NO ACTION,
+  CONSTRAINT `product_category_trl_ibfk_2` FOREIGN KEY (`product_category_id`) REFERENCES `product_category` (`id`) ON DELETE CASCADE ON UPDATE NO ACTION
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 -- ----------------------------
--- Records of products_trl
+-- Records of product_category_trl
 -- ----------------------------
 
 -- ----------------------------
--- Table structure for `statuses`
+-- Table structure for `product_trl`
 -- ----------------------------
-DROP TABLE IF EXISTS `statuses`;
-CREATE TABLE `statuses` (
+DROP TABLE IF EXISTS `product_trl`;
+CREATE TABLE `product_trl` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
-  `label` varchar(128) DEFAULT NULL,
-  PRIMARY KEY (`id`)
+  `name` varchar(256) DEFAULT NULL,
+  `description` varchar(2048) DEFAULT NULL,
+  `text` text,
+  `product_id` int(11) DEFAULT NULL,
+  `lng_id` int(11) DEFAULT NULL,
+  PRIMARY KEY (`id`),
+  KEY `product_id` (`product_id`),
+  KEY `lng_id` (`lng_id`),
+  CONSTRAINT `product_trl_ibfk_1` FOREIGN KEY (`lng_id`) REFERENCES `languages` (`id`) ON DELETE CASCADE ON UPDATE NO ACTION,
+  CONSTRAINT `product_trl_ibfk_2` FOREIGN KEY (`product_id`) REFERENCES `product` (`id`) ON DELETE CASCADE ON UPDATE NO ACTION
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 -- ----------------------------
--- Records of statuses
+-- Records of product_trl
+-- ----------------------------
+
+-- ----------------------------
+-- Table structure for `system_widget`
+-- ----------------------------
+DROP TABLE IF EXISTS `system_widget`;
+CREATE TABLE `system_widget` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `label` char(128) DEFAULT NULL,
+  `type_id` int(11) DEFAULT NULL,
+  PRIMARY KEY (`id`),
+  KEY `system_widget_ibfk_1` (`type_id`),
+  CONSTRAINT `system_widget_ibfk_1` FOREIGN KEY (`type_id`) REFERENCES `system_widget_type` (`int`) ON DELETE NO ACTION ON UPDATE NO ACTION
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+-- ----------------------------
+-- Records of system_widget
+-- ----------------------------
+
+-- ----------------------------
+-- Table structure for `system_widget_trl`
+-- ----------------------------
+DROP TABLE IF EXISTS `system_widget_trl`;
+CREATE TABLE `system_widget_trl` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `custom_name` varchar(256) DEFAULT NULL,
+  `custom_html` text,
+  `widget_id` int(11) DEFAULT NULL,
+  `lng_id` int(11) DEFAULT NULL,
+  PRIMARY KEY (`id`),
+  KEY `lng_id` (`lng_id`),
+  KEY `widget_id` (`widget_id`),
+  CONSTRAINT `system_widget_trl_ibfk_1` FOREIGN KEY (`widget_id`) REFERENCES `system_widget` (`id`) ON DELETE CASCADE ON UPDATE NO ACTION,
+  CONSTRAINT `system_widget_trl_ibfk_2` FOREIGN KEY (`lng_id`) REFERENCES `languages` (`id`) ON DELETE CASCADE ON UPDATE NO ACTION
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+-- ----------------------------
+-- Records of system_widget_trl
+-- ----------------------------
+
+-- ----------------------------
+-- Table structure for `system_widget_type`
+-- ----------------------------
+DROP TABLE IF EXISTS `system_widget_type`;
+CREATE TABLE `system_widget_type` (
+  `int` int(11) NOT NULL,
+  `label` varchar(255) DEFAULT NULL,
+  PRIMARY KEY (`int`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+-- ----------------------------
+-- Records of system_widget_type
 -- ----------------------------
 
 -- ----------------------------
@@ -513,7 +580,7 @@ CREATE TABLE `users` (
   `role_id` int(11) DEFAULT NULL,
   PRIMARY KEY (`id`),
   KEY `role_id` (`role_id`),
-  CONSTRAINT `users_ibfk_1` FOREIGN KEY (`role_id`) REFERENCES `user_roles` (`id`) ON DELETE NO ACTION ON UPDATE NO ACTION
+  CONSTRAINT `users_ibfk_1` FOREIGN KEY (`role_id`) REFERENCES `user_role` (`id`) ON DELETE NO ACTION ON UPDATE NO ACTION
 ) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8;
 
 -- ----------------------------
@@ -522,17 +589,55 @@ CREATE TABLE `users` (
 INSERT INTO `users` VALUES ('1', 'admin', 'admin@email.com', '71c0106e3d8f4a870cb11a718af1d978', '54f96960d6093', 'Joe', 'Bloe', '1');
 
 -- ----------------------------
--- Table structure for `user_roles`
+-- Table structure for `user_role`
 -- ----------------------------
-DROP TABLE IF EXISTS `user_roles`;
-CREATE TABLE `user_roles` (
+DROP TABLE IF EXISTS `user_role`;
+CREATE TABLE `user_role` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
-  `label` varchar(128) DEFAULT NULL,
+  `label` varchar(256) DEFAULT NULL,
+  `name` varchar(256) DEFAULT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=4 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=utf8;
 
 -- ----------------------------
--- Records of user_roles
+-- Records of user_role
 -- ----------------------------
-INSERT INTO `user_roles` VALUES ('1', 'root');
-INSERT INTO `user_roles` VALUES ('2', 'admin');
+INSERT INTO `user_role` VALUES ('1', 'root', 'root');
+INSERT INTO `user_role` VALUES ('2', 'admin', 'admin');
+
+-- ----------------------------
+-- Table structure for `wid_registration`
+-- ----------------------------
+DROP TABLE IF EXISTS `wid_registration`;
+CREATE TABLE `wid_registration` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `obj_id` int(11) DEFAULT NULL,
+  `type_id` int(11) DEFAULT NULL,
+  `position_nr` int(11) DEFAULT NULL,
+  `priority` int(11) DEFAULT NULL,
+  `status_id` int(11) DEFAULT NULL,
+  PRIMARY KEY (`id`),
+  KEY `obj_id` (`obj_id`),
+  KEY `wid_registration_ibfk_1` (`type_id`),
+  CONSTRAINT `wid_registration_ibfk_1` FOREIGN KEY (`type_id`) REFERENCES `wid_registration_type` (`id`) ON DELETE NO ACTION ON UPDATE NO ACTION,
+  CONSTRAINT `wid_registration_ibfk_2` FOREIGN KEY (`obj_id`) REFERENCES `system_widget` (`id`) ON DELETE CASCADE ON UPDATE NO ACTION,
+  CONSTRAINT `wid_registration_ibfk_3` FOREIGN KEY (`obj_id`) REFERENCES `menu` (`id`) ON DELETE CASCADE ON UPDATE NO ACTION
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+-- ----------------------------
+-- Records of wid_registration
+-- ----------------------------
+
+-- ----------------------------
+-- Table structure for `wid_registration_type`
+-- ----------------------------
+DROP TABLE IF EXISTS `wid_registration_type`;
+CREATE TABLE `wid_registration_type` (
+  `id` int(11) NOT NULL,
+  `label` int(11) DEFAULT NULL,
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+-- ----------------------------
+-- Records of wid_registration_type
+-- ----------------------------

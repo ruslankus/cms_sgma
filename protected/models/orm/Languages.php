@@ -7,17 +7,18 @@
  * @property integer $id
  * @property string $name
  * @property string $prefix
+ * @property string $icon
  *
  * The followings are the available model relations:
- * @property FaqTrl[] $faqTrls
- * @property FeaturesTrl[] $featuresTrls
- * @property ImagesTrl[] $imagesTrls
+ * @property ArticleTrl[] $articleTrls
  * @property LabelsTrl[] $labelsTrls
- * @property MenusTrl[] $menusTrls
+ * @property MenuItemTrl[] $menuItemTrls
+ * @property MenuTrl[] $menuTrls
  * @property MessagesTrl[] $messagesTrls
  * @property NewsTrl[] $newsTrls
- * @property PagesTrl[] $pagesTrls
- * @property ProductsTrl[] $productsTrls
+ * @property ProductCategoryTrl[] $productCategoryTrls
+ * @property ProductTrl[] $productTrls
+ * @property SystemWidgetTrl[] $systemWidgetTrls
  */
 class Languages extends CActiveRecord
 {
@@ -39,9 +40,10 @@ class Languages extends CActiveRecord
 		return array(
 			array('name', 'length', 'max'=>64),
 			array('prefix', 'length', 'max'=>16),
+			array('icon', 'length', 'max'=>128),
 			// The following rule is used by search().
 			// @todo Please remove those attributes that should not be searched.
-			array('id, name, prefix', 'safe', 'on'=>'search'),
+			array('id, name, prefix, icon', 'safe', 'on'=>'search'),
 		);
 	}
 
@@ -53,15 +55,15 @@ class Languages extends CActiveRecord
 		// NOTE: you may need to adjust the relation name and the related
 		// class name for the relations automatically generated below.
 		return array(
-			'faqTrls' => array(self::HAS_MANY, 'FaqTrl', 'lng_id'),
-			'featuresTrls' => array(self::HAS_MANY, 'FeaturesTrl', 'lng_id'),
-			'imagesTrls' => array(self::HAS_MANY, 'ImagesTrl', 'lng_id'),
+			'articleTrls' => array(self::HAS_MANY, 'ArticleTrl', 'lng_id'),
 			'labelsTrls' => array(self::HAS_MANY, 'LabelsTrl', 'lng_id'),
-			'menusTrls' => array(self::HAS_MANY, 'MenusTrl', 'lng_id'),
+			'menuItemTrls' => array(self::HAS_MANY, 'MenuItemTrl', 'lng_id'),
+			'menuTrls' => array(self::HAS_MANY, 'MenuTrl', 'lng_id'),
 			'messagesTrls' => array(self::HAS_MANY, 'MessagesTrl', 'lng_id'),
 			'newsTrls' => array(self::HAS_MANY, 'NewsTrl', 'lng_id'),
-			'pagesTrls' => array(self::HAS_MANY, 'PagesTrl', 'lng_id'),
-			'productsTrls' => array(self::HAS_MANY, 'ProductsTrl', 'lng_id'),
+			'productCategoryTrls' => array(self::HAS_MANY, 'ProductCategoryTrl', 'lng_id'),
+			'productTrls' => array(self::HAS_MANY, 'ProductTrl', 'lng_id'),
+			'systemWidgetTrls' => array(self::HAS_MANY, 'SystemWidgetTrl', 'lng_id'),
 		);
 	}
 
@@ -74,6 +76,7 @@ class Languages extends CActiveRecord
 			'id' => 'ID',
 			'name' => 'Name',
 			'prefix' => 'Prefix',
+			'icon' => 'Icon',
 		);
 	}
 
@@ -98,6 +101,7 @@ class Languages extends CActiveRecord
 		$criteria->compare('id',$this->id);
 		$criteria->compare('name',$this->name,true);
 		$criteria->compare('prefix',$this->prefix,true);
+		$criteria->compare('icon',$this->icon,true);
 
 		return new CActiveDataProvider($this, array(
 			'criteria'=>$criteria,

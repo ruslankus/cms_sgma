@@ -1,9 +1,9 @@
 <?php
 return array (
   'template' => 'default',
-  'connectionId' => 'adb',
+  'connectionId' => 'db',
   'tablePrefix' => '',
-  'modelPath' => 'application.modules.admin.models.orm',
+  'modelPath' => 'application.models.orm',
   'baseClass' => 'CActiveRecord',
   'buildRelations' => '1',
   'commentsAsLabels' => '0',

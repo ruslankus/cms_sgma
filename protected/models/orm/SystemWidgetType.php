@@ -1,29 +1,23 @@
 <?php
 
 /**
- * This is the model class for table "users".
+ * This is the model class for table "system_widget_type".
  *
- * The followings are the available columns in table 'users':
- * @property integer $id
- * @property string $login
- * @property string $email
- * @property string $password
- * @property string $password_salt
- * @property string $name
- * @property string $surname
- * @property integer $role_id
+ * The followings are the available columns in table 'system_widget_type':
+ * @property integer $int
+ * @property string $label
  *
  * The followings are the available model relations:
- * @property UserRole $role
+ * @property SystemWidget[] $systemWidgets
  */
-class Users extends CActiveRecord
+class SystemWidgetType extends CActiveRecord
 {
 	/**
 	 * @return string the associated database table name
 	 */
 	public function tableName()
 	{
-		return 'users';
+		return 'system_widget_type';
 	}
 
 	/**
@@ -34,12 +28,12 @@ class Users extends CActiveRecord
 		// NOTE: you should only define rules for those attributes that
 		// will receive user inputs.
 		return array(
-			array('role_id', 'numerical', 'integerOnly'=>true),
-			array('login, email, password, name, surname', 'length', 'max'=>64),
-			array('password_salt', 'length', 'max'=>128),
+			array('int', 'required'),
+			array('int', 'numerical', 'integerOnly'=>true),
+			array('label', 'length', 'max'=>255),
 			// The following rule is used by search().
 			// @todo Please remove those attributes that should not be searched.
-			array('id, login, email, password, password_salt, name, surname, role_id', 'safe', 'on'=>'search'),
+			array('int, label', 'safe', 'on'=>'search'),
 		);
 	}
 
@@ -51,7 +45,7 @@ class Users extends CActiveRecord
 		// NOTE: you may need to adjust the relation name and the related
 		// class name for the relations automatically generated below.
 		return array(
-			'role' => array(self::BELONGS_TO, 'UserRole', 'role_id'),
+			'systemWidgets' => array(self::HAS_MANY, 'SystemWidget', 'type_id'),
 		);
 	}
 
@@ -61,14 +55,8 @@ class Users extends CActiveRecord
 	public function attributeLabels()
 	{
 		return array(
-			'id' => 'ID',
-			'login' => 'Login',
-			'email' => 'Email',
-			'password' => 'Password',
-			'password_salt' => 'Password Salt',
-			'name' => 'Name',
-			'surname' => 'Surname',
-			'role_id' => 'Role',
+			'int' => 'Int',
+			'label' => 'Label',
 		);
 	}
 
@@ -90,14 +78,8 @@ class Users extends CActiveRecord
 
 		$criteria=new CDbCriteria;
 
-		$criteria->compare('id',$this->id);
-		$criteria->compare('login',$this->login,true);
-		$criteria->compare('email',$this->email,true);
-		$criteria->compare('password',$this->password,true);
-		$criteria->compare('password_salt',$this->password_salt,true);
-		$criteria->compare('name',$this->name,true);
-		$criteria->compare('surname',$this->surname,true);
-		$criteria->compare('role_id',$this->role_id);
+		$criteria->compare('int',$this->int);
+		$criteria->compare('label',$this->label,true);
 
 		return new CActiveDataProvider($this, array(
 			'criteria'=>$criteria,
@@ -108,7 +90,7 @@ class Users extends CActiveRecord
 	 * Returns the static model of the specified AR class.
 	 * Please note that you should have this exact method in all your CActiveRecord descendants!
 	 * @param string $className active record class name.
-	 * @return Users the static model class
+	 * @return SystemWidgetType the static model class
 	 */
 	public static function model($className=__CLASS__)
 	{

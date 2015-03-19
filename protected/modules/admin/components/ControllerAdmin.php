@@ -2,19 +2,6 @@
 
 class ControllerAdmin extends CController
 {
-    /**
-     * Access rules for every action in every controller for role(roles - not editable, and can be
-     * edited only by developer)
-     * @var array
-     */
-    public $accessRulesForRoles = array(
-
-        'main' => array(
-            'index' => array(ExtUserRoles::ROLE_ADMIN,ExtUserRoles::ROLE_ROOT),
-            'logout' => array(ExtUserRoles::ROLE_ROOT,ExtUserRoles::ROLE_ADMIN),
-            'pages' => array(ExtUserRoles::ROLE_ROOT,ExtUserRoles::ROLE_ADMIN)
-        ),
-    );
 
     public $layout='/layouts/main';
     public $title = "SIGMA CMS";
@@ -32,23 +19,35 @@ class ControllerAdmin extends CController
     {
         /* @var $user CWebUser */
         /* @var $dbUser ExtUsers */
+        /* @var $role UserRole */
+        /* @var $available Available */
+
+        $isAllowed = false;
 
         if(!$user->isGuest)
         {
             //get user role
-            $role = $user->getState('role');
-            $arrAllowedRoles = $this->accessRulesForRoles[$controller][$action];
+            $role_id = $user->getState('role');
+            $role = UserRole::model()->findByPk($role_id);
 
-            if(empty($arrAllowedRoles))
+            if(empty($role))
             {
-                return false;
+                return $isAllowed;
             }
 
-            //return true if user's role is allowed
-            return in_array($role,$arrAllowedRoles);
+            $arrAvailable = $role->availables;
+
+            foreach($arrAvailable as $available)
+            {
+                if($available->action->name == $action && $available->action->controller->name == $controller)
+                {
+                    $isAllowed = true;
+                }
+            }
+
         }
 
-        return false;
+        return $isAllowed;
     }
 
     /**

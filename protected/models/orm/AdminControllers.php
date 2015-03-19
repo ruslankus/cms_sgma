@@ -1,29 +1,23 @@
 <?php
 
 /**
- * This is the model class for table "users".
+ * This is the model class for table "admin_controllers".
  *
- * The followings are the available columns in table 'users':
+ * The followings are the available columns in table 'admin_controllers':
  * @property integer $id
- * @property string $login
- * @property string $email
- * @property string $password
- * @property string $password_salt
  * @property string $name
- * @property string $surname
- * @property integer $role_id
  *
  * The followings are the available model relations:
- * @property UserRole $role
+ * @property AdminActions[] $adminActions
  */
-class Users extends CActiveRecord
+class AdminControllers extends CActiveRecord
 {
 	/**
 	 * @return string the associated database table name
 	 */
 	public function tableName()
 	{
-		return 'users';
+		return 'admin_controllers';
 	}
 
 	/**
@@ -34,12 +28,10 @@ class Users extends CActiveRecord
 		// NOTE: you should only define rules for those attributes that
 		// will receive user inputs.
 		return array(
-			array('role_id', 'numerical', 'integerOnly'=>true),
-			array('login, email, password, name, surname', 'length', 'max'=>64),
-			array('password_salt', 'length', 'max'=>128),
+			array('name', 'length', 'max'=>256),
 			// The following rule is used by search().
 			// @todo Please remove those attributes that should not be searched.
-			array('id, login, email, password, password_salt, name, surname, role_id', 'safe', 'on'=>'search'),
+			array('id, name', 'safe', 'on'=>'search'),
 		);
 	}
 
@@ -51,7 +43,7 @@ class Users extends CActiveRecord
 		// NOTE: you may need to adjust the relation name and the related
 		// class name for the relations automatically generated below.
 		return array(
-			'role' => array(self::BELONGS_TO, 'UserRole', 'role_id'),
+			'adminActions' => array(self::HAS_MANY, 'AdminActions', 'controller_id'),
 		);
 	}
 
@@ -62,13 +54,7 @@ class Users extends CActiveRecord
 	{
 		return array(
 			'id' => 'ID',
-			'login' => 'Login',
-			'email' => 'Email',
-			'password' => 'Password',
-			'password_salt' => 'Password Salt',
 			'name' => 'Name',
-			'surname' => 'Surname',
-			'role_id' => 'Role',
 		);
 	}
 
@@ -91,13 +77,7 @@ class Users extends CActiveRecord
 		$criteria=new CDbCriteria;
 
 		$criteria->compare('id',$this->id);
-		$criteria->compare('login',$this->login,true);
-		$criteria->compare('email',$this->email,true);
-		$criteria->compare('password',$this->password,true);
-		$criteria->compare('password_salt',$this->password_salt,true);
 		$criteria->compare('name',$this->name,true);
-		$criteria->compare('surname',$this->surname,true);
-		$criteria->compare('role_id',$this->role_id);
 
 		return new CActiveDataProvider($this, array(
 			'criteria'=>$criteria,
@@ -108,7 +88,7 @@ class Users extends CActiveRecord
 	 * Returns the static model of the specified AR class.
 	 * Please note that you should have this exact method in all your CActiveRecord descendants!
 	 * @param string $className active record class name.
-	 * @return Users the static model class
+	 * @return AdminControllers the static model class
 	 */
 	public static function model($className=__CLASS__)
 	{

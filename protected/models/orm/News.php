@@ -5,17 +5,16 @@
  *
  * The followings are the available columns in table 'news':
  * @property integer $id
- * @property integer $page_id
- * @property integer $status_id
+ * @property integer $category_id
  * @property string $label
- * @property string $branch
- * @property integer $time_created
- * @property integer $time_updated
- * @property integer $last_change_by
+ * @property integer $status_id
  * @property integer $priority
+ * @property integer $time_created
+ * @property integer $time_update
+ * @property integer $last_change_by
  *
  * The followings are the available model relations:
- * @property Pages $page
+ * @property NewsCategory $category
  * @property NewsTrl[] $newsTrls
  */
 class News extends CActiveRecord
@@ -36,11 +35,11 @@ class News extends CActiveRecord
 		// NOTE: you should only define rules for those attributes that
 		// will receive user inputs.
 		return array(
-			array('page_id, status_id, time_created, time_updated, last_change_by, priority', 'numerical', 'integerOnly'=>true),
-			array('label, branch', 'length', 'max'=>128),
+			array('category_id, status_id, priority, time_created, time_update, last_change_by', 'numerical', 'integerOnly'=>true),
+			array('label', 'length', 'max'=>128),
 			// The following rule is used by search().
 			// @todo Please remove those attributes that should not be searched.
-			array('id, page_id, status_id, label, branch, time_created, time_updated, last_change_by, priority', 'safe', 'on'=>'search'),
+			array('id, category_id, label, status_id, priority, time_created, time_update, last_change_by', 'safe', 'on'=>'search'),
 		);
 	}
 
@@ -52,8 +51,8 @@ class News extends CActiveRecord
 		// NOTE: you may need to adjust the relation name and the related
 		// class name for the relations automatically generated below.
 		return array(
-			'page' => array(self::BELONGS_TO, 'Pages', 'page_id'),
-			'newsTrls' => array(self::HAS_MANY, 'NewsTrl', 'item_id'),
+			'category' => array(self::BELONGS_TO, 'NewsCategory', 'category_id'),
+			'newsTrls' => array(self::HAS_MANY, 'NewsTrl', 'news_id'),
 		);
 	}
 
@@ -64,14 +63,13 @@ class News extends CActiveRecord
 	{
 		return array(
 			'id' => 'ID',
-			'page_id' => 'Page',
-			'status_id' => 'Status',
+			'category_id' => 'Category',
 			'label' => 'Label',
-			'branch' => 'Branch',
-			'time_created' => 'Time Created',
-			'time_updated' => 'Time Updated',
-			'last_change_by' => 'Last Change By',
+			'status_id' => 'Status',
 			'priority' => 'Priority',
+			'time_created' => 'Time Created',
+			'time_update' => 'Time Update',
+			'last_change_by' => 'Last Change By',
 		);
 	}
 
@@ -94,14 +92,13 @@ class News extends CActiveRecord
 		$criteria=new CDbCriteria;
 
 		$criteria->compare('id',$this->id);
-		$criteria->compare('page_id',$this->page_id);
-		$criteria->compare('status_id',$this->status_id);
+		$criteria->compare('category_id',$this->category_id);
 		$criteria->compare('label',$this->label,true);
-		$criteria->compare('branch',$this->branch,true);
-		$criteria->compare('time_created',$this->time_created);
-		$criteria->compare('time_updated',$this->time_updated);
-		$criteria->compare('last_change_by',$this->last_change_by);
+		$criteria->compare('status_id',$this->status_id);
 		$criteria->compare('priority',$this->priority);
+		$criteria->compare('time_created',$this->time_created);
+		$criteria->compare('time_update',$this->time_update);
+		$criteria->compare('last_change_by',$this->last_change_by);
 
 		return new CActiveDataProvider($this, array(
 			'criteria'=>$criteria,

@@ -1,28 +1,25 @@
 <?php
 
 /**
- * This is the model class for table "features_trl".
+ * This is the model class for table "available".
  *
- * The followings are the available columns in table 'features_trl':
+ * The followings are the available columns in table 'available':
  * @property integer $id
- * @property integer $lng_id
- * @property integer $feature_id
- * @property string $name
- * @property string $description
- * @property string $text
+ * @property integer $action_id
+ * @property integer $role_id
  *
  * The followings are the available model relations:
- * @property Features $feature
- * @property Languages $lng
+ * @property UserRole $role
+ * @property AdminActions $action
  */
-class FeaturesTrl extends CActiveRecord
+class Available extends CActiveRecord
 {
 	/**
 	 * @return string the associated database table name
 	 */
 	public function tableName()
 	{
-		return 'features_trl';
+		return 'available';
 	}
 
 	/**
@@ -33,13 +30,10 @@ class FeaturesTrl extends CActiveRecord
 		// NOTE: you should only define rules for those attributes that
 		// will receive user inputs.
 		return array(
-			array('lng_id, feature_id', 'numerical', 'integerOnly'=>true),
-			array('name', 'length', 'max'=>256),
-			array('description', 'length', 'max'=>1024),
-			array('text', 'safe'),
+			array('action_id, role_id', 'numerical', 'integerOnly'=>true),
 			// The following rule is used by search().
 			// @todo Please remove those attributes that should not be searched.
-			array('id, lng_id, feature_id, name, description, text', 'safe', 'on'=>'search'),
+			array('id, action_id, role_id', 'safe', 'on'=>'search'),
 		);
 	}
 
@@ -51,8 +45,8 @@ class FeaturesTrl extends CActiveRecord
 		// NOTE: you may need to adjust the relation name and the related
 		// class name for the relations automatically generated below.
 		return array(
-			'feature' => array(self::BELONGS_TO, 'Features', 'feature_id'),
-			'lng' => array(self::BELONGS_TO, 'Languages', 'lng_id'),
+			'role' => array(self::BELONGS_TO, 'UserRole', 'role_id'),
+			'action' => array(self::BELONGS_TO, 'AdminActions', 'action_id'),
 		);
 	}
 
@@ -63,11 +57,8 @@ class FeaturesTrl extends CActiveRecord
 	{
 		return array(
 			'id' => 'ID',
-			'lng_id' => 'Lng',
-			'feature_id' => 'Feature',
-			'name' => 'Name',
-			'description' => 'Description',
-			'text' => 'Text',
+			'action_id' => 'Action',
+			'role_id' => 'Role',
 		);
 	}
 
@@ -90,11 +81,8 @@ class FeaturesTrl extends CActiveRecord
 		$criteria=new CDbCriteria;
 
 		$criteria->compare('id',$this->id);
-		$criteria->compare('lng_id',$this->lng_id);
-		$criteria->compare('feature_id',$this->feature_id);
-		$criteria->compare('name',$this->name,true);
-		$criteria->compare('description',$this->description,true);
-		$criteria->compare('text',$this->text,true);
+		$criteria->compare('action_id',$this->action_id);
+		$criteria->compare('role_id',$this->role_id);
 
 		return new CActiveDataProvider($this, array(
 			'criteria'=>$criteria,
@@ -105,7 +93,7 @@ class FeaturesTrl extends CActiveRecord
 	 * Returns the static model of the specified AR class.
 	 * Please note that you should have this exact method in all your CActiveRecord descendants!
 	 * @param string $className active record class name.
-	 * @return FeaturesTrl the static model class
+	 * @return Available the static model class
 	 */
 	public static function model($className=__CLASS__)
 	{

@@ -5,15 +5,15 @@
  *
  * The followings are the available columns in table 'news_trl':
  * @property integer $id
- * @property integer $item_id
- * @property integer $lng_id
  * @property string $name
  * @property string $description
  * @property string $text
+ * @property integer $news_id
+ * @property integer $lng_id
  *
  * The followings are the available model relations:
  * @property Languages $lng
- * @property News $item
+ * @property News $news
  */
 class NewsTrl extends CActiveRecord
 {
@@ -33,13 +33,13 @@ class NewsTrl extends CActiveRecord
 		// NOTE: you should only define rules for those attributes that
 		// will receive user inputs.
 		return array(
-			array('item_id, lng_id', 'numerical', 'integerOnly'=>true),
+			array('news_id, lng_id', 'numerical', 'integerOnly'=>true),
 			array('name', 'length', 'max'=>256),
 			array('description', 'length', 'max'=>2048),
 			array('text', 'safe'),
 			// The following rule is used by search().
 			// @todo Please remove those attributes that should not be searched.
-			array('id, item_id, lng_id, name, description, text', 'safe', 'on'=>'search'),
+			array('id, name, description, text, news_id, lng_id', 'safe', 'on'=>'search'),
 		);
 	}
 
@@ -52,7 +52,7 @@ class NewsTrl extends CActiveRecord
 		// class name for the relations automatically generated below.
 		return array(
 			'lng' => array(self::BELONGS_TO, 'Languages', 'lng_id'),
-			'item' => array(self::BELONGS_TO, 'News', 'item_id'),
+			'news' => array(self::BELONGS_TO, 'News', 'news_id'),
 		);
 	}
 
@@ -63,11 +63,11 @@ class NewsTrl extends CActiveRecord
 	{
 		return array(
 			'id' => 'ID',
-			'item_id' => 'Item',
-			'lng_id' => 'Lng',
 			'name' => 'Name',
 			'description' => 'Description',
 			'text' => 'Text',
+			'news_id' => 'News',
+			'lng_id' => 'Lng',
 		);
 	}
 
@@ -90,11 +90,11 @@ class NewsTrl extends CActiveRecord
 		$criteria=new CDbCriteria;
 
 		$criteria->compare('id',$this->id);
-		$criteria->compare('item_id',$this->item_id);
-		$criteria->compare('lng_id',$this->lng_id);
 		$criteria->compare('name',$this->name,true);
 		$criteria->compare('description',$this->description,true);
 		$criteria->compare('text',$this->text,true);
+		$criteria->compare('news_id',$this->news_id);
+		$criteria->compare('lng_id',$this->lng_id);
 
 		return new CActiveDataProvider($this, array(
 			'criteria'=>$criteria,

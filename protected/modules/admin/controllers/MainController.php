@@ -51,12 +51,4 @@ class MainController extends ControllerAdmin
         Yii::app()->user->logout(false);
         $this->redirect(Yii::app()->createUrl('/admin/main/login'));
     }
-
-    /**
-     * Pages
-     */
-    public function actionPages()
-    {
-        $this->render('pages');
-    }
 }

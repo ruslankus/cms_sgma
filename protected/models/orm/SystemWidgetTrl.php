@@ -1,25 +1,27 @@
 <?php
 
 /**
- * This is the model class for table "features_to_product".
+ * This is the model class for table "system_widget_trl".
  *
- * The followings are the available columns in table 'features_to_product':
- * @property integer $int
- * @property integer $feature_id
- * @property integer $product_id
+ * The followings are the available columns in table 'system_widget_trl':
+ * @property integer $id
+ * @property string $custom_name
+ * @property string $custom_html
+ * @property integer $widget_id
+ * @property integer $lng_id
  *
  * The followings are the available model relations:
- * @property Products $product
- * @property Features $feature
+ * @property SystemWidget $widget
+ * @property Languages $lng
  */
-class FeaturesToProduct extends CActiveRecord
+class SystemWidgetTrl extends CActiveRecord
 {
 	/**
 	 * @return string the associated database table name
 	 */
 	public function tableName()
 	{
-		return 'features_to_product';
+		return 'system_widget_trl';
 	}
 
 	/**
@@ -30,10 +32,12 @@ class FeaturesToProduct extends CActiveRecord
 		// NOTE: you should only define rules for those attributes that
 		// will receive user inputs.
 		return array(
-			array('feature_id, product_id', 'numerical', 'integerOnly'=>true),
+			array('widget_id, lng_id', 'numerical', 'integerOnly'=>true),
+			array('custom_name', 'length', 'max'=>256),
+			array('custom_html', 'safe'),
 			// The following rule is used by search().
 			// @todo Please remove those attributes that should not be searched.
-			array('int, feature_id, product_id', 'safe', 'on'=>'search'),
+			array('id, custom_name, custom_html, widget_id, lng_id', 'safe', 'on'=>'search'),
 		);
 	}
 
@@ -45,8 +49,8 @@ class FeaturesToProduct extends CActiveRecord
 		// NOTE: you may need to adjust the relation name and the related
 		// class name for the relations automatically generated below.
 		return array(
-			'product' => array(self::BELONGS_TO, 'Products', 'product_id'),
-			'feature' => array(self::BELONGS_TO, 'Features', 'feature_id'),
+			'widget' => array(self::BELONGS_TO, 'SystemWidget', 'widget_id'),
+			'lng' => array(self::BELONGS_TO, 'Languages', 'lng_id'),
 		);
 	}
 
@@ -56,9 +60,11 @@ class FeaturesToProduct extends CActiveRecord
 	public function attributeLabels()
 	{
 		return array(
-			'int' => 'Int',
-			'feature_id' => 'Feature',
-			'product_id' => 'Product',
+			'id' => 'ID',
+			'custom_name' => 'Custom Name',
+			'custom_html' => 'Custom Html',
+			'widget_id' => 'Widget',
+			'lng_id' => 'Lng',
 		);
 	}
 
@@ -80,9 +86,11 @@ class FeaturesToProduct extends CActiveRecord
 
 		$criteria=new CDbCriteria;
 
-		$criteria->compare('int',$this->int);
-		$criteria->compare('feature_id',$this->feature_id);
-		$criteria->compare('product_id',$this->product_id);
+		$criteria->compare('id',$this->id);
+		$criteria->compare('custom_name',$this->custom_name,true);
+		$criteria->compare('custom_html',$this->custom_html,true);
+		$criteria->compare('widget_id',$this->widget_id);
+		$criteria->compare('lng_id',$this->lng_id);
 
 		return new CActiveDataProvider($this, array(
 			'criteria'=>$criteria,
@@ -93,7 +101,7 @@ class FeaturesToProduct extends CActiveRecord
 	 * Returns the static model of the specified AR class.
 	 * Please note that you should have this exact method in all your CActiveRecord descendants!
 	 * @param string $className active record class name.
-	 * @return FeaturesToProduct the static model class
+	 * @return SystemWidgetTrl the static model class
 	 */
 	public static function model($className=__CLASS__)
 	{

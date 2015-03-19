@@ -5,8 +5,8 @@
  *
  * The followings are the available columns in table 'labels_trl':
  * @property integer $id
- * @property integer $lng_id
  * @property integer $translation_id
+ * @property integer $lng_id
  * @property string $value
  *
  * The followings are the available model relations:
@@ -31,11 +31,11 @@ class LabelsTrl extends CActiveRecord
 		// NOTE: you should only define rules for those attributes that
 		// will receive user inputs.
 		return array(
-			array('lng_id, translation_id', 'numerical', 'integerOnly'=>true),
+			array('translation_id, lng_id', 'numerical', 'integerOnly'=>true),
 			array('value', 'length', 'max'=>256),
 			// The following rule is used by search().
 			// @todo Please remove those attributes that should not be searched.
-			array('id, lng_id, translation_id, value', 'safe', 'on'=>'search'),
+			array('id, translation_id, lng_id, value', 'safe', 'on'=>'search'),
 		);
 	}
 
@@ -59,8 +59,8 @@ class LabelsTrl extends CActiveRecord
 	{
 		return array(
 			'id' => 'ID',
-			'lng_id' => 'Lng',
 			'translation_id' => 'Translation',
+			'lng_id' => 'Lng',
 			'value' => 'Value',
 		);
 	}
@@ -84,8 +84,8 @@ class LabelsTrl extends CActiveRecord
 		$criteria=new CDbCriteria;
 
 		$criteria->compare('id',$this->id);
-		$criteria->compare('lng_id',$this->lng_id);
 		$criteria->compare('translation_id',$this->translation_id);
+		$criteria->compare('lng_id',$this->lng_id);
 		$criteria->compare('value',$this->value,true);
 
 		return new CActiveDataProvider($this, array(
