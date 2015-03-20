@@ -22,8 +22,10 @@ class DynamicWidgets
      */
     private static $_instance = false;
 
-    //array of all widgets contents in their places
+    //items not separated, array looks like 'position' => 'HTML of all widgets in this position'
     public $widgets = array();
+
+    //items separated, array looks like 'positions' => (1 => 'HTML of widget 1', 2 => 'HTML of widget 2')
     public $widgetsArr = array();
 
 
@@ -55,14 +57,27 @@ class DynamicWidgets
         return false;
     }
 
+
     /**
      * Initialisation
      * @param null $positions
      * @param null $controller
+     * @return bool
      */
     public static function init($positions = null, $controller = null)
     {
-        self::$_instance = new self($positions,$controller);
+        $success = true;
+
+        try
+        {
+            self::$_instance = new self($positions,$controller);
+        }
+        catch(Exception $ex)
+        {
+            $success = false;
+        }
+
+        return $success;
     }
 
     /**
