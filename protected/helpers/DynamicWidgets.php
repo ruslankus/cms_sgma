@@ -146,10 +146,9 @@ class DynamicWidgets
                         }
                         catch(Exception $ex)
                         {
-                            //Get messages
+                            //Get error message if can't find widget's template
                             $widgetContent = $ex->getMessage();
                         }
-
 
                         $arrPositionTitles[$title].= $widgetContent;
                         $arrPositionTitlesArr[$title][] = $widgetContent;
@@ -168,12 +167,12 @@ class DynamicWidgets
 
                         try
                         {
-                            //Try get widget content.
-
+                            //Try get widget content
                             $menuContent = $controller->widget($widgetPath,array('menu' => $menuInfo),true);
                         }
                         catch(Exception $ex)
                         {
+                            //Get error message if can't find widget's template
                             $menuContent = $ex->getMessage();
                         }
 

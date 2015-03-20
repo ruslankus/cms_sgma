@@ -7,6 +7,7 @@ class ControllerAdmin extends CController
     public $title = "SIGMA CMS";
     public $description = "Content Management System";
     public $keywords = "";
+    public $assetsPath = "";
 
     /**
      * Check if user allowed to admin's module controllers and actions
@@ -97,16 +98,16 @@ class ControllerAdmin extends CController
 
 
         //publish dir to assets (fonts, css, js, images)
-        $publishedPath = Yii::app()->assetManager->publish(Yii::getPathOfAlias('admin.admin_assets'));
+        $this->assetsPath = Yii::app()->assetManager->publish(Yii::getPathOfAlias('admin.appearance'));
 
         //register css
-        Yii::app()->clientScript->registerCssFile($publishedPath.'/css/jquery-ui.min.css');
-        Yii::app()->clientScript->registerCssFile($publishedPath.'/css/style.css');
+        Yii::app()->clientScript->registerCssFile($this->assetsPath.'/css/jquery-ui.min.css');
+        Yii::app()->clientScript->registerCssFile($this->assetsPath.'/css/style.css');
 
         //register scripts
-        Yii::app()->clientScript->registerScriptFile($publishedPath.'/js/jquery-1.11.2.min.js',CClientScript::POS_END);
-        Yii::app()->clientScript->registerScriptFile($publishedPath.'/js/jquery-ui.min.js',CClientScript::POS_END);
-        Yii::app()->clientScript->registerScriptFile($publishedPath.'/js/panel.js',CClientScript::POS_END);
+        Yii::app()->clientScript->registerScriptFile($this->assetsPath.'/js/jquery-1.11.2.min.js',CClientScript::POS_END);
+        Yii::app()->clientScript->registerScriptFile($this->assetsPath.'/js/jquery-ui.min.js',CClientScript::POS_END);
+        Yii::app()->clientScript->registerScriptFile($this->assetsPath.'/js/panel.js',CClientScript::POS_END);
 
         //if current action - not login
         if($action->id != 'login')
