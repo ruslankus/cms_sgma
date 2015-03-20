@@ -46,6 +46,10 @@ class Controller extends CController
         $themeConfigFile = !empty(Yii::app()->theme) ? Yii::app()->theme->basePath.'/config/theme.ini' : Yii::app()->basePath.'/config/theme.ini';
         $arrThemeConfig = file_exists($themeConfigFile) ? parse_ini_file($themeConfigFile,true) : array();
         $arrWidgetPositions = !empty($arrThemeConfig['widget_positions']) ? $arrThemeConfig['widget_positions'] : array();
+
+        /**
+         * Initialise dynamic widgets
+         */
         DynamicWidgets::init($arrWidgetPositions,$this);
 
         /*

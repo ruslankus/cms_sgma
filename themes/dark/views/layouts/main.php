@@ -10,7 +10,9 @@
 </head>
 
 <body>
+<?php echo DynamicWidgets::get('Top'); ?>
 <?php echo $content; ?>
+<?php echo DynamicWidgets::get('Top-right'); ?>
 </body>
 
 </html>

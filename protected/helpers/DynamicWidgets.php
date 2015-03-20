@@ -16,11 +16,15 @@ class DynamicWidgets
     const REGISTRATION_WIDGET = 1;
     const REGISTRATION_MENU = 2;
 
-    //instance
+    /**
+     * Main instance
+     * @var DynamicWidgets|bool
+     */
     private static $_instance = false;
 
     //array of all widgets contents in their places
     public $widgets = array();
+    public $widgetsArr = array();
 
 
     /**
@@ -28,7 +32,7 @@ class DynamicWidgets
      * @param null $position
      * @param null $positions
      * @param null $controller
-     * @return bool
+     * @return DynamicWidgets|bool|string
      */
     public static function get($position = null, $positions = null, $controller = null)
     {
@@ -67,10 +71,12 @@ class DynamicWidgets
     private function __construct($positions,$controller) {
 
         $arrPositionTitles = array();
+        $arrPositionTitlesArr = array();
 
         foreach($positions as $number => $title)
         {
-            $arrPositionTitles[$title] = array();
+            $arrPositionTitles[$title] = '';
+            $arrPositionTitlesArr[$title] = array();
 
             /* @var $controller Controller */
             /* @var $registrations WidRegistration[] */
@@ -116,12 +122,14 @@ class DynamicWidgets
 
                     $widgetContent = $controller->widget($widgetPath,array('templateName' => $widgetInfo->template_name),true);
 
-                    $arrPositionTitles[$title][]= $widgetContent;
+                    $arrPositionTitles[$title].= $widgetContent;
+                    $arrPositionTitlesArr[$title][] = $widgetContent;
                 }
             }
         }
 
         $this->widgets = $arrPositionTitles;
+        $this->widgetsArr = $arrPositionTitlesArr;
     }
 
     /**
