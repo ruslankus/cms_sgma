@@ -112,9 +112,9 @@ class ControllerAdmin extends CController
         if($action->id != 'login')
         {
             //if user not allowed to this controller and action
-            if(!$this->isUserAllowed(Yii::app()->user,$action->controller->id,$action->id))
+            if(Yii::app()->user->isGuest)
             {
-                Debug::d('Help');
+               
                 $this->redirect(Yii::app()->createUrl('/admin/main/login'));
             }
         }

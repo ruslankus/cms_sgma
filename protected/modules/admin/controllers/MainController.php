@@ -7,6 +7,7 @@ class MainController extends ControllerAdmin
      */
     public function actionIndex()
 	{
+         //Debug::d();
         $this->render('index');
 	}
 
@@ -16,6 +17,14 @@ class MainController extends ControllerAdmin
      */
     public function actionLogin()
     {
+        
+         //publish dir to assets (fonts, css, js, images)
+        $publishedPath = Yii::app()->assetManager->publish(Yii::getPathOfAlias('admin.admin_assets'));
+
+        //register css
+       Yii::app()->clientScript->registerCssFile($publishedPath.'/css/login.css');
+        
+        //Debug::d();
         //use 'login' layout for this action
         $this->layout = '/layouts/login';
 
