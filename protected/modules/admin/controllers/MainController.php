@@ -18,8 +18,9 @@ class MainController extends ControllerAdmin
     public function actionLogin()
     {
         //use 'login' layout for this action
-        $this->layout = '/layouts/login';
-
+        $this->layout = '/layouts/login_layout';
+        
+        Yii::app()->clientScript->reset();
         //register special css for this action
         Yii::app()->clientScript->registerCssFile($this->assetsPath.'/css/login.css');
 
@@ -43,6 +44,7 @@ class MainController extends ControllerAdmin
                 $this->redirect(Yii::app()->createUrl('/admin/main/index'));
             }
         }
+       
 
         $this->render('login',array('form_mdl' => $form));
     }

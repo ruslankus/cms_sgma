@@ -11,7 +11,8 @@ class AdminIdentity extends CUserIdentity
         /* @var $user ExtUsers */
 
         $user = ExtUsers::model()->findByAttributes(array('login' => $this->username));
-
+        
+       
         //if user found
         if(!empty($user))
         {
@@ -43,10 +44,10 @@ class AdminIdentity extends CUserIdentity
         else
         {
             //can't connect
-            $this->errorCode = self::ERROR_USERNAME_INVALID;
+            $this->errorCode = static::ERROR_USERNAME_INVALID;
         }
-
+        
         //return error status
-        return $this->errorCode;
+        return !$this->errorCode;
 	}
 }
