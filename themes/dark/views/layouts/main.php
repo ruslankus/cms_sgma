@@ -13,6 +13,7 @@
 <?php echo DynamicWidgets::get('Top'); ?>
 <?php echo $content; ?>
 <?php echo DynamicWidgets::get('Top-right'); ?>
+<?php echo DynamicWidgets::get('Special'); ?>
 </body>
 
 </html>

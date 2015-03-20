@@ -96,49 +96,90 @@ class DynamicWidgets
             /* @var $controller Controller */
             /* @var $registrations WidRegistration[] */
             /* @var $widgetInfo SystemWidget */
+            /* @var $menuInfo Menu */
 
             //Search for all widget registrations
-            $registrations = WidRegistration::model()->findAllByAttributes(array('position_nr' => $number, 'type_id' => self::REGISTRATION_WIDGET), array('order' => 'priority DESC'));
+            $registrations = WidRegistration::model()->findAllByAttributes(array('position_nr' => $number), array('order' => 'priority DESC'));
 
             foreach($registrations as $registration)
             {
-                $widgetInfo = $registration->widget;
-
-                if(!empty($widgetInfo))
+                //if registered simple widget
+                if($registration->type_id == self::REGISTRATION_WIDGET)
                 {
-                    $widgetPath = 'application.widgets.system.';
+                    $widgetInfo = $registration->widget;
 
-                    switch($widgetInfo->type_id)
+                    if(!empty($widgetInfo))
                     {
-                        case self::WID_TYPE_SEARCH:
-                            $widgetPath.='SysSearch';
-                            break;
+                        $widgetPath = 'application.widgets.system.';
 
-                        case self::WID_TYPE_CALENDAR:
-                            $widgetPath.='SysCalendar';
-                            break;
+                        switch($widgetInfo->type_id)
+                        {
+                            case self::WID_TYPE_SEARCH:
+                                $widgetPath.='SysSearch';
+                                break;
 
-                        case self::WID_TYPE_LANGUAGE_BAR:
-                            $widgetPath.='SysLanguages';
-                            break;
+                            case self::WID_TYPE_CALENDAR:
+                                $widgetPath.='SysCalendar';
+                                break;
 
-                        case self::WID_TYPE_LOGIN:
-                            $widgetPath.='SysLogin';
-                            break;
+                            case self::WID_TYPE_LANGUAGE_BAR:
+                                $widgetPath.='SysLanguages';
+                                break;
 
-                        case self::WID_TYPE_CUSTOM_HTML:
-                            $widgetPath.='SysCustom';
-                            break;
+                            case self::WID_TYPE_LOGIN:
+                                $widgetPath.='SysLogin';
+                                break;
 
-                        case self::WID_TYPE_PRODUCT_CART:
-                            $widgetPath.='SysCart';
-                            break;
+                            case self::WID_TYPE_CUSTOM_HTML:
+                                $widgetPath.='SysCustom';
+                                break;
+
+                            case self::WID_TYPE_PRODUCT_CART:
+                                $widgetPath.='SysCart';
+                                break;
+                        }
+
+                        try
+                        {
+                            //Try get widget content
+                            $widgetContent = $controller->widget($widgetPath,array('templateName' => $widgetInfo->template_name),true);
+                        }
+                        catch(Exception $ex)
+                        {
+                            //Get messages
+                            $widgetContent = $ex->getMessage();
+                        }
+
+
+                        $arrPositionTitles[$title].= $widgetContent;
+                        $arrPositionTitlesArr[$title][] = $widgetContent;
                     }
+                }
 
-                    $widgetContent = $controller->widget($widgetPath,array('templateName' => $widgetInfo->template_name),true);
+                //if registered menu
+                if($registration->type_id == self::REGISTRATION_MENU)
+                {
+                    $menuInfo = $registration->menu;
 
-                    $arrPositionTitles[$title].= $widgetContent;
-                    $arrPositionTitlesArr[$title][] = $widgetContent;
+                    if(!empty($menuInfo))
+                    {
+                        $widgetPath = 'application.widgets.system.SysMenu';
+
+
+                        try
+                        {
+                            //Try get widget content.
+
+                            $menuContent = $controller->widget($widgetPath,array('menu' => $menuInfo),true);
+                        }
+                        catch(Exception $ex)
+                        {
+                            $menuContent = $ex->getMessage();
+                        }
+
+                        $arrPositionTitles[$title].= $menuContent;
+                        $arrPositionTitlesArr[$title][] = $menuContent;
+                    }
                 }
             }
         }

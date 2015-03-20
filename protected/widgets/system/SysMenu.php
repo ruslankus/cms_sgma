@@ -2,11 +2,15 @@
 
 class SysMenu extends CWidget
 {
-    //template of widget
-    public $templateName;
+    /**
+     * @var string|int
+     */
+    public $current = null;
 
-    //current category/page/link
-    public $current;
+    /**
+     * @var Menu
+     */
+    public $menu;
 
     public function getViewPath()
     {
@@ -17,6 +21,6 @@ class SysMenu extends CWidget
 
     public function run()
     {
-        $this->render($this->templateName);
+        $this->render($this->menu->template_name);
     }
 }
