@@ -164,7 +164,6 @@ class DynamicWidgets
                     {
                         $widgetPath = 'application.widgets.system.SysMenu';
 
-
                         try
                         {
                             //Try get widget content
@@ -185,6 +184,22 @@ class DynamicWidgets
 
         $this->widgets = $arrPositionTitles;
         $this->widgetsArr = $arrPositionTitlesArr;
+    }
+
+    /**
+     * @return string
+     */
+    public function __toString()
+    {
+        $html = "";
+        if(!empty($this->widgets))
+        {
+            foreach($this->widgets as $widgetHtmlInPosition)
+            {
+                $html.=$widgetHtmlInPosition;
+            }
+        }
+        return $html;
     }
 
     /**
