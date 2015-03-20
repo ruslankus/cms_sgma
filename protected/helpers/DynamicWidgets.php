@@ -94,12 +94,12 @@ class DynamicWidgets
             $arrPositionTitlesArr[$title] = array();
 
             /* @var $controller Controller */
-            /* @var $registrations WidRegistration[] */
-            /* @var $widgetInfo SystemWidget */
-            /* @var $menuInfo Menu */
+            /* @var $registrations ExtWidRegistration[] */
+            /* @var $widgetInfo ExtSystemWidget */
+            /* @var $menuInfo ExtMenu */
 
             //Search for all widget registrations
-            $registrations = WidRegistration::model()->findAllByAttributes(array('position_nr' => $number), array('order' => 'priority DESC'));
+            $registrations = ExtWidRegistration::model()->findAllByAttributes(array('position_nr' => $number), array('order' => 'priority DESC'));
 
             foreach($registrations as $registration)
             {
@@ -142,7 +142,7 @@ class DynamicWidgets
                         try
                         {
                             //Try get widget content
-                            $widgetContent = $controller->widget($widgetPath,array('templateName' => $widgetInfo->template_name),true);
+                            $widgetContent = $controller->widget($widgetPath,array('widgetInfo' => $widgetInfo),true);
                         }
                         catch(Exception $ex)
                         {
@@ -164,7 +164,6 @@ class DynamicWidgets
                     {
                         $widgetPath = 'application.widgets.system.SysMenu';
 
-
                         try
                         {
                             //Try get widget content
@@ -185,6 +184,22 @@ class DynamicWidgets
 
         $this->widgets = $arrPositionTitles;
         $this->widgetsArr = $arrPositionTitlesArr;
+    }
+
+    /**
+     * @return string
+     */
+    public function __toString()
+    {
+        $html = "";
+        if(!empty($this->widgets))
+        {
+            foreach($this->widgets as $widgetHtmlInPosition)
+            {
+                $html.=$widgetHtmlInPosition;
+            }
+        }
+        return $html;
     }
 
     /**

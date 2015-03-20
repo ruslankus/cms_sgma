@@ -2,8 +2,10 @@
 
 class SysCustom extends CWidget
 {
-    //template of widget
-    public $templateName;
+    /**
+     * @var ExtSystemWidget
+     */
+    public $widgetInfo;
 
     public function getViewPath()
     {
@@ -13,6 +15,6 @@ class SysCustom extends CWidget
 
     public function run()
     {
-        $this->render($this->templateName);
+        $this->render($this->widgetInfo->template_name);
     }
 }
