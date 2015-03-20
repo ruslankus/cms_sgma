@@ -46,7 +46,7 @@ class AdminModule extends CWebModule
             'default' => 'index',
             'icon' => '',
             'html_class' => 'translation',
-            'actions' => array('panel' => array('title' => 'Panel translation'),'site' => array('title' => 'Site translation'))),    
+            'actions' => array('admin' => array('title' => 'Panel translation'),'site' => array('title' => 'Site translation'))),    
     );
 
     public function init()
@@ -64,11 +64,13 @@ class AdminModule extends CWebModule
             'admin.helpers.*'
 		));
         
+        /*
         Yii::app()->setComponents(array(
             'errorHandler'=>array(
             'errorAction'=>'admin',
             ),
         ));
+        */
 	}
 
 	public function beforeControllerAction($controller, $action)

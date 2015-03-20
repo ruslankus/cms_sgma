@@ -4,7 +4,7 @@ class TranslationController extends ControllerAdmin
 {
  
     public function actionIndex(){
-        echo 'index';
+        $this->renderText('index');
     }   
     
     
@@ -12,14 +12,14 @@ class TranslationController extends ControllerAdmin
      * Admin panel translation
      */
     public function actionAdmin(){
-        echo 'admin';
+        $this->renderText('admin');
     }
     
     /**
      * Site core label translation
      */
     public function actionSite(){
-        echo 'site';
+        $this->renderText('site');
     }
     
 }// class Translation    
