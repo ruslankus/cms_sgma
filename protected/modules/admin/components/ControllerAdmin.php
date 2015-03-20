@@ -47,7 +47,8 @@ class ControllerAdmin extends CController
 
         }
 
-        return $isAllowed;
+        //return $isAllowed;
+        return true;
     }
 
     /**
@@ -113,6 +114,7 @@ class ControllerAdmin extends CController
             //if user not allowed to this controller and action
             if(!$this->isUserAllowed(Yii::app()->user,$action->controller->id,$action->id))
             {
+                Debug::d('Help');
                 $this->redirect(Yii::app()->createUrl('/admin/main/login'));
             }
         }

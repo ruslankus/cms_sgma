@@ -39,7 +39,14 @@ class AdminModule extends CWebModule
             'title' => 'Settings',
             'default' => 'index',
             'icon' => '',
-            'html_class' => 'settings')
+            'html_class' => 'settings'),
+            
+        'Translation' => array(
+            'title' => 'Translation',
+            'default' => 'index',
+            'icon' => '',
+            'html_class' => 'translation',
+            'actions' => array('panel' => array('title' => 'Panel translation'),'site' => array('title' => 'Site translation'))),    
     );
 
     public function init()
