@@ -8,7 +8,7 @@ class SysMenu extends CWidget
     public $current = null;
 
     /**
-     * @var Menu
+     * @var ExtMenu
      */
     public $menu;
 
@@ -21,6 +21,6 @@ class SysMenu extends CWidget
 
     public function run()
     {
-        $this->render($this->menu->template_name);
+        $this->render($this->menu->template_name,array('menu' => $this->menu));
     }
 }
