@@ -8,7 +8,7 @@ class SysSearch extends CWidget
     public function getViewPath()
     {
         $themeManager = Yii::app()->themeManager;
-        return $themeManager->basePath.DIRECTORY_SEPARATOR.Yii::app()->theme->name.DIRECTORY_SEPARATOR.'widgets'.DIRECTORY_SEPARATOR.'search';
+        return $themeManager->basePath.DIRECTORY_SEPARATOR.Yii::app()->theme->name.DIRECTORY_SEPARATOR.'views'.DIRECTORY_SEPARATOR.'widgets'.DIRECTORY_SEPARATOR.'search';
     }
 
     public function run()

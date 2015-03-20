@@ -32,7 +32,7 @@ class DynamicWidgets
      * @param null $position
      * @param null $positions
      * @param null $controller
-     * @return DynamicWidgets|bool|string
+     * @return string|bool|DynamicWidgets
      */
     public static function get($position = null, $positions = null, $controller = null)
     {

@@ -8,7 +8,7 @@ class SysCart extends CWidget
     public function getViewPath()
     {
         $themeManager = Yii::app()->themeManager;
-        return $themeManager->basePath.DIRECTORY_SEPARATOR.Yii::app()->theme->name.DIRECTORY_SEPARATOR.'widgets'.DIRECTORY_SEPARATOR.'cart';
+        return $themeManager->basePath.DIRECTORY_SEPARATOR.Yii::app()->theme->name.DIRECTORY_SEPARATOR.'views'.DIRECTORY_SEPARATOR.'widgets'.DIRECTORY_SEPARATOR.'cart';
     }
 
     public function run()

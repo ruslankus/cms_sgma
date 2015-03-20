@@ -10,7 +10,7 @@ Target Server Type    : MYSQL
 Target Server Version : 50538
 File Encoding         : 65001
 
-Date: 2015-03-20 12:29:31
+Date: 2015-03-20 14:21:10
 */
 
 SET FOREIGN_KEY_CHECKS=0;
@@ -199,17 +199,17 @@ CREATE TABLE `menu` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
   `label` varchar(128) DEFAULT NULL,
   `status_id` int(11) DEFAULT NULL,
-  `priority` int(11) DEFAULT NULL,
   `time_created` int(11) DEFAULT NULL,
   `time_updated` int(11) DEFAULT NULL,
   `last_change_by` int(11) DEFAULT NULL,
   `template_name` varchar(512) DEFAULT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8;
 
 -- ----------------------------
 -- Records of menu
 -- ----------------------------
+INSERT INTO `menu` VALUES ('1', 'Main menu', '1', '0', '0', '1', 'main_menu');
 
 -- ----------------------------
 -- Table structure for `menu_item`
@@ -638,7 +638,7 @@ CREATE TABLE `wid_registration` (
   CONSTRAINT `wid_registration_ibfk_3` FOREIGN KEY (`widget_id`) REFERENCES `system_widget` (`id`) ON DELETE CASCADE ON UPDATE NO ACTION,
   CONSTRAINT `wid_registration_ibfk_1` FOREIGN KEY (`type_id`) REFERENCES `wid_registration_type` (`id`) ON DELETE NO ACTION ON UPDATE NO ACTION,
   CONSTRAINT `wid_registration_ibfk_2` FOREIGN KEY (`menu_id`) REFERENCES `menu` (`id`) ON DELETE CASCADE ON UPDATE NO ACTION
-) ENGINE=InnoDB AUTO_INCREMENT=8 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=9 DEFAULT CHARSET=utf8;
 
 -- ----------------------------
 -- Records of wid_registration
@@ -648,6 +648,7 @@ INSERT INTO `wid_registration` VALUES ('4', '2', null, '1', '1', '2', '1');
 INSERT INTO `wid_registration` VALUES ('5', '3', null, '1', '2', '1', '1');
 INSERT INTO `wid_registration` VALUES ('6', '4', null, '1', '3', '1', '1');
 INSERT INTO `wid_registration` VALUES ('7', '5', null, '1', '4', '1', '1');
+INSERT INTO `wid_registration` VALUES ('8', null, '1', '2', '5', '1', '1');
 
 -- ----------------------------
 -- Table structure for `wid_registration_type`
