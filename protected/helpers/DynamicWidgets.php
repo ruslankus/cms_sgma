@@ -22,18 +22,43 @@ class DynamicWidgets
     //array of all widgets contents in their places
     public $widgets = array();
 
+
     /**
-     * Returns or creates an instance
+     * Returns an instance or contents of all widgets in selected positions
+     * @param null $position
      * @param null $positions
      * @param null $controller
-     * @return bool|DynamicWidgets
+     * @return bool
      */
-    public static function get($positions = null, $controller = null)
+    public static function get($position = null, $positions = null, $controller = null)
     {
         if(!self::$_instance && !empty($positions) && !empty($controller)){
-            self::$_instance = new self($positions,$controller);
+            self::init($positions,$controller);
         }
-        return self::$_instance;
+
+        if($position == null)
+        {
+            return self::$_instance;
+        }
+        else
+        {
+            if(self::$_instance)
+            {
+                return self::$_instance->widgets[$position];
+            }
+        }
+
+        return false;
+    }
+
+    /**
+     * Initialisation
+     * @param null $positions
+     * @param null $controller
+     */
+    public static function init($positions = null, $controller = null)
+    {
+        self::$_instance = new self($positions,$controller);
     }
 
     /**
@@ -45,6 +70,8 @@ class DynamicWidgets
 
         foreach($positions as $number => $title)
         {
+            $arrPositionTitles[$title] = array();
+
             /* @var $controller Controller */
             /* @var $registrations WidRegistration[] */
             /* @var $widgetInfo SystemWidget */
@@ -58,9 +85,9 @@ class DynamicWidgets
 
                 if(!empty($widgetInfo))
                 {
-                    $widgetPath = !empty(Yii::app()->theme) ? 'webroot.themes.'.Yii::app()->theme->name.'.widgets.' : 'application.widgets.';
+                    $widgetPath = 'application.widgets.system.';
 
-                    switch($widgetInfo->type)
+                    switch($widgetInfo->type_id)
                     {
                         case self::WID_TYPE_SEARCH:
                             $widgetPath.='SysSearch';
@@ -71,7 +98,7 @@ class DynamicWidgets
                             break;
 
                         case self::WID_TYPE_LANGUAGE_BAR:
-                            $widgetPath.='SysCart';
+                            $widgetPath.='SysLanguages';
                             break;
 
                         case self::WID_TYPE_LOGIN:
@@ -87,13 +114,14 @@ class DynamicWidgets
                             break;
                     }
 
-                    $content = $controller->widget($widgetPath,array('templateName' => $widgetInfo->template_name),true);
-                    Debug::out($content);
+                    $widgetContent = $controller->widget($widgetPath,array('templateName' => $widgetInfo->template_name),true);
+
+                    $arrPositionTitles[$title][]= $widgetContent;
                 }
             }
-
         }
 
+        $this->widgets = $arrPositionTitles;
     }
 
     /**
