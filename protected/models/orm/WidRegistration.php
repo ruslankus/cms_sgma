@@ -5,15 +5,17 @@
  *
  * The followings are the available columns in table 'wid_registration':
  * @property integer $id
- * @property integer $obj_id
+ * @property integer $widget_id
+ * @property integer $menu_id
  * @property integer $type_id
  * @property integer $position_nr
  * @property integer $priority
  * @property integer $status_id
  *
  * The followings are the available model relations:
+ * @property SystemWidget $widget
  * @property WidRegistrationType $type
- * @property Menu $obj
+ * @property Menu $menu
  */
 class WidRegistration extends CActiveRecord
 {
@@ -33,10 +35,10 @@ class WidRegistration extends CActiveRecord
 		// NOTE: you should only define rules for those attributes that
 		// will receive user inputs.
 		return array(
-			array('obj_id, type_id, position_nr, priority, status_id', 'numerical', 'integerOnly'=>true),
+			array('widget_id, menu_id, type_id, position_nr, priority, status_id', 'numerical', 'integerOnly'=>true),
 			// The following rule is used by search().
 			// @todo Please remove those attributes that should not be searched.
-			array('id, obj_id, type_id, position_nr, priority, status_id', 'safe', 'on'=>'search'),
+			array('id, widget_id, menu_id, type_id, position_nr, priority, status_id', 'safe', 'on'=>'search'),
 		);
 	}
 
@@ -48,8 +50,9 @@ class WidRegistration extends CActiveRecord
 		// NOTE: you may need to adjust the relation name and the related
 		// class name for the relations automatically generated below.
 		return array(
+			'widget' => array(self::BELONGS_TO, 'SystemWidget', 'widget_id'),
 			'type' => array(self::BELONGS_TO, 'WidRegistrationType', 'type_id'),
-			'obj' => array(self::BELONGS_TO, 'Menu', 'obj_id'),
+			'menu' => array(self::BELONGS_TO, 'Menu', 'menu_id'),
 		);
 	}
 
@@ -60,7 +63,8 @@ class WidRegistration extends CActiveRecord
 	{
 		return array(
 			'id' => 'ID',
-			'obj_id' => 'Obj',
+			'widget_id' => 'Widget',
+			'menu_id' => 'Menu',
 			'type_id' => 'Type',
 			'position_nr' => 'Position Nr',
 			'priority' => 'Priority',
@@ -87,7 +91,8 @@ class WidRegistration extends CActiveRecord
 		$criteria=new CDbCriteria;
 
 		$criteria->compare('id',$this->id);
-		$criteria->compare('obj_id',$this->obj_id);
+		$criteria->compare('widget_id',$this->widget_id);
+		$criteria->compare('menu_id',$this->menu_id);
 		$criteria->compare('type_id',$this->type_id);
 		$criteria->compare('position_nr',$this->position_nr);
 		$criteria->compare('priority',$this->priority);

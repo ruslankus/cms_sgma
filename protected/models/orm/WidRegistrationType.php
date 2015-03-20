@@ -5,7 +5,7 @@
  *
  * The followings are the available columns in table 'wid_registration_type':
  * @property integer $id
- * @property integer $label
+ * @property string $label
  *
  * The followings are the available model relations:
  * @property WidRegistration[] $widRegistrations
@@ -29,7 +29,8 @@ class WidRegistrationType extends CActiveRecord
 		// will receive user inputs.
 		return array(
 			array('id', 'required'),
-			array('id, label', 'numerical', 'integerOnly'=>true),
+			array('id', 'numerical', 'integerOnly'=>true),
+			array('label', 'length', 'max'=>128),
 			// The following rule is used by search().
 			// @todo Please remove those attributes that should not be searched.
 			array('id, label', 'safe', 'on'=>'search'),
@@ -78,7 +79,7 @@ class WidRegistrationType extends CActiveRecord
 		$criteria=new CDbCriteria;
 
 		$criteria->compare('id',$this->id);
-		$criteria->compare('label',$this->label);
+		$criteria->compare('label',$this->label,true);
 
 		return new CActiveDataProvider($this, array(
 			'criteria'=>$criteria,

@@ -12,7 +12,6 @@ class Controller extends CController
     public $title = "";
     public $keywords = "";
     public $description = "";
-    public $widgetPositions = array();
 
 
     /**
@@ -27,8 +26,9 @@ class Controller extends CController
 
         $language = Yii::app()->request->getParam('language',Yii::app()->params['defaultLanguage']);
         $this->setLanguage($language);
-        
-        Yii::app()->theme = "light";
+
+        //TODO: get theme from db
+        Yii::app()->theme = "dark";
 
         parent::__construct($id,$module);
     }
@@ -40,10 +40,17 @@ class Controller extends CController
      */
     protected function beforeAction($action) {
 
+        /**
+         * Read all widget positions from INI file
+         */
         $themeConfigFile = !empty(Yii::app()->theme) ? Yii::app()->theme->basePath.'/config/theme.ini' : Yii::app()->basePath.'/config/theme.ini';
         $arrThemeConfig = file_exists($themeConfigFile) ? parse_ini_file($themeConfigFile,true) : array();
         $arrWidgetPositions = !empty($arrThemeConfig['widget_positions']) ? $arrThemeConfig['widget_positions'] : array();
-        $this->widgetPositions = $arrWidgetPositions;
+        Debug::out($arrWidgetPositions);
+
+        DynamicWidgets::get($arrWidgetPositions,$this);
+
+        exit();
 
         /*
         //publish dir to assets (fonts, css, js, images)

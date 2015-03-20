@@ -4,15 +4,15 @@
  */
 class Trl
 {
-    private static $_instanse = false;   
+    private static $_instance = false;   
     private $_arrLabels = array();
     private $_arrMessages = array();
     
     public static function t(){
-        if(!self::$_instanse){
-            self::$_instanse = new self();
+        if(!self::$_instance){
+            self::$_instance = new self();
         }
-        return self::$_instanse;
+        return self::$_instance;
     }
     
     private function __construct() {

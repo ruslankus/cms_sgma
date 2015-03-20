@@ -11,7 +11,6 @@
  * @property integer $time_created
  * @property integer $time_updated
  * @property integer $last_change_by
- * @property integer $position_id
  * @property string $template_name
  *
  * The followings are the available model relations:
@@ -37,12 +36,12 @@ class Menu extends CActiveRecord
 		// NOTE: you should only define rules for those attributes that
 		// will receive user inputs.
 		return array(
-			array('status_id, priority, time_created, time_updated, last_change_by, position_id', 'numerical', 'integerOnly'=>true),
+			array('status_id, priority, time_created, time_updated, last_change_by', 'numerical', 'integerOnly'=>true),
 			array('label', 'length', 'max'=>128),
 			array('template_name', 'length', 'max'=>512),
 			// The following rule is used by search().
 			// @todo Please remove those attributes that should not be searched.
-			array('id, label, status_id, priority, time_created, time_updated, last_change_by, position_id, template_name', 'safe', 'on'=>'search'),
+			array('id, label, status_id, priority, time_created, time_updated, last_change_by, template_name', 'safe', 'on'=>'search'),
 		);
 	}
 
@@ -56,7 +55,7 @@ class Menu extends CActiveRecord
 		return array(
 			'menuItems' => array(self::HAS_MANY, 'MenuItem', 'menu_id'),
 			'menuTrls' => array(self::HAS_MANY, 'MenuTrl', 'menu_id'),
-			'widRegistrations' => array(self::HAS_MANY, 'WidRegistration', 'obj_id'),
+			'widRegistrations' => array(self::HAS_MANY, 'WidRegistration', 'menu_id'),
 		);
 	}
 
@@ -73,7 +72,6 @@ class Menu extends CActiveRecord
 			'time_created' => 'Time Created',
 			'time_updated' => 'Time Updated',
 			'last_change_by' => 'Last Change By',
-			'position_id' => 'Position',
 			'template_name' => 'Template Name',
 		);
 	}
@@ -103,7 +101,6 @@ class Menu extends CActiveRecord
 		$criteria->compare('time_created',$this->time_created);
 		$criteria->compare('time_updated',$this->time_updated);
 		$criteria->compare('last_change_by',$this->last_change_by);
-		$criteria->compare('position_id',$this->position_id);
 		$criteria->compare('template_name',$this->template_name,true);
 
 		return new CActiveDataProvider($this, array(
