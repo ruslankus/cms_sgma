@@ -2,8 +2,10 @@
 
 class SysLogin extends CWidget
 {
-    //template of widget
-    public $templateName;
+    /**
+     * @var ExtSystemWidget
+     */
+    public $widgetInfo;
 
     public function getViewPath()
     {
@@ -14,6 +16,6 @@ class SysLogin extends CWidget
 
     public function run()
     {
-        $this->render($this->templateName);
+        $this->render($this->widgetInfo->template_name);
     }
 }
