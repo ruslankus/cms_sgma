@@ -1,3 +1,4 @@
 <?php /* @var $menu ExtMenu*/ ?>
-<p><?php echo $menu->label; ?></p>
-<p><?php echo $menu->trl->name; ?></p>
+<p>Label - <?php echo $menu->label; ?></p>
+<p><?php echo $menu->getTrl()->name; ?></p>
+<p><?php echo $menu->getTrl()->description; ?></p>

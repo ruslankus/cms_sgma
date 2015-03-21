@@ -5,7 +5,7 @@ Class ExtMenu extends Menu
     /**
      * @var MenuTrl
      */
-    public $trl;
+    private $trl = null;
 
     /**
      * @param string $className
@@ -16,39 +16,38 @@ Class ExtMenu extends Menu
         return parent::model($className);
     }
 
-
     /**
-     * Find translation of object for current language
+     * Find translation of object for current language (singleton-like style)
+     * @return MenuTrl
      */
-    private function findTranslation()
+    public function getTrl()
     {
-        /* @var $translations MenuTrl[] */
-
-        //empty translation object
-        $this->trl = new MenuTrl();
-
-        //get all translation
-        $translations = $this->menuTrls;
-
-        //if found something
-        if(!empty($translations))
+        if($this->trl == null)
         {
-            //pass all translations
-            foreach($translations as $translation)
+            /* @var $translations MenuTrl[] */
+
+            //empty translation object
+            $this->trl = new MenuTrl();
+
+            //get all translation
+            $translations = $this->menuTrls;
+
+            //if found something
+            if(!empty($translations))
             {
-                //if found translation for current language
-                if($translation->lng->prefix == Yii::app()->language)
+                //pass all translations
+                foreach($translations as $translation)
                 {
-                    //get it
-                    $this->trl = $translation;
+                    //if found translation for current language
+                    if($translation->lng->prefix == Yii::app()->language)
+                    {
+                        //get it
+                        $this->trl = $translation;
+                    }
                 }
             }
         }
-    }
 
-    public function __construct($scenario='insert')
-    {
-        parent::__construct($scenario);
-        $this->findTranslation();
+        return $this->trl;
     }
 }
