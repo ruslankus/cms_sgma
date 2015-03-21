@@ -17,14 +17,16 @@ Class ExtWidRegistration extends WidRegistration
     }
 
     /**
-     * Override, relation with extended models
+     * Override, relate with extended models
      * @return array relational rules.
      */
     public function relations()
     {
-        $arr = parent::relations();
-        $arr['widget'] = array(self::BELONGS_TO, 'ExtSystemWidget', 'widget_id');
-        $arr['menu'] = array(self::BELONGS_TO, 'ExtMenu', 'menu_id');
-        return $arr;
+        $relations = parent::relations();
+        foreach($relations as $name => $relation)
+        {
+            $relations[$name][1] = 'Ext'.$relation[1];
+        }
+        return $relations;
     }
 }
