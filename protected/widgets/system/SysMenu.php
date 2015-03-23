@@ -20,7 +20,7 @@ class SysMenu extends CWidget
     public function getViewPath($checkTheme=false)
     {
         $themeManager = Yii::app()->themeManager;
-        return $themeManager->basePath.DIRECTORY_SEPARATOR.Yii::app()->theme->name.DIRECTORY_SEPARATOR.'views'.DIRECTORY_SEPARATOR.'menus';
+        return $themeManager->basePath.DS.Yii::app()->theme->name.DS.'views'.DS.'menus';
     }
 
     public function run()
