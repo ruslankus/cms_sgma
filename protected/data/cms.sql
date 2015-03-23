@@ -10,7 +10,7 @@ Target Server Type    : MYSQL
 Target Server Version : 50538
 File Encoding         : 65001
 
-Date: 2015-03-23 17:56:21
+Date: 2015-03-23 18:09:36
 */
 
 SET FOREIGN_KEY_CHECKS=0;
@@ -387,12 +387,13 @@ CREATE TABLE `page` (
   PRIMARY KEY (`id`),
   KEY `menu_item_id` (`menu_item_id`),
   CONSTRAINT `page_ibfk_1` FOREIGN KEY (`menu_item_id`) REFERENCES `menu_item` (`id`) ON DELETE CASCADE ON UPDATE NO ACTION
-) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=utf8;
 
 -- ----------------------------
 -- Records of page
 -- ----------------------------
-INSERT INTO `page` VALUES ('1', 'Article', '3', '1', '1', '0', '0', '1');
+INSERT INTO `page` VALUES ('1', 'Article 1', '3', '1', '1', '0', '0', '1');
+INSERT INTO `page` VALUES ('2', 'Article 2', '3', '1', '2', '0', '0', '1');
 
 -- ----------------------------
 -- Table structure for `page_trl`
@@ -410,13 +411,15 @@ CREATE TABLE `page_trl` (
   KEY `lng_id` (`lng_id`),
   CONSTRAINT `page_trl_ibfk_1` FOREIGN KEY (`lng_id`) REFERENCES `languages` (`id`) ON DELETE CASCADE ON UPDATE NO ACTION,
   CONSTRAINT `page_trl_ibfk_2` FOREIGN KEY (`article_id`) REFERENCES `page` (`id`) ON DELETE CASCADE ON UPDATE NO ACTION
-) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=5 DEFAULT CHARSET=utf8;
 
 -- ----------------------------
 -- Records of page_trl
 -- ----------------------------
-INSERT INTO `page_trl` VALUES ('1', 'Article', 'keyword1, keyword2', 'Content', '1', '1');
-INSERT INTO `page_trl` VALUES ('2', 'Статья', 'слово1, слово2', 'Содержимое', '1', '2');
+INSERT INTO `page_trl` VALUES ('1', 'Article 1', 'keyword1, keyword2', 'Content 1', '1', '1');
+INSERT INTO `page_trl` VALUES ('2', 'Статья 1', 'слово1, слово2', 'Содержимое 1', '1', '2');
+INSERT INTO `page_trl` VALUES ('3', 'Article 2', 'keyword1, keyword2', 'Content 2', '2', '1');
+INSERT INTO `page_trl` VALUES ('4', 'Статья 2', 'keyword1, keyword2', 'Содержимое 2', '2', '2');
 
 -- ----------------------------
 -- Table structure for `product`
