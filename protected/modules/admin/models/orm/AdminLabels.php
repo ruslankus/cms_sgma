@@ -109,11 +109,7 @@ class AdminLabels extends CActiveRecord
             'connectionString' => 'sqlite:'.Yii::app()->getModule('admin')->getBasePath().'/data/translations.db',
         ));
 
-        self::$db=$con;
-        if(self::$db instanceof CDbConnection)
-            return self::$db;
-        else
-            throw new CDbException('Admin-translation connection is null or initialized with error');
+        return $con;
     }
 
 	/**

@@ -10,7 +10,7 @@ Target Server Type    : MYSQL
 Target Server Version : 50538
 File Encoding         : 65001
 
-Date: 2015-03-23 15:00:07
+Date: 2015-03-23 16:07:45
 */
 
 SET FOREIGN_KEY_CHECKS=0;
@@ -160,12 +160,13 @@ CREATE TABLE `menu` (
   `last_change_by` int(11) DEFAULT NULL,
   `template_name` varchar(512) DEFAULT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=utf8;
 
 -- ----------------------------
 -- Records of menu
 -- ----------------------------
 INSERT INTO `menu` VALUES ('1', 'Main menu', '1', '0', '0', '1', 'main_menu');
+INSERT INTO `menu` VALUES ('2', 'Additional Menu', '1', '0', '0', '1', 'additional_menu');
 
 -- ----------------------------
 -- Table structure for `menu_item`
@@ -187,13 +188,15 @@ CREATE TABLE `menu_item` (
   KEY `type_id` (`type_id`),
   CONSTRAINT `menu_item_ibfk_1` FOREIGN KEY (`type_id`) REFERENCES `menu_item_type` (`id`) ON DELETE NO ACTION ON UPDATE NO ACTION,
   CONSTRAINT `menu_item_ibfk_2` FOREIGN KEY (`menu_id`) REFERENCES `menu` (`id`) ON DELETE CASCADE ON UPDATE NO ACTION
-) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=5 DEFAULT CHARSET=utf8;
 
 -- ----------------------------
 -- Records of menu_item
 -- ----------------------------
 INSERT INTO `menu_item` VALUES ('1', '1', 'News', '0', '1', '1', '1', '0', '0', '1');
 INSERT INTO `menu_item` VALUES ('2', '1', 'Products', '0', '2', '2', '1', '0', '0', '1');
+INSERT INTO `menu_item` VALUES ('3', '2', 'Articles', '0', '1', '1', '1', '0', '0', '1');
+INSERT INTO `menu_item` VALUES ('4', '2', 'Goods', '0', '2', '2', '1', '0', '0', '1');
 
 -- ----------------------------
 -- Table structure for `menu_item_trl`
@@ -209,7 +212,7 @@ CREATE TABLE `menu_item_trl` (
   KEY `menu_item_trl_ibfk_2` (`lng_id`),
   CONSTRAINT `menu_item_trl_ibfk_1` FOREIGN KEY (`lng_id`) REFERENCES `languages` (`id`) ON DELETE CASCADE ON UPDATE NO ACTION,
   CONSTRAINT `menu_item_trl_ibfk_2` FOREIGN KEY (`menu_item_id`) REFERENCES `menu_item` (`id`) ON DELETE CASCADE ON UPDATE NO ACTION
-) ENGINE=InnoDB AUTO_INCREMENT=5 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=9 DEFAULT CHARSET=utf8;
 
 -- ----------------------------
 -- Records of menu_item_trl
@@ -217,7 +220,11 @@ CREATE TABLE `menu_item_trl` (
 INSERT INTO `menu_item_trl` VALUES ('1', 'News', '1', '1');
 INSERT INTO `menu_item_trl` VALUES ('2', 'Новости', '1', '2');
 INSERT INTO `menu_item_trl` VALUES ('3', 'Products', '2', '1');
-INSERT INTO `menu_item_trl` VALUES ('4', 'Продукты', '2', '1');
+INSERT INTO `menu_item_trl` VALUES ('4', 'Продукты', '2', '2');
+INSERT INTO `menu_item_trl` VALUES ('5', 'Articles', '3', '1');
+INSERT INTO `menu_item_trl` VALUES ('6', 'Статьи', '3', '2');
+INSERT INTO `menu_item_trl` VALUES ('7', 'Goods', '4', '1');
+INSERT INTO `menu_item_trl` VALUES ('8', 'Товары', '4', '2');
 
 -- ----------------------------
 -- Table structure for `menu_item_type`

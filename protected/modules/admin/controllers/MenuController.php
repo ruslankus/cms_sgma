@@ -7,6 +7,8 @@ class MenuController extends ControllerAdmin
      */
     public function actionIndex()
     {
-        $this->render('index');
+        /* @var $menus ExtMenu[] */
+        $menus = ExtMenu::model()->findAll();
+        $this->render('index',array('menus' => $menus));
     }
 }

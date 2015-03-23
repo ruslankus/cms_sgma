@@ -48,7 +48,7 @@ class AdminMessages extends CActiveRecord
 		// NOTE: you may need to adjust the relation name and the related
 		// class name for the relations automatically generated below.
 		return array(
-			'messagesTrls' => array(self::HAS_MANY, 'AdminMessagesTrl', 'translation_id'),
+			'messagesTrls' => array(static::HAS_MANY, 'AdminMessagesTrl', 'translation_id'),
 		);
 	}
 
@@ -109,11 +109,7 @@ class AdminMessages extends CActiveRecord
             'connectionString' => 'sqlite:'.Yii::app()->getModule('admin')->getBasePath().'/data/translations.db',
         ));
 
-        self::$db=$con;
-        if(self::$db instanceof CDbConnection)
-            return self::$db;
-        else
-            throw new CDbException('Admin-translation connection is null or initialized with error');
+        return $con;
     }
 
 	/**
