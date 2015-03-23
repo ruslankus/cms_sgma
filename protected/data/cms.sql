@@ -10,7 +10,7 @@ Target Server Type    : MYSQL
 Target Server Version : 50538
 File Encoding         : 65001
 
-Date: 2015-03-23 14:14:09
+Date: 2015-03-23 14:51:21
 */
 
 SET FOREIGN_KEY_CHECKS=0;
@@ -186,11 +186,12 @@ CREATE TABLE `menu_item` (
   KEY `type_id` (`type_id`),
   CONSTRAINT `menu_item_ibfk_1` FOREIGN KEY (`type_id`) REFERENCES `menu_item_type` (`id`) ON DELETE NO ACTION ON UPDATE NO ACTION,
   CONSTRAINT `menu_item_ibfk_2` FOREIGN KEY (`menu_id`) REFERENCES `menu` (`id`) ON DELETE CASCADE ON UPDATE NO ACTION
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8;
 
 -- ----------------------------
 -- Records of menu_item
 -- ----------------------------
+INSERT INTO `menu_item` VALUES ('1', '1', '0', '1', '1', '1', '0', '0', '1');
 
 -- ----------------------------
 -- Table structure for `menu_item_trl`
@@ -206,11 +207,13 @@ CREATE TABLE `menu_item_trl` (
   KEY `menu_item_trl_ibfk_2` (`lng_id`),
   CONSTRAINT `menu_item_trl_ibfk_1` FOREIGN KEY (`lng_id`) REFERENCES `languages` (`id`) ON DELETE CASCADE ON UPDATE NO ACTION,
   CONSTRAINT `menu_item_trl_ibfk_2` FOREIGN KEY (`menu_item_id`) REFERENCES `menu_item` (`id`) ON DELETE CASCADE ON UPDATE NO ACTION
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=utf8;
 
 -- ----------------------------
 -- Records of menu_item_trl
 -- ----------------------------
+INSERT INTO `menu_item_trl` VALUES ('1', 'News', '1', '1');
+INSERT INTO `menu_item_trl` VALUES ('2', 'Новости', '1', '2');
 
 -- ----------------------------
 -- Table structure for `menu_item_type`
@@ -225,6 +228,11 @@ CREATE TABLE `menu_item_type` (
 -- ----------------------------
 -- Records of menu_item_type
 -- ----------------------------
+INSERT INTO `menu_item_type` VALUES ('1', 'page');
+INSERT INTO `menu_item_type` VALUES ('2', 'news');
+INSERT INTO `menu_item_type` VALUES ('3', 'products');
+INSERT INTO `menu_item_type` VALUES ('4', 'contacts');
+INSERT INTO `menu_item_type` VALUES ('5', 'complex');
 
 -- ----------------------------
 -- Table structure for `messages`
