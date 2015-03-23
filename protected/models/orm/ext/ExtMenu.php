@@ -14,6 +14,10 @@ Class ExtMenu extends Menu
         return parent::model($className);
     }
 
+    /**
+     * Gets all items with translations (SQL)
+     * @return array|CDbDataReader
+     */
     public function getAllItemsSQL()
     {
         $sql = "SELECT t1.*, t2.`value` as trl FROM menu_item t1
@@ -28,6 +32,37 @@ Class ExtMenu extends Menu
         $data=$con->createCommand($sql)->queryAll(true,$params);
 
         return $data;
+    }
+
+    /**
+     * Build recursive array of menu items (ORM)
+     * @param int $parent_id
+     * @return array
+     */
+    public function getArrayRecursive($parent_id = 0)
+    {
+        /* @var $all ExtMenuItem[] */
+        /* @var $tmp ExtMenuItem[] */
+
+        $arr_result = array();
+        $all = ExtMenuItem::model()->findAllByAttributes(array('menu_id' => $this->id, 'parent_id' => $parent_id),array('order' => 'priority ASC'));
+
+        foreach($all as $item)
+        {
+            $arr_result[] = $item;
+
+            if($item->hasChildren())
+            {
+                $tmp = $this->getArrayRecursive($item->id);
+
+                foreach($tmp as $itemTmp)
+                {
+                    $arr_result[] = $itemTmp;
+                }
+            }
+        }
+
+        return $arr_result;
     }
 
     /**

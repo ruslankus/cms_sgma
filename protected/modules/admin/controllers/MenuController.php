@@ -31,7 +31,7 @@ class MenuController extends ControllerAdmin
         }
 
         //get all items
-        $items = $menu->getAllItemsSQL();
+        $items = $menu->getArrayRecursive();
 
         //pager stuff
         $perPage = 10;
