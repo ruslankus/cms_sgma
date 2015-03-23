@@ -15,11 +15,11 @@
  * @property integer $last_change_by
  *
  * The followings are the available model relations:
- * @property Article[] $articles
  * @property MenuItemType $type
  * @property Menu $menu
  * @property MenuItemTrl[] $menuItemTrls
  * @property NewsCategory[] $newsCategories
+ * @property Page[] $pages
  * @property ProductCategory[] $productCategories
  */
 class MenuItem extends CActiveRecord
@@ -55,11 +55,11 @@ class MenuItem extends CActiveRecord
 		// NOTE: you may need to adjust the relation name and the related
 		// class name for the relations automatically generated below.
 		return array(
-			'articles' => array(self::HAS_MANY, 'Article', 'menu_item_id'),
 			'type' => array(self::BELONGS_TO, 'MenuItemType', 'type_id'),
 			'menu' => array(self::BELONGS_TO, 'Menu', 'menu_id'),
 			'menuItemTrls' => array(self::HAS_MANY, 'MenuItemTrl', 'menu_item_id'),
 			'newsCategories' => array(self::HAS_MANY, 'NewsCategory', 'menu_item_id'),
+			'pages' => array(self::HAS_MANY, 'Page', 'menu_item_id'),
 			'productCategories' => array(self::HAS_MANY, 'ProductCategory', 'menu_item_id'),
 		);
 	}

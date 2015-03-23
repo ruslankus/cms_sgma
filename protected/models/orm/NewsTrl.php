@@ -5,9 +5,10 @@
  *
  * The followings are the available columns in table 'news_trl':
  * @property integer $id
- * @property string $name
- * @property string $description
- * @property string $text
+ * @property string $header
+ * @property string $meta_description
+ * @property string $content
+ * @property string $small_content
  * @property integer $news_id
  * @property integer $lng_id
  *
@@ -34,12 +35,12 @@ class NewsTrl extends CActiveRecord
 		// will receive user inputs.
 		return array(
 			array('news_id, lng_id', 'numerical', 'integerOnly'=>true),
-			array('name', 'length', 'max'=>256),
-			array('description', 'length', 'max'=>2048),
-			array('text', 'safe'),
+			array('header', 'length', 'max'=>512),
+			array('meta_description', 'length', 'max'=>256),
+			array('content, small_content', 'safe'),
 			// The following rule is used by search().
 			// @todo Please remove those attributes that should not be searched.
-			array('id, name, description, text, news_id, lng_id', 'safe', 'on'=>'search'),
+			array('id, header, meta_description, content, small_content, news_id, lng_id', 'safe', 'on'=>'search'),
 		);
 	}
 
@@ -63,9 +64,10 @@ class NewsTrl extends CActiveRecord
 	{
 		return array(
 			'id' => 'ID',
-			'name' => 'Name',
-			'description' => 'Description',
-			'text' => 'Text',
+			'header' => 'Header',
+			'meta_description' => 'Meta Description',
+			'content' => 'Content',
+			'small_content' => 'Small Content',
 			'news_id' => 'News',
 			'lng_id' => 'Lng',
 		);
@@ -90,9 +92,10 @@ class NewsTrl extends CActiveRecord
 		$criteria=new CDbCriteria;
 
 		$criteria->compare('id',$this->id);
-		$criteria->compare('name',$this->name,true);
-		$criteria->compare('description',$this->description,true);
-		$criteria->compare('text',$this->text,true);
+		$criteria->compare('header',$this->header,true);
+		$criteria->compare('meta_description',$this->meta_description,true);
+		$criteria->compare('content',$this->content,true);
+		$criteria->compare('small_content',$this->small_content,true);
 		$criteria->compare('news_id',$this->news_id);
 		$criteria->compare('lng_id',$this->lng_id);
 

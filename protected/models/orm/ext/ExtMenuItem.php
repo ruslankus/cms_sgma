@@ -1,14 +1,13 @@
 <?php
+
 /**
- * Class ExtSystemWidget
- * @property ExtWidRegistration[] $widRegistrations
+ * Class ExtMenuItem
+ * @property ExtMenu $menu
+ * @property NewsCategory[] $newsCategories
+ * @property ProductCategory[] $productCategories
  */
-Class ExtSystemWidget extends SystemWidget
+Class ExtMenuItem extends MenuItem
 {
-    /**
-     * @var SystemWidgetTrl
-     */
-    private $trl = null;
 
     /**
      * @param string $className
@@ -18,6 +17,7 @@ Class ExtSystemWidget extends SystemWidget
     {
         return parent::model($className);
     }
+
 
     /**
      * Override, relate with extended models

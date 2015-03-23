@@ -25,6 +25,6 @@ class SysMenu extends CWidget
 
     public function run()
     {
-        $this->render($this->menu->template_name,array('menu' => $this->menu));
+        $this->render($this->menu->template_name,array('label' => $this->menu->label));
     }
 }

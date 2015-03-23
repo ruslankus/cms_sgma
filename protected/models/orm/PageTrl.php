@@ -1,28 +1,28 @@
 <?php
 
 /**
- * This is the model class for table "menu_trl".
+ * This is the model class for table "page_trl".
  *
- * The followings are the available columns in table 'menu_trl':
+ * The followings are the available columns in table 'page_trl':
  * @property integer $id
- * @property string $name
- * @property string $description
- * @property string $text
- * @property integer $menu_id
+ * @property string $header
+ * @property string $meta_description
+ * @property string $content
+ * @property integer $article_id
  * @property integer $lng_id
  *
  * The followings are the available model relations:
  * @property Languages $lng
- * @property Menu $menu
+ * @property Page $article
  */
-class MenuTrl extends CActiveRecord
+class PageTrl extends CActiveRecord
 {
 	/**
 	 * @return string the associated database table name
 	 */
 	public function tableName()
 	{
-		return 'menu_trl';
+		return 'page_trl';
 	}
 
 	/**
@@ -33,13 +33,13 @@ class MenuTrl extends CActiveRecord
 		// NOTE: you should only define rules for those attributes that
 		// will receive user inputs.
 		return array(
-			array('menu_id, lng_id', 'numerical', 'integerOnly'=>true),
-			array('name', 'length', 'max'=>256),
-			array('description', 'length', 'max'=>2048),
-			array('text', 'safe'),
+			array('article_id, lng_id', 'numerical', 'integerOnly'=>true),
+			array('header', 'length', 'max'=>512),
+			array('meta_description', 'length', 'max'=>256),
+			array('content', 'safe'),
 			// The following rule is used by search().
 			// @todo Please remove those attributes that should not be searched.
-			array('id, name, description, text, menu_id, lng_id', 'safe', 'on'=>'search'),
+			array('id, header, meta_description, content, article_id, lng_id', 'safe', 'on'=>'search'),
 		);
 	}
 
@@ -52,7 +52,7 @@ class MenuTrl extends CActiveRecord
 		// class name for the relations automatically generated below.
 		return array(
 			'lng' => array(self::BELONGS_TO, 'Languages', 'lng_id'),
-			'menu' => array(self::BELONGS_TO, 'Menu', 'menu_id'),
+			'article' => array(self::BELONGS_TO, 'Page', 'article_id'),
 		);
 	}
 
@@ -63,10 +63,10 @@ class MenuTrl extends CActiveRecord
 	{
 		return array(
 			'id' => 'ID',
-			'name' => 'Name',
-			'description' => 'Description',
-			'text' => 'Text',
-			'menu_id' => 'Menu',
+			'header' => 'Header',
+			'meta_description' => 'Meta Description',
+			'content' => 'Content',
+			'article_id' => 'Article',
 			'lng_id' => 'Lng',
 		);
 	}
@@ -90,10 +90,10 @@ class MenuTrl extends CActiveRecord
 		$criteria=new CDbCriteria;
 
 		$criteria->compare('id',$this->id);
-		$criteria->compare('name',$this->name,true);
-		$criteria->compare('description',$this->description,true);
-		$criteria->compare('text',$this->text,true);
-		$criteria->compare('menu_id',$this->menu_id);
+		$criteria->compare('header',$this->header,true);
+		$criteria->compare('meta_description',$this->meta_description,true);
+		$criteria->compare('content',$this->content,true);
+		$criteria->compare('article_id',$this->article_id);
 		$criteria->compare('lng_id',$this->lng_id);
 
 		return new CActiveDataProvider($this, array(
@@ -105,7 +105,7 @@ class MenuTrl extends CActiveRecord
 	 * Returns the static model of the specified AR class.
 	 * Please note that you should have this exact method in all your CActiveRecord descendants!
 	 * @param string $className active record class name.
-	 * @return MenuTrl the static model class
+	 * @return PageTrl the static model class
 	 */
 	public static function model($className=__CLASS__)
 	{

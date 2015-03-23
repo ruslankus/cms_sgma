@@ -1,9 +1,9 @@
 <?php
 
 /**
- * This is the model class for table "article".
+ * This is the model class for table "page".
  *
- * The followings are the available columns in table 'article':
+ * The followings are the available columns in table 'page':
  * @property integer $id
  * @property string $label
  * @property integer $menu_item_id
@@ -15,16 +15,16 @@
  *
  * The followings are the available model relations:
  * @property MenuItem $menuItem
- * @property ArticleTrl[] $articleTrls
+ * @property PageTrl[] $pageTrls
  */
-class Article extends CActiveRecord
+class Page extends CActiveRecord
 {
 	/**
 	 * @return string the associated database table name
 	 */
 	public function tableName()
 	{
-		return 'article';
+		return 'page';
 	}
 
 	/**
@@ -52,7 +52,7 @@ class Article extends CActiveRecord
 		// class name for the relations automatically generated below.
 		return array(
 			'menuItem' => array(self::BELONGS_TO, 'MenuItem', 'menu_item_id'),
-			'articleTrls' => array(self::HAS_MANY, 'ArticleTrl', 'article_id'),
+			'pageTrls' => array(self::HAS_MANY, 'PageTrl', 'article_id'),
 		);
 	}
 
@@ -109,7 +109,7 @@ class Article extends CActiveRecord
 	 * Returns the static model of the specified AR class.
 	 * Please note that you should have this exact method in all your CActiveRecord descendants!
 	 * @param string $className active record class name.
-	 * @return Article the static model class
+	 * @return Page the static model class
 	 */
 	public static function model($className=__CLASS__)
 	{
