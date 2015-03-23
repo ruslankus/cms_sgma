@@ -4,8 +4,9 @@
  * This is the model class for table "menu_item".
  *
  * The followings are the available columns in table 'menu_item':
- * @property integer $menu_id
  * @property integer $id
+ * @property integer $menu_id
+ * @property string $label
  * @property integer $parent_id
  * @property integer $priority
  * @property integer $type_id
@@ -41,9 +42,10 @@ class MenuItem extends CActiveRecord
 		// will receive user inputs.
 		return array(
 			array('menu_id, parent_id, priority, type_id, status_id, time_created, time_updated, last_change_by', 'numerical', 'integerOnly'=>true),
+			array('label', 'length', 'max'=>128),
 			// The following rule is used by search().
 			// @todo Please remove those attributes that should not be searched.
-			array('menu_id, id, parent_id, priority, type_id, status_id, time_created, time_updated, last_change_by', 'safe', 'on'=>'search'),
+			array('id, menu_id, label, parent_id, priority, type_id, status_id, time_created, time_updated, last_change_by', 'safe', 'on'=>'search'),
 		);
 	}
 
@@ -70,8 +72,9 @@ class MenuItem extends CActiveRecord
 	public function attributeLabels()
 	{
 		return array(
-			'menu_id' => 'Menu',
 			'id' => 'ID',
+			'menu_id' => 'Menu',
+			'label' => 'Label',
 			'parent_id' => 'Parent',
 			'priority' => 'Priority',
 			'type_id' => 'Type',
@@ -100,8 +103,9 @@ class MenuItem extends CActiveRecord
 
 		$criteria=new CDbCriteria;
 
-		$criteria->compare('menu_id',$this->menu_id);
 		$criteria->compare('id',$this->id);
+		$criteria->compare('menu_id',$this->menu_id);
+		$criteria->compare('label',$this->label,true);
 		$criteria->compare('parent_id',$this->parent_id);
 		$criteria->compare('priority',$this->priority);
 		$criteria->compare('type_id',$this->type_id);

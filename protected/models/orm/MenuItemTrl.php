@@ -5,9 +5,7 @@
  *
  * The followings are the available columns in table 'menu_item_trl':
  * @property integer $id
- * @property string $name
- * @property string $description
- * @property string $text
+ * @property string $value
  * @property integer $menu_item_id
  * @property integer $lng_id
  *
@@ -34,12 +32,10 @@ class MenuItemTrl extends CActiveRecord
 		// will receive user inputs.
 		return array(
 			array('menu_item_id, lng_id', 'numerical', 'integerOnly'=>true),
-			array('name', 'length', 'max'=>256),
-			array('description', 'length', 'max'=>2048),
-			array('text', 'safe'),
+			array('value', 'length', 'max'=>256),
 			// The following rule is used by search().
 			// @todo Please remove those attributes that should not be searched.
-			array('id, name, description, text, menu_item_id, lng_id', 'safe', 'on'=>'search'),
+			array('id, value, menu_item_id, lng_id', 'safe', 'on'=>'search'),
 		);
 	}
 
@@ -63,9 +59,7 @@ class MenuItemTrl extends CActiveRecord
 	{
 		return array(
 			'id' => 'ID',
-			'name' => 'Name',
-			'description' => 'Description',
-			'text' => 'Text',
+			'value' => 'Value',
 			'menu_item_id' => 'Menu Item',
 			'lng_id' => 'Lng',
 		);
@@ -90,9 +84,7 @@ class MenuItemTrl extends CActiveRecord
 		$criteria=new CDbCriteria;
 
 		$criteria->compare('id',$this->id);
-		$criteria->compare('name',$this->name,true);
-		$criteria->compare('description',$this->description,true);
-		$criteria->compare('text',$this->text,true);
+		$criteria->compare('value',$this->value,true);
 		$criteria->compare('menu_item_id',$this->menu_item_id);
 		$criteria->compare('lng_id',$this->lng_id);
 
