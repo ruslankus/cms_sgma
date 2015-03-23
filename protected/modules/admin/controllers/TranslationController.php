@@ -12,14 +12,14 @@ class TranslationController extends ControllerAdmin
      * Admin panel translation
      */
     public function actionAdmin(){
-        $this->render('admin');
+        $this->render('admin_labels');
     }
     
     /**
      * Site core label translation
      */
     public function actionSite(){
-        $this->render('site');
+        $this->render('site_labels');
     }
     
 }// class Translation    

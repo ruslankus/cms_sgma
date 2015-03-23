@@ -8,7 +8,7 @@
 	
 	<div class="content translation">
 		<div class="header">
-			<span>Label translation</span>
+			<span>Site Label translation</span>
 			<a href="languages.html" class="languages">Languages</a>
 			<a href="messages.html" class="messages">Messages</a>
 			<a href="labels.html" class="labels active">Labels</a>
