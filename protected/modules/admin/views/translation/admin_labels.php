@@ -1,3 +1,6 @@
+<?php
+Yii::app()->clientScript->registerScriptFile($this->assetsPath.'/js/trl.js',CClientScript::POS_END);
+?>
 <main>
 	<div class="title-bar world">
 		<h1>Settings</h1>
@@ -9,20 +12,22 @@
 	<div class="content translation">
 		<div class="header">
 			<span>Panel Label translation</span>
-			<a href="languages.html" class="languages">Languages</a>
-			<a href="messages.html" class="messages">Messages</a>
-			<a href="labels.html" class="labels active">Labels</a>
+			<a href="#" class="languages">Languages</a>
+			<a href="/admin/Translation/AdminMessages" class="messages">Messages</a>
+			<a href="#" class="labels active">Labels</a>
 		</div><!--/header-->
 		<div class="translate-actions">
 			<form>
 				<div class="wrap-language">
-					<ul class="editor-language">
-						<li data-language="en"><img src="images/flag-uk.png" alt="" /><a href="#">English</a></li>
-						<li data-language="ru" class="active"><img src="images/flag-uk.png" alt="" /><a href="#">Russian</a></li>
-						<li data-language="lt"><img src="images/flag-uk.png" alt="" /><a href="#">Lithuanian</a></li>
-						<li data-language="en"><img src="images/flag-uk.png" alt="" /><a href="#">English</a></li>
-						<li data-language="en"><img src="images/flag-uk.png" alt="" /><a href="#">English</a></li>
-					</ul>
+					<select class="editor-language">
+					<?php
+						foreach($langs as $lang):
+					?>
+						<option value="lang-id"><?php echo $lang->name;?></option>
+					<?php
+						endforeach;
+					?>
+					</select>
 				</div>
 				<input name="language_id" type="hidden" value="" id="editor_language_input" />
 				<input type="submit" class="add-label" value="Add Label" />
@@ -95,5 +100,16 @@
 		<a href="pages.html">4</a>
 	</div><!--/pagination-->
 	</div><!--/content translate-->
-	
+	<div class="popup-box">
+		<div class="popup">
+			<form>
+				<input name="label_name" type="text" placeholder="Label name" />
+				<div class="errorMessage">Something went wrong.</div>
+				<input type="submit" value="Create" />
+				
+				<input class="popup-cancel" type="button" value="Cancel" />
+			</form>
+			<div class="clearfix"></div>
+		</div>
+	</div><!--/-->
 </main>

@@ -9,19 +9,19 @@
 	<div class="content translation">
 		<div class="header">
 			<span>Message translation</span>
-			<a href="languages.html" class="languages">Languages</a>
-			<a href="messages.html" class="messages active">Messages</a>
-			<a href="labels.html" class="labels">Labels</a>
+			<a href="#" class="languages">Languages</a>
+			<a href="#" class="messages active">Messages</a>
+			<a href="/admin/Translation/Admin" class="labels">Labels</a>
 		</div><!--/header-->
 		<div class="translate-actions">
 			<form>
 				<div class="wrap-language">
 					<ul class="editor-language">
-						<li data-language="en"><img src="images/flag-uk.png" alt="" /><a href="#">English</a></li>
+						<li data-language="en"><img src="/images/flag-uk.png" alt="" /><a href="#">English</a></li>
 						<li data-language="ru" class="active"><img src="images/flag-uk.png" alt="" /><a href="#">Russian</a></li>
-						<li data-language="lt"><img src="images/flag-uk.png" alt="" /><a href="#">Lithuanian</a></li>
-						<li data-language="en"><img src="images/flag-uk.png" alt="" /><a href="#">English</a></li>
-						<li data-language="en"><img src="images/flag-uk.png" alt="" /><a href="#">English</a></li>
+						<li data-language="lt"><img src="/images/flag-uk.png" alt="" /><a href="#">Lithuanian</a></li>
+						<li data-language="en"><img src="/images/flag-uk.png" alt="" /><a href="#">English</a></li>
+						<li data-language="en"><img src="/images/flag-uk.png" alt="" /><a href="#">English</a></li>
 					</ul>
 				</div>
 				<input name="language_id" type="hidden" value="" id="editor_language_input" />

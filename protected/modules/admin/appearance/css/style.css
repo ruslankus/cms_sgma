@@ -9,7 +9,7 @@
     font-style: normal;
 }
 *,
-html, 
+html,
 body {
 	margin: 0;
 	padding: 0;
@@ -1125,3 +1125,85 @@ span.superscript:after
 	}
 .content.translation > .translate-content > .translate-row > .translate-cell.actions > .action.save{ background: #149fe4 url(../images/icon-save-white.png) center center no-repeat; }
 .content.translation > .translate-content > .translate-row > .translate-cell.actions > .action.delete{ background: #149fe4 url(../images/icon-delete.png) center center no-repeat; }
+
+/*--- popup box ---*/
+.popup-box
+	{
+		width: 100%;
+		height: 100%;
+		position: fixed;
+		top: 0;
+		left: 0;
+		right: 0;
+		bottom: 0;
+		z-index: 100;
+		background-color: rgba(0,0,0,0.6);
+		display: none;
+		text-align: center;
+	}
+.popup-box > .popup
+	{
+		width: 450px;
+		height: auto;
+		background-color: #fff;
+		z-index: 101;
+		margin: 65px 0 0 380px;
+		position: relative;
+		border: 1px solid #ddd;
+		border-radius: 3px;
+		padding: 25px;
+	}
+.popup-box > .popup input[type=text]
+	{
+		width: 100%;
+		height: 40px;
+		border: 1px solid #ddd;
+		color: #b3b3b3;
+		font-family: "Open_sans";	
+		font-size: 17px;
+		padding-left: 5px;
+		padding-right: 5px;
+		margin-bottom: 10px;
+	}
+.popup-box > .popup input[type=submit]
+	{
+		width: 110px;
+		height: 40px;
+		border: 1px solid #0084c6;
+		background-color: #149fe4;
+		border-radius: 3px;
+		color: #fff;
+		font-family: "Open_sans";	
+		font-size: 15px;
+		font-weight: bold;
+		padding-left: 7px;
+		padding-right:7px;
+		display: block;
+		float: right;
+	}
+.popup-box > .popup  input[type=button]
+	{
+		width: 110px;
+		height: 40px;
+		border: 1px solid #ddd;
+		background-color: #f6f6f6;
+		border-radius: 3px;
+		color: #868686;
+		font-family: "Open_sans";	
+		font-size: 15px;
+		padding-left: 7px;
+		padding-right:7px;
+		display: block;
+		float: right;
+		margin-right: 25px;
+	}
+.popup-box > .popup .errorMessage
+	{
+		color: #fb8f73;
+		font-family: "Open_sans";	
+		font-size: 13px;
+		width: 100%;
+		text-align: right;
+		display: block;
+		margin-bottom: 10px;
+	}

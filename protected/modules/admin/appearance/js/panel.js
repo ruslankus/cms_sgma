@@ -1,4 +1,19 @@
 (function( $ ){
+/* Popup */
+$(".add-label").click(function(e){
+	e.preventDefault();
+	console.log('made click');
+	$("body").css({"overflow":"hidden"});
+	$(".popup-box").fadeIn(300);
+	$(".popup-box > .popup").animate({"margin-top":"80px"},300);
+});
+$(".popup-cancel").click(function(e){
+	e.preventDefault();
+	console.log('made click');
+	$("body").css({"overflow":"auto"});
+	$(".popup-box").fadeOut(300);
+	$(".popup-box > .popup").animate({"margin-top":"65px"},300);
+});
 /* User options */
 $(".wrapper > a.user").click(function(e){
 	e.preventDefault();

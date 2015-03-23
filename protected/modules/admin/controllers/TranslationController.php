@@ -9,12 +9,22 @@ class TranslationController extends ControllerAdmin
     
     
     /**
-     * Admin panel translation
+     * Admin panel labels translation
      */
     public function actionAdmin(){
-        $this->render('admin_labels');
+        $langs = AdminLanguages::model()->findAll();
+        $currLang = Yii::app()->language;
+        $this->render('admin_labels', array('langs'=>$langs, 'currLang' => $currLang));
     }
-    
+
+    /**
+     * Admin panel messages translation
+     */
+    public function actionAdminMessages(){
+        $this->render('admin_messages');
+    }    
+
+
     /**
      * Site core label translation
      */
