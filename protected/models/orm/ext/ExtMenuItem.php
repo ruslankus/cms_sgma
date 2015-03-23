@@ -31,10 +31,9 @@ Class ExtMenuItem extends MenuItem
         //pass through all
         foreach($relations as $name => $relation)
         {
-            //if extended class exist for this related class
-            if(class_exists('Ext'.$relation[1]))
+            //if found extended file for this related class
+            if(file_exists(dirname(__FILE__).DS.'Ext'.$relation[1].'.php'))
             {
-                //relate with extended class
                 $relations[$name][1] = 'Ext'.$relation[1];
             }
         }
