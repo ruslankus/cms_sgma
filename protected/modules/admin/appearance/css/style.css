@@ -1102,20 +1102,26 @@ span.superscript:after
 		display: none;
 		text-align: center;
 	}
-.popup-box > .popup-input
+.popup-box > .popup-content
 	{
 		width: 450px;
 		height: auto;
 		background-color: #fff;
 		z-index: 101;
-		margin: 65px 0 0 380px;
+		margin: 65px auto;
 		position: relative;
 		border: 1px solid #ddd;
 		border-radius: 3px;
 		padding: 25px;
-		display:none;
 	}
-.popup-box > .popup-input input[type=text]
+.popup-box > .popup-content:before,
+.popup-box > .popup-content:after
+	{
+		display: table;
+		clear: both;
+		content: ' ';
+	}
+.popup-box > .popup-content input[type=text]
 	{
 		width: 100%;
 		height: 40px;
@@ -1127,39 +1133,7 @@ span.superscript:after
 		padding-right: 5px;
 		margin-bottom: 10px;
 	}
-.popup-box > .popup-input input[type=submit]
-	{
-		width: 110px;
-		height: 40px;
-		border: 1px solid #0084c6;
-		background-color: #149fe4;
-		border-radius: 3px;
-		color: #fff;
-		font-family: "Open_sans";	
-		font-size: 15px;
-		font-weight: bold;
-		padding-left: 7px;
-		padding-right:7px;
-		display: block;
-		float: right;
-	}
-.popup-box > .popup-input  input[type=button]
-	{
-		width: 110px;
-		height: 40px;
-		border: 1px solid #ddd;
-		background-color: #f6f6f6;
-		border-radius: 3px;
-		color: #868686;
-		font-family: "Open_sans";	
-		font-size: 15px;
-		padding-left: 7px;
-		padding-right:7px;
-		display: block;
-		float: right;
-		margin-right: 25px;
-	}
-.popup-box > .popup-input .errorMessage
+.popup-box > .popup-content .errorMessage
 	{
 		color: #fb8f73;
 		font-family: "Open_sans";	
@@ -1169,20 +1143,7 @@ span.superscript:after
 		display: block;
 		margin-bottom: 10px;
 	}
-.popup-box > .popup-confirm
-	{
-		width: 450px;
-		height: auto;
-		background-color: #fff;
-		z-index: 101;
-		margin: 65px 0 0 380px;
-		position: relative;
-		border: 1px solid #ddd;
-		border-radius: 3px;
-		padding: 25px;
-		display:none;
-	}
-.popup-box > .popup-confirm .message
+.popup-box > .popup-content .message
 	{
 		width: 100%;
 		text-align: left;
@@ -1190,39 +1151,48 @@ span.superscript:after
 		font-family: "Open_sans";	
 		font-size: 17px;
 		display:block;
+		height: auto;
 		margin-bottom: 15px;
 	}
-.popup-box > .popup-confirm input[type=submit]
+.popup-box > .popup-content .button
 	{
 		width: 110px;
 		height: 40px;
+		font-family: "Open_sans";	
+		padding-left: 7px;
+		padding-right:7px;
+		display: inline-block;
+		font-size: 15px;
+		text-decoration: none;
+		padding-top: 7px;
+	}
+.popup-box > .popup-content .button.confirm
+	{
 		border: 1px solid #0084c6;
 		background-color: #149fe4;
 		border-radius: 3px;
 		color: #fff;
-		font-family: "Open_sans";	
-		font-size: 15px;
 		font-weight: bold;
-		padding-left: 7px;
-		padding-right:7px;
-		display: block;
 		float: right;
 	}
-.popup-box > .popup-confirm input[type=button]
+.popup-box > .popup-content button.button.confirm
 	{
-		width: 110px;
-		height: 40px;
+		border: 1px solid #0084c6;
+		background-color: #149fe4;
+		border-radius: 3px;
+		color: #fff;
+		font-weight: bold;
+		float: right;
+		padding: 0;
+		text-align: center;
+	}
+.popup-box > .popup-content .button.cancel
+	{
 		border: 1px solid #ddd;
 		background-color: #f6f6f6;
 		border-radius: 3px;
 		color: #868686;
-		font-family: "Open_sans";	
-		font-size: 15px;
-		padding-left: 7px;
-		padding-right:7px;
-		display: block;
-		float: right;
-		margin-right: 25px;
+		float: left;		
 	}
 .wrap-select
 	{

@@ -107,7 +107,7 @@ class ControllerAdmin extends CController
         //register scripts
         Yii::app()->clientScript->registerScriptFile($this->assetsPath.'/js/jquery-1.11.2.min.js',CClientScript::POS_END);
         Yii::app()->clientScript->registerScriptFile($this->assetsPath.'/js/jquery-ui.min.js',CClientScript::POS_END);
-        Yii::app()->clientScript->registerScriptFile($this->assetsPath.'/js/vendor.js',CClientScript::POS_END);
+        Yii::app()->clientScript->registerScriptFile($this->assetsPath.'/js/panel.js',CClientScript::POS_END);
 
         //if current action - not login
         if($action->id != 'login')
