@@ -23,6 +23,10 @@
 </select>
 <br><br>
 
+<div class="loadable-by-type">
+
+</div>
+
 <?php foreach($languages as $language): ?>
     <?php $lngId = $language->id; ?>
     <label>Name [<?php echo $language->prefix; ?>]</label>

@@ -59,6 +59,43 @@ class MenuController extends ControllerAdmin
         $this->render('edit_menu',array('items' => $itemsOfPage, 'pages' => $total_pages, 'templates' => $templates, 'menu' => $menu));
     }
 
+    /**
+     * Loads list of available content items by type
+     * @param int $type_id
+     */
+    public function actionAjaxContentItemsByTypes($type_id = ExtMenuItemType::TYPE_SINGLE_PAGE)
+    {
+        $objItems = array();
+
+        switch($type_id)
+        {
+            case ExtMenuItemType::TYPE_SINGLE_PAGE:
+                $objItems = ExtPage::model()->findAll(array('order' => 'priority DESC'));
+                break;
+
+            case ExtMenuItemType::TYPE_NEWS_CATALOG:
+                $objItems = ExtNewsCategory::model()->findAll(array('order' => 'priority DESC'));
+                break;
+
+            case ExtMenuItemType::TYPE_PRODUCTS_CATALOG:
+                $objItems = ExtProductCategory::model()->findAll(array('order' => 'priority DESC'));
+                break;
+
+            case ExtMenuItemType::TYPE_CONTACT_FORM:
+                break;
+
+            case ExtMenuItemType::TYPE_COMPLEX_PAGE:
+                break;
+        }
+
+        $this->renderPartial('_ajax_content_items',array('objContentItems' => $objItems));
+    }
+
+    /**
+     * Edit menu item
+     * @param $id
+     * @throws CHttpException
+     */
     public function actionEditItem($id)
     {
         //find item of menu

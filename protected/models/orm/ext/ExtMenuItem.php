@@ -3,10 +3,11 @@
 /**
  * Class ExtMenuItem
  * @property ExtMenu $menu
+ * @property MenuItemTrl $trl
  * @property NewsCategory[] $newsCategories
  * @property ProductCategory[] $productCategories
  */
-Class ExtMenuItem extends MenuItem
+class ExtMenuItem extends MenuItem
 {
 
     /**
@@ -103,6 +104,10 @@ Class ExtMenuItem extends MenuItem
                 $relations[$name][1] = 'Ext'.$relation[1];
             }
         }
+
+        //relate with translation
+        $lng = Yii::app()->language;
+        $relations['trl'] = array(self::HAS_ONE, 'MenuItemTrl', 'menu_item_id', 'with' => array('lng' => array('condition' => "lng.prefix='{$lng}'")));
 
         //return modified relations
         return $relations;
