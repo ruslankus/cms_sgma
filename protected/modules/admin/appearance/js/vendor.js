@@ -1,18 +1,24 @@
-(function( $ ){
-/* User options */
+(function($){
+/*
+ * User opened
+*/
 $(".wrapper > a.user").click(function(e){
 	e.preventDefault();
 	$(this).toggleClass("active");
 	$(".wrapper > .user-open").toggle("blind",300);
 		
 });
-/* Language selection */
+/*
+ * Main language list open
+*/
 $(".wrapper > .langlist > a").click(function(e){
 	e.preventDefault();
 	$(this).toggleClass("active");
 	$(".wrapper > .langlist > ul").toggle("blind",300);
 });
-/* Checkbox */
+/*
+ * Toggle all checkboxes
+*/
 $.fn.toggleAll = function() {
 	var checkbox = this;
 	this.change(function() {
@@ -23,12 +29,8 @@ $.fn.toggleAll = function() {
 	});
 	//this.prop('checked', true);
 }
-
-$('[id^="checkall_"]').each(function(){
-	$(this).toggleAll();
-	});
 /*
- * @param name - string
+ * Sidebar
 */
 function getCookie(name) {
     var nameEQ = name + "=";
@@ -40,7 +42,6 @@ function getCookie(name) {
     }
     return null;
 }
-/* Sidebar */
 if (getCookie("inluMenu") == "minimazed")
 	{
 		$(".wrapper > .menu").addClass("minimized");
@@ -76,25 +77,18 @@ $(".wrapper > .menu").click(function(e){
 			document.cookie="inluMenu=minimazed; path=/"; // Write menu status to cookie.
 		}	
 });
-/* Sidebar tree */
-	$( '.root li' ).each( function() {
+/*
+ * Sidebar tree
+*/
+$( '.root li' ).each( function() {
         if( $( this ).children( 'ul' ).length > 0 )
             $( this ).addClass( 'hasChild hasChildIndicator' );     
     });
 	$( '.root li.hasChild' ).hover( function( ) { $( this ).addClass("jactive"); $( this ).children( 'ul' ).show( 'slide', 300 ); }, function( ) { $( this ).removeClass("jactive"); $( this ).find( 'ul' ).hide( 'slide', 300 ); });
-/* */
-/* Editor */
-$(".editor > .tab-line > span").bind("click", function(e){
-	$(this).addClass("active");
-	$(this).siblings().removeClass("active");
-	var tab_id = $(this).attr("data-for");
-	var cont = $(".editor > .editor-content > div[data-content="+tab_id+"]");
-	if(!cont.is(":visible"))
-		cont.fadeIn(300);
-	cont.siblings().hide();
-});
 
-/* custom select */
+/*
+ * Custom select box
+*/
 $.fn.select = function()
 	{
 		var $this = this;
@@ -132,10 +126,91 @@ $.fn.select = function()
 			}
 		});
 	}
-/* Language */
-$("#styled-language-editor").select();
+/*
+ * Custom confirm box
+*/
+$.confirm = function(params){
 
-$("#styled-language-editor").on("change", function(){
-	console.log(this.value);
+        if($('.popup-box').length){
+            return false;
+        }
+		
+        var markup = [
+            '<div class="popup-box">',
+            '<div class="popup-confirm">',
+            '<span class="message">',params.message,'</span>',
+			'<a href="#" class="button cancel">Cancel</a>',
+			'<a href="#" class="button confirm">Confirm</a>',
+			'<div class="clearfix"></div>',
+            '</div></div></div>'
+        ].join('');
+
+        $(markup).hide().appendTo('body').fadeIn();
+		$("body").css({"overflow":"hidden"});
+		$(".popup-box > .popup-confirm").animate({"margin-top":"80px"},300);
+		
+		$(".popup-box > .popup-confirm > .confirm").click(function(e){
+			e.preventDefault();
+			params.confirm();
+            $.confirm.hide();
+            return false;
+		});
+		$(".popup-box > .popup-confirm > .cancel").click(function(e){
+			e.preventDefault();
+            $.confirm.hide();
+            return false;
+		});
+		
+    }
+/*
+ * Custom confirm box
+*/
+$.input = function(params){
+
+        if($('.popup-box').length){
+            return false;
+        }
+		var $this = this;
+        var markup = [
+            '<div class="popup-box">',
+            '<div class="popup-input">',
+            '<input type="text" value="" id="popup-input-value" placeholder="',params.placeholder,'"/>',
+            '<span class="errorMessage"></span>',
+			'<a href="#" class="button cancel">Cancel</a>',
+			'<a href="#" class="button confirm">Confirm</a>',
+			'<div class="clearfix"></div>',
+            '</div></div></div>'
+        ].join('');
+
+        $(markup).hide().appendTo('body').fadeIn();
+		$("body").css({"overflow":"hidden"});
+		$(".popup-box > .popup-input").animate({"margin-top":"80px"},300);
+		
+		$(".popup-box > .popup-input > .confirm").click(function(e){
+			params.value = $(".popup-box > .popup-input > #popup-input-value").val();
+			e.preventDefault();
+			var validates = params.validate();
+			if ( validates !== true) { $(".popup-box > .popup-input > .errorMessage").html(validates); }
+			else { params.confirmed();  $.confirm.hide(); }
+            return false;
+		});
+		$(".popup-box > .popup-input > .cancel").click(function(e){
+			e.preventDefault();
+            $.confirm.hide();
+            return false;
+		});
+		
+    }
+    $.confirm.hide = function(){
+        $('.popup-box').fadeOut(function(){
+            $(this).remove();
+			$("body").css({"overflow":"auto"});
+        });
+    }
+$(document).keyup(function(e) {
+  if (e.keyCode == 27)
+	  {
+		$.confirm.hide();
+	  }
 });
-})( jQuery );
+})(jQuery);
