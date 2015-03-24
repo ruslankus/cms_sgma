@@ -9,7 +9,7 @@ class MenuController extends ControllerAdmin
     {
         /* @var $menus ExtMenu[] */
         $menus = ExtMenu::model()->findAll();
-        $this->render('index',array('menus' => $menus));
+        $this->render('list_menu',array('menus' => $menus));
     }
 
 
