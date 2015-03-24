@@ -1,4 +1,4 @@
-$.fn.textarea = function(options){
+$.fn.inluRichtext = function(options){
         var settings = $.extend({
             width : "950px",
             height : "300px",
