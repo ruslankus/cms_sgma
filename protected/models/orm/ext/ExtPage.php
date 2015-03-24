@@ -36,7 +36,8 @@ class ExtPage extends Page
 
         //relate with translation
        $lng = Yii::app()->language;
-       $relations['trl'] = array(self::HAS_ONE, 'PageTrl', 'article_id', 'with' => array('lng' => array('condition' => "lng.prefix='{$lng}'")));
+       //$relations['trl'] = array(self::HAS_ONE, 'PageTrl', 'article_id', 'with' => array('lng' => array('condition' => "lng.prefix='{$lng}'")));
+        $relations['trl'] = array(self::HAS_ONE, 'PageTrl', 'article_id', 'with' => array('lng' => array('condition' => "lng.prefix= :lng")));
        
 
         //return modified relations

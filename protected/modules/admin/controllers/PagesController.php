@@ -26,18 +26,18 @@ class PagesController extends ControllerAdmin
     }//create
     
     
-    public function actionEdit($id){
+    public function actionEdit($id = null){
         
          if(empty($siteLng)){
             $siteLng = Yii::app()->language; 
         }
         
        
-        $objPage = ExtPage::model()->findByPk($id,array(),array(':lng' => 'ru'));
+        $objPage = ExtPage::model()->findByPk($id,"",array(array(':lng' => 'ru')));
         
-         Debug::d($objPage->trl);
+         //Debug::d($objPage->trl);
         
-        $this->renderText('edit');
+        $this->render('edit', array('objPage' => $objPage));
     }//edit
     
     public function actionDelete(){
