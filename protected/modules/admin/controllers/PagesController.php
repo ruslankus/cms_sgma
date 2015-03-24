@@ -30,9 +30,10 @@ class PagesController extends ControllerAdmin
             $siteLng = Yii::app()->language; 
         }
         
-        //$objPage = Page::model()->with(array('pageTrls.lng' => array('condition' => "lng.prefix='{$siteLng}'")))->find(array(':id'=>array(':id' => $id)));
-        $objPage = Page::model()->with('pageTrls.lng')->findByPk($id);
-         Debug::d($objPage->pageTrls(array('condition' => "lng.prefix='{$siteLng}'")));
+       
+        $objPage = Page::model()->with(array('pageTrls.lng' => array('condition' => "lng.prefix='{$siteLng}'")))->findByPk($id);
+        
+         Debug::d($objPage->pageTrls);
         
         $this->renderText('edit');
     }//edit
