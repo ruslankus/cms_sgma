@@ -31,7 +31,7 @@ class MenuController extends ControllerAdmin
         }
 
         //get all items
-        $items = $menu->getArrayRecursive();
+        $items = $menu->buildObjArrRecursive();
 
         //pager stuff
         $perPage = 10;
@@ -56,6 +56,6 @@ class MenuController extends ControllerAdmin
             }
         }
 
-        $this->render('edit_menu',array('items' => $itemsOfPage, 'pages' => $total_pages, 'templates' => $templates));
+        $this->render('edit_menu',array('items' => $itemsOfPage, 'pages' => $total_pages, 'templates' => $templates, 'menu' => $menu));
     }
 }

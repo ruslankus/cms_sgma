@@ -30,6 +30,25 @@ Class ExtMenuItem extends MenuItem
     }
 
     /**
+     * Has parent or not
+     * @return bool
+     */
+    public function hasParent()
+    {
+        $count = ExtMenuItem::model()->countByAttributes(array('id' => $this->parent_id, 'menu_id' => $this->menu_id));
+        return $count > 0;
+    }
+
+    /**
+     * Quantity of children
+     */
+    public function countOfChildren()
+    {
+        $count = ExtMenuItem::model()->countByAttributes(array('menu_id' => $this->menu_id, 'parent_id' => $this->id));
+        return $count;
+    }
+
+    /**
      * Returns nesting level
      * @return int
      */
