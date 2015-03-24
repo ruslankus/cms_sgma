@@ -18,7 +18,7 @@ Class ExtMenu extends Menu
      * Gets all items with translations (SQL)
      * @return array|CDbDataReader
      */
-    public function getAllItemsSQL()
+    public function getAllItemsWithTrlSQL()
     {
         $sql = "SELECT t1.*, t2.`value` as trl FROM menu_item t1
                 JOIN menu_item_trl t2 ON t2.menu_item_id = t1.id
@@ -35,11 +35,11 @@ Class ExtMenu extends Menu
     }
 
     /**
-     * Build recursive array of menu items (ORM)
+     * Build recursive array of menu items (ORM) - use it for admin templates
      * @param int $parent_id
      * @return array
      */
-    public function getArrayRecursive($parent_id = 0)
+    public function buildObjArrRecursive($parent_id = 0)
     {
         /* @var $all ExtMenuItem[] */
         /* @var $tmp ExtMenuItem[] */
@@ -53,7 +53,7 @@ Class ExtMenu extends Menu
 
             if($item->hasChildren())
             {
-                $tmp = $this->getArrayRecursive($item->id);
+                $tmp = $this->buildObjArrRecursive($item->id);
 
                 foreach($tmp as $itemTmp)
                 {
@@ -63,6 +63,44 @@ Class ExtMenu extends Menu
         }
 
         return $arr_result;
+    }
+
+
+    /**
+     * Returns all items of menu as array (with translations and information of nesting) - use it for site templates
+     * @param int $parent_id
+     * @return array
+     */
+    public function buildMenuItemsArrayFromObjArr($parent_id = 0)
+    {
+        /* @var $arrayOfObj ExtMenuItem[] */
+
+        $result = array();
+        $arrayOfObj = $this->buildObjArrRecursive($parent_id);
+
+        foreach($arrayOfObj as $itemObj)
+        {
+            $itemArr = $itemObj->attributes;
+            $itemArr['nesting_level'] = $itemObj->nestingLevel();
+            $itemArr['name'] = '';
+            $itemArr['children_qnt'] = $itemObj->countOfChildren();
+            $itemArr['has_children'] = (int)$itemObj->hasChildren();
+
+            //find translation for this item
+            $translations = $itemObj->menuItemTrls;
+            foreach($translations as $translation)
+            {
+                if($translation->lng->prefix == Yii::app()->language)
+                {
+                    $itemArr['name'] = $translation->value;
+                }
+            }
+
+            //add to result array
+            $result[] = $itemArr;
+        }
+
+        return $result;
     }
 
     /**

@@ -30,6 +30,25 @@ Class ExtMenuItem extends MenuItem
     }
 
     /**
+     * Has parent or not
+     * @return bool
+     */
+    public function hasParent()
+    {
+        $count = ExtMenuItem::model()->countByAttributes(array('id' => $this->parent_id, 'menu_id' => $this->menu_id));
+        return $count > 0;
+    }
+
+    /**
+     * Quantity of children
+     */
+    public function countOfChildren()
+    {
+        $count = ExtMenuItem::model()->countByAttributes(array('menu_id' => $this->menu_id, 'parent_id' => $this->id));
+        return $count;
+    }
+
+    /**
      * Returns nesting level
      * @return int
      */
@@ -43,6 +62,27 @@ Class ExtMenuItem extends MenuItem
         }
 
         return !empty($arrBranch) ? count($arrBranch) - 1 : 1;
+    }
+
+    /**
+     * Get translated name by language ID
+     * @param $lngId
+     * @return string
+     */
+    public function trlName($lngId)
+    {
+        $result = "";
+        $arrTrl = $this->menuItemTrls;
+
+        foreach($arrTrl as $trl)
+        {
+            if($trl->lng_id == $lngId)
+            {
+                $result = $trl->value;
+            }
+        }
+
+        return $result;
     }
 
     /**
