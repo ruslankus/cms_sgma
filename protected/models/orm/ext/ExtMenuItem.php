@@ -65,6 +65,27 @@ Class ExtMenuItem extends MenuItem
     }
 
     /**
+     * Get translated name by language ID
+     * @param $lngId
+     * @return string
+     */
+    public function trlName($lngId)
+    {
+        $result = "";
+        $arrTrl = $this->menuItemTrls;
+
+        foreach($arrTrl as $trl)
+        {
+            if($trl->lng_id == $lngId)
+            {
+                $result = $trl->value;
+            }
+        }
+
+        return $result;
+    }
+
+    /**
      * Override, relate with extended models
      * @return array relational rules.
      */
