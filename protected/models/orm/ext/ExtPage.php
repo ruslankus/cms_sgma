@@ -37,10 +37,41 @@ class ExtPage extends Page
         //relate with translation
        $lng = Yii::app()->language;
        //$relations['trl'] = array(self::HAS_ONE, 'PageTrl', 'article_id', 'with' => array('lng' => array('condition' => "lng.prefix='{$lng}'")));
-        $relations['trl'] = array(self::HAS_ONE, 'PageTrl', 'article_id', 'with' => array('lng' => array('condition' => "lng.prefix= :lng")));
-       
+       //$relations['trl'] = array(self::HAS_ONE, 'PageTrl', 'article_id', 'with' => array('lng' => array('condition' => "lng.prefix= :lng"))); 
+        $relations['trl'] = array(self::HAS_ONE, 'PageTrl', 'article_id');      
 
         //return modified relations
         return $relations;
+    }//relations
+    
+    
+    public function scopes(){
+        return array('lang');
     }
+    
+    public function lang($lng = 'en'){
+         $this->getDbCriteria()->mergeWith(array(
+            'with' => 'lng',        
+            'condition'=>'lng.prefix= :lng',
+            'params'=> array(':lng' => $lng),
+
+        ));
+
+    }
+    
+    
+    public function getPage(){
+       $page = Yii::app()->db->createCommand();
+        $page->select('label,header,content,meta_description');
+        $page->from('page t1');
+        $page->join('page_trl t2' ,'t2.article_id=t1.id ');
+        $page->join('languages t3' ,'t2.lng_id=t3.id ');
+        $page->where("t3.prefix=:prefix", array(':prefix' => 'ru'));
+        
+        $result = $page->queryRow();
+        Debug::d($result);
+        return $result; 
+    }
+    
+    
 }

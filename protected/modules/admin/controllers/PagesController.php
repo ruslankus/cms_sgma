@@ -33,9 +33,9 @@ class PagesController extends ControllerAdmin
         }
         
        
-        $objPage = ExtPage::model()->findByPk($id,"",array(array(':lng' => 'ru')));
-        
-         //Debug::d($objPage->trl);
+        $objPage = ExtPage::model()->findByPk($id);
+        //$page = ExtPage::model()->getPage();
+        Debug::d($objPage->trl);
         
         $this->render('edit', array('objPage' => $objPage));
     }//edit

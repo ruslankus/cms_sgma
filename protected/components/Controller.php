@@ -19,6 +19,7 @@ class Controller extends CController
      * @param string $id
      * @param null $module
      */
+    /* 
     public function __construct($id,$module=null)
     {
         //set default ime-zone
@@ -32,6 +33,21 @@ class Controller extends CController
 
         parent::__construct($id,$module);
     }
+    */
+    
+    
+    public function init(){
+        
+        //set default ime-zone
+        date_default_timezone_set('Europe/Vilnius');
+        
+        $language = Yii::app()->request->getParam('language',Yii::app()->params['defaultLanguage']);
+        $this->setLanguage($language);
+        
+        //TODO: get theme from db
+        Yii::app()->theme = "light";    
+        
+    }//init
 
     /**
      * Override before action method

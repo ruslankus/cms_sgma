@@ -115,4 +115,6 @@ class Page extends CActiveRecord
 	{
 		return parent::model($className);
 	}
+    
+    
 }
