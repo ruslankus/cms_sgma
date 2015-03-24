@@ -3,8 +3,10 @@
 class TranslationController extends ControllerAdmin
 {
  
-    public function actionIndex(){
-        $this->renderText('index');
+    public function actionIndex()
+    {
+        //$this->renderText('index');
+        $this->redirect(array('admin'));
     }   
     
     
@@ -52,7 +54,8 @@ class TranslationController extends ControllerAdmin
     /**
      * Admin panel messages translation
      */
-    public function actionAdminMessages(){
+    public function actionAdminMessages()
+    {
         $this->render('admin_messages');
     }    
 
@@ -60,8 +63,52 @@ class TranslationController extends ControllerAdmin
     /**
      * Site core label translation
      */
-    public function actionSite(){
+    public function actionSite()
+    {
         $this->render('site_labels');
     }
     
+    public function actionAddAdminLabel()
+    {
+        $lang_prefix = Yii::app()->language;
+        $request = Yii::app()->request;
+        if($request->isAjaxRequest)
+        {
+            $resArr=array();
+            $resArr['html'] = $this->renderPartial('_addLabel',array('lang_prefix'=>$lang_prefix),true);
+            echo json_encode($resArr);
+        } else{
+            $label = $request->getPost('label_name');
+            $arrLng = ExtAdminLanguages::model()->getAllLang();
+            ExtAdminLabels::model()->addLabel($label,$arrLng);
+            $this->renderText($label);
+            $this->redirect(array('admin')); 
+        }
+    }
+
+    public function actionUniqueCeckAdminLabel(){
+        $label = $_POST['label'];
+        $arrJson = array();
+        if(!empty($label))
+        {
+            if($user = AdminLabels::model()->exists('label=:label',array('label'=>$label)))
+            {
+                $arrJson['status'] = "error";
+                $arrJson['err_txt'] = Trl::t()->getMsg("Duplicate error");
+                echo json_encode($arrJson);
+            }
+            else
+            {
+                $arrJson['status'] = "success";
+                echo json_encode($arrJson);
+            }      
+        }
+        else
+        {
+            $arrJson['status'] = "error";
+            $arrJson['err_txt'] = Trl::t()->getMsg("Label empty");
+            echo json_encode($arrJson);
+        }  
+    }
+
 }// class Translation    

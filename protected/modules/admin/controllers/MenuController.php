@@ -24,14 +24,14 @@ class MenuController extends ControllerAdmin
         //find menu
         $menu = ExtMenu::model()->findByPk((int)$id);
 
-        //if noy found
+        //if not found
         if(empty($menu))
         {
             throw new CHttpException(404);
         }
 
         //get all items
-        $items = $menu->getArrayRecursive();
+        $items = $menu->buildObjArrRecursive();
 
         //pager stuff
         $perPage = 10;
@@ -56,6 +56,34 @@ class MenuController extends ControllerAdmin
             }
         }
 
-        $this->render('edit_menu',array('items' => $itemsOfPage, 'pages' => $total_pages, 'templates' => $templates));
+        $this->render('edit_menu',array('items' => $itemsOfPage, 'pages' => $total_pages, 'templates' => $templates, 'menu' => $menu));
+    }
+
+    public function actionEditItem($id)
+    {
+        //find item of menu
+        $objItem = ExtMenuItem::model()->findByPk($id);
+
+        //languages
+        $objLanguages = ExtLanguages::model()->findAll();
+
+        //get all menu items in menu of current item
+        $objItems = $objItem->menu->buildObjArrRecursive();
+
+        //all types of item
+        $objTypes = MenuItemType::model()->findAll();
+
+        ///if not found
+        if(empty($objItem))
+        {
+            throw new CHttpException(404);
+        }
+
+        if(isset($_POST['ItemForm']))
+        {
+            //TODO: update item
+        }
+
+        $this->render('edit_menu_item',array('languages' => $objLanguages, 'curItem' => $objItem, 'items' => $objItems, 'types' => $objTypes));
     }
 }

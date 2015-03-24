@@ -16,18 +16,18 @@
 					</div><!--/list-row-->
 					
                     
-                    <?php for($i=1; $i < 8; $i++): ?>
+                    <?php foreach($objPages as $page): ?>
                     
 					<div class="list-row">
 						<div class="cell checkbox"><input type="checkbox"/></div>
-						<div class="cell"><a href="/admin/pages/edit/<?php echo $i?>" ?>Pages name <?php echo $i ?></a></div>
+						<div class="cell"><a href="/admin/pages/edit/<?php echo $page->id?>" ><?php echo $page->pageTrls[0]->header ?> <?php echo $i ?></a></div>
 						<div class="cell action">
-							<a  href="/admin/pages/edit/<?php echo $i?>" class="action edit"></a>
+							<a  href="/admin/pages/edit/<?php echo $page->id?>" class="action edit"></a>
 							<a href="index.html" class="action delete"></a>
 						</div>
 					</div><!--/list-row-->
                     
-                    <?php endfor;?>
+                    <?php endforeach ?>
 					
 					
 				</div><!--/content-->

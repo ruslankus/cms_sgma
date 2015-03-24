@@ -10,7 +10,7 @@ Target Server Type    : MYSQL
 Target Server Version : 50538
 File Encoding         : 65001
 
-Date: 2015-03-23 18:09:36
+Date: 2015-03-24 14:00:17
 */
 
 SET FOREIGN_KEY_CHECKS=0;
@@ -175,6 +175,7 @@ DROP TABLE IF EXISTS `menu_item`;
 CREATE TABLE `menu_item` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
   `menu_id` int(11) DEFAULT NULL,
+  `branch` varchar(128) DEFAULT NULL,
   `label` varchar(128) DEFAULT NULL,
   `parent_id` int(11) DEFAULT NULL,
   `priority` int(11) DEFAULT NULL,
@@ -188,15 +189,18 @@ CREATE TABLE `menu_item` (
   KEY `type_id` (`type_id`),
   CONSTRAINT `menu_item_ibfk_1` FOREIGN KEY (`type_id`) REFERENCES `menu_item_type` (`id`) ON DELETE NO ACTION ON UPDATE NO ACTION,
   CONSTRAINT `menu_item_ibfk_2` FOREIGN KEY (`menu_id`) REFERENCES `menu` (`id`) ON DELETE CASCADE ON UPDATE NO ACTION
-) ENGINE=InnoDB AUTO_INCREMENT=5 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=11 DEFAULT CHARSET=utf8;
 
 -- ----------------------------
 -- Records of menu_item
 -- ----------------------------
-INSERT INTO `menu_item` VALUES ('1', '1', 'News', '0', '1', '1', '1', '0', '0', '1');
-INSERT INTO `menu_item` VALUES ('2', '1', 'Products', '0', '2', '2', '1', '0', '0', '1');
-INSERT INTO `menu_item` VALUES ('3', '2', 'Articles', '0', '1', '1', '1', '0', '0', '1');
-INSERT INTO `menu_item` VALUES ('4', '2', 'Goods', '0', '2', '2', '1', '0', '0', '1');
+INSERT INTO `menu_item` VALUES ('1', '1', '0:1', 'News', '0', '1', '2', '1', '0', '0', '1');
+INSERT INTO `menu_item` VALUES ('5', '1', '0:1:5', 'Science', '1', '1', '2', '1', '0', '0', '1');
+INSERT INTO `menu_item` VALUES ('6', '1', '0:1:6', 'Sport', '1', '2', '2', '1', '0', '0', '1');
+INSERT INTO `menu_item` VALUES ('7', '1', '0:1:7', 'Technology', '1', '3', '2', '1', '0', '0', '1');
+INSERT INTO `menu_item` VALUES ('8', '1', '0:1:5:8', 'Physics', '5', '1', '2', '1', '0', '0', '1');
+INSERT INTO `menu_item` VALUES ('9', '1', '0:1:5:9', 'Space', '5', '2', '2', '1', '0', '0', '1');
+INSERT INTO `menu_item` VALUES ('10', '1', '0:1', 'Products', '0', '2', '3', '1', '0', '0', '1');
 
 -- ----------------------------
 -- Table structure for `menu_item_trl`
@@ -219,12 +223,6 @@ CREATE TABLE `menu_item_trl` (
 -- ----------------------------
 INSERT INTO `menu_item_trl` VALUES ('1', 'News', '1', '1');
 INSERT INTO `menu_item_trl` VALUES ('2', 'Новости', '1', '2');
-INSERT INTO `menu_item_trl` VALUES ('3', 'Products', '2', '1');
-INSERT INTO `menu_item_trl` VALUES ('4', 'Продукты', '2', '2');
-INSERT INTO `menu_item_trl` VALUES ('5', 'Articles', '3', '1');
-INSERT INTO `menu_item_trl` VALUES ('6', 'Статьи', '3', '2');
-INSERT INTO `menu_item_trl` VALUES ('7', 'Goods', '4', '1');
-INSERT INTO `menu_item_trl` VALUES ('8', 'Товары', '4', '2');
 
 -- ----------------------------
 -- Table structure for `menu_item_type`
@@ -387,13 +385,13 @@ CREATE TABLE `page` (
   PRIMARY KEY (`id`),
   KEY `menu_item_id` (`menu_item_id`),
   CONSTRAINT `page_ibfk_1` FOREIGN KEY (`menu_item_id`) REFERENCES `menu_item` (`id`) ON DELETE CASCADE ON UPDATE NO ACTION
-) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=5 DEFAULT CHARSET=utf8;
 
 -- ----------------------------
 -- Records of page
 -- ----------------------------
-INSERT INTO `page` VALUES ('1', 'Article 1', '3', '1', '1', '0', '0', '1');
-INSERT INTO `page` VALUES ('2', 'Article 2', '3', '1', '2', '0', '0', '1');
+INSERT INTO `page` VALUES ('3', 'Page 1', '1', '1', '1', '0', '0', '1');
+INSERT INTO `page` VALUES ('4', 'Page 2', '5', '1', '1', '0', '0', '1');
 
 -- ----------------------------
 -- Table structure for `page_trl`
@@ -411,15 +409,15 @@ CREATE TABLE `page_trl` (
   KEY `lng_id` (`lng_id`),
   CONSTRAINT `page_trl_ibfk_1` FOREIGN KEY (`lng_id`) REFERENCES `languages` (`id`) ON DELETE CASCADE ON UPDATE NO ACTION,
   CONSTRAINT `page_trl_ibfk_2` FOREIGN KEY (`article_id`) REFERENCES `page` (`id`) ON DELETE CASCADE ON UPDATE NO ACTION
-) ENGINE=InnoDB AUTO_INCREMENT=5 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=9 DEFAULT CHARSET=utf8;
 
 -- ----------------------------
 -- Records of page_trl
 -- ----------------------------
-INSERT INTO `page_trl` VALUES ('1', 'Article 1', 'keyword1, keyword2', 'Content 1', '1', '1');
-INSERT INTO `page_trl` VALUES ('2', 'Статья 1', 'слово1, слово2', 'Содержимое 1', '1', '2');
-INSERT INTO `page_trl` VALUES ('3', 'Article 2', 'keyword1, keyword2', 'Content 2', '2', '1');
-INSERT INTO `page_trl` VALUES ('4', 'Статья 2', 'keyword1, keyword2', 'Содержимое 2', '2', '2');
+INSERT INTO `page_trl` VALUES ('5', 'Page 1', 'meta', 'Content', '3', '1');
+INSERT INTO `page_trl` VALUES ('6', 'Страница 1', 'мета', 'Содержимое', '3', '2');
+INSERT INTO `page_trl` VALUES ('7', 'Page 2', 'meta', 'Content', '4', '1');
+INSERT INTO `page_trl` VALUES ('8', 'Страница 2', 'мета', 'Содержимое', '4', '2');
 
 -- ----------------------------
 -- Table structure for `product`
