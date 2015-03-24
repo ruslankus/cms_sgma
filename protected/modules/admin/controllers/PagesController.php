@@ -6,6 +6,8 @@ class PagesController extends ControllerAdmin
     
     public function actionIndex($siteLng = null){
         
+        $currLng = Yii::app()->language;
+        
         if(empty($siteLng)){
             $siteLng = Yii::app()->language; 
         }
@@ -14,7 +16,7 @@ class PagesController extends ControllerAdmin
         
         //Debug::d($objPages);
                 
-        $this->render('index',array('objPages' => $objPages));
+        $this->render('index',array('objPages' => $objPages, 'currLng' => $currLng));
         
     }//index
     
@@ -24,16 +26,16 @@ class PagesController extends ControllerAdmin
     }//create
     
     
-    public function actionEdit($id = null){
+    public function actionEdit($id){
         
          if(empty($siteLng)){
             $siteLng = Yii::app()->language; 
         }
         
        
-        $objPage = Page::model()->with(array('pageTrls.lng' => array('condition' => "lng.prefix='{$siteLng}'")))->findByPk($id);
+        $objPage = ExtPage::model()->findByPk($id,array(),array(':lng' => 'ru'));
         
-         Debug::d($objPage->pageTrls);
+         Debug::d($objPage->trl);
         
         $this->renderText('edit');
     }//edit

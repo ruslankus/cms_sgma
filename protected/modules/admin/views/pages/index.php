@@ -20,9 +20,9 @@
                     
 					<div class="list-row">
 						<div class="cell checkbox"><input type="checkbox"/></div>
-						<div class="cell"><a href="/admin/pages/edit/<?php echo $page->id?>" ><?php echo $page->pageTrls[0]->header ?> <?php echo $i ?></a></div>
+						<div class="cell"><a href="/<?php echo $currLng?>/admin/pages/edit/<?php echo $page->id?>" ><?php echo $page->pageTrls[0]->header ?> <?php echo $i ?></a></div>
 						<div class="cell action">
-							<a  href="/admin/pages/edit/<?php echo $page->id?>" class="action edit"></a>
+							<a  href="/<?php echo $currLng?>/admin/pages/edit/<?php echo $page->id?>" class="action edit"></a>
 							<a href="index.html" class="action delete"></a>
 						</div>
 					</div><!--/list-row-->
