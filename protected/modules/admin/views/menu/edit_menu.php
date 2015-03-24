@@ -24,3 +24,11 @@
         </tr>
     <?php endforeach; ?>
 </table>
+
+<br>
+<label for="templates">Templates</label>
+<select name="templates" id="templates">
+    <?php foreach($templates as $template): ?>
+        <option value="<?php echo $template ?>"><?php echo $template; ?></option>
+    <?php endforeach; ?>
+</select>
