@@ -16,7 +16,7 @@
 <br><br>
 
 <label for="type_id">Select type</label>
-<select name="EditItemForm[type_id]" id="type_id">
+<select name="EditItemForm[type_id]" id="type_id" data-link="<?php echo Yii::app()->createUrl('/admin/menu/AjaxContentItemsByType'); ?>">
     <?php foreach($types as $type): ?>
         <option value="<?php echo $type->id; ?>" <?php if($type->id == $curItem->type_id): ?> selected <?php endif; ?>><?php echo $type->label; ?></option>
     <?php endforeach; ?>
@@ -24,7 +24,6 @@
 <br><br>
 
 <div class="loadable-by-type">
-
 </div>
 
 <?php foreach($languages as $language): ?>

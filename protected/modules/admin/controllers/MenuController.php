@@ -61,13 +61,13 @@ class MenuController extends ControllerAdmin
 
     /**
      * Loads list of available content items by type
-     * @param int $type_id
+     * @param int $id
      */
-    public function actionAjaxContentItemsByTypes($type_id = ExtMenuItemType::TYPE_SINGLE_PAGE)
+    public function actionAjaxContentItemsByType($id = ExtMenuItemType::TYPE_SINGLE_PAGE)
     {
         $objItems = array();
 
-        switch($type_id)
+        switch($id)
         {
             case ExtMenuItemType::TYPE_SINGLE_PAGE:
                 $objItems = ExtPage::model()->findAll(array('order' => 'priority DESC'));
@@ -98,6 +98,9 @@ class MenuController extends ControllerAdmin
      */
     public function actionEditItem($id)
     {
+        //include js file for AJAX updating
+        Yii::app()->clientScript->registerScriptFile($this->assetsPath.'/js/menu.edititem.js',CClientScript::POS_END);
+
         //find item of menu
         $objItem = ExtMenuItem::model()->findByPk($id);
 

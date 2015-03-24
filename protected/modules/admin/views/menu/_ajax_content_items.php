@@ -1,8 +1,8 @@
-<?php /* @var $objContentItems ExtPage|ExtNewsCategory|ExtProductCategory */ ?>
+<?php /* @var ExtPage[]|ExtNewsCategory[]|ExtProductCategory[] $objContentItems */ ?>
 
 <label for="type_id">Select object</label>
 <select name="EditItemForm[obj]" id="type_id">
-    <?php foreach($types as $type): ?>
-        <option value="<?php echo $type->id; ?>" <?php if($type->id == $curItem->type_id): ?> selected <?php endif; ?>><?php echo $type->label; ?></option>
+    <?php foreach($objContentItems as $objItem): ?>
+        <option value="<?php $objItem->id; ?>" selected><?php echo $objItem->label; ?></option>
     <?php endforeach; ?>
 </select>
