@@ -10,21 +10,20 @@ $("#styled-language").on("change", function(){
 /*
  * Popup with input
 */
+
 $('.add-label').click(function(e)
 {
 	e.preventDefault();
-	
-    $.input({
-		'placeholder'	: 'Label name',
-		'validate'	: function() {
-							if (this.value.length<3) { return "Name is too short"; }
-							else if (this.value.length>20) { return "Name is too long"; }
-							return true;
-						},
-		'confirmed'	: function() {
-						console.log("#"+this.value+" created.");
-						}
-        });
+	var prefix = $(this).data('prefix');
+	var link = '/'+ prefix +'/admin/Translation/AddAdminLabel';
+    $.ajax({ type: "post",url:link}).done(function(data){
+        
+        obj = jQuery.parseJSON(data);
+        var html = obj.html;
+        $.popup(html);
+        $.popup.show();
+        return false;   
+    });
 });
 /*
  * Confirm alerts
@@ -34,14 +33,8 @@ $('.delete').click(function(e)
 	e.preventDefault();
 	var data_id = $(this).attr('data-id');
     var elem = $(this).closest('.translate-row');
-
-    $.confirm({
-		'message'	: 'You are about to delete this item. <br />It cannot be restored at a later time! Continue?',
-		'confirm'	: function() {
-                        elem.fadeOut();
-						console.log("#"+data_id+" deleted.");
-						}
-        });
+	$.popup("čia html delete");
+	$.popup.show();
 });
 /*
  * Save
@@ -64,4 +57,34 @@ $('#search-label-form').submit(function(e)
 	e.preventDefault();
 	return false;
 });
+
+
+$(document).on('click','.button.add-popup',function(e){
+	
+	var value = $('#label-input').val();
+	var prefix = $(this).data('prefix');
+    var link = '/'+ prefix +'/admin/Translation/UniqueCeckAdminLabel';
+    $.ajaxSetup({async:false});
+    $.ajax({ type: "post",url:link,data:{label:value}}).done(function(data){
+        
+        obj = jQuery.parseJSON(data);
+
+        if(obj.status=="success")
+        {        
+
+        }
+       
+        if(obj.status=="error")
+        {
+           console.log(obj);
+           $('.add-label-err').html(obj.err_txt);
+           e.preventDefault();
+            
+        }
+       
+    });
+       
+
+});
+
 })( jQuery );

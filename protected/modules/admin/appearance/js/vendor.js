@@ -126,6 +126,7 @@ $.fn.select = function()
 			}
 		});
 	}
+
 /*
  * Custom confirm box
 */
@@ -137,7 +138,7 @@ $.confirm = function(params){
 		
         var markup = [
             '<div class="popup-box">',
-            '<div class="popup-confirm">',
+            '<div class="popup-confirm" id="popup-content">',
             '<span class="message">',params.message,'</span>',
 			'<a href="#" class="button cancel">Cancel</a>',
 			'<a href="#" class="button confirm">Confirm</a>',
@@ -173,7 +174,7 @@ $.input = function(params){
 		var $this = this;
         var markup = [
             '<div class="popup-box">',
-            '<div class="popup-input">',
+            '<div class="popup-input" id="popup-content">',
             '<input type="text" value="" id="popup-input-value" placeholder="',params.placeholder,'"/>',
             '<span class="errorMessage"></span>',
 			'<a href="#" class="button cancel">Cancel</a>',
@@ -201,6 +202,32 @@ $.input = function(params){
 		});
 		
     }
+/* Popup */
+$.popup = function(params){
+        if(!$('.popup-box').length){
+            var markup = [
+            '<div class="popup-box">',
+            '<div class="popup-content">',
+            '</div></div>'
+			].join('');
+			$(markup).hide().appendTo('body');
+        }
+		if (typeof params.url !== 'undefined') { $(".popup-box > .popup-content").load(params.url); }
+		else { $(".popup-box > .popup-content").html(params); }
+		return true;
+    }
+	$.popup.show = function(){
+		$("body").css({"overflow":"hidden"});
+		$('.popup-box').fadeIn();
+		var top = ($(window).height()-$(".popup-box > .popup-content").height())/2;
+		$(".popup-box > .popup-content").animate({"margin-top":top+"px"},300);
+	}
+	$.popup.hide = function(){
+        $('.popup-box').fadeOut(function(){
+            $(this).remove();
+			$("body").css({"overflow":"auto"});
+        });
+	}
     $.confirm.hide = function(){
         $('.popup-box').fadeOut(function(){
             $(this).remove();
@@ -212,5 +239,9 @@ $(document).keyup(function(e) {
 	  {
 		$.confirm.hide();
 	  }
+});
+$(document).on("click", ".popup-content a.cancel",function(e){
+	e.preventDefault();
+	$.popup.hide();
 });
 })(jQuery);
