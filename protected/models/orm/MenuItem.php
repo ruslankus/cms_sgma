@@ -6,6 +6,7 @@
  * The followings are the available columns in table 'menu_item':
  * @property integer $id
  * @property integer $menu_id
+ * @property string $branch
  * @property string $label
  * @property integer $parent_id
  * @property integer $priority
@@ -42,10 +43,10 @@ class MenuItem extends CActiveRecord
 		// will receive user inputs.
 		return array(
 			array('menu_id, parent_id, priority, type_id, status_id, time_created, time_updated, last_change_by', 'numerical', 'integerOnly'=>true),
-			array('label', 'length', 'max'=>128),
+			array('branch, label', 'length', 'max'=>128),
 			// The following rule is used by search().
 			// @todo Please remove those attributes that should not be searched.
-			array('id, menu_id, label, parent_id, priority, type_id, status_id, time_created, time_updated, last_change_by', 'safe', 'on'=>'search'),
+			array('id, menu_id, branch, label, parent_id, priority, type_id, status_id, time_created, time_updated, last_change_by', 'safe', 'on'=>'search'),
 		);
 	}
 
@@ -74,6 +75,7 @@ class MenuItem extends CActiveRecord
 		return array(
 			'id' => 'ID',
 			'menu_id' => 'Menu',
+			'branch' => 'Branch',
 			'label' => 'Label',
 			'parent_id' => 'Parent',
 			'priority' => 'Priority',
@@ -105,6 +107,7 @@ class MenuItem extends CActiveRecord
 
 		$criteria->compare('id',$this->id);
 		$criteria->compare('menu_id',$this->menu_id);
+		$criteria->compare('branch',$this->branch,true);
 		$criteria->compare('label',$this->label,true);
 		$criteria->compare('parent_id',$this->parent_id);
 		$criteria->compare('priority',$this->priority);

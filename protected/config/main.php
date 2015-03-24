@@ -45,6 +45,7 @@ return array(
 		// uncomment the following to enable URLs in path-format
 		
 		'urlManager'=>array(
+            'class' => 'application.components.UrlManager',
 			'urlFormat'=>'path',
             'showScriptName'=>false,
 			'rules'=>array(
@@ -55,14 +56,20 @@ return array(
 
 
                 /**
-                 * Routes for admin module
+                 * Routes admin modules
                  */
-
                 '<language:\w{2}>/admin' => 'admin/main/index',
-                '<language:\w{2}>/admin/<controller:\w+>'=>'admin/<controller>/index',
-                '<language:\w{2}>/admin/<controller:\w+>/<id:\d+>'=>'admin/<controller>/view',
-                '<language:\w{2}>/admin/<controller:\w+>/<action:\w+>/<id:\d+>/*'=>'admin/<controller>/<action>',
-                '<language:\w{2}>/admin/<controller:\w+>/<action:\w+>/*'=>'admin/<controller>/<action>',
+
+                /**
+                 * Routes for other modules
+                 */
+                '<language:\w{2}>/<module:\w+>' => '<module>/main/index',
+                '<language:\w{2}>/<module:\w+>/<controller:\w+>'=>'<module>/<controller>/index',
+                '<language:\w{2}>/<module:\w+>/<controller:\w+>/<id:\d+>'=>'<module>/<controller>/view',
+                '<language:\w{2}>/<module:\w+>/<controller:\w+>/<action:\w+>/<id:\d+>/*'=>'<module>/<controller>/<action>',
+                '<language:\w{2}>/<module:\w+>/<controller:\w+>/<action:\w+>/*'=>'<module>/<controller>/<action>',
+                '<module:\w+>/' => '<module>/main/index',
+
                 'admin/' => 'admin/main/index',
 
 
