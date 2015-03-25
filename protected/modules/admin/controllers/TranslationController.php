@@ -130,4 +130,18 @@ class TranslationController extends ControllerAdmin
         
     }
 
+    public function actionSaveAdminLabel($id = null){
+        $request = Yii::app()->request;
+        if($request->isAjaxRequest){
+            $curr_lng = $request->getPost('curr_lng');
+            $value_label = trim($request->getPost('value'));
+            
+            $objLabel = AdminLabelsTrl::model()->findByPk((int)$id);
+           
+            $objLabel->value = $value_label;
+            $objLabel->save();
+             
+        }
+    }//SaveAdminLabel
+
 }// class Translation    

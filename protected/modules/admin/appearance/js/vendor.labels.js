@@ -72,16 +72,21 @@ $('.delete').click(function(e)
     });
 });
 
+
 /*
  * Save
 */
 $('.save').click(function(e)
 {
-	var id = $(this).attr("data-id");
-	var value = $(this).parent().parent().find(".translations > input").val();
-	console.log(value);
 	e.preventDefault();
-	return false;
+	var id = $(this).data('id');
+	var prefix = $(this).data('prefix');
+	var value = $("#tr-"+id).val();
+	var link = '/'+ prefix +'/admin/Translation/SaveAdminLabel/'+id;
+    $.ajax({ type: "post",url:link,data:{value:value}}).done(function(data){        
+
+    });
+	
 });
 /*
  * Search submit
