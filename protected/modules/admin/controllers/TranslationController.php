@@ -122,11 +122,10 @@ class TranslationController extends ControllerAdmin
                         'id'=>$id,'label_name' => $name),true);
             echo json_encode($resArr);
          }else{
-            $objLabel = Labels::model()->findByPk($id);
-           // $objLabel->delete();
-            //ExtLabels::model()->deleteLabel($id);
-            
-            //$this->redirect(array('list'));
+            $objLabel = AdminLabels::model()->findByPk($id);
+            $objLabel->delete();
+            ExtAdminLabels::model()->deleteLabel($id);
+            $this->redirect(array('admin'));
          }
         
     }

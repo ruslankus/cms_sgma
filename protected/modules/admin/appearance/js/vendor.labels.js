@@ -71,6 +71,7 @@ $('.delete').click(function(e)
 
     });
 });
+
 /*
  * Save
 */
