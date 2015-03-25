@@ -55,7 +55,15 @@ Yii::app()->clientScript->registerScriptFile($this->assetsPath.'/js/vendor.label
 					</div><!--/translate-row-->
 				<?php $n++; endforeach;?>
 			</div><!--/translate-content-->
-			
+			<div>
+			Test pager <br>
+			<?php
+				$pages = $pager->getPreparedArray();
+			?>
+			<pre>
+			<?php print_r($pages); ?>
+			</pre>
+			</div>
 			<div class="pagination from-labels">
 				<a href="pages.html" class="active">1</a>
 				<a href="pages.html">2</a>

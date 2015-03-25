@@ -47,10 +47,12 @@ class TranslationController extends ControllerAdmin
             $search_label = $request->getPost('search_label');  
             $arrLabel = ExtAdminLanguages::model()->getLabels($curr_lng, array('search_label' => $search_label));
 
-           
+            $pager = CPaginator::getInstanse($arrLabel,3,1);
+            //$prepPages = $pager->getPreparedArray();
+
             $this->render('admin_labels',array('arrLabel' => $arrLabel,
-                    'arrSelect' => $arrSelect,'lang_prefix' => $lang_prefix,'select_lng' => $curr_lng,
-                    'search_val' => $search_label)); 
+                            'arrSelect' => $arrSelect,'lang_prefix' => $lang_prefix,'select_lng' => $curr_lng,
+                            'search_val' => $search_label,'pager'=>$pager)); 
             
         }
     }
