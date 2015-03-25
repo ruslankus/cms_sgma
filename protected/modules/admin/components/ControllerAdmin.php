@@ -52,11 +52,8 @@ class ControllerAdmin extends CController
         return true;
     }
 
-    /**
-     * Constructor override - to assign language
-     * @param string $id
-     * @param null $module
-     */
+
+    /*
     public function __construct($id,$module=null)
     {
         //set default ime-zone
@@ -66,6 +63,16 @@ class ControllerAdmin extends CController
         $this->setLanguage($language);
 
         parent::__construct($id,$module);
+    }
+    */
+
+    public function init()
+    {
+        //set default ime-zone
+        date_default_timezone_set('Europe/Vilnius');
+
+        $language = Yii::app()->request->getParam('language',Yii::app()->params['defaultLanguage']);
+        $this->setLanguage($language);
     }
 
     /**

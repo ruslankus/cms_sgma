@@ -16,6 +16,7 @@ class AddMenuForm extends CFormModel
 	{
         return array(
             array('label, status_id, template_name', 'required'),
+            array('label, status_id, template_name', 'safe')
         );
 	}
 
