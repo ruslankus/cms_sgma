@@ -116,6 +116,10 @@ class MenuController extends ControllerAdmin
      */
     public function actionMenuItems($id,$page = 1)
     {
+        //include js file for AJAX updating
+        Yii::app()->clientScript->registerScriptFile($this->assetsPath.'/js/vendor.trees.js',CClientScript::POS_END);
+        Yii::app()->clientScript->registerScriptFile($this->assetsPath.'/js/vendor.main-menu.js',CClientScript::POS_END);
+
         //find menu
         $menu = ExtMenu::model()->findByPk((int)$id);
 
@@ -127,6 +131,7 @@ class MenuController extends ControllerAdmin
 
         //get all items
         $items = $menu->buildObjArrRecursive();
+        $items = ExtMenu::model()->divideToRootGroups($items);
 
         //pager stuff
         $perPage = 10;
@@ -151,10 +156,7 @@ class MenuController extends ControllerAdmin
             }
         }
 
-        //statuses
-        $statuses = ExtStatus::model()->arrayForMenuForm(true);
-
-        $this->render('list_menu_items',array('items' => $itemsOfPage, 'pages' => $total_pages, 'templates' => $templates, 'menu' => $menu, 'statuses' => $statuses ,'current_page' => $page));
+        $this->render('list_menu_items',array('items' => $itemsOfPage, 'pages' => $total_pages, 'templates' => $templates, 'menu' => $menu ,'current_page' => $page));
     }
 
 

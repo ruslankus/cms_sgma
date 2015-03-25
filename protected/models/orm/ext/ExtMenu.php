@@ -67,6 +67,32 @@ Class ExtMenu extends Menu
 
 
     /**
+     * Groups array by root-categories (to build blocks easier in template)
+     * @param $array
+     * @return array
+     */
+    public function divideToRootGroups($array)
+    {
+        /* @var $array ExtMenuItem[] */
+
+        $currentIndex = 0;
+        $result = array();
+
+        foreach($array as $item)
+        {
+            if(!$item->hasParent())
+            {
+                $currentIndex = $item->id;
+            }
+
+            $result[$currentIndex][] = $item;
+        }
+
+        return $result;
+    }
+
+
+    /**
      * Returns all items of menu as array (with translations and information of nesting) - use it for site templates
      * @param int $parent_id
      * @return array
