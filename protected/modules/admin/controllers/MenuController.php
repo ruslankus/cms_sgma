@@ -14,12 +14,84 @@ class MenuController extends ControllerAdmin
 
 
     /**
-     * List  all items and other settings of menu
+     * Deleting menu
+     * @param $id
+     * @throws CHttpException
+     */
+    public function actionDeleteMenu($id)
+    {
+        //find menu
+        $menu = ExtMenu::model()->findByPk($id);
+
+        //if not found
+        if(empty($menu))
+        {
+            throw new CHttpException(404);
+        }
+
+        $menu->delete();
+
+        //back to list
+        $this->redirect(Yii::app()->createUrl('/admin/menu/index'));
+    }
+
+    /**
+     * Adding menu
+     */
+    public function actionAddMenu()
+    {
+        //menu form
+        $form_mdl = new AddMenuForm();
+
+        //currently selected theme
+        $selectedTheme = 'dark'; //TODO: select theme from DB
+
+        //get all templates for menus
+        $themeManager = Yii::app()->themeManager;
+        $dir = $themeManager->basePath.DS.$selectedTheme.DS.'views'.DS.'menus';
+        $files = scandir($dir);
+        $templates = array();
+
+        foreach($files as $fileName)
+        {
+            if($fileName != ".." && $fileName != ".")
+            {
+                $templates[$fileName] = $fileName;
+            }
+        }
+
+        //statuses
+        $statuses = ExtStatus::model()->arrayForMenuForm(true);
+
+        //if have form
+        if($_POST['AddMenuForm'])
+        {
+            $form_mdl->attributes = $_POST['AddMenuForm'];
+
+            if($form_mdl->validate())
+            {
+                $menu = new ExtMenu();
+                $menu->attributes = $form_mdl->attributes;
+                $menu->time_updated = time();
+                $menu->time_created = time();
+                $menu->last_change_by = Yii::app()->user->getState('id');
+                $menu->save();
+
+                //back to list
+                $this->redirect(Yii::app()->createUrl('/admin/menu/index'));
+            }
+        }
+
+        $this->render('add_menu',array('templates' => $templates, 'statuses' => $statuses, 'form_model' => $form_mdl));
+    }
+
+    /**
+     * List all items of menu
      * @param $id
      * @param int $page
      * @throws CHttpException
      */
-    public function actionEditMenu($id,$page = 1)
+    public function actionMenuItems($id,$page = 1)
     {
         //find menu
         $menu = ExtMenu::model()->findByPk((int)$id);
@@ -52,11 +124,75 @@ class MenuController extends ControllerAdmin
         {
             if($fileName != ".." && $fileName != ".")
             {
-                $templates[] = $fileName;
+                $templates[$fileName] = $fileName;
             }
         }
 
-        $this->render('edit_menu',array('items' => $itemsOfPage, 'pages' => $total_pages, 'templates' => $templates, 'menu' => $menu));
+
+        //statuses
+        $statuses = ExtStatus::model()->arrayForMenuForm(true);
+
+        $this->render('list_menu_items',array('items' => $itemsOfPage, 'pages' => $total_pages, 'templates' => $templates, 'menu' => $menu, 'statuses' => $statuses));
+    }
+
+
+    /**
+     * Edit and update menu
+     * @param $id
+     * @throws CHttpException
+     */
+    public function actionEditMenu($id)
+    {
+        //find menu
+        $menu = ExtMenu::model()->findByPk((int)$id);
+
+        //if not found
+        if(empty($menu))
+        {
+            throw new CHttpException(404);
+        }
+
+        //menu form
+        $form_mdl = new AddMenuForm();
+
+        //currently selected theme
+        $selectedTheme = 'dark'; //TODO: select theme from DB
+
+        //get all templates for menus
+        $themeManager = Yii::app()->themeManager;
+        $dir = $themeManager->basePath.DS.$selectedTheme.DS.'views'.DS.'menus';
+        $files = scandir($dir);
+        $templates = array();
+
+        foreach($files as $fileName)
+        {
+            if($fileName != ".." && $fileName != ".")
+            {
+                $templates[$fileName] = $fileName;
+            }
+        }
+
+        //statuses
+        $statuses = ExtStatus::model()->arrayForMenuForm(true);
+
+        //if have form
+        if($_POST['AddMenuForm'])
+        {
+            $form_mdl->attributes = $_POST['AddMenuForm'];
+
+            if($form_mdl->validate())
+            {
+                $menu->attributes = $form_mdl->attributes;
+                $menu->time_updated = time();
+                $menu->last_change_by = Yii::app()->user->getState('id');
+                $menu->update();
+
+                //back to list
+                $this->redirect(Yii::app()->createUrl('/admin/menu/index'));
+            }
+        }
+
+        $this->render('edit_menu',array('templates' => $templates, 'statuses' => $statuses, 'form_model' => $form_mdl, 'menu' => $menu));
     }
 
     /**
