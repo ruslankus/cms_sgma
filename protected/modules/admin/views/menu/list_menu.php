@@ -22,3 +22,5 @@
         </tr>
     <?php endforeach; ?>
 </table>
+
+<a href="<?php echo Yii::app()->createUrl('admin/menu/addmenu'); ?>">Add menu</a>

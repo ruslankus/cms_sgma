@@ -10,7 +10,7 @@ Target Server Type    : MYSQL
 Target Server Version : 50538
 File Encoding         : 65001
 
-Date: 2015-03-24 14:00:17
+Date: 2015-03-25 11:58:41
 */
 
 SET FOREIGN_KEY_CHECKS=0;
@@ -160,13 +160,14 @@ CREATE TABLE `menu` (
   `last_change_by` int(11) DEFAULT NULL,
   `template_name` varchar(512) DEFAULT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=4 DEFAULT CHARSET=utf8;
 
 -- ----------------------------
 -- Records of menu
 -- ----------------------------
 INSERT INTO `menu` VALUES ('1', 'Main menu', '1', '0', '0', '1', 'main_menu');
 INSERT INTO `menu` VALUES ('2', 'Additional Menu', '1', '0', '0', '1', 'additional_menu');
+INSERT INTO `menu` VALUES ('3', 'Left menu', '2', '1427277426', '1427277426', '1', 'main_menu.php');
 
 -- ----------------------------
 -- Table structure for `menu_item`
@@ -216,7 +217,7 @@ CREATE TABLE `menu_item_trl` (
   KEY `menu_item_trl_ibfk_2` (`lng_id`),
   CONSTRAINT `menu_item_trl_ibfk_1` FOREIGN KEY (`lng_id`) REFERENCES `languages` (`id`) ON DELETE CASCADE ON UPDATE NO ACTION,
   CONSTRAINT `menu_item_trl_ibfk_2` FOREIGN KEY (`menu_item_id`) REFERENCES `menu_item` (`id`) ON DELETE CASCADE ON UPDATE NO ACTION
-) ENGINE=InnoDB AUTO_INCREMENT=9 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=utf8;
 
 -- ----------------------------
 -- Records of menu_item_trl
@@ -237,11 +238,11 @@ CREATE TABLE `menu_item_type` (
 -- ----------------------------
 -- Records of menu_item_type
 -- ----------------------------
-INSERT INTO `menu_item_type` VALUES ('1', 'page');
-INSERT INTO `menu_item_type` VALUES ('2', 'news');
-INSERT INTO `menu_item_type` VALUES ('3', 'products');
-INSERT INTO `menu_item_type` VALUES ('4', 'contacts');
-INSERT INTO `menu_item_type` VALUES ('5', 'complex');
+INSERT INTO `menu_item_type` VALUES ('1', 'Singel page');
+INSERT INTO `menu_item_type` VALUES ('2', 'News catalog');
+INSERT INTO `menu_item_type` VALUES ('3', 'Product catalog');
+INSERT INTO `menu_item_type` VALUES ('4', 'Contact form');
+INSERT INTO `menu_item_type` VALUES ('5', 'Complex page');
 
 -- ----------------------------
 -- Table structure for `messages`
@@ -409,15 +410,15 @@ CREATE TABLE `page_trl` (
   KEY `lng_id` (`lng_id`),
   CONSTRAINT `page_trl_ibfk_1` FOREIGN KEY (`lng_id`) REFERENCES `languages` (`id`) ON DELETE CASCADE ON UPDATE NO ACTION,
   CONSTRAINT `page_trl_ibfk_2` FOREIGN KEY (`article_id`) REFERENCES `page` (`id`) ON DELETE CASCADE ON UPDATE NO ACTION
-) ENGINE=InnoDB AUTO_INCREMENT=9 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=10 DEFAULT CHARSET=utf8;
 
 -- ----------------------------
 -- Records of page_trl
 -- ----------------------------
 INSERT INTO `page_trl` VALUES ('5', 'Page 1', 'meta', 'Content', '3', '1');
-INSERT INTO `page_trl` VALUES ('6', 'Страница 1', 'мета', 'Содержимое', '3', '2');
 INSERT INTO `page_trl` VALUES ('7', 'Page 2', 'meta', 'Content', '4', '1');
 INSERT INTO `page_trl` VALUES ('8', 'Страница 2', 'мета', 'Содержимое', '4', '2');
+INSERT INTO `page_trl` VALUES ('9', 'Страница1', 'мета', 'Содержимое', '3', '2');
 
 -- ----------------------------
 -- Table structure for `product`
@@ -512,6 +513,25 @@ CREATE TABLE `product_trl` (
 -- ----------------------------
 -- Records of product_trl
 -- ----------------------------
+
+-- ----------------------------
+-- Table structure for `status`
+-- ----------------------------
+DROP TABLE IF EXISTS `status`;
+CREATE TABLE `status` (
+  `id` int(11) NOT NULL DEFAULT '0',
+  `label` varchar(128) DEFAULT NULL,
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+-- ----------------------------
+-- Records of status
+-- ----------------------------
+INSERT INTO `status` VALUES ('1', 'Visible');
+INSERT INTO `status` VALUES ('2', 'Hidden');
+INSERT INTO `status` VALUES ('3', 'Deleted');
+INSERT INTO `status` VALUES ('4', 'Suspended');
+INSERT INTO `status` VALUES ('5', 'Wait for activation');
 
 -- ----------------------------
 -- Table structure for `system_widget`
