@@ -5,11 +5,21 @@ class MenuController extends ControllerAdmin
     /**
      * Index - list all menu
      */
-    public function actionIndex()
+    public function actionIndex($page = 1)
     {
+        //include js file for AJAX updating
+        Yii::app()->clientScript->registerScriptFile($this->assetsPath.'/js/vendor.menu-list.js',CClientScript::POS_END);
+
         /* @var $menus ExtMenu[] */
         $menus = ExtMenu::model()->findAll();
-        $this->render('list_menu',array('menus' => $menus));
+
+        //pager stuff
+        $perPage = 10;
+        $total_pages = (int)ceil(count($menus)/$perPage);
+        $offset = (int)($perPage * ($page - 1));
+        $itemsOfPage = array_slice($menus,$offset,$perPage);
+
+        $this->render('list_menu',array('menus' => $itemsOfPage, 'total_pages' => $total_pages, 'current_page' => $page));
     }
 
 
@@ -40,6 +50,9 @@ class MenuController extends ControllerAdmin
      */
     public function actionAddMenu()
     {
+        //not include jquery to avoid conflict between jquery from Yii core
+        Yii::app()->clientScript->scriptMap=array('jquery-1.11.2.min.js' => false);
+
         //menu form
         $form_mdl = new AddMenuForm();
 
@@ -63,6 +76,16 @@ class MenuController extends ControllerAdmin
         //statuses
         $statuses = ExtStatus::model()->arrayForMenuForm(true);
 
+        //if ajax validation
+        if(isset($_POST['ajax']))
+        {
+            if($_POST['ajax'] == 'add-form')
+            {
+                echo CActiveForm::validate($form_mdl);
+            }
+            Yii::app()->end();
+        }
+
         //if have form
         if($_POST['AddMenuForm'])
         {
@@ -82,7 +105,7 @@ class MenuController extends ControllerAdmin
             }
         }
 
-        $this->render('add_menu',array('templates' => $templates, 'statuses' => $statuses, 'form_model' => $form_mdl));
+        $this->renderPartial('add_menu',array('templates' => $templates, 'statuses' => $statuses, 'form_model' => $form_mdl),false,true);
     }
 
     /**
@@ -132,7 +155,7 @@ class MenuController extends ControllerAdmin
         //statuses
         $statuses = ExtStatus::model()->arrayForMenuForm(true);
 
-        $this->render('list_menu_items',array('items' => $itemsOfPage, 'pages' => $total_pages, 'templates' => $templates, 'menu' => $menu, 'statuses' => $statuses));
+        $this->render('list_menu_items',array('items' => $itemsOfPage, 'pages' => $total_pages, 'templates' => $templates, 'menu' => $menu, 'statuses' => $statuses ,'current_page' => $page));
     }
 
 

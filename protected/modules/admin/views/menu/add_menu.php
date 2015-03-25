@@ -4,17 +4,17 @@
 <?php /* @var $templates array() */ ?>
 <?php /* @var $statuses array() */ ?>
 
-<?php $form=$this->beginWidget('CActiveForm', array('id' =>'add-form','enableAjaxValidation'=>false,'htmlOptions'=>array())); ?>
+<?php $form=$this->beginWidget('CActiveForm', array('id' =>'add-form','enableAjaxValidation'=>true,'htmlOptions'=>array(),'clientOptions' => array('validateOnSubmit'=>true))); ?>
 
-<?php echo $form->label($form_model,'label'); ?>
+<?php echo $form->labelEx($form_model,'label'); ?>
 <?php echo $form->textField($form_model,'label'); ?>
 <?php echo $form->error($form_model,'label'); ?>
 
-<?php echo $form->label($form_model,'status_id'); ?>
+<?php echo $form->labelEx($form_model,'status_id'); ?>
 <?php echo $form->dropDownList($form_model,'status_id',$statuses,array('class'=>''));?>
 <?php echo $form->error($form_model,'status_id'); ?>
 
-<?php echo $form->label($form_model,'template_name'); ?>
+<?php echo $form->labelEx($form_model,'template_name'); ?>
 <?php echo $form->dropDownList($form_model,'template_name',$templates,array('class'=>''));?>
 <?php echo $form->error($form_model,'template_name'); ?>
 

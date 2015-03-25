@@ -24,4 +24,3 @@
 	<a href="pages.html">3</a>
 	<a href="pages.html">4</a>
 </div><!--/pagination-->
-
