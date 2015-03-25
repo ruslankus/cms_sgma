@@ -13,7 +13,7 @@ class TranslationController extends ControllerAdmin
     /**
      * Admin panel labels translation
      */
-    public function actionAdmin()
+    public function actionAdmin($sel_lng=null)
     {
         /*
         $langs = AdminLanguages::model()->findAll();
@@ -39,6 +39,10 @@ class TranslationController extends ControllerAdmin
             
             if(empty($curr_lng)){
                $curr_lng = $lang_prefix; 
+            }
+
+            if(!empty($sel_lng)){
+                $curr_lng = $sel_lng;   
             }
             $search_label = $request->getPost('search_label');  
             $arrLabel = ExtAdminLanguages::model()->getLabels($curr_lng, array('search_label' => $search_label));
@@ -74,14 +78,16 @@ class TranslationController extends ControllerAdmin
         $request = Yii::app()->request;
         if($request->isAjaxRequest)
         {
+            $sel_lng = $request->getPost('sel_lng');
             $resArr=array();
-            $resArr['html'] = $this->renderPartial('_addLabel',array('lang_prefix'=>$lang_prefix),true);
+            $resArr['html'] = $this->renderPartial('_addLabel',array('lang_prefix'=>$lang_prefix, 'sel_lng'=>$sel_lng),true);
             echo json_encode($resArr);
         } else{
             $label = $request->getPost('label_name');
+            $sel_lng = $request->getPost('sel_lng');
             $arrLng = ExtAdminLanguages::model()->getAllLang();
             ExtAdminLabels::model()->addLabel($label,$arrLng);
-            $this->redirect(array('admin')); 
+            $this->redirect(array('admin','sel_lng'=>$sel_lng)); 
         }
     }
 

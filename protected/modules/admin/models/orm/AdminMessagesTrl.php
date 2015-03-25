@@ -93,24 +93,21 @@ class AdminMessagesTrl extends CActiveRecord
 		));
 	}
 
-    /**
-     * Override default connection
-     * @return CDbConnection|null
-     * @throws CDbException
-     */
     public function getDbConnection()
     {
         $con = Yii::createComponent(array(
             'class' => 'CDbConnection',
             'connectionString' => 'sqlite:'.Yii::app()->getModule('admin')->getBasePath().'/data/translations.db',
+            'initSQLs'=>array(
+                'PRAGMA foreign_keys = ON',
+            ),
         ));
 
-        self::$db=$con;
-        if(self::$db instanceof CDbConnection)
-            return self::$db;
-        else
-            throw new CDbException('Admin-translation connection is null or initialized with error');
+        return $con;
     }
+    
+    
+    
 	/**
 	 * Returns the static model of the specified AR class.
 	 * Please note that you should have this exact method in all your CActiveRecord descendants!

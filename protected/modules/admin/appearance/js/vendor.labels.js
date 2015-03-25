@@ -33,8 +33,9 @@ $('.add-label').click(function(e)
 {
 	e.preventDefault();
 	var prefix = $(this).data('prefix');
+	var sel_lng = $('#styled-language').val();
 	var link = '/'+ prefix +'/admin/Translation/AddAdminLabel';
-    $.ajax({ type: "post",url:link}).done(function(data){
+    $.ajax({ type: "post",url:link,data:{sel_lng:sel_lng}}).done(function(data){
         
         obj = jQuery.parseJSON(data);
 

@@ -107,6 +107,9 @@ class AdminLabels extends CActiveRecord
         $con = Yii::createComponent(array(
             'class' => 'CDbConnection',
             'connectionString' => 'sqlite:'.Yii::app()->getModule('admin')->getBasePath().'/data/translations.db',
+            'initSQLs'=>array(
+                'PRAGMA foreign_keys = ON',
+            ),
         ));
 
         return $con;

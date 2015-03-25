@@ -97,16 +97,14 @@ class AdminMessages extends CActiveRecord
 		));
 	}
 
-    /**
-     * Override default connection
-     * @return CDbConnection|null
-     * @throws CDbException
-     */
     public function getDbConnection()
     {
         $con = Yii::createComponent(array(
             'class' => 'CDbConnection',
             'connectionString' => 'sqlite:'.Yii::app()->getModule('admin')->getBasePath().'/data/translations.db',
+            'initSQLs'=>array(
+                'PRAGMA foreign_keys = ON',
+            ),
         ));
 
         return $con;
