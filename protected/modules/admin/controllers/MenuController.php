@@ -13,6 +13,53 @@ class MenuController extends ControllerAdmin
     }
 
 
+    public function actionAddMenu()
+    {
+        //menu form
+        $form_mdl = new AddMenuForm();
+
+        //currently selected theme
+        $selectedTheme = 'dark'; //TODO: select theme from DB
+
+        //get all templates for menus
+        $themeManager = Yii::app()->themeManager;
+        $dir = $themeManager->basePath.DS.$selectedTheme.DS.'views'.DS.'menus';
+        $files = scandir($dir);
+        $templates = array();
+
+        foreach($files as $fileName)
+        {
+            if($fileName != ".." && $fileName != ".")
+            {
+                $templates[$fileName] = $fileName;
+            }
+        }
+
+        //statuses
+        $statuses = ExtStatus::model()->arrayForMenuForm(true);
+
+        //if have form
+        if($_POST['AddMenuForm'])
+        {
+            $form_mdl->attributes = $_POST['AddMenuForm'];
+
+            if($form_mdl->validate())
+            {
+                $menu = new ExtMenu();
+                $menu->attributes = $form_mdl->attributes;
+                $menu->time_updated = time();
+                $menu->time_created = time();
+                $menu->last_change_by = Yii::app()->user->getState('id');
+                $menu->save();
+
+                //back to list
+                $this->redirect(Yii::app()->createUrl('/admin/menu/index'));
+            }
+        }
+
+        $this->render('add_menu',array('templates' => $templates, 'statuses' => $statuses, 'form_model' => $form_mdl));
+    }
+
     /**
      * List  all items and other settings of menu
      * @param $id
