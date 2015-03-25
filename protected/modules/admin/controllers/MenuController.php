@@ -105,7 +105,7 @@ class MenuController extends ControllerAdmin
             }
         }
 
-        $this->renderPartial('add_menu',array('templates' => $templates, 'statuses' => $statuses, 'form_model' => $form_mdl),false,true);
+        $this->renderPartial('_add_menu',array('templates' => $templates, 'statuses' => $statuses, 'form_model' => $form_mdl),false,true);
     }
 
     /**
@@ -150,7 +150,6 @@ class MenuController extends ControllerAdmin
                 $templates[$fileName] = $fileName;
             }
         }
-
 
         //statuses
         $statuses = ExtStatus::model()->arrayForMenuForm(true);
