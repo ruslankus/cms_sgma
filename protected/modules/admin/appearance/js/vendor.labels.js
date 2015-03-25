@@ -5,7 +5,12 @@
 $("#styled-language").select();
 
 $("#styled-language").on("change", function(){
-	console.log(this.value);
+	var prefix = $(this).data('prefix');
+	var lng = this.value;
+	search_val = $('#search_label').val();  
+	var link = '/'+ prefix +'/admin/Translation/Admin';
+	$(".translation-list").load(link,{lng : lng, search_val : search_val});
+
 });
 /*
  * Popup with input

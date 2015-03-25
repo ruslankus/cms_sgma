@@ -42,7 +42,7 @@ Class ExtAdminLanguages extends AdminLanguages
         
         $con = $this->dbConnection;
         $arrData = $con->createCommand($sql)->queryAll();
-        $retData[''] = Trl::t()->getLabel('Select language');
+        //$retData[''] = Trl::t()->getLabel('Select language');
        
         foreach($arrData as $item){
             $retData[$item['prefix']] = $item['name'];       

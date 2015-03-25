@@ -384,6 +384,14 @@ body
 	{
 		background-image: url(../images/icon-settings.png);
 	}
+.fluid > .content-fluid aside > ul.root > li > span.icon.edit-menu
+	{
+		background-image: url(../images/icon-editors.png);
+	}
+.fluid > .content-fluid aside > ul.root > li > span.icon.translate
+	{
+		background-image: url(../images/icon-translate.png);
+	}
 .fluid > .content-fluid aside > ul.root > li ul
 	{
 		position: absolute;
@@ -667,6 +675,7 @@ body
 	{
 		font-size: 17px;
 	}
+.content > .list-row > .cell.id { width: 52px; text-align: center; padding-left: 0;}
 .content > .list-row > .cell.checkbox { width: 52px; }
 .content > .list-row > .cell.checkbox > input[type=checkbox]{ width: 18px; height: 18px; border: 1px solid #dddddd; background-color: #fff; margin-top: 8px; }
 .content > .list-row > .cell.image { width: 96px; text-align: center; padding-left: 0; }
@@ -675,7 +684,8 @@ body
 .content > .list-row > .cell.price { width: 110px; text-align: center; padding-left: 0; }
 .content > .list-row > .cell.status { width: 100px; text-align: center; padding-left: 0; }
 .content > .list-row > .cell.action { width: 158px; text-align: center; padding-left: 0; }
-
+.content > .list-row > .cell.item-qnt { width: 120px; text-align: center; padding-left: 0;}
+.content > .list-row > .cell.template { width: 250px;}
 .content > .list-row > .cell > .order
 	{
 		color: #149fe4;
@@ -947,21 +957,21 @@ span.superscript:after
 	{
 		border: 1px solid #dddddd;
 	}
-.content.translation > .header
+.content.translation .header
 	{
 		height:52px;
 		border-bottom: 1px solid #ddd;
 		position: relative;
 		background: #f6f6f6 url(../images/icon-translation.png) 15px center no-repeat;
 	}
-.content.translation > .header > span
+.content.translation .header > span
 	{
 		position: absolute;
 		font-size: 17px;
 		left: 50px;
 		top: 14px;
 	}
-.content.translation > .header > a
+.content.translation .header > a
 	{
 		font-size: 17px;
 		left: 50px;
@@ -981,8 +991,8 @@ span.superscript:after
 		font-size: 15px;
 		font-weight: normal;
 	}
-.content.translation > .header > a.active,
-.content.translation > .header > a:hover
+.content.translation .header > a.active,
+.content.translation .header > a:hover
 	{
 		background-color: #149fe4;
 		color: #fff;
@@ -1039,29 +1049,29 @@ span.superscript:after
 		border: 1px solid #eb603c;
 		background-color: #fb8f73;
 	}
-.content.translation > .translate-content
+.content.translation .translate-content
 	{
 		display: table;
 		width: 100%;
 	}
-.content.translation > .translate-content > .translate-row
+.content.translation .translate-content > .translate-row
 	{
 		display: table-row;
 		width: 100%;
 	}
-.content.translation > .translate-content > .translate-row > .translate-cell
+.content.translation .translate-content > .translate-row > .translate-cell
 	{
 		display: table-cell;
 		text-align: center;
 		vertical-align: middle;
 		height: 45px;
 	}
-.content.translation > .translate-content > .translate-row > .translate-cell.id { width: 100px; }
-.content.translation > .translate-content > .translate-row > .translate-cell.labels{ text-align: left; }
-.content.translation > .translate-content > .translate-row > .translate-cell.translations{ width: 280px;padding-left:5px;text-align:left; }
-.content.translation > .translate-content > .translate-row > .translate-cell.actions { width: 170px; }
+.content.translation .translate-content > .translate-row > .translate-cell.id { width: 100px; }
+.content.translation .translate-content > .translate-row > .translate-cell.labels{ text-align: left; }
+.content.translation .translate-content > .translate-row > .translate-cell.translations{ width: 280px;padding-left:5px;text-align:left; }
+.content.translation .translate-content > .translate-row > .translate-cell.actions { width: 170px; }
 
-.content.translation > .translate-content > .translate-row > .translate-cell.translations > input
+.content.translation .translate-content > .translate-row > .translate-cell.translations > input
 	{
 		width: 275px;
 		height: 35px;
@@ -1074,7 +1084,7 @@ span.superscript:after
 		font-family: "Open_sans";
 		font-weight: normal;
 	}
-.content.translation > .translate-content > .translate-row > .translate-cell.actions > .action
+.content.translation .translate-content > .translate-row > .translate-cell.actions > .action
 	{
 		width: 35px;
 		height: 35px;
@@ -1084,8 +1094,8 @@ span.superscript:after
 		padding: 0;
 		margin: 0 5px;
 	}
-.content.translation > .translate-content > .translate-row > .translate-cell.actions > .action.save{ background: #149fe4 url(../images/icon-save-white.png) center center no-repeat; }
-.content.translation > .translate-content > .translate-row > .translate-cell.actions > .action.delete{ background: #149fe4 url(../images/icon-delete.png) center center no-repeat; }
+.content.translation .translate-content > .translate-row > .translate-cell.actions > .action.save{ background: #149fe4 url(../images/icon-save-white.png) center center no-repeat; }
+.content.translation .translate-content > .translate-row > .translate-cell.actions > .action.delete{ background: #149fe4 url(../images/icon-delete.png) center center no-repeat; }
 
 /*--- popup box ---*/
 .popup-box
@@ -1175,7 +1185,8 @@ span.superscript:after
 		font-weight: bold;
 		float: right;
 	}
-.popup-box > .popup-content button.button.confirm
+.popup-box > .popup-content button.button.confirm,
+.popup-box > .popup-content input.button.confirm
 	{
 		border: 1px solid #0084c6;
 		background-color: #149fe4;
@@ -1240,3 +1251,94 @@ span.superscript:after
 .float-right { float: right; }
 .no-border { border: none; }
 .no-rmargin { margin-right: 0; }
+
+/*--- menu drag-drop ---*/
+.title-table
+	{
+		width: 100%;
+		display: table;
+		border-collapse: collapse;
+		border-spacing: 0;
+		background-color: #f6f6f6;
+		height: 50px;
+	}
+
+.title-table > .cell
+	{
+		border: 1px solid #dddddd;
+		vertical-align: middle;
+		text-align: center;
+		display: table-cell;
+		position: relative;
+		text-align: left;
+		padding-left: 18px;
+		font-size: 14px;
+		min-height: 30px;
+		padding-top: 10px;
+		padding-bottom: 10px;
+	}
+.title-table > .cell { font-size: 17px; }
+.title-table > .cell > a
+	{
+		text-decoration: none;
+		color: #968b8b;
+	}
+.title-table > .cell.drag-drop { width: 80px; font-size: 12px; text-align: center;  padding: 0; }
+.title-table > .cell.action { width: 100px; text-align: center;  padding: 0; }
+.title-table > .cell.type { width: 120px; text-align: center;  padding: 0; }
+.title-table > .cell.sequen { width: 80px; text-align: center;  padding: 0; }
+
+
+.menu-table
+	{
+		width: 100%;
+		display: table;
+		border-collapse: collapse;
+		border-spacing: 0;
+		margin-top: -1px;
+	}
+.menu-table > .cell
+	{
+		border: 1px solid #dddddd;
+		vertical-align: middle;
+		text-align: center;
+		display: table-cell;
+		position: relative;
+		text-align: left;
+		padding-left: 18px;
+		font-size: 14px;
+		min-height: 30px;
+		padding-top: 10px;
+		padding-bottom: 10px;
+	}
+.menu-table > .cell.draggable { width: 80px; font-size: 12px; text-align: center;  padding: 0; background: url(../images/drag-icon-1.png) center center no-repeat; cursor: pointer; }
+.menu-table > .cell.draggable:hover { background: url(../images/drag-icon-2.png) center center no-repeat; }
+.menu-table > .cell.block { padding: 0; }
+.inner-table
+	{
+		width: 100%;
+		display: table;
+		border-collapse: collapse;
+		border-spacing: 0;
+	}
+.inner-table > .row { display: table-row; position: relative; height: 25px; }
+.inner-table > .row > div {
+		border: 0;
+		vertical-align: middle;
+		text-align: center;
+		display: table-cell;
+		position: relative;
+		text-align: left;
+		padding-left: 5px;
+		vertical-align: middle;
+	}
+.inner-table > .row > .action { width: 100px; text-align: center;  padding: 0; border-left: 1px solid #dddddd;}
+.inner-table > .row > .type { width: 120px; text-align: center;  padding: 0; border-left: 1px solid #dddddd;}
+.inner-table > .row > .sequen { width: 80px; text-align: center;  padding: 0; border-left: 1px solid #dddddd;}	
+	
+
+.row.root > .name { font-size: 18px; font-weight: 600; }
+.row > .name > .list-item { display: inline-block; width: 24px; height: 5px; border-top: 1px solid #ddd; position: relative; }
+.inner-table > .nodes { position: relative; top: 0; left: 0; }
+.inner-table > .nodes > .node { position: absolute; width: 1px; height: 1px; background-color: #dddddd; }
+.inner-table > .list-item > .node { position: absolute; width: 1px; height: 1px; background-color: #dddddd; }

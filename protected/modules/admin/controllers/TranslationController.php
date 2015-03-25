@@ -30,11 +30,11 @@ class TranslationController extends ControllerAdmin
             $search_label = $request->getPost('search_val');
             
             $arrLabel = ExtAdminLanguages::model()->getLabels($select_lng,array('search_label' => $search_label));
-            $retData = $this->renderPartial('_trl_list',array('arrLabel' => $arrLabel,
+            $retData = $this->renderPartial('_admin_labels',array('arrLabel' => $arrLabel,
                     'arrSelect' => $arrSelect,'lang_prefix' => $lang_prefix,'select_lng' => $select_lng,
                     'search_val' => $search_label)); 
             echo $retData;
-            exit();
+            
         }else{
             
             if(empty($curr_lng)){
