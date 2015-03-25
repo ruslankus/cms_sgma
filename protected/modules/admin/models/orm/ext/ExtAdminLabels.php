@@ -49,7 +49,7 @@ Class ExtAdminLabels extends AdminLabels
         $labelId = $con->getLastInsertID('labels');
 
         $sql = "INSERT INTO labels_trl ('translation_id', 'lng_id', 'value') VALUES ";
-
+        /*
         foreach($arrLng as $key => $lng){
             if($key == 0){
                 $sql .= "($labelId, {$lng['id']}, '')";
@@ -60,7 +60,17 @@ Class ExtAdminLabels extends AdminLabels
 
         $con->createCommand($sql)->execute();
         $labelTrl[] = $con->getLastInsertID('labels_trl');
-
+        */
+        
+        foreach($arrLng as $lng){
+           
+            $sql = "INSERT INTO labels_trl ('translation_id', 'lng_id', 'value') VALUES ";
+            $sql .= "($labelId, {$lng['id']}, ' ')";
+            
+            $con->createCommand($sql)->execute();
+            $labelTrl[] = $con->getLastInsertID('labels_trl');
+        }
+        
         return true;
     }
 
