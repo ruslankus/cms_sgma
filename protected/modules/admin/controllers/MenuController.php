@@ -5,11 +5,21 @@ class MenuController extends ControllerAdmin
     /**
      * Index - list all menu
      */
-    public function actionIndex()
+    public function actionIndex($page = 1)
     {
+        //include js file for AJAX updating
+        Yii::app()->clientScript->registerScriptFile($this->assetsPath.'/js/vendor.menu-list.js',CClientScript::POS_END);
+
         /* @var $menus ExtMenu[] */
         $menus = ExtMenu::model()->findAll();
-        $this->render('list_menu',array('menus' => $menus));
+
+        //pager stuff
+        $perPage = 10;
+        $total_pages = (int)ceil(count($menus)/$perPage);
+        $offset = (int)($perPage * ($page - 1));
+        $itemsOfPage = array_slice($menus,$offset,$perPage);
+
+        $this->render('list_menu',array('menus' => $itemsOfPage, 'total_pages' => $total_pages, 'current_page' => $page));
     }
 
 
@@ -132,7 +142,7 @@ class MenuController extends ControllerAdmin
         //statuses
         $statuses = ExtStatus::model()->arrayForMenuForm(true);
 
-        $this->render('list_menu_items',array('items' => $itemsOfPage, 'pages' => $total_pages, 'templates' => $templates, 'menu' => $menu, 'statuses' => $statuses));
+        $this->render('list_menu_items',array('items' => $itemsOfPage, 'pages' => $total_pages, 'templates' => $templates, 'menu' => $menu, 'statuses' => $statuses ,'current_page' => $page));
     }
 
 

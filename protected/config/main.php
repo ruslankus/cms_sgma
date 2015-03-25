@@ -64,7 +64,7 @@ return array(
                  * Routes for other modules
                  */
                 '<language:\w{2}>/<module:\w+>' => '<module>/main/index',
-                '<language:\w{2}>/<module:\w+>/<controller:\w+>'=>'<module>/<controller>/index',
+//                '<language:\w{2}>/<module:\w+>/<controller:\w+>'=>'<module>/<controller>/index',
                 '<language:\w{2}>/<module:\w+>/<controller:\w+>/<id:\d+>'=>'<module>/<controller>/view',
                 '<language:\w{2}>/<module:\w+>/<controller:\w+>/<action:\w+>/<id:\d+>/*'=>'<module>/<controller>/<action>',
                 '<language:\w{2}>/<module:\w+>/<controller:\w+>/<action:\w+>/*'=>'<module>/<controller>/<action>',
