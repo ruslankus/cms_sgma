@@ -43,9 +43,6 @@ Yii::app()->clientScript->registerScriptFile($this->assetsPath.'/js/vendor.label
 				<div class="translate-cell actions">Actions</div>
 			</div><!--/translate-row-->
 			<?php $n = 1;  foreach($arrLabel as $row):?> 
-				<pre>
-				<?php print_r($row); ?>
-				</pre>
 				<div class="translate-row">
 					<div class="translate-cell id"><?php echo $n; ?></div>
 					<div class="translate-cell labels"><?php echo $row['label'];?></div>
