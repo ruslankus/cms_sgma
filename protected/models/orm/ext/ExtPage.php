@@ -60,16 +60,16 @@ class ExtPage extends Page
     }
     
     
-    public function getPage(){
+    public function getPage($lng = 'en'){
        $page = Yii::app()->db->createCommand();
         $page->select('label,header,content,meta_description');
         $page->from('page t1');
         $page->join('page_trl t2' ,'t2.article_id=t1.id ');
         $page->join('languages t3' ,'t2.lng_id=t3.id ');
-        $page->where("t3.prefix=:prefix", array(':prefix' => 'ru'));
+        $page->where("t3.prefix=:prefix", array(':prefix' => $lng));
         
         $result = $page->queryRow();
-        Debug::d($result);
+      
         return $result; 
     }
     

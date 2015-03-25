@@ -101,12 +101,20 @@ return array(
 					'class'=>'CFileLogRoute',
 					'levels'=>'error, warning',
 				),
+                
+                array(
+                    // ?????????? ?????????? ??????????? ? ProfileLogRoute (????????????
+                    // ????? ????????)
+                    'class'=>'CProfileLogRoute',
+                    'levels'=>'profile',
+                    'enabled'=>true,
+                ),
 				// uncomment the following to show log messages on web pages
-				/*
+				
 				array(
 					'class'=>'CWebLogRoute',
 				),
-                */
+                
 				
 			),
 		),

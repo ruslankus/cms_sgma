@@ -1,4 +1,4 @@
-<h3><?php echo $objPage->trl->header ?></h3>
+<h3><?php echo $arrPage['header'] ?></h3>
 
 <h4>content</h4>
-<p><?php echo $objPage->trl->content ?></p>
+<p><?php echo $arrPage['content'] ?></p>
