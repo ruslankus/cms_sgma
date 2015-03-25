@@ -12,6 +12,20 @@ $("#styled-language").on("change", function(){
 	$(".translation-list").load(link,{lng : lng, search_val : search_val});
 
 });
+
+
+$('.search-label-button').click(function(e)
+{
+	e.preventDefault();
+	var prefix = $(this).data('prefix');
+	var search_val = $('#search_label').val();  
+	var lng = $('#styled-language').val();
+	var link = '/'+ prefix +'/admin/Translation/Admin';
+	$(".translation-list").load(link,{lng : lng, search_val : search_val});
+
+});
+
+
 /*
  * Popup with input
 */
