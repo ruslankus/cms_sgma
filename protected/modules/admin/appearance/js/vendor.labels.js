@@ -30,9 +30,46 @@ $('.add-label').click(function(e)
 $('.add-label').click(function(e)
 {
 	e.preventDefault();
-	$.popup("čia html");
-	$.popup.show();
+	var prefix = $(this).data('prefix');
+	var link = '/'+ prefix +'/admin/Translation/AddAdminLabel';
+    $.ajax({ type: "post",url:link}).done(function(data){
+        
+        obj = jQuery.parseJSON(data);
+
+		var html = obj.html;
+		$.popup(html);
+		$.popup.show();
+
+    });
 });
+
+    
+ $(document).on('click','.add-label-popup',function(e){
+     var prefix = $(this).data('prefix');
+     var value = $('#label-popup').val();
+     var link = '/'+ prefix +'/admin/Translation/UniqueCeckAdminLabel';
+    $.ajaxSetup({async:false});
+    $.ajax({ type: "post",url:link,data:{label:value}}).done(function(data){
+        
+        obj = jQuery.parseJSON(data);
+
+        if(obj.status=="success")
+        {        
+
+        }
+       
+        if(obj.status=="error")
+        {
+           $('.add-label-err').html(obj.err_txt);
+
+           e.preventDefault();
+            
+        }
+       
+    });
+     
+    
+ });
 /*
  * Confirm alerts
 */

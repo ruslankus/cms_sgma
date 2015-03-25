@@ -29,7 +29,7 @@ Yii::app()->clientScript->registerScriptFile($this->assetsPath.'/js/vendor.label
 				</select>
 
 			</form>
-				<input type="submit" class="add-label" value="Add Label" />
+				<input type="submit" data-prefix="<?php echo $lang_prefix?>" class="add-label" value="Add Label" />
 			<form>
 				<input type="text" class="search-label" value="" placeholder="Search label" />
 				<input type="submit" class="search-label-button" value="Search" />

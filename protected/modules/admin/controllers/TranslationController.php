@@ -81,7 +81,6 @@ class TranslationController extends ControllerAdmin
             $label = $request->getPost('label_name');
             $arrLng = ExtAdminLanguages::model()->getAllLang();
             ExtAdminLabels::model()->addLabel($label,$arrLng);
-            $this->renderText($label);
             $this->redirect(array('admin')); 
         }
     }
