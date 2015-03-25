@@ -61,7 +61,7 @@ $('.add-label').click(function(e)
 /*
  * Confirm alerts
 */
-$('.delete').click(function(e)
+$(document).on("click",".delete",function(e)
 {
 	e.preventDefault();
 	var prefix = $(this).data('prefix');
@@ -81,17 +81,19 @@ $('.delete').click(function(e)
 /*
  * Save
 */
-$('.save').click(function(e)
+$(document).on("click",".save",function(e)
 {
 	e.preventDefault();
 	var id = $(this).data('id');
 	var prefix = $(this).data('prefix');
 	var value = $("#tr-"+id).val();
+	var curr_lng = $('#styled-language').val;
 	var link = '/'+ prefix +'/admin/Translation/SaveAdminLabel/'+id;
+
     $.ajax({ type: "post",url:link,data:{value:value}}).done(function(data){        
 
     });
-	
+
 });
 /*
  * Search submit

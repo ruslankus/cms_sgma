@@ -12,7 +12,7 @@
     <?php foreach($menus as $menu): ?>
         <tr>
             <td><?php echo $menu->id; ?></td>
-            <td><?php echo $menu->label; ?></td>
+            <td><a href="<?php echo Yii::app()->createUrl('admin/menu/menuitems',array('id' => $menu->id)); ?>"><?php echo $menu->label; ?></a></td>
             <td><?php echo count($menu->menuItems); ?></td>
             <td><?php echo $menu->template_name; ?></td>
             <td>
@@ -22,3 +22,5 @@
         </tr>
     <?php endforeach; ?>
 </table>
+
+<a href="<?php echo Yii::app()->createUrl('admin/menu/addmenu'); ?>">Add menu</a>
