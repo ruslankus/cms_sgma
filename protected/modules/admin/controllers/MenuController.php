@@ -50,6 +50,9 @@ class MenuController extends ControllerAdmin
      */
     public function actionAddMenu()
     {
+        //not include jquery to avoid conflict between jquery from Yii core
+        Yii::app()->clientScript->scriptMap=array('jquery-1.11.2.min.js' => false);
+
         //menu form
         $form_mdl = new AddMenuForm();
 
@@ -73,6 +76,16 @@ class MenuController extends ControllerAdmin
         //statuses
         $statuses = ExtStatus::model()->arrayForMenuForm(true);
 
+        //if ajax validation
+        if(isset($_POST['ajax']))
+        {
+            if($_POST['ajax'] == 'add-form')
+            {
+                echo CActiveForm::validate($form_mdl);
+            }
+            Yii::app()->end();
+        }
+
         //if have form
         if($_POST['AddMenuForm'])
         {
@@ -92,7 +105,7 @@ class MenuController extends ControllerAdmin
             }
         }
 
-        $this->render('add_menu',array('templates' => $templates, 'statuses' => $statuses, 'form_model' => $form_mdl));
+        $this->renderPartial('add_menu',array('templates' => $templates, 'statuses' => $statuses, 'form_model' => $form_mdl),false,true);
     }
 
     /**

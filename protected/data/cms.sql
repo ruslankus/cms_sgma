@@ -10,7 +10,7 @@ Target Server Type    : MYSQL
 Target Server Version : 50538
 File Encoding         : 65001
 
-Date: 2015-03-25 11:58:41
+Date: 2015-03-25 14:24:44
 */
 
 SET FOREIGN_KEY_CHECKS=0;
@@ -160,14 +160,15 @@ CREATE TABLE `menu` (
   `last_change_by` int(11) DEFAULT NULL,
   `template_name` varchar(512) DEFAULT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=4 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=6 DEFAULT CHARSET=utf8;
 
 -- ----------------------------
 -- Records of menu
 -- ----------------------------
-INSERT INTO `menu` VALUES ('1', 'Main menu', '1', '0', '0', '1', 'main_menu');
-INSERT INTO `menu` VALUES ('2', 'Additional Menu', '1', '0', '0', '1', 'additional_menu');
-INSERT INTO `menu` VALUES ('3', 'Left menu', '2', '1427277426', '1427277426', '1', 'main_menu.php');
+INSERT INTO `menu` VALUES ('1', 'Main menu', '1', '0', '1427279702', '1', 'main_menu.php');
+INSERT INTO `menu` VALUES ('2', 'Additional Menu', '1', '0', '1427279715', '1', 'main_menu.php');
+INSERT INTO `menu` VALUES ('4', 'RIght menu', '1', '1427278569', '1427279732', '1', 'main_menu.php');
+INSERT INTO `menu` VALUES ('5', 'test', '1', '1427285673', '1427285673', '1', 'main_menu.php');
 
 -- ----------------------------
 -- Table structure for `menu_item`
@@ -512,6 +513,21 @@ CREATE TABLE `product_trl` (
 
 -- ----------------------------
 -- Records of product_trl
+-- ----------------------------
+
+-- ----------------------------
+-- Table structure for `settings`
+-- ----------------------------
+DROP TABLE IF EXISTS `settings`;
+CREATE TABLE `settings` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `value_name` varchar(255) DEFAULT NULL,
+  `setting` varchar(255) DEFAULT NULL,
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+-- ----------------------------
+-- Records of settings
 -- ----------------------------
 
 -- ----------------------------
