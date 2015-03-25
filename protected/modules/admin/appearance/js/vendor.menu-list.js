@@ -16,7 +16,8 @@ $(".delete").click(function(e)
 $(".add").click(function(e)
 	{
 		e.preventDefault();
-		$.popup({"url":$(this).attr('href')});
+        var link = $(this).attr('href');
+		$.popup({"url":link});
 		$.popup.show();
 		return false;
 	});

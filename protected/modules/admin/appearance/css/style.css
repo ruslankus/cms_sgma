@@ -531,7 +531,7 @@ body
 		width: 450px;
 		border: 1px solid #dddddd;
 		z-index: 1;
-		height: 350px;
+		min-height: 350px;
 		margin-bottom: 20px;
 		display: block;
 		float: left;
@@ -602,6 +602,10 @@ body
 		border-bottom: 1px solid #dddddd;
 		padding: 9.25px 15px;
 		position: relative;
+	}
+.content > .module-block > .module-content > .item:last-of-type
+	{
+		margin-bottom: -1px;
 	}
 .content > .module-block > .module-content > .item > a
 	{
@@ -770,6 +774,7 @@ body
 		position: relative;
 		margin-top: 20px;
 		margin-bottom: 40px;
+		z-index: 4;
 	}
 .content.editor > .tab-line > .editor-language
 	{
@@ -803,6 +808,8 @@ body
 		font-size: 15px;
 		padding: 10px 25px;
 		cursor: pointer;
+		margin: 0;
+		z-index: 6;
 	}
 .content.editor > .tab-line > span.active
 	{
@@ -1359,7 +1366,7 @@ span.superscript:after
 
 .row > .sequen > a { padding-left: 5px; padding-right: 5px; }
 .row > .action > a { padding-left: 5px; padding-right: 5px; }
-.iconed {
+.ficoned {
 	font: normal normal normal 14px/1 FontAwesome;
 	display: inline-block;
 	font-size: inherit;
@@ -1370,8 +1377,8 @@ span.superscript:after
 	transform: translate(0, 0);
   }
 
-.iconed.drag:before { content: "\f047"; }
-.iconed.arrow-up:before { content: "\f062"; }
-.iconed.arrow-down:before { content: "\f063"; }
-.iconed.pencil:before { content: "\f040"; }
-.iconed.trash-can:before { content: "\f1f8"; }
+.ficoned.drag:before { content: "\f047"; }
+.ficoned.arrow-up:before { content: "\f062"; }
+.ficoned.arrow-down:before { content: "\f063"; }
+.ficoned.pencil:before { content: "\f040"; }
+.ficoned.trash-can:before { content: "\f1f8"; }

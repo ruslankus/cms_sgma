@@ -3,7 +3,7 @@
 <?php /* @var $pages int  */ ?>
 <?php /* @var $templates array() */ ?>
 <?php /* @var $menu ExtMenu */ ?>
-
+<?php /* @var $current_page int */ ?>
 
 <main>
 <div class="title-bar">
@@ -24,9 +24,9 @@
 <div class="sortable">
 
 
-<?php foreach($items as $nr => $item): ?>
-<div class="menu-table" data-menu="<?php echo $nr; ?>">
-    <div class="cell draggable"><span class="iconed drag"></span></div>
+<?php foreach($items as $id => $item): ?>
+<div class="menu-table" data-menu="<?php echo $id; ?>">
+    <div class="cell draggable"><span class="ficoned drag"></span></div>
     <div class="cell block">
         <div class="inner-table">
 
@@ -37,19 +37,22 @@
                         <div class="name"><?php echo $children->label; ?></div>
                         <div class="sequen"></div>
                         <div class="type"><?php echo Trl::t()->getLabel($children->type->label); ?></div>
-                        <div class="action"></div>
+                        <div class="action">
+                            <a href="<?php echo Yii::app()->createUrl('admin/menu/editttem',array('id' => $children->id)); ?>" class="edit"><span class="ficoned pencil"></span></a>
+                            <a href="<?php echo Yii::app()->createUrl('admin/menu/deleteitem',array('id' => $children->id)); ?>" class="delete"><span class="ficoned trash-can"></span></a>
+                        </div>
                     </div><!--/row root-->
                 <?php else: ?>
                     <div class="row" data-id="<?php echo $children->id; ?>" data-parent="<?php echo $children->parent_id; ?>">
                         <div class="name"><?php echo $children->label; ?></div>
                         <div class="sequen">
-                            <a href="#" class="go-up"><span class="iconed arrow-up"></span></a>
-                            <a href="#" class="go-down"><span class="iconed arrow-down"></span></a>
+                            <a href="#" class="go-up"><span class="ficoned arrow-up"></span></a>
+                            <a href="#" class="go-down"><span class="ficoned arrow-down"></span></a>
                         </div><!--/sequen-->
                         <div class="type"><?php echo Trl::t()->getLabel($children->type->label); ?></div>
                         <div class="action">
-                            <a href="#" class="edit"><span class="iconed pencil"></span></a>
-                            <a href="#" class="delete"><span class="iconed trash-can"></span></a>
+                            <a href="<?php echo Yii::app()->createUrl('admin/menu/editttem',array('id' => $children->id)); ?>" class="edit"><span class="ficoned pencil"></span></a>
+                            <a href="<?php echo Yii::app()->createUrl('admin/menu/deleteitem',array('id' => $children->id)); ?>" class="delete"><span class="ficoned trash-can"></span></a>
                         </div>
                     </div><!--/row-->
                 <?php endif; ?>
@@ -63,10 +66,9 @@
 </div><!--/content-->
     
 <div class="pagination">
-    <a href="pages.html" class="active">1</a>
-    <a href="pages.html">2</a>
-    <a href="pages.html">3</a>
-    <a href="pages.html">4</a>
+    <?php for($i = 0; $i < $pages; $i++): ?>
+        <a href="<?php echo Yii::app()->createUrl('admin/menu/menuitems/',array('id' => $menu->id, 'page' => $i+1)); ?>" <?php if($current_page == $i+1): ?> class="active" <?php endif; ?>><?php echo $i+1; ?></a>
+    <?php endfor; ?>
 </div><!--/pagination-->
 
 </main>

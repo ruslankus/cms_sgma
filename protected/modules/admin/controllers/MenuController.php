@@ -286,4 +286,30 @@ class MenuController extends ControllerAdmin
 
         $this->render('edit_menu_item',array('languages' => $objLanguages, 'curItem' => $objItem, 'items' => $objItems, 'types' => $objTypes));
     }
+
+    /**
+     * Deleting item
+     * @param $id
+     * @throws CHttpException
+     */
+    public function actionDeleteItem($id)
+    {
+        //find item of menu
+        $objItem = ExtMenuItem::model()->findByPk($id);
+
+        ///if not found
+        if(empty($objItem))
+        {
+            throw new CHttpException(404);
+        }
+
+        //menu id
+        $menu_id = $objItem->menu_id;
+
+        //delete item (and all related with it content by CASCADE)
+        $objItem->delete();
+
+        //back to listing items of menu
+        $this->redirect(Yii::app()->createUrl('/admin/menu/menuitems',array('id' => $menu_id)));
+    }
 }

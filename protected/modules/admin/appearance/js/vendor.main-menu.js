@@ -2,7 +2,9 @@ $(document).ready(function() {
 // Add to main menu
 $(".add").click(function()
 	{
-		
+		var link = $(this).attr('href');
+		$.popup({"url":link});
+		$.popup.show();
 		return false;
 	});
 // Sorting change event
@@ -14,7 +16,7 @@ $(document).on("change","#sortable-order",function(){
 $(document).on("click", ".delete", function()
 	{
 		var data_id = $(this).parent().parent().attr("data-id");
-		var link = "handle.html#"+data_id;
+		var link = "_handles/popup-confirm.html#"+data_id;
 		$.popup({"url":link});
 		$.popup.show();
 		return false;
@@ -32,14 +34,14 @@ $(document).on("click", ".go-up", function()
 	{
 		var data_id = $(this).parent().parent().attr("data-id");
 		console.log(data_id+" up");
-		$(".sortable").load("test-tree.html", function() { $.enable_handlers(); });
+		$(".sortable").load("_handles/main-menu.html", function() { $.enable_handlers(); });
 		return false;
 	});	
 $(document).on("click", ".go-down", function()
 	{
 		var data_id = $(this).parent().parent().attr("data-id");
 		console.log(data_id+" down");
-		$(".sortable").load("test-tree.html");
+		$(".sortable").load("_handles/main-menu.html", function() { $.enable_handlers(); });
 		return false;
 	});
 // for popup confirm
