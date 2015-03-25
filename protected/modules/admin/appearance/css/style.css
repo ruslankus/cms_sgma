@@ -1175,7 +1175,7 @@ span.superscript:after
 		font-weight: bold;
 		float: right;
 	}
-.popup-box > .popup-content button.button.confirm
+.popup-box > .popup-content input[type=button].button.confirm
 	{
 		border: 1px solid #0084c6;
 		background-color: #149fe4;
