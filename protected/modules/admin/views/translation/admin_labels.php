@@ -48,8 +48,8 @@ Yii::app()->clientScript->registerScriptFile($this->assetsPath.'/js/vendor.label
 					<div class="translate-cell labels"><?php echo $row['label'];?></div>
 					<div class="translate-cell translations"><input type="text" value="<?php echo $row['value']?>" name="translation" data-input="1"/></div>
 					<div class="translate-cell actions">
-						<a href="edit.html" class="action save" data-id="1"></a>
-						<a href="index.html" class="action delete" data-id="1"></a>
+						<a href="edit.html" class="action save"></a>
+						<a href="index.html" class="action delete" data-id="<?php echo $row['translation_id']?>" data-prefix="<?php echo $lang_prefix ?>" data-label="<?php echo $row['label']?>"></a>
 					</div><!--/translate-cell actions-->
 				</div><!--/translate-row-->
 			<?php $n++; endforeach;?>

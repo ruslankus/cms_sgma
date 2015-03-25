@@ -110,4 +110,25 @@ class TranslationController extends ControllerAdmin
         }  
     }
 
+    public function actionDelAdminLabel($id = null){
+        $lang_prefix = Yii::app()->language;
+        $request = Yii::app()->request;
+        
+         if($request->isAjaxRequest){
+            $id = $request->getPost('id');
+            $name = $request->getPost('name');
+            $resArr=array();
+            $resArr['html'] = $this->renderPartial('_deleteLabel',array('lang_prefix' =>$lang_prefix,
+                        'id'=>$id,'label_name' => $name),true);
+            echo json_encode($resArr);
+         }else{
+            $objLabel = Labels::model()->findByPk($id);
+           // $objLabel->delete();
+            //ExtLabels::model()->deleteLabel($id);
+            
+            //$this->redirect(array('list'));
+         }
+        
+    }
+
 }// class Translation    

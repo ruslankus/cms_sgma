@@ -10,23 +10,6 @@ $("#styled-language").on("change", function(){
 /*
  * Popup with input
 */
-/*
-$('.add-label').click(function(e)
-{
-	e.preventDefault();
-	
-    $.input({
-		'placeholder'	: 'Label name',
-		'validate'	: function() {
-							if (this.value.length<3) { return "Name is too short"; }
-							else if (this.value.length>20) { return "Name is too long"; }
-							return true;
-						},
-		'confirmed'	: function() {
-						console.log("#"+this.value+" created.");
-						}
-        });
-});*/
 $('.add-label').click(function(e)
 {
 	e.preventDefault();
@@ -76,16 +59,17 @@ $('.add-label').click(function(e)
 $('.delete').click(function(e)
 {
 	e.preventDefault();
-	var data_id = $(this).attr('data-id');
-    var elem = $(this).closest('.translate-row');
+	var prefix = $(this).data('prefix');
+	var labelId = $(this).data('id');
+	var labelName = $(this).data('label');
+	var link = '/'+ prefix +'/admin/Translation/DelAdminLabel';
+    $.ajax({ type: "post",url:link,data:{id : labelId, name: labelName}}).done(function(data){        
+        obj = jQuery.parseJSON(data);
+		var html = obj.html;
+		$.popup(html);
+		$.popup.show();
 
-    $.confirm({
-		'message'	: 'You are about to delete this item. <br />It cannot be restored at a later time! Continue?',
-		'confirm'	: function() {
-                        elem.fadeOut();
-						console.log("#"+data_id+" deleted.");
-						}
-        });
+    });
 });
 /*
  * Save
