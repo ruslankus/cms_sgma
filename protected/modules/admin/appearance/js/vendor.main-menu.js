@@ -1,9 +1,15 @@
-(function( $ ){
+$(document).ready(function() {
 // Add to main menu
 $(".add").click(function()
 	{
+		
 		return false;
 	});
+// Sorting change event
+$(document).on("change","#sortable-order",function(){
+	console.log("new order "+this.value);
+	return false;
+});
 // Delete menu label event
 $(document).on("click", ".delete", function()
 	{
@@ -26,16 +32,16 @@ $(document).on("click", ".go-up", function()
 	{
 		var data_id = $(this).parent().parent().attr("data-id");
 		console.log(data_id+" up");
+		$(".sortable").load("test-tree.html", function() { $.enable_handlers(); });
 		return false;
 	});	
 $(document).on("click", ".go-down", function()
 	{
 		var data_id = $(this).parent().parent().attr("data-id");
 		console.log(data_id+" down");
+		$(".sortable").load("test-tree.html");
 		return false;
 	});
-	
-
 // for popup confirm
 $(document).on("click", ".unique-class-name", function(){
 	console.log("ok");
@@ -46,4 +52,4 @@ $(document).on("submit", ".unique-class-name", function(){
 	console.log("ok");
 	return false;
 });
-})( jQuery );
+});
