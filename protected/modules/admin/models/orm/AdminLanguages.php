@@ -104,18 +104,17 @@ class AdminLanguages extends CActiveRecord
      * @return CDbConnection|null
      * @throws CDbException
      */
-    public function getDbConnection()
+   public function getDbConnection()
     {
         $con = Yii::createComponent(array(
             'class' => 'CDbConnection',
             'connectionString' => 'sqlite:'.Yii::app()->getModule('admin')->getBasePath().'/data/translations.db',
+            'initSQLs'=>array(
+                'PRAGMA foreign_keys = ON',
+            ),
         ));
 
-        self::$db=$con;
-        if(self::$db instanceof CDbConnection)
-            return self::$db;
-        else
-            throw new CDbException('Admin-translation connection is null or initialized with error');
+        return $con;
     }
 
 	/**
