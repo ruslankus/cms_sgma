@@ -9,7 +9,7 @@
 		var lng = this.value;
 		var search_val = $('#search_label').val();  
 		var curr_page = ($('.pagination .active').data('page'));
-		var link = '/'+ prefix +'/admin/Ajax/Admin';
+		var link = '/'+ prefix +'/admin/Translation/AdminAjax';
 		$(".translation-list").load(link,{lng : lng, search_val : search_val, curr_page : curr_page});
 
 	});
@@ -21,7 +21,7 @@
 		var prefix = $(this).data('prefix');
 		var search_val = $('#search_label').val();  
 		var lng = $('#styled-language').val();
-		var link = '/'+ prefix +'/admin/Ajax/Admin';
+		var link = '/'+ prefix +'/admin/Translation/AdminAjax';
 		$(".translation-list").load(link,{lng : lng, search_val : search_val});
 
 	});
@@ -29,13 +29,13 @@
 
 	/*
 	 * Popup with input
-	*/
+	*/ 
 	$('.add-label').click(function(e)
 	{
 		e.preventDefault();
 		var prefix = $(this).data('prefix');
 		var sel_lng = $('#styled-language').val();
-		var link = '/'+ prefix +'/admin/Ajax/AddAdminLabel';
+		var link = '/'+ prefix +'/admin/Translation/AddAdminLabelAjax';
 	    $.ajax({ type: "post",url:link,data:{sel_lng:sel_lng}}).done(function(data){
 	        
 	        obj = jQuery.parseJSON(data);
@@ -51,7 +51,7 @@
 	 $(document).on('click','.add-label-popup',function(e){
 	     var prefix = $(this).data('prefix');
 	     var value = $('#label-popup').val();
-	     var link = '/'+ prefix +'/admin/Ajax/UniqueCeckAdminLabel';
+	     var link = '/'+ prefix +'/admin/Translation/UniqueCeckAdminLabelAjax';
 	    $.ajaxSetup({async:false});
 	    $.ajax({ type: "post",url:link,data:{label:value}}).done(function(data){
 	        
@@ -83,7 +83,7 @@
 		var prefix = $(this).data('prefix');
 		var labelId = $(this).data('id');
 		var labelName = $(this).data('label');
-		var link = '/'+ prefix +'/admin/Ajax/DelAdminLabel';
+		var link = '/'+ prefix +'/admin/Translation/DelAdminLabelAjax';
 	    $.ajax({ type: "post",url:link,data:{id : labelId, name: labelName}}).done(function(data){        
 	        obj = jQuery.parseJSON(data);
 			var html = obj.html;
@@ -104,7 +104,7 @@
 		var prefix = $(this).data('prefix');
 		var value = $("#tr-"+id).val();
 		var curr_lng = $('#styled-language').val;
-		var link = '/'+ prefix +'/admin/Ajax/SaveAdminLabel/'+id;
+		var link = '/'+ prefix +'/admin/Translation/SaveAdminLabelAjax/'+id;
 
 	    $.ajax({ type: "post",url:link,data:{value:value}}).done(function(data){        
 
@@ -131,7 +131,7 @@
     	var search_val = $('#search_label').val();  
 		var lng = $('#styled-language').val();
 		var prefix = $(this).data('prefix');
-		var link = '/'+ prefix +'/admin/Ajax/Admin';
+		var link = '/'+ prefix +'/admin/Translation/AdminAjax';
 		$(".translation-list").load(link,{lng : lng, search_val : search_val, curr_page:curr_page});
 
     });
