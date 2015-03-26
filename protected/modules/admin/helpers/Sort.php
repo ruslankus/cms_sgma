@@ -36,4 +36,46 @@ class Sort
 
         return array($objItem1,$objItem2);
     }
+
+    /**
+     * Reorders priorities (used for ajax drag-n-drop sequence changing)
+     * @param $oldOrder
+     * @param $newOrder
+     */
+    public static function ReorderMenuItems($oldOrder,$newOrder)
+    {
+        if(!empty($oldOrder) && !empty($newOrder) && count($oldOrder) == count($newOrder))
+        {
+            //get all items by old order's ID's and sort them by priority descending
+            $items = ExtMenuItem::model()->findAllByAttributes(array('id' => $oldOrder),array('order' => 'priority DESC'));
+
+            if(!empty($items))
+            {
+                //get max and min priorities
+                $maxPriority = $items[0]->priority;
+                $minPriority = $items[count($items)-1]->priority;
+
+                //current iteration priority
+                $current_priority = $maxPriority;
+
+                //foreach ID in new order sequence
+                foreach($newOrder as $id)
+                {
+                    //set current iteration priority
+                    $item = ExtMenuItem::model()->findByPk($id);
+                    $item->priority = $current_priority;
+                    $item->last_change_by = Yii::app()->user->id;
+                    $item->time_updated = time();
+                    $item->update();
+
+                    //decrease if not reached min
+                    if($current_priority-1 >= $minPriority)
+                    {
+                        $current_priority--;
+                    }
+                }
+            }
+
+        }
+    }
 }

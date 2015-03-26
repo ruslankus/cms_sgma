@@ -15,7 +15,7 @@
 
                 <?php if(!$children->hasParent()): ?>
                     <div class="row root" data-id="<?php echo $children->id; ?>">
-                        <div class="name"><?php echo $children->label; ?>(<?php echo $children->id; ?>)</div>
+                        <div class="name"><?php echo $children->label; ?></div>
                         <div class="sequen"></div>
                         <div class="type"><?php echo Trl::t()->getLabel($children->type->label); ?></div>
                         <div class="action">
@@ -25,7 +25,7 @@
                     </div><!--/row root-->
                 <?php else: ?>
                     <div class="row" data-id="<?php echo $children->id; ?>" data-parent="<?php echo $children->parent_id; ?>">
-                        <div class="name"><?php echo $children->label; ?>(<?php echo $children->id; ?>)</div>
+                        <div class="name"><?php echo $children->label; ?></div>
                         <div class="sequen">
                             <a href="#" class="go-up"><span class="ficoned arrow-up"></span></a>
                             <a href="#" class="go-down"><span class="ficoned arrow-down"></span></a>

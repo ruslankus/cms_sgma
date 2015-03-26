@@ -1,12 +1,31 @@
 $(document).ready(function() {
 
 // Sorting change event
-$(document).on("change","#swapped-ids",function(){
+$(document).on("change","#orders",function(){
 
-    //TODO: Ajax reloading of all table
-	console.log("swapped "+this.value);
+    var request = $.ajax({
+        method: "POST",
+        url: $('#ajax-swap-link').val(),
+        data: { orders: this.value}
+    });
+
+    request.done(function(msg) {
+        if(msg == 'OK')
+        {
+            ajaxRefreshTable();
+        }
+    });
+
+    request.fail(function(jqXHR,textStatus) {
+        alert( "Request failed: " + textStatus);
+    });
 
 	return false;
+});
+
+// Table reloaded event
+$(document).find('.sortable').change(function(){
+    $.enable_handlers();
 });
 
 // Delete menu label event
@@ -58,3 +77,16 @@ $(document).on("submit", ".unique-class-name", function(){
 });
 
 });
+
+
+/**
+ * Refresh table of menu items
+ */
+var ajaxRefreshTable = function()
+{
+    var request = $.ajax({url: $('#ajax-refresh-link').val()});
+
+    request.done(function(data){
+        $('.sortable').html(data).trigger('change');
+    });
+};

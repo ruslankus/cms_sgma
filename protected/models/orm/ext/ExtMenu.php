@@ -45,7 +45,7 @@ Class ExtMenu extends Menu
         /* @var $tmp ExtMenuItem[] */
 
         $arr_result = array();
-        $all = ExtMenuItem::model()->findAllByAttributes(array('menu_id' => $this->id, 'parent_id' => $parent_id),array('order' => 'priority ASC'));
+        $all = ExtMenuItem::model()->findAllByAttributes(array('menu_id' => $this->id, 'parent_id' => $parent_id),array('order' => 'priority DESC'));
 
         foreach($all as $item)
         {

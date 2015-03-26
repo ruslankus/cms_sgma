@@ -285,19 +285,13 @@ class MenuController extends ControllerAdmin
      */
     public function actionAjaxOrderItems()
     {
-        //TODO: Разобраться с этим гребанным алогоритмом и добиться нормального изменения порядка...
-
         $ordersJson = Yii::app()->request->getParam('orders');
         $orders = json_decode($ordersJson,true);
 
-        $previous = $orders['previous'];
+        $previous = $orders['old'];
         $new = $orders['new'];
 
-        //swap all priorities
-        foreach($previous as $index => $id)
-        {
-            Sort::SwapById($id,$new[$index],"MenuItem");
-        }
+        Sort::ReorderMenuItems($previous,$new);
 
         echo "OK";
     }
