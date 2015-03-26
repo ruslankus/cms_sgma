@@ -15,10 +15,10 @@ $currentPage = $pager->getCurrentPage();
 
 	<div class="content translation">
 		<div class="header">
-			<span><?php echo Trl::t()->getLabel('Messages translation')?></span>
-			<a href="#" class="languages"><?php echo Trl::t()->getLabel('Languages')?></a>
-			<a href="/<?php echo $lang_prefix?>/admin/Translation/AdminMessages" class="messages active"><?php echo Trl::t()->getLabel('Messages')?></a>
-			<a href="/<?php echo $lang_prefix?>/admin/Translation/Admin" class="labels"><?php echo Trl::t()->getLabel('Labels')?></a>
+			<span><?php echo Trl::t()->getLabel('Messages translation');?></span>
+			<a href="#" class="languages"><?php echo Trl::t()->getLabel('Languages');?></a>
+			<a href="/<?php echo $lang_prefix?>/admin/Translation/AdminMessages" class="messages active"><?php echo Trl::t()->getLabel('Messages');?></a>
+			<a href="/<?php echo $lang_prefix?>/admin/Translation/Admin" class="labels"><?php echo Trl::t()->getLabel('Labels');?></a>
 		</div><!--/header-->
 		<div class="translate-actions">
 			<form>
@@ -33,10 +33,10 @@ $currentPage = $pager->getCurrentPage();
 				</select>
 
 			</form>
-				<input type="submit" data-prefix="<?php echo $lang_prefix?>" class="add-label" value="Add Label" />
+				<input type="submit" data-prefix="<?php echo $lang_prefix?>" class="add-label" value="<?php echo Trl::t()->getLabel('Add message');?>" />
 			<form>
-				<input type="text" class="search-label" id="search_label" value="" placeholder="Search label" />
-				<input type="submit" class="search-label-button" value="Search" data-prefix="<?php echo $lang_prefix?>" />
+				<input type="text" class="search-label" id="search_label" value="" placeholder="<?php echo Trl::t()->getLabel('Search message');?>" />
+				<input type="submit" class="search-label-button" value="<?php echo Trl::t()->getLabel('Search');?>" data-prefix="<?php echo $lang_prefix?>" />
 			</form>
 		</div><!--/translate-actions-->
 		<div class="translation-list">
