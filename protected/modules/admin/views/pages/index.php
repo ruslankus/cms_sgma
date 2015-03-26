@@ -2,7 +2,7 @@
 				<div class="title-bar">
 					<h1>Pages</h1>
 					<ul class="actions">
-						<li><a href="/admin/pages/create" class="action add"></a></li>
+						<li><a href="/<?php echo $currLng?>/admin/pages/create" class="action add"></a></li>
 						<li><a href="" class="action refresh"></a></li>
 						<li><a href="" class="action copy"></a></li>
 						<li><a href="" class="action del"></a></li>

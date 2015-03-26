@@ -1,10 +1,11 @@
+
+<?php foreach($arrData as $key => $value ): ?>
+<p>
 <?php $form=$this->beginWidget('CActiveForm'); ?>
-    
-    <?php foreach($arrData as $key => $value ): ?>
-<p><label><?php echo $key?></label><input type="text" name="<?php echo $key ?>" value="<?php echo $value?>" /> <button type="submit" name="sub_<?echo $key?>">"Save_<?php echo $key?></button></p>
-
-<?php endforeach; ?>
-
-
-
+<label><?php echo $key?></label>
+<input type="text" name="value" value="<?php echo $value?>" />
+<input type="hidden" name="setting" value="<?php echo $key; ?>" />
+<input type="submit" name="save" value="Save" /> 
 <?php $this->endWidget(); ?>
+</p>
+<?php endforeach; ?>

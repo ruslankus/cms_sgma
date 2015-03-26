@@ -38,12 +38,16 @@ $.build_tree = function() {
 	});
 };
 
-// Dragabble blocks
+// Draggable blocks
 $.build_sort = function()
 {
-	var toarray = [];
 	var $sortable = $(document).find(".sortable");
-	var $order = $("<input>",{"id":"sortable-order","type":"hidden"}).appendTo($sortable);
+
+    var previous_order = [];
+    var new_order = [];
+
+    var $swapped = $("<input>",{"id":"swapped-ids","type":"hidden"}).appendTo($sortable);
+
 	var $handle = $(document).find(".sortable > .menu-table > .draggable");
 	$sortable.sortable({
       connectWith: $sortable,
@@ -52,10 +56,32 @@ $.build_sort = function()
       placeholder: "sort-placeholder",
 	  key: "key",
 	  attribute: "data-sort",
-	  stop: function(e,ui) {
-		var data = $(this).sortable('toArray',{key : "order", attribute : "data-menu"});
-		$order.val(data).trigger("change");
-		}
+      start: function(e,ui)
+      {
+          previous_order = $(this).sortable('toArray',{key : "order", attribute : "data-menu"});
+      },
+	  stop: function(e,ui)
+      {
+          new_order = $(this).sortable('toArray',{key : "order", attribute : "data-menu"});
+          var result = [];
+
+          var _p_order = [];
+          var _n_order = [];
+
+          for(var i = 0; i < previous_order.length; i++){if(previous_order[i] != ""){_p_order.push(previous_order[i]);}}
+          for(var y = 0; y < new_order.length; y++){if(new_order[y] != ""){_n_order.push(new_order[y]);}}
+
+          for(var j = 0; j < _p_order.length; j++)
+          {
+              if(_p_order[j] !=_n_order[j])
+              {
+                  result[0] = _p_order[j];
+                  result[1] = _n_order[j];
+              }
+          }
+
+          $swapped.val(result).trigger("change");
+      }
     });
 };
 

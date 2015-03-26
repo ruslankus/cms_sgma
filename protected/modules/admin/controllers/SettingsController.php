@@ -14,16 +14,23 @@ class SettingsController extends ControllerAdmin
     
     
     public function actionEdit(){
+        $request = Yii::app()->request;
         
-        if(!empty($_POST)){
-            Debug::d($_POST);
-        }
+        if(isset($_POST['save'])){
         
-        //$objSet = Settings::model()->findByAttributes(array('value_name' => 'setting2'));
-       
-        //$objSet->setting = "changed_value";
+            $setName = $request->getPost('setting');
+            $setValue = $request->getPost('value');      
+            $objSet = Settings::model()->findByAttributes(array('value_name' => $setName)); 
+               
+            $objSet->setting = $setValue;
+            
+            if($objSet->save()){
+                
+            }else{
+                //error
+            }
         
-       
+       }
         
         $arrData = ExtSettings::model()->getSettings();
         
