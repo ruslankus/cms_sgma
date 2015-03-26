@@ -15,14 +15,14 @@ $currentPage = $pager->getCurrentPage();
 
 	<div class="content translation">
 		<div class="header">
-			<span>Label translation</span>
-			<a href="#" class="languages">Languages</a>
-			<a href="/<?php echo $lang_prefix?>/admin/Translation/AdminMessages" class="messages">Messages</a>
-			<a href="/<?php echo $lang_prefix?>/admin/Translation/Admin" class="labels active">Labels</a>
+			<span><?php echo Trl::t()->getLabel('Label translation')?></span>
+			<a href="#" class="languages"><?php echo Trl::t()->getLabel('Languages')?></a>
+			<a href="/<?php echo $lang_prefix?>/admin/Translation/AdminMessages" class="messages"><?php echo Trl::t()->getLabel('Messages')?></a>
+			<a href="/<?php echo $lang_prefix?>/admin/Translation/Admin" class="labels active"><?php echo Trl::t()->getLabel('Labels')?></a>
 		</div><!--/header-->
 		<div class="translate-actions">
 			<form>
-				<select name="language" id="styled-language" data-prefix="<?php echo $lang_prefix?>" class="float-left">
+				<select name="language" id="styled-language" data-prefiax="<?php echo $lang_prefix?>" class="float-left">
 		        <?php foreach($arrSelect as $key => $value):?>
 		            <?php if($key == $select_lng):?>     
 		                <option selected="true" value="<?php echo $key?>" data-image="<?php echo $this->assetsPath; ?>/images/flag-uk.png"><?php echo $value?></option>
@@ -43,9 +43,9 @@ $currentPage = $pager->getCurrentPage();
 			<div class="translate-content">
 				<div class="translate-row">
 					<div class="translate-cell id">#</div>
-					<div class="translate-cell labels">Labels</div>
-					<div class="translate-cell translations">Translations</div>
-					<div class="translate-cell actions">Actions</div>
+					<div class="translate-cell labels"><?php echo Trl::t()->getLabel('Labels')?></div>
+					<div class="translate-cell translations"><?php echo Trl::t()->getLabel('Translations')?></div>
+					<div class="translate-cell actions"><?php echo Trl::t()->getLabel('Actions')?></div>
 				</div><!--/translate-row-->
 
 				<?php 

@@ -1,3 +1,10 @@
+<?php
+Yii::app()->clientScript->registerScriptFile($this->assetsPath.'/js/vendor.messages.js',CClientScript::POS_END);
+$pagesArr = $pager->getPreparedArray();
+$totalPages = $pager->getTotalPages();
+$perPage = $pager->getPerPage();
+$currentPage = $pager->getCurrentPage();
+?>
 <main>
 	<div class="title-bar world">
 		<h1>Settings</h1>
@@ -5,95 +12,72 @@
 			<li><a href="" class="action undo"></a></li>
 		</ul>
 	</div><!--/title-bar-->
-	
+
 	<div class="content translation">
 		<div class="header">
-			<span>Message translation</span>
-			<a href="#" class="languages">Languages</a>
-			<a href="#" class="messages active">Messages</a>
-			<a href="/admin/Translation/Admin" class="labels">Labels</a>
+			<span><?php echo Trl::t()->getLabel('Messages translation')?></span>
+			<a href="#" class="languages"><?php echo Trl::t()->getLabel('Languages')?></a>
+			<a href="/<?php echo $lang_prefix?>/admin/Translation/AdminMessages" class="messages"><?php echo Trl::t()->getLabel('Messages')?></a>
+			<a href="/<?php echo $lang_prefix?>/admin/Translation/Admin" class="labels active"><?php echo Trl::t()->getLabel('Labels')?></a>
 		</div><!--/header-->
 		<div class="translate-actions">
 			<form>
-				<div class="wrap-language">
-					<ul class="editor-language">
-						<li data-language="en"><img src="/images/flag-uk.png" alt="" /><a href="#">English</a></li>
-						<li data-language="ru" class="active"><img src="images/flag-uk.png" alt="" /><a href="#">Russian</a></li>
-						<li data-language="lt"><img src="/images/flag-uk.png" alt="" /><a href="#">Lithuanian</a></li>
-						<li data-language="en"><img src="/images/flag-uk.png" alt="" /><a href="#">English</a></li>
-						<li data-language="en"><img src="/images/flag-uk.png" alt="" /><a href="#">English</a></li>
-					</ul>
-				</div>
-				<input name="language_id" type="hidden" value="" id="editor_language_input" />
-				<input type="submit" class="add-label" value="Add message" />
+				<select name="language" id="styled-language" data-prefiax="<?php echo $lang_prefix?>" class="float-left">
+		        <?php foreach($arrSelect as $key => $value):?>
+		            <?php if($key == $select_lng):?>     
+		                <option selected="true" value="<?php echo $key?>" data-image="<?php echo $this->assetsPath; ?>/images/flag-uk.png"><?php echo $value?></option>
+		            <?php else:?>
+		                <option value="<?php echo $key?>" data-image="<?php echo $this->assetsPath; ?>/images/flag-uk.png"><?php echo $value?></option> 
+		            <?php endif;?>
+		        <?php endforeach;?> 
+				</select>
+
 			</form>
+				<input type="submit" data-prefix="<?php echo $lang_prefix?>" class="add-label" value="Add Label" />
 			<form>
-				<input type="text" class="search-label" value="" placeholder="Search message" />
-				<input type="submit" class="search-label-button" value="Search" />
+				<input type="text" class="search-label" id="search_label" value="" placeholder="Search label" />
+				<input type="submit" class="search-label-button" value="Search" data-prefix="<?php echo $lang_prefix?>" />
 			</form>
 		</div><!--/translate-actions-->
-		<div class="translate-content">
-			<div class="translate-row">
-				<div class="translate-cell id">#</div>
-				<div class="translate-cell labels">Messages</div>
-				<div class="translate-cell translations">Translations</div>
-				<div class="translate-cell actions">Actions</div>
-			</div><!--/translate-row-->
-			
-			<div class="translate-row">
-				<div class="translate-cell id">1</div>
-				<div class="translate-cell labels">Lorem ipsum</div>
-				<div class="translate-cell translations"><input type="text" value="Hot product" name="translation" data-input="1"/></div>
-				<div class="translate-cell actions">
-					<a href="edit.html" class="action save" data-actfor="1"></a>
-					<a href="index.html" class="action delete" data-actfor="1"></a>
-				</div><!--/translate-cell actions-->
-			</div><!--/translate-row-->
-			<div class="translate-row">
-				<div class="translate-cell id">2</div>
-				<div class="translate-cell labels">Lorem ipsum</div>
-				<div class="translate-cell translations"><input type="text" value="Hot product" name="translation" data-input="2"/></div>
-				<div class="translate-cell actions">
-					<a href="edit.html" class="action save" data-actfor="2"></a>
-					<a href="index.html" class="action delete" data-actfor="2"></a>
-				</div><!--/translate-cell actions-->
-			</div><!--/translate-row-->
-			<div class="translate-row">
-				<div class="translate-cell id">3</div>
-				<div class="translate-cell labels">Lorem ipsum</div>
-				<div class="translate-cell translations"><input type="text" value="Hot product" name="translation" data-input="3"/></div>
-				<div class="translate-cell actions">
-					<a href="edit.html" class="action save" data-actfor="3"></a>
-					<a href="index.html" class="action delete" data-actfor="3"></a>
-				</div><!--/translate-cell actions-->
-			</div><!--/translate-row-->
-			<div class="translate-row">
-				<div class="translate-cell id">4</div>
-				<div class="translate-cell labels">Lorem ipsum</div>
-				<div class="translate-cell translations"><input type="text" value="Hot product" name="translation" data-input="4"/></div>
-				<div class="translate-cell actions">
-					<a href="edit.html" class="action save" data-actfor="4"></a>
-					<a href="index.html" class="action delete" data-actfor="4"></a>
-				</div><!--/translate-cell actions-->
-			</div><!--/translate-row-->
-			<div class="translate-row">
-				<div class="translate-cell id">5</div>
-				<div class="translate-cell labels">Lorem ipsum</div>
-				<div class="translate-cell translations"><input type="text" value="Hot product" name="translation" data-input="5"/></div>
-				<div class="translate-cell actions">
-					<a href="edit.html" class="action save" data-actfor="5"></a>
-					<a href="index.html" class="action delete" data-actfor="5"></a>
-				</div><!--/translate-cell actions-->
-			</div><!--/translate-row-->
-			
-		</div><!--/translate-content-->
-		
-	<div class="pagination from-labels">
-		<a href="pages.html" class="active">1</a>
-		<a href="pages.html">2</a>
-		<a href="pages.html">3</a>
-		<a href="pages.html">4</a>
-	</div><!--/pagination-->
+		<div class="translation-list">
+			<div class="translate-content">
+				<div class="translate-row">
+					<div class="translate-cell id">#</div>
+					<div class="translate-cell labels"><?php echo Trl::t()->getLabel('Messages')?></div>
+					<div class="translate-cell translations"><?php echo Trl::t()->getLabel('Translations')?></div>
+					<div class="translate-cell actions"><?php echo Trl::t()->getLabel('Actions')?></div>
+				</div><!--/translate-row-->
+
+				<?php 
+					$n = $currentPage*$perPage-$perPage+1; // first number on page
+					foreach($pagesArr as $row):?>
+						<div class="translate-row">
+							<div class="translate-cell id"><?php echo $n; ?></div>
+							<div class="translate-cell labels"><?php echo $row['label'];?></div>
+							<div class="translate-cell translations"><input type="text" id="tr-<?php echo $row['id'];?>" value="<?php echo $row['value']; ?>" name="translation"/></div>
+							<div class="translate-cell actions">
+								<a href="edit.html" class="action save" data-id="<?php echo $row['id'];?>" data-prefix="<?php echo $lang_prefix; ?>"></a>
+								<a href="index.html" class="action delete" data-id="<?php echo $row['translation_id'];?>" data-prefix="<?php echo $lang_prefix; ?>" data-label="<?php echo $row['label']?>"></a>
+							</div><!--/translate-cell actions-->
+						</div><!--/translate-row-->
+				<?php $n++; endforeach;?>
+			</div><!--/translate-content-->
+			<?php
+			if($totalPages>1)
+			{
+			?>
+			<div class="pagination from-labels">
+			<?php
+				for($i=1; $i<=$totalPages; $i++):
+			?>
+				<a href="" data-page="<?php echo $i;?>" class="links-pages<?php if(($i) == $currentPage): ?> active<?php endif; ?>" data-prefix="<?php echo $lang_prefix; ?>"><?php echo $i;?></a>
+			<?php
+				endfor;
+			?>
+			</div>
+			<?php
+			}
+			?>
+		</div>
 	</div><!--/content translate-->
-	
 </main>
