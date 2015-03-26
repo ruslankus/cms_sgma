@@ -1,17 +1,14 @@
 $(document).ready(function() {
-// Add to main menu
-$(".add").click(function()
-	{
-		var link = $(this).attr('href');
-		$.popup({"url":link});
-		$.popup.show();
-		return false;
-	});
+
 // Sorting change event
-$(document).on("change","#sortable-order",function(){
-	console.log("new order "+this.value);
+$(document).on("change","#swapped-ids",function(){
+
+    //TODO: Ajax reloading of all table
+	console.log("swapped "+this.value);
+
 	return false;
 });
+
 // Delete menu label event
 $(document).on("click", ".delete", function()
 	{
@@ -21,6 +18,7 @@ $(document).on("click", ".delete", function()
 		$.popup.show();
 		return false;
 	});
+
 // Delete menu label event
 $(document).on("click", ".edit", function()
 	{
@@ -29,6 +27,7 @@ $(document).on("click", ".edit", function()
 		$.popup.show();
 		return false;
 	});
+
 // move label up
 $(document).on("click", ".go-up", function()
 	{
@@ -36,7 +35,8 @@ $(document).on("click", ".go-up", function()
 		console.log(data_id+" up");
 		$(".sortable").load("_handles/main-menu.html", function() { $.enable_handlers(); });
 		return false;
-	});	
+	});
+
 $(document).on("click", ".go-down", function()
 	{
 		var data_id = $(this).parent().parent().attr("data-id");
@@ -44,14 +44,17 @@ $(document).on("click", ".go-down", function()
 		$(".sortable").load("_handles/main-menu.html", function() { $.enable_handlers(); });
 		return false;
 	});
+
 // for popup confirm
 $(document).on("click", ".unique-class-name", function(){
 	console.log("ok");
 	return false;
 });
+
 // for input submits
 $(document).on("submit", ".unique-class-name", function(){
 	console.log("ok");
 	return false;
 });
+
 });
