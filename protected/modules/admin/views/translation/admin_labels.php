@@ -1,5 +1,9 @@
 <?php
 Yii::app()->clientScript->registerScriptFile($this->assetsPath.'/js/vendor.labels.js',CClientScript::POS_END);
+$pagesArr = $pager->getPreparedArray();
+$totalPages = $pager->getTotalPages();
+$perPage = $pager->getPerPage();
+$currentPage = $pager->getCurrentPage();
 ?>
 <main>
 	<div class="title-bar world">
@@ -43,7 +47,7 @@ Yii::app()->clientScript->registerScriptFile($this->assetsPath.'/js/vendor.label
 					<div class="translate-cell translations">Translations</div>
 					<div class="translate-cell actions">Actions</div>
 				</div><!--/translate-row-->
-				<?php $n = 1;  foreach($arrLabel as $row):?> 
+				<?php $n = 1;  foreach($pagesArr as $row):?> 
 					<div class="translate-row">
 						<div class="translate-cell id"><?php echo $n; ?></div>
 						<div class="translate-cell labels"><?php echo $row['label'];?></div>
@@ -55,21 +59,22 @@ Yii::app()->clientScript->registerScriptFile($this->assetsPath.'/js/vendor.label
 					</div><!--/translate-row-->
 				<?php $n++; endforeach;?>
 			</div><!--/translate-content-->
-			<div>
-			Test pager <br>
 			<?php
-				$pages = $pager->getPreparedArray();
+			if($totalPages>1)
+			{
 			?>
-			<pre>
-			<?php print_r($pages); ?>
-			</pre>
-			</div>
 			<div class="pagination from-labels">
-				<a href="pages.html" class="active">1</a>
-				<a href="pages.html">2</a>
-				<a href="pages.html">3</a>
-				<a href="pages.html">4</a>
-			</div><!--/pagination-->
+			<?php
+				for($i=1; $i<=$totalPages; $i++):
+			?>
+				<a href="" data-page="<?php echo $i;?>" class="links-pages<?php if(($i) == $currentPage): ?> active<?php endif; ?>" data-prefix="<?php echo $lang_prefix; ?>"><?php echo $i;?></a>
+			<?php
+				endfor;
+			?>
+			</div>
+			<?php
+			}
+			?>
 		</div>
 	</div><!--/content translate-->
 </main>

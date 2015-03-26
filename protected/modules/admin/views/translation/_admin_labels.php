@@ -1,3 +1,9 @@
+<?php
+$pagesArr = $pager->getPreparedArray();
+$totalPages = $pager->getTotalPages();
+$perPage = $pager->getPerPage();
+$currentPage = $pager->getCurrentPage();
+?>
 <div class="translate-content">
 	<div class="translate-row">
 		<div class="translate-cell id">#</div>
@@ -5,7 +11,7 @@
 		<div class="translate-cell translations">Translations</div>
 		<div class="translate-cell actions">Actions</div>
 	</div><!--/translate-row-->
-	<?php $n = 1;  foreach($arrLabel as $row):?> 
+	<?php $n = 1;  foreach($pagesArr as $row):?> 
 		<div class="translate-row">
 			<div class="translate-cell id"><?php echo $n; ?></div>
 			<div class="translate-cell labels"><?php echo $row['label'];?></div>
@@ -18,9 +24,19 @@
 	<?php $n++; endforeach;?>
 </div><!--/translate-content-->
 
+<?php
+if($totalPages>1)
+{
+?>
 <div class="pagination from-labels">
-	<a href="pages.html" class="active">1</a>
-	<a href="pages.html">2</a>
-	<a href="pages.html">3</a>
-	<a href="pages.html">4</a>
-</div><!--/pagination-->
+<?php
+	for($i=1; $i<=$totalPages; $i++):
+?>
+	<a href="" data-page="<?php echo $i;?>" class="links-pages<?php if(($i) == $currentPage): ?> active<?php endif; ?>" data-prefix="<?php echo $lang_prefix; ?>"><?php echo $i;?></a>
+<?php
+	endfor;
+?>
+</div>
+<?php
+}
+?>
