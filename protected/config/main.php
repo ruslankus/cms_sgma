@@ -102,19 +102,19 @@ return array(
 					'levels'=>'error, warning',
 				),
 
-                /*
+                
                 array(
                     'class'=>'CProfileLogRoute',
                     'levels'=>'profile',
                     'enabled'=>true,
                 ),
-                */
+                
 
-                /*
+                
 				array(
 					'class'=>'CWebLogRoute',
 				),
-                */
+                
                 
 				
 			),

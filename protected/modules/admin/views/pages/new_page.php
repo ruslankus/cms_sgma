@@ -25,7 +25,10 @@
 								<table data-tab="<?php echo $objLng->prefix?>" class="<?php echo ($index == 0)? "active" : ""?>">
 									<tr>
 										<td class="label">Title <?php echo $objLng->prefix ?>:</td>
-										<td class="value"><input type="text" name="title_<?php echo $objLng->prefix ?>" placeholder="Enter holder" /></td>
+										<td class="value">
+                                        <input type="text" name="AddPageForm[title_<?php echo $objLng->prefix ?>]" placeholder="Enter holder" />
+                                       
+                                        </td>
 									</tr>
 								</table>
                              <?php endforeach; ?>   
@@ -35,10 +38,9 @@
 							<table>							
 								<tr>
 									<td class="label">label</td>
-									<td class="value">
-                                    <input type="text" name="note" placeholder="enter label" />
+									<td class="value">                                   
                                     <?php echo $form->textField($model,'label');?>
-                                    <?php echo $form->error($model);?>
+                                    <?php echo $form->error($model,'label');?>
                                     </td>
 								</tr>
 								<tr>
