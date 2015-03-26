@@ -1,9 +1,13 @@
 <?php
 Yii::app()->clientScript->registerScriptFile($this->assetsPath.'/js/vendor.labels.js',CClientScript::POS_END);
+$pagesArr = $pager->getPreparedArray();
+$totalPages = $pager->getTotalPages();
+$perPage = $pager->getPerPage();
+$currentPage = $pager->getCurrentPage();
 ?>
 <main>
 	<div class="title-bar world">
-		<h1>Settings</h1>
+		<h1><?php echo Trl::t()->getLabel('Settings')?></h1>
 		<ul class="actions">
 			<li><a href="" class="action undo"></a></li>
 		</ul>
@@ -11,14 +15,14 @@ Yii::app()->clientScript->registerScriptFile($this->assetsPath.'/js/vendor.label
 
 	<div class="content translation">
 		<div class="header">
-			<span>Label translation</span>
-			<a href="languages.html" class="languages">Languages</a>
-			<a href="messages.html" class="messages">Messages</a>
-			<a href="labels.html" class="labels active">Labels</a>
+			<span><?php echo Trl::t()->getLabel('Label translation')?></span>
+			<a href="#" class="languages"><?php echo Trl::t()->getLabel('Languages')?></a>
+			<a href="/<?php echo $lang_prefix?>/admin/Translation/AdminMessages" class="messages"><?php echo Trl::t()->getLabel('Messages')?></a>
+			<a href="/<?php echo $lang_prefix?>/admin/Translation/Admin" class="labels active"><?php echo Trl::t()->getLabel('Labels')?></a>
 		</div><!--/header-->
 		<div class="translate-actions">
 			<form>
-				<select name="language" id="styled-language" data-prefix="<?php echo $lang_prefix?>" class="float-left">
+				<select name="language" id="styled-language" data-prefiax="<?php echo $lang_prefix?>" class="float-left">
 		        <?php foreach($arrSelect as $key => $value):?>
 		            <?php if($key == $select_lng):?>     
 		                <option selected="true" value="<?php echo $key?>" data-image="<?php echo $this->assetsPath; ?>/images/flag-uk.png"><?php echo $value?></option>
@@ -39,37 +43,41 @@ Yii::app()->clientScript->registerScriptFile($this->assetsPath.'/js/vendor.label
 			<div class="translate-content">
 				<div class="translate-row">
 					<div class="translate-cell id">#</div>
-					<div class="translate-cell labels">Labels</div>
-					<div class="translate-cell translations">Translations</div>
-					<div class="translate-cell actions">Actions</div>
+					<div class="translate-cell labels"><?php echo Trl::t()->getLabel('Labels')?></div>
+					<div class="translate-cell translations"><?php echo Trl::t()->getLabel('Translations')?></div>
+					<div class="translate-cell actions"><?php echo Trl::t()->getLabel('Actions')?></div>
 				</div><!--/translate-row-->
-				<?php $n = 1;  foreach($arrLabel as $row):?> 
-					<div class="translate-row">
-						<div class="translate-cell id"><?php echo $n; ?></div>
-						<div class="translate-cell labels"><?php echo $row['label'];?></div>
-						<div class="translate-cell translations"><input type="text" id="tr-<?php echo $row['id'];?>" value="<?php echo $row['value']; ?>" name="translation"/></div>
-						<div class="translate-cell actions">
-							<a href="edit.html" class="action save" data-id="<?php echo $row['id'];?>" data-prefix="<?php echo $lang_prefix; ?>"></a>
-							<a href="index.html" class="action delete" data-id="<?php echo $row['translation_id'];?>" data-prefix="<?php echo $lang_prefix; ?>" data-label="<?php echo $row['label']?>"></a>
-						</div><!--/translate-cell actions-->
-					</div><!--/translate-row-->
+
+				<?php 
+					$n = $currentPage*$perPage-$perPage+1; // first number on page
+					foreach($pagesArr as $row):?>
+						<div class="translate-row">
+							<div class="translate-cell id"><?php echo $n; ?></div>
+							<div class="translate-cell labels"><?php echo $row['label'];?></div>
+							<div class="translate-cell translations"><input type="text" id="tr-<?php echo $row['id'];?>" value="<?php echo $row['value']; ?>" name="translation"/></div>
+							<div class="translate-cell actions">
+								<a href="edit.html" class="action save" data-id="<?php echo $row['id'];?>" data-prefix="<?php echo $lang_prefix; ?>"></a>
+								<a href="index.html" class="action delete" data-id="<?php echo $row['translation_id'];?>" data-prefix="<?php echo $lang_prefix; ?>" data-label="<?php echo $row['label']?>"></a>
+							</div><!--/translate-cell actions-->
+						</div><!--/translate-row-->
 				<?php $n++; endforeach;?>
 			</div><!--/translate-content-->
-			<div>
-			Test pager <br>
 			<?php
-				$pages = $pager->getPreparedArray();
+			if($totalPages>1)
+			{
 			?>
-			<pre>
-			<?php print_r($pages); ?>
-			</pre>
-			</div>
 			<div class="pagination from-labels">
-				<a href="pages.html" class="active">1</a>
-				<a href="pages.html">2</a>
-				<a href="pages.html">3</a>
-				<a href="pages.html">4</a>
-			</div><!--/pagination-->
+			<?php
+				for($i=1; $i<=$totalPages; $i++):
+			?>
+				<a href="" data-page="<?php echo $i;?>" class="links-pages<?php if(($i) == $currentPage): ?> active<?php endif; ?>" data-prefix="<?php echo $lang_prefix; ?>"><?php echo $i;?></a>
+			<?php
+				endfor;
+			?>
+			</div>
+			<?php
+			}
+			?>
 		</div>
 	</div><!--/content translate-->
 </main>

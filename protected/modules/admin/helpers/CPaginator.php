@@ -48,5 +48,10 @@ class CPaginator
         return $this->_limit;
     }
 
+      public function getCurrentPage()
+    {
+        return $this->_current_page;
+    }
+  
     
 }//Cpagenator

@@ -7,7 +7,7 @@ $currentPage = $pager->getCurrentPage();
 <div class="translate-content">
 	<div class="translate-row">
 		<div class="translate-cell id">#</div>
-		<div class="translate-cell labels"><?php echo Trl::t()->getLabel('Labels')?></div>
+		<div class="translate-cell labels"><?php echo Trl::t()->getLabel('Messages')?></div>
 		<div class="translate-cell translations"><?php echo Trl::t()->getLabel('Translations')?></div>
 		<div class="translate-cell actions"><?php echo Trl::t()->getLabel('Actions')?></div>
 	</div><!--/translate-row-->

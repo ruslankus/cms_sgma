@@ -16,6 +16,7 @@ Class ExtAdminMessages extends AdminMessages
      * @param $currLng
      * @return array
      */
+    /*
     public function getLabels($currLng) {
 
         $arrLabels = array();
@@ -33,7 +34,34 @@ Class ExtAdminMessages extends AdminMessages
 
         return $arrLabels;
     }
+    */
 
+
+    public function getMessages($lng,$cond=array()){
+        $sql = "SELECT t1.id,t2.label,t1.value, t2.id AS translation_id
+            FROM messages_trl t1
+            JOIN messages t2 ON t1.translation_id = t2.id
+            JOIN languages t3 ON t1.lng_id = t3.id
+          WHERE t3.prefix = :prefix";
+        
+        $param = array();
+        
+        if(!empty($cond['search_label'])){
+             $sql .= " AND t2.label LIKE :label";
+             $param[':label'] = "%{$cond['search_label']}%";
+
+        }
+        
+        //add order
+        $sql .= " ORDER BY t1.id DESC"; 
+        
+        
+        $param[':prefix'] = $lng;
+        $con = $this->dbConnection;        
+        $retData = $con->createCommand($sql)->queryAll(true,$param);
+        
+        return $retData;        
+    }//getLabels
     /**
      * Adds label
      * @param $label
