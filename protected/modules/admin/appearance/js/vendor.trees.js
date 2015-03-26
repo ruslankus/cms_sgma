@@ -63,7 +63,6 @@ $.build_sort = function()
 	  stop: function(e,ui)
       {
           new_order = $(this).sortable('toArray',{key : "order", attribute : "data-menu"});
-          var result = [];
 
           var _p_order = [];
           var _n_order = [];
@@ -71,22 +70,24 @@ $.build_sort = function()
           for(var i = 0; i < previous_order.length; i++){if(previous_order[i] != ""){_p_order.push(previous_order[i]);}}
           for(var y = 0; y < new_order.length; y++){if(new_order[y] != ""){_n_order.push(new_order[y]);}}
 
-          for(var j = 0; j < _p_order.length; j++)
-          {
-              if(_p_order[j] !=_n_order[j])
-              {
-                  result[0] = _p_order[j];
-                  result[1] = _n_order[j];
-              }
-          }
+          console.log(_p_order);
+          console.log(_n_order);
 
-          $swapped.val(result).trigger("change");
+          var result = {'previous':_p_order,'new':new_order};
+          var json = JSON.stringify(result);
+
+          $swapped.val(json).trigger("change");
       }
     });
 };
 
 $.enable_handlers = function() { $.build_tree(); $.build_sort(); };
+
 $(document).ready(function() {
 	$.enable_handlers();
 });
+
+// Sorting change event
+ $(document).on("change",".sortable",function(){$.enable_handlers();});
+
 })( jQuery );

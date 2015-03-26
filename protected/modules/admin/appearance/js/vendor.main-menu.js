@@ -3,8 +3,25 @@ $(document).ready(function() {
 // Sorting change event
 $(document).on("change","#swapped-ids",function(){
 
-    //TODO: Ajax reloading of all table
-	console.log("swapped "+this.value);
+    var lnk = $("#ajax-swap-link").val();
+
+
+    $.ajax({
+        method:'POST',
+        url:lnk,
+        data: {'orders':$(this).val()},
+        context: document.body
+    }).done(
+        function(data)
+        {
+            if(data == 'OK')
+            {
+                //refresh
+                ajaxRefresh();
+            }
+        }
+    );
+
 	return false;
 });
 
@@ -41,9 +58,26 @@ $(document).on("click", ".go-down", function()
 // for popup confirm
 $(document).on("click", ".unique-class-name", function(){
 
+    //get deleting url
     var href = $(this).attr('href');
-    //TODO: Ajax reloading of all table
-    alert(href);
+
+    //delete by ajax
+    $.ajax({
+        url: href,
+        context: document.body
+    }).done(
+        function(data)
+        {
+            //if returned ok
+            if(data == 'OK')
+            {
+                //refresh
+                ajaxRefresh();
+            }
+        }
+    );
+
+    //hide popup
     $.popup.hide();
 
 	return false;
@@ -56,3 +90,20 @@ $(document).on("submit", ".unique-class-name", function(){
 });
 
 });
+
+
+/**
+ * Refresh list of items by ajax
+ */
+var ajaxRefresh = function()
+{
+    $.ajax({
+        url: $("#ajax-refresh-link").val(),
+        context: document.body
+    }).done(
+        function(data)
+        {
+            jQuery('.sortable').html(data).trigger('change');
+        }
+    );
+};
