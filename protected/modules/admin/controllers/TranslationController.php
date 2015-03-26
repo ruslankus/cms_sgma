@@ -63,23 +63,6 @@ class TranslationController extends ControllerAdmin
         }
     }
 
-    /**
-     * Admin panel messages translation
-     */
-    public function actionAdminMessages()
-    {
-        $this->render('admin_messages');
-    }    
-
-
-    /**
-     * Site core label translation
-     */
-    public function actionSite()
-    {
-        $this->render('site_labels');
-    }
-    
     public function actionAddAdminLabel()
     {
         $lang_prefix = Yii::app()->language;
@@ -161,5 +144,29 @@ class TranslationController extends ControllerAdmin
     /**
      * END Admin panel labels translation
      */
+
+
+
+    /**
+     * Admin panel messages translation
+     */
+    public function actionAdminMessages()
+    {
+        $this->render('admin_messages');
+    }    
+
+
+    /**
+     * END Admin panel messages translation
+     */
+
+    /**
+     * Site core label translation
+     */
+    public function actionSite()
+    {
+        $this->render('site_labels');
+    }
+    
 
 }// class Translation    
