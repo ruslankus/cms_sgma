@@ -6,10 +6,21 @@
 //delete popup
     $(".delete").click(function(e)
     {
+        var href = $(this).attr('href');
+        var message = $(this).data('message');
+        var yesLabel = $(this).data('yes');
+        var noLabel = $(this).data('no');
+
         e.preventDefault();
-        var item_id = $(this).attr("data-id");
-        $.popup("Delete?");
-        $.popup.show();
+        $.dialogBoxEx({
+            buttons: [
+                {label:yesLabel,url:href,classes:'button confirm'},
+                {label:noLabel,click:function(){$.dialogBoxEx.hide();},classes:'button cancel'}
+            ],
+            message: message
+        });
+        $.dialogBoxEx.show();
+
         return false;
     });
 //add button

@@ -11,7 +11,9 @@ class MenuController extends ControllerAdmin
     public function actionList($page = 1)
     {
         //include necessary scripts and css
+        Yii::app()->clientScript->registerScriptFile($this->assetsPath.'/js/vendor.dialog-box.js',CClientScript::POS_END);
         Yii::app()->clientScript->registerScriptFile($this->assetsPath.'/js/vendor.menu-list.js',CClientScript::POS_END);
+
         Yii::app()->clientScript->registerCssFile($this->assetsPath.'/css/vendor.css');
         Yii::app()->clientScript->registerCssFile($this->assetsPath.'/css/vendor.lightbox.css');
 
@@ -93,13 +95,10 @@ class MenuController extends ControllerAdmin
 
         //menu form
         $form_mdl = new AddMenuForm();
-
         //currently selected theme
         $selectedTheme = 'dark'; //TODO: select theme from DB
-
         //get all templates for menus
         $templates = ThemeHelper::getTemplatesForMenu($selectedTheme);
-
         //statuses
         $statuses = ExtStatus::model()->arrayForMenuForm(true);
 
@@ -142,7 +141,7 @@ class MenuController extends ControllerAdmin
         $menu->delete();
 
         //back to list
-        $this->redirect(Yii::app()->createUrl('/admin/menu/index'));
+        $this->redirect(Yii::app()->createUrl('/admin/menu/list'));
     }
 
 
