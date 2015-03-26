@@ -1,3 +1,5 @@
+<?php /* @var $this MenuController */ ?>
+<?php /* @var $form_params array */ ?>
 <?php /* @var $menus ExtMenu[] */ ?>
 <?php /* @var $total_pages int */ ?>
 <?php /* @var $current_page int */ ?>
@@ -37,4 +39,6 @@
             <a href="<?php echo Yii::app()->createUrl('admin/menu/index/',array('page' => $i+1)) ?>" <?php if($current_page == $i+1): ?> class="active" <?php endif; ?>><?php echo $i+1; ?></a>
         <?php endfor; ?>
     </div><!--/pagination-->
+
+    <?php $this->renderPartial('_add_menu_new',$form_params,false,true); ?>
 </main>
