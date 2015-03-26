@@ -22,7 +22,7 @@ $currentPage = $pager->getCurrentPage();
 		</div><!--/header-->
 		<div class="translate-actions">
 			<form>
-				<select name="language" id="styled-language" data-prefiax="<?php echo $lang_prefix?>" class="float-left">
+				<select name="language" id="styled-language" data-prefix="<?php echo $lang_prefix?>" class="float-left">
 		        <?php foreach($arrSelect as $key => $value):?>
 		            <?php if($key == $select_lng):?>     
 		                <option selected="true" value="<?php echo $key?>" data-image="<?php echo $this->assetsPath; ?>/images/flag-uk.png"><?php echo $value?></option>
