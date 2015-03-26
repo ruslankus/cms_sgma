@@ -1,4 +1,4 @@
-<form method="post" action="/<?php echo $lang_prefix ?>/admin/Translation/DelAdminLabel/<?php echo $id ?>" >
+<form method="post" action="/<?php echo $lang_prefix ?>/admin/Translation/DelAdminMessage/<?php echo $id ?>" >
 <div class="message">
 	<?php echo Trl::t()->getLabel('delete message confirm')?> : <?php echo $label_name?>?
 </div>

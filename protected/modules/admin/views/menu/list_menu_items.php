@@ -38,8 +38,8 @@
                         <div class="sequen"></div>
                         <div class="type"><?php echo Trl::t()->getLabel($children->type->label); ?></div>
                         <div class="action">
-                            <a href="<?php echo Yii::app()->createUrl('admin/menu/editttem',array('id' => $children->id)); ?>" class="edit"><span class="ficoned pencil"></span></a>
-                            <a href="<?php echo Yii::app()->createUrl('admin/menu/deleteitem',array('id' => $children->id)); ?>" class="delete"><span class="ficoned trash-can"></span></a>
+                            <a href="<?php echo Yii::app()->createUrl('admin/menu/edititem',array('id' => $children->id)); ?>" class="edit"><span class="ficoned pencil"></span></a>
+                            <a data-popup="<?php echo Yii::app()->createUrl('admin/menu/popdel',array('type' => 'item', 'id' => $children->id)); ?>" href="#" class="delete"><span class="ficoned trash-can"></span></a>
                         </div>
                     </div><!--/row root-->
                 <?php else: ?>
@@ -51,8 +51,8 @@
                         </div><!--/sequen-->
                         <div class="type"><?php echo Trl::t()->getLabel($children->type->label); ?></div>
                         <div class="action">
-                            <a href="<?php echo Yii::app()->createUrl('admin/menu/editttem',array('id' => $children->id)); ?>" class="edit"><span class="ficoned pencil"></span></a>
-                            <a href="<?php echo Yii::app()->createUrl('admin/menu/deleteitem',array('id' => $children->id)); ?>" class="delete"><span class="ficoned trash-can"></span></a>
+                            <a href="<?php echo Yii::app()->createUrl('admin/menu/edititem',array('id' => $children->id)); ?>" class="edit"><span class="ficoned pencil"></span></a>
+                            <a data-popup="<?php echo Yii::app()->createUrl('admin/menu/popdel',array('type' => 'item','id' => $children->id)); ?>" href="#" class="delete"><span class="ficoned trash-can"></span></a>
                         </div>
                     </div><!--/row-->
                 <?php endif; ?>

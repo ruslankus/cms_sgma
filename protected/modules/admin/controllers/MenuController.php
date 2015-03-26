@@ -270,6 +270,25 @@ class MenuController extends ControllerAdmin
         $this->render('edit_menu_item',array('languages' => $objLanguages, 'curItem' => $objItem, 'items' => $objItems, 'types' => $objTypes));
     }
 
+
+    /**
+     * Confirm deletion pup-up
+     * @param string $type
+     * @param $id
+     */
+    public function actionPopDel($type = 'item',$id)
+    {
+        $link = "#";
+
+        switch ($type)
+        {
+            case 'menu': $link = Yii::app()->createUrl('/admin/deletemenu',array('id' => $id));  break;
+            case 'item': $link = Yii::app()->createUrl('/admin/deleteitem',array('id' => $id)); break;
+        }
+
+        $this->renderPartial('_confirm_delete',array('link' => $link));
+    }
+
     /**
      * Deleting item
      * @param $id

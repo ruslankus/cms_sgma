@@ -94,11 +94,11 @@ Class ExtAdminMessages extends AdminMessages
         
         foreach($arrLng as $lng){
            
-            $sql = "INSERT INTO labels_trl ('label_id', 'language_id', 'value') VALUES ";
+            $sql = "INSERT INTO messages_trl ('translation_id', 'lng_id', 'value') VALUES ";
             $sql .= "($labelId, {$lng['id']}, ' ')";
             
             $con->createCommand($sql)->execute();
-            $labelTrl[] = $con->getLastInsertID('labels_trl');
+            $labelTrl[] = $con->getLastInsertID('messages_trl');
         }
         
 

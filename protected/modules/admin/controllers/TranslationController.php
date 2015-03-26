@@ -189,6 +189,32 @@ class TranslationController extends ControllerAdmin
         
     }
 
+
+    public function actionDelAdminMessage($id = null){
+        $lang_prefix = Yii::app()->language;
+        $request = Yii::app()->request;
+        $objLabel = AdminMessages::model()->findByPk($id);
+        $objLabel->delete();
+        ExtAdminMessages::model()->deleteMessage($id);
+        $this->redirect(array('adminMessages'));
+         
+        
+    }
+
+
+    public function actionAddAdminMessage()
+    {
+        $lang_prefix = Yii::app()->language;
+        $request = Yii::app()->request;
+        $label = $request->getPost('label_name');
+        $sel_lng = $request->getPost('sel_lng');
+        $arrLng = ExtAdminLanguages::model()->getAllLang();
+        ExtAdminMessages::model()->addMessage($label,$arrLng);
+        $this->redirect(array('adminMessages','sel_lng'=>$sel_lng)); 
+        
+    }
+
+
     /*-------------- ajax section (Admin panel messages translation) -------------------*/
 
     public function actionAdminMessagesAjax()
@@ -213,6 +239,69 @@ class TranslationController extends ControllerAdmin
                 'search_val' => $search_label, 'pager'=>$pager)); 
         echo $retData;
 
+    }
+
+
+    public function actionSaveAdminMessageAjax($id = null){
+        $request = Yii::app()->request;
+        if($request->isAjaxRequest){
+            $curr_lng = $request->getPost('curr_lng');
+            $value_label = trim($request->getPost('value'));
+            
+            $objLabel = AdminMessagesTrl::model()->findByPk((int)$id);
+           
+            $objLabel->value = $value_label;
+            $objLabel->save();
+             
+        }
+    }//SaveAdminMessage
+
+
+    public function actionDelAdminMessageAjax($id = null){
+        $lang_prefix = Yii::app()->language;
+        $request = Yii::app()->request;
+        $id = $request->getPost('id');
+        $name = $request->getPost('name');
+        $resArr=array();
+        $resArr['html'] = $this->renderPartial('_deleteMessage',array('lang_prefix' =>$lang_prefix,
+                    'id'=>$id,'label_name' => $name),true);
+        echo json_encode($resArr);
+    }
+
+    public function actionAddAdminMessageAjax()
+    {
+        $lang_prefix = Yii::app()->language;
+        $request = Yii::app()->request;
+        $sel_lng = $request->getPost('sel_lng');
+        $resArr=array();
+        $resArr['html'] = $this->renderPartial('_addMessage',array('lang_prefix'=>$lang_prefix, 'sel_lng'=>$sel_lng),true);
+        echo json_encode($resArr);
+
+    }
+
+    public function actionUniqueCeckAdminMessageAjax(){
+        $label = $_POST['label'];
+        $arrJson = array();
+        if(!empty($label))
+        {
+            if($user = AdminMessages::model()->exists('label=:label',array('label'=>$label)))
+            {
+                $arrJson['status'] = "error";
+                $arrJson['err_txt'] = Trl::t()->getMsg("Duplicate error");
+                echo json_encode($arrJson);
+            }
+            else
+            {
+                $arrJson['status'] = "success";
+                echo json_encode($arrJson);
+            }      
+        }
+        else
+        {
+            $arrJson['status'] = "error";
+            $arrJson['err_txt'] = Trl::t()->getMsg("Label empty");
+            echo json_encode($arrJson);
+        }  
     }
 
     /*-------------- END ajax section (Admin panel messages translation) -------------------*/
