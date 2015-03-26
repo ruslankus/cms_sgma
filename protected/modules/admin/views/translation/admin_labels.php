@@ -7,7 +7,7 @@ $currentPage = $pager->getCurrentPage();
 ?>
 <main>
 	<div class="title-bar world">
-		<h1>Settings</h1>
+		<h1><?php echo Trl::t()->getLabel('Settings')?></h1>
 		<ul class="actions">
 			<li><a href="" class="action undo"></a></li>
 		</ul>

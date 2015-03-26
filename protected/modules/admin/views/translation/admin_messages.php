@@ -7,7 +7,7 @@ $currentPage = $pager->getCurrentPage();
 ?>
 <main>
 	<div class="title-bar world">
-		<h1>Settings</h1>
+		<h1><?php echo Trl::t()->getLabel('Settings')?></h1>
 		<ul class="actions">
 			<li><a href="" class="action undo"></a></li>
 		</ul>
@@ -17,8 +17,8 @@ $currentPage = $pager->getCurrentPage();
 		<div class="header">
 			<span><?php echo Trl::t()->getLabel('Messages translation')?></span>
 			<a href="#" class="languages"><?php echo Trl::t()->getLabel('Languages')?></a>
-			<a href="/<?php echo $lang_prefix?>/admin/Translation/AdminMessages" class="messages"><?php echo Trl::t()->getLabel('Messages')?></a>
-			<a href="/<?php echo $lang_prefix?>/admin/Translation/Admin" class="labels active"><?php echo Trl::t()->getLabel('Labels')?></a>
+			<a href="/<?php echo $lang_prefix?>/admin/Translation/AdminMessages" class="messages active"><?php echo Trl::t()->getLabel('Messages')?></a>
+			<a href="/<?php echo $lang_prefix?>/admin/Translation/Admin" class="labels"><?php echo Trl::t()->getLabel('Labels')?></a>
 		</div><!--/header-->
 		<div class="translate-actions">
 			<form>

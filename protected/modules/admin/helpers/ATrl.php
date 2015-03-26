@@ -26,7 +26,7 @@ class ATrl
 
         $currLng = Yii::app()->language;
         $this->_arrLabels = ExtAdminLabels::model()->getLabels($currLng);
-        $this->_arrMessages = ExtAdminMessages::model()->getLabels($currLng);
+        $this->_arrMessages = ExtAdminMessages::model()->getMessages($currLng);
     }
 
     /**
