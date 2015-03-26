@@ -23,16 +23,22 @@ class TranslationController extends ControllerAdmin
         $request = Yii::app()->request;
         $lang_prefix = Yii::app()->language;
         $arrSelect = ExtAdminLanguages::model()->selectArray();    
-        
+        $curr_page = $request->getPost('curr_page');
+        if(empty($curr_page))
+        {
+            $curr_page=1;
+        }
         if($request->isAjaxRequest){
             
             $select_lng = $request->getPost('lng');
             $search_label = $request->getPost('search_val');
             
             $arrLabel = ExtAdminLanguages::model()->getLabels($select_lng,array('search_label' => $search_label));
+
+            $pager = CPaginator::getInstanse($arrLabel,10,$curr_page);
             $retData = $this->renderPartial('_admin_labels',array('arrLabel' => $arrLabel,
                     'arrSelect' => $arrSelect,'lang_prefix' => $lang_prefix,'select_lng' => $select_lng,
-                    'search_val' => $search_label)); 
+                    'search_val' => $search_label, 'pager'=>$pager)); 
             echo $retData;
             
         }else{
@@ -47,7 +53,7 @@ class TranslationController extends ControllerAdmin
             $search_label = $request->getPost('search_label');  
             $arrLabel = ExtAdminLanguages::model()->getLabels($curr_lng, array('search_label' => $search_label));
 
-            $pager = CPaginator::getInstanse($arrLabel,3,1);
+            $pager = CPaginator::getInstanse($arrLabel,10,$curr_page);
             //$prepPages = $pager->getPreparedArray();
 
             $this->render('admin_labels',array('arrLabel' => $arrLabel,
@@ -151,5 +157,9 @@ class TranslationController extends ControllerAdmin
              
         }
     }//SaveAdminLabel
+
+    /**
+     * END Admin panel labels translation
+     */
 
 }// class Translation    
