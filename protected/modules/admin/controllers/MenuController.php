@@ -137,26 +137,9 @@ class MenuController extends ControllerAdmin
         $perPage = 10;
         $total_pages = (int)ceil(count($items)/$perPage);
         $offset = (int)($perPage * ($page - 1));
-        $itemsOfPage = array_slice($items,$offset,$perPage);
+        $itemsOfPage = array_slice($items,$offset,$perPage,true);
 
-        //currently selected theme
-        $selectedTheme = 'dark'; //TODO: select theme from DB
-
-        //get all templates for menus
-        $themeManager = Yii::app()->themeManager;
-        $dir = $themeManager->basePath.DS.$selectedTheme.DS.'views'.DS.'menus';
-        $files = scandir($dir);
-        $templates = array();
-
-        foreach($files as $fileName)
-        {
-            if($fileName != ".." && $fileName != ".")
-            {
-                $templates[$fileName] = $fileName;
-            }
-        }
-
-        $this->render('list_menu_items',array('items' => $itemsOfPage, 'pages' => $total_pages, 'templates' => $templates, 'menu' => $menu ,'current_page' => $page));
+        $this->render('list_menu_items',array('items' => $itemsOfPage, 'pages' => $total_pages, 'menu' => $menu ,'current_page' => $page));
     }
 
 
