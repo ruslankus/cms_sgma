@@ -7,8 +7,12 @@ class MenuController extends ControllerAdmin
      */
     public function actionIndex($page = 1)
     {
+        $adding_form_params = $this->addMenuForm();
+
         //include js file for AJAX updating
         Yii::app()->clientScript->registerScriptFile($this->assetsPath.'/js/vendor.menu-list.js',CClientScript::POS_END);
+        Yii::app()->clientScript->registerCssFile($this->assetsPath.'/css/vendor.css');
+        Yii::app()->clientScript->registerCssFile($this->assetsPath.'/css/vendor.lightbox.css');
 
         /* @var $menus ExtMenu[] */
         $menus = ExtMenu::model()->findAll();
@@ -19,7 +23,7 @@ class MenuController extends ControllerAdmin
         $offset = (int)($perPage * ($page - 1));
         $itemsOfPage = array_slice($menus,$offset,$perPage);
 
-        $this->render('list_menu',array('menus' => $itemsOfPage, 'total_pages' => $total_pages, 'current_page' => $page));
+        $this->render('list_menu',array('menus' => $itemsOfPage, 'total_pages' => $total_pages, 'current_page' => $page, 'form_params' => $adding_form_params));
     }
 
 
@@ -46,9 +50,10 @@ class MenuController extends ControllerAdmin
     }
 
     /**
-     * Adding menu
+     * For validation and displaying form of adding
+     * @return array
      */
-    public function actionAddMenu()
+    public function addMenuForm()
     {
         //not include jquery to avoid conflict between jquery from Yii core
         Yii::app()->clientScript->scriptMap=array('jquery-1.11.2.min.js' => false);
@@ -105,7 +110,16 @@ class MenuController extends ControllerAdmin
             }
         }
 
-        $this->renderPartial('_add_menu',array('templates' => $templates, 'statuses' => $statuses, 'form_model' => $form_mdl),false,true);
+        return array('templates' => $templates, 'statuses' => $statuses, 'form_model' => $form_mdl);
+    }
+
+    /**
+     * Adding menu
+     */
+    public function actionAddMenu()
+    {
+        $allParams = $this->addMenuForm();
+        $this->renderPartial('_add_menu',$allParams,false,true);
     }
 
 
