@@ -18,7 +18,7 @@ class AdminModule extends CWebModule
 
         'menu' => array(
             'title' => 'Menu',
-            'default' => 'index',
+            'default' => 'list',
             'icon' => '',
             'html_class' => 'pages'),
 

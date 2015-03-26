@@ -40,5 +40,5 @@
         <?php endfor; ?>
     </div><!--/pagination-->
 
-    <?php $this->renderPartial('_add_menu_new',$form_params,false,true); ?>
+    <?php $this->renderPartial('_add_menu',$form_params); ?>
 </main>

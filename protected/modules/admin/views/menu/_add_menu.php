@@ -4,20 +4,39 @@
 <?php /* @var $templates array() */ ?>
 <?php /* @var $statuses array() */ ?>
 
-<?php $form=$this->beginWidget('CActiveForm', array('id' =>'add-form','enableAjaxValidation'=>true,'htmlOptions'=>array(),'clientOptions' => array('validateOnSubmit'=>true))); ?>
+<div class="lightbox">
+    <div class="wrap"><div class="middle">
+            <div class="content">
+                <span class="header"><?php echo ATrl::t()->getLabel('Add menu'); ?></span>
+                <?php $form=$this->beginWidget('CActiveForm', array('id' =>'add-form','enableAjaxValidation'=>true,'htmlOptions'=>array(),'clientOptions' => array('validateOnSubmit'=>true))); ?>
+                <table>
+                    <tr>
+                        <td><?php echo $form->labelEx($form_model,'label'); ?></td>
+                        <td><?php echo $form->textField($form_model,'label',array('placeholder' => ATrl::t()->getLabel('label'))); ?></td>
+                    </tr>
+                    <tr>
+                        <td><?php echo $form->labelEx($form_model,'template_name'); ?></td>
+                        <td>
+                            <?php echo $form->dropDownList($form_model,'template_name',$templates,array('class'=>''));?>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td><?php echo $form->labelEx($form_model,'status_id'); ?></td>
+                        <td>
+                            <?php echo $form->dropDownList($form_model,'status_id',$statuses,array('class'=>''));?>
+                        </td>
+                    </tr>
+                </table>
 
-<?php echo $form->textField($form_model,'label',array('placeholder' => ATrl::t()->getLabel('label'))); ?>
-<span class="errorMessage"><?php echo $form->error($form_model,'label'); ?></span>
+                <?php echo CHtml::submitButton(ATrl::t()->getLabel('Save'),array('class' => 'float-left')); ?>
+                <input type="button" value="Cancel" class="float-left" id="cancel-label"/>
+                <div class="errorMessage float-right">
+                    <?php echo $form->error($form_model,'label'); ?>
+                    <?php echo $form->error($form_model,'status_id'); ?>
+                    <?php echo $form->error($form_model,'template_name'); ?>
+                </div>
+                <?php $this->endWidget(); ?>
+            </div><!--/content-->
+        </div></div><!--/wrap/middle-->
+</div><!--/lightbox-->
 
-<?php echo $form->labelEx($form_model,'status_id'); ?>
-<?php echo $form->dropDownList($form_model,'status_id',$statuses,array('class'=>''));?>
-<?php echo $form->error($form_model,'status_id'); ?>
-
-<?php echo $form->labelEx($form_model,'template_name'); ?>
-<?php echo $form->dropDownList($form_model,'template_name',$templates,array('class'=>''));?>
-<?php echo $form->error($form_model,'template_name'); ?>
-
-<?php echo CHtml::link(ATrl::t()->getLabel('Cancel'),'#',array('class' => 'button cancel')); ?>
-<?php echo CHtml::submitButton('Submit',array('class' => 'button confirm unique-class-name', 'value' => ATrl::t()->getLabel('Confirm'))); ?>
-
-<?php $this->endWidget(); ?>
