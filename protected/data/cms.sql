@@ -2,15 +2,15 @@
 Navicat MySQL Data Transfer
 
 Source Server         : local
-Source Server Version : 50538
+Source Server Version : 50535
 Source Host           : localhost:3306
 Source Database       : cms_sigma
 
 Target Server Type    : MYSQL
-Target Server Version : 50538
+Target Server Version : 50535
 File Encoding         : 65001
 
-Date: 2015-03-25 14:24:44
+Date: 2015-03-27 00:30:26
 */
 
 SET FOREIGN_KEY_CHECKS=0;
@@ -160,7 +160,7 @@ CREATE TABLE `menu` (
   `last_change_by` int(11) DEFAULT NULL,
   `template_name` varchar(512) DEFAULT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=6 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=10 DEFAULT CHARSET=utf8;
 
 -- ----------------------------
 -- Records of menu
@@ -168,7 +168,6 @@ CREATE TABLE `menu` (
 INSERT INTO `menu` VALUES ('1', 'Main menu', '1', '0', '1427279702', '1', 'main_menu.php');
 INSERT INTO `menu` VALUES ('2', 'Additional Menu', '1', '0', '1427279715', '1', 'main_menu.php');
 INSERT INTO `menu` VALUES ('4', 'RIght menu', '1', '1427278569', '1427279732', '1', 'main_menu.php');
-INSERT INTO `menu` VALUES ('5', 'test', '1', '1427285673', '1427285673', '1', 'main_menu.php');
 
 -- ----------------------------
 -- Table structure for `menu_item`
@@ -191,18 +190,16 @@ CREATE TABLE `menu_item` (
   KEY `type_id` (`type_id`),
   CONSTRAINT `menu_item_ibfk_1` FOREIGN KEY (`type_id`) REFERENCES `menu_item_type` (`id`) ON DELETE NO ACTION ON UPDATE NO ACTION,
   CONSTRAINT `menu_item_ibfk_2` FOREIGN KEY (`menu_id`) REFERENCES `menu` (`id`) ON DELETE CASCADE ON UPDATE NO ACTION
-) ENGINE=InnoDB AUTO_INCREMENT=11 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=14 DEFAULT CHARSET=utf8;
 
 -- ----------------------------
 -- Records of menu_item
 -- ----------------------------
-INSERT INTO `menu_item` VALUES ('1', '1', '0:1', 'News', '0', '1', '2', '1', '0', '0', '1');
-INSERT INTO `menu_item` VALUES ('5', '1', '0:1:5', 'Science', '1', '1', '2', '1', '0', '0', '1');
-INSERT INTO `menu_item` VALUES ('6', '1', '0:1:6', 'Sport', '1', '2', '2', '1', '0', '0', '1');
-INSERT INTO `menu_item` VALUES ('7', '1', '0:1:7', 'Technology', '1', '3', '2', '1', '0', '0', '1');
-INSERT INTO `menu_item` VALUES ('8', '1', '0:1:5:8', 'Physics', '5', '1', '2', '1', '0', '0', '1');
-INSERT INTO `menu_item` VALUES ('9', '1', '0:1:5:9', 'Space', '5', '2', '2', '1', '0', '0', '1');
-INSERT INTO `menu_item` VALUES ('10', '1', '0:1', 'Products', '0', '2', '3', '1', '0', '0', '1');
+INSERT INTO `menu_item` VALUES ('1', '1', '0:1', 'News', '0', '3', '2', '1', '0', '1427408703', '1');
+INSERT INTO `menu_item` VALUES ('10', '1', '0:10', 'Products', '0', '4', '3', '1', '0', '1427408703', '1');
+INSERT INTO `menu_item` VALUES ('11', '1', '0:11', 'Tests', '0', '5', '1', '1', '0', '1427408703', '1');
+INSERT INTO `menu_item` VALUES ('12', '1', '0:12', 'Other', '0', '2', '1', '1', '0', '1427408703', '1');
+INSERT INTO `menu_item` VALUES ('13', '1', '0:13', 'Weapons', '0', '1', '1', '1', '0', '1427408703', '1');
 
 -- ----------------------------
 -- Table structure for `menu_item_trl`
@@ -393,7 +390,6 @@ CREATE TABLE `page` (
 -- Records of page
 -- ----------------------------
 INSERT INTO `page` VALUES ('3', 'Page 1', '1', '1', '1', '0', '0', '1');
-INSERT INTO `page` VALUES ('4', 'Page 2', '5', '1', '1', '0', '0', '1');
 
 -- ----------------------------
 -- Table structure for `page_trl`
@@ -417,8 +413,6 @@ CREATE TABLE `page_trl` (
 -- Records of page_trl
 -- ----------------------------
 INSERT INTO `page_trl` VALUES ('5', 'Page 1', 'meta', 'Content', '3', '1');
-INSERT INTO `page_trl` VALUES ('7', 'Page 2', 'meta', 'Content', '4', '1');
-INSERT INTO `page_trl` VALUES ('8', 'Страница 2', 'мета', 'Содержимое', '4', '2');
 INSERT INTO `page_trl` VALUES ('9', 'Страница1', 'мета', 'Содержимое', '3', '2');
 
 -- ----------------------------
