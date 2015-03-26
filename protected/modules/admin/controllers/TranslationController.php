@@ -7,9 +7,22 @@ class TranslationController extends ControllerAdmin
     {
         //$this->renderText('index');
         $this->redirect(array('admin'));
-    }   
-    
-    
+    }  
+
+     /**
+     * Admin panel Languages
+     */   
+
+    public function actionAdminLanguages()
+    {
+        $this->renderText('languages administration');
+    }
+
+     /**
+     * END Admin panel Languages
+     */   
+
+
     /**
      * Admin panel labels translation
      */

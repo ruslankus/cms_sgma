@@ -2,7 +2,7 @@
 	/*
 	 * Language box
 	*/
-	$("#styled-language").select();
+	//$("#styled-language").select();
 
 	$("#styled-language").on("change", function(){
 		var prefix = $(this).data('prefix');
