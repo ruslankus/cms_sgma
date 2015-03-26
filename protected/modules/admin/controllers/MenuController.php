@@ -108,13 +108,15 @@ class MenuController extends ControllerAdmin
         $this->renderPartial('_add_menu',array('templates' => $templates, 'statuses' => $statuses, 'form_model' => $form_mdl),false,true);
     }
 
+
     /**
      * List all items of menu
      * @param $id
      * @param int $page
+     * @param int $ajax
      * @throws CHttpException
      */
-    public function actionMenuItems($id,$page = 1)
+    public function actionMenuItems($id,$page = 1,$ajax = 0)
     {
         //include js file for AJAX updating
         Yii::app()->clientScript->registerScriptFile($this->assetsPath.'/js/vendor.trees.js',CClientScript::POS_END);
@@ -139,7 +141,15 @@ class MenuController extends ControllerAdmin
         $offset = (int)($perPage * ($page - 1));
         $itemsOfPage = array_slice($items,$offset,$perPage,true);
 
-        $this->render('list_menu_items',array('items' => $itemsOfPage, 'pages' => $total_pages, 'menu' => $menu ,'current_page' => $page));
+        if(!$ajax)
+        {
+            $this->render('list_menu_items',array('items' => $itemsOfPage, 'pages' => $total_pages, 'menu' => $menu ,'current_page' => $page));
+        }
+        else
+        {
+            $this->renderPartial('_list_menu_items',array('items' => $itemsOfPage, 'pages' => $total_pages, 'menu' => $menu ,'current_page' => $page));
+        }
+
     }
 
 
@@ -270,12 +280,54 @@ class MenuController extends ControllerAdmin
         $this->render('edit_menu_item',array('languages' => $objLanguages, 'curItem' => $objItem, 'items' => $objItems, 'types' => $objTypes));
     }
 
+
     /**
-     * Deleting item
+     * Confirm deletion pup-up
+     * @param string $type
      * @param $id
+     */
+    public function actionPopDel($type = 'item',$id)
+    {
+        $link = "#";
+
+        switch ($type)
+        {
+            case 'menu': $link = Yii::app()->createUrl('/admin/menu/deletemenu',array('id' => $id));  break;
+            case 'item': $link = Yii::app()->createUrl('/admin/menu/deleteitem',array('id' => $id, 'ajax' => 1)); break;
+        }
+
+        $this->renderPartial('_confirm_delete',array('link' => $link));
+    }
+
+
+    /**
+     * Changes order (for draggable items)
+     */
+    public function actionAjaxOrderItems()
+    {
+        //TODO: Разобраться с этим гребанным алогоритмом и добиться нормального изменения порядка...
+
+        $ordersJson = Yii::app()->request->getParam('orders');
+        $orders = json_decode($ordersJson,true);
+
+        $previous = $orders['previous'];
+        $new = $orders['new'];
+
+        //swap all priorities
+        foreach($previous as $index => $id)
+        {
+            Sort::SwapById($id,$new[$index],"MenuItem");
+        }
+
+        echo "OK";
+    }
+
+    /**
+     * @param $id
+     * @param int $ajax
      * @throws CHttpException
      */
-    public function actionDeleteItem($id)
+    public function actionDeleteItem($id, $ajax = 0)
     {
         //find item of menu
         $objItem = ExtMenuItem::model()->findByPk($id);
@@ -292,7 +344,15 @@ class MenuController extends ControllerAdmin
         //delete item (and all related with it content by CASCADE)
         $objItem->delete();
 
-        //back to listing items of menu
-        $this->redirect(Yii::app()->createUrl('/admin/menu/menuitems',array('id' => $menu_id)));
+        if(!$ajax)
+        {
+            //back to listing items of menu
+            $this->redirect(Yii::app()->createUrl('/admin/menu/menuitems',array('id' => $menu_id)));
+        }
+        else
+        {
+            echo "OK";
+        }
+
     }
 }

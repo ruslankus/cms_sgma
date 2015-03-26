@@ -1,0 +1,19 @@
+/*--- add-menu ---*/
+.content.menu-content
+	{
+		border: 1px solid #dddddd;
+	}
+.content.menu-content .header
+	{
+		height:52px;
+		border-bottom: 1px solid #ddd;
+		position: relative;
+		background: #f6f6f6 url(../images/icon-add-dark.png) 15px center no-repeat;
+	}
+.content.menu-content .header > span
+	{
+		position: absolute;
+		font-size: 17px;
+		left: 50px;
+		top: 14px;
+	}

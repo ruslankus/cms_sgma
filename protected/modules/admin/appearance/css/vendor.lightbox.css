@@ -1,0 +1,125 @@
+.lightbox
+	{
+		width: 100%;
+		height: 100%;
+		position: fixed;
+		top: 0;
+		left: 0;
+		right: 0;
+		bottom: 0;
+		z-index: 100;
+		background-color: rgba(0,0,0,0.6);
+		text-align: center;
+		display: none;
+		vertical-align: middle;
+	}
+.lightbox > .wrap
+	{
+		display: table;
+		vertical-align: middle;
+		width: 100%;
+		height: 100%;
+	}
+.lightbox > .wrap > .middle
+	{
+		display: table-cell;
+		vertical-align: middle;
+		width: 100%;
+		height: 100%;
+	}
+.lightbox > .wrap > .middle > .content
+	{
+		width: 450px;
+		height: auto;
+		background-color: #fff;
+		z-index: 101;
+		margin-left: auto;
+		margin-right: auto;
+		position: relative;
+		border: 1px solid #ddd;
+		border-radius: 3px;
+		padding: 25px;
+	}
+.lightbox > .wrap > .middle > .content:before,
+.lightbox > .wrap > .middle > .content:after
+	{
+		display: table;
+		clear: both;
+		content: ' ';
+	}
+.lightbox > .wrap > .middle > .content .header
+	{
+		display: block;
+		width: 100%;
+		height: 45px;
+		border-bottom: 1px solid #ddd;
+		font-size: 21px;
+		text-align: left;
+		margin-bottom: 10px;
+	}
+.lightbox > .wrap > .middle > .content table
+	{
+		width: 100%;
+		border: 0;
+		border-collapse: collapse;
+		border-spacing: 0;
+		margin: 15px 0;
+		text-align: left;
+	}
+.lightbox > .wrap > .middle > .content table tr
+	{
+		height: 40px;
+	}
+.lightbox > .wrap > .middle > .content table tr td+td
+	{
+		width: 250px;
+	}
+.lightbox > .wrap > .middle > .content select,
+.lightbox > .wrap > .middle > .content input
+	{
+		width: 250px;
+		border: 1px solid #ddd;
+		border-radius: 3px;
+		height: 30px;
+		padding: 0 3px;
+		font-family: "Open_sans";
+		color: #968b8b;
+		font-size: 14px;
+	}
+.lightbox > .wrap > .middle > .content input[type=submit]
+	{
+		width: 100px;
+		height: 30px;
+		background-color: #149fe4;
+		border-radius: 3px;
+		border: 1px solid #108cca;
+		
+		font-family: "Open_sans";
+		color: #fff;
+		font-size: 14px;
+		cursor: pointer;
+		margin: 5px;
+	}
+.lightbox > .wrap > .middle > .content input[type=button]
+	{
+		width: 100px;
+		height: 30px;
+		background-color: #f6f6f6;
+		border-radius: 3px;
+		border: 1px solid #ddd;
+		
+		font-family: "Open_sans";
+		color: #968b8b;
+		font-size: 14px;
+		cursor: pointer;
+		margin: 5px;
+	}
+.lightbox > .wrap > .middle > .content .errorMessage
+	{
+		width: 100px;
+		height: 30px;
+		padding-top: 10px;
+		width: auto;
+		color: #fb987f;
+		font-style: italic;
+	}

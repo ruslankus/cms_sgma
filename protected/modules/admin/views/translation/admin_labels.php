@@ -33,10 +33,10 @@ $currentPage = $pager->getCurrentPage();
 				</select>
 
 			</form>
-				<input type="submit" data-prefix="<?php echo $lang_prefix?>" class="add-label" value="Add Label" />
+				<input type="submit" data-prefix="<?php echo $lang_prefix?>" class="add-label" value="<?php echo Trl::t()->getLabel('Add label');?>" />
 			<form>
-				<input type="text" class="search-label" id="search_label" value="" placeholder="Search label" />
-				<input type="submit" class="search-label-button" value="Search" data-prefix="<?php echo $lang_prefix?>" />
+				<input type="text" class="search-label" id="search_label" value="" placeholder="<?php echo Trl::t()->getLabel('Search label');?>" />
+				<input type="submit" class="search-label-button" value="<?php echo Trl::t()->getLabel('Search');?>" data-prefix="<?php echo $lang_prefix?>" />
 			</form>
 		</div><!--/translate-actions-->
 		<div class="translation-list">
