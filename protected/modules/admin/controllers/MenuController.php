@@ -339,6 +339,7 @@ class MenuController extends ControllerAdmin
         return $objItems;
     }
 
+    /************************************* A J A X  S E C T I O N *****************************************************/
     /**
      * Loads list of available content items by type
      * @param int $id
@@ -400,5 +401,37 @@ class MenuController extends ControllerAdmin
         {
             echo "OK";
         }
+    }
+
+    /**
+     * Move item's priority
+     * @param int $id
+     * @param string $dir
+     * @param int $ajax
+     * @throws CHttpException
+     */
+    public function actionMove($id, $dir, $ajax = 0)
+    {
+        //find item of menu
+        $objItem = ExtMenuItem::model()->findByPk($id);
+
+        ///if not found
+        if(empty($objItem))
+        {
+            throw new CHttpException(404);
+        }
+
+        Sort::Move($objItem,$dir,'ExtMenuItem',array('parent_id' => $objItem->parent_id));
+
+        if(!$ajax)
+        {
+            //back to listing items of menu
+            $this->redirect(Yii::app()->createUrl('/admin/menu/menuitems',array('id' => $objItem->menu_id)));
+        }
+        else
+        {
+            echo "OK";
+        }
+
     }
 }

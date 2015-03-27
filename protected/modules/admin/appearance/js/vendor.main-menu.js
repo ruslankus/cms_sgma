@@ -77,22 +77,24 @@ $(document).on("click", ".edit", function()
 	});
 
 // move label up
-$(document).on("click", ".go-up", function()
+$(document).on("click", ".move-item", function()
 	{
-		var data_id = $(this).parent().parent().attr("data-id");
-		console.log(data_id+" up");
-		$(".sortable").load("_handles/main-menu.html", function() { $.enable_handlers(); });
+        var href = $(this).attr('href');
+        var request = $.ajax({url: href});
+
+        request.done(function(msg){
+            if(msg == 'OK')
+            {
+                ajaxRefreshTable();
+            }
+        });
+
+        request.fail(function(jqXHR,textStatus) {
+            alert( "Request failed: " + textStatus);
+        });
+
 		return false;
 	});
-
-$(document).on("click", ".go-down", function()
-	{
-		var data_id = $(this).parent().parent().attr("data-id");
-		console.log(data_id+" down");
-		$(".sortable").load("_handles/main-menu.html", function() { $.enable_handlers(); });
-		return false;
-	});
-
 
 
 });// end document ready

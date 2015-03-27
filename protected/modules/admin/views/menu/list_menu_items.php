@@ -45,8 +45,8 @@
                             <div class="row" data-id="<?php echo $children->id; ?>" data-parent="<?php echo $children->parent_id; ?>">
                                 <div class="name"><?php echo $children->label; ?></div>
                                 <div class="sequen">
-                                    <a href="#" class="go-up"><span class="ficoned arrow-up"></span></a>
-                                    <a href="#" class="go-down"><span class="ficoned arrow-down"></span></a>
+                                    <a href="<?php echo Yii::app()->createUrl('admin/menu/move',array('id' => $children->id,'dir' => 'up', 'ajax' => 1)); ?>" class="go-up move-item"><span class="ficoned arrow-up"></span></a>
+                                    <a href="<?php echo Yii::app()->createUrl('admin/menu/move',array('id' => $children->id,'dir' => 'down', 'ajax' => 1)); ?>" class="go-down move-item"><span class="ficoned arrow-down"></span></a>
                                 </div><!--/sequen-->
                                 <div class="type"><?php echo Trl::t()->getLabel($children->type->label); ?></div>
                                 <div class="action">
