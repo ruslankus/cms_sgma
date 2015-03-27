@@ -16,7 +16,7 @@ $currentPage = $pager->getCurrentPage();
 	<div class="content translation">
 		<div class="header">
 			<span><?php echo Trl::t()->getLabel('Messages translation');?></span>
-			<a href="#" class="languages"><?php echo Trl::t()->getLabel('Languages');?></a>
+			<a href="/<?php echo $lang_prefix?>/admin/Translation/AdminLanguages" class="languages"><?php echo Trl::t()->getLabel('Languages');?></a>
 			<a href="/<?php echo $lang_prefix?>/admin/Translation/AdminMessages" class="messages active"><?php echo Trl::t()->getLabel('Messages');?></a>
 			<a href="/<?php echo $lang_prefix?>/admin/Translation/Admin" class="labels"><?php echo Trl::t()->getLabel('Labels');?></a>
 		</div><!--/header-->

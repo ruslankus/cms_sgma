@@ -8,10 +8,10 @@
 	
 	<div class="content translation">
 		<div class="header">
-			<span>Language translation</span>
-			<a href="languages.html" class="languages active">Languages</a>
-			<a href="messages.html" class="messages">Messages</a>
-			<a href="labels.html" class="labels">Labels</a>
+			<span><?php echo Trl::t()->getLabel('Languages');?></span>
+			<a href="/<?php echo $lang_prefix?>/admin/Translation/AdminLanguages" class="languages active"><?php echo Trl::t()->getLabel('Languages');?></a>
+			<a href="/<?php echo $lang_prefix?>/admin/Translation/AdminMessages" class="messages"><?php echo Trl::t()->getLabel('Messages');?></a>
+			<a href="/<?php echo $lang_prefix?>/admin/Translation/Admin" class="labels"><?php echo Trl::t()->getLabel('Labels');?></a>
 		</div><!--/header-->
 		<div class="translate-actions">
 			<form>

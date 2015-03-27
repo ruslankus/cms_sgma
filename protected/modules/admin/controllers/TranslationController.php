@@ -310,6 +310,28 @@ class TranslationController extends ControllerAdmin
      * END Admin panel messages translation
      */
 
+
+
+    /**
+     * Admin panel languages
+     */
+
+    public function actionAdminLanguages()
+    {
+        $this->renderText('admin language list');
+    }
+
+   /*-------------- END ajax section (Admin panel languages) -------------------*/
+
+
+   /*-------------- END ajax section (Admin panel languages) -------------------*/
+
+    /**
+     * END Admin panel labels languages
+     */
+
+
+
     /**
      * Site core label translation
      */
