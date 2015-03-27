@@ -9,7 +9,7 @@
 <div class="title-bar">
     <h1><?php echo ATrl::t()->getLabel('Items of '); ?>"<?php echo $menu->label; ?>"</h1>
     <ul class="actions">
-        <li><a href="#" class="action add"></a></li>
+        <li><a href="<?php echo Yii::app()->createUrl('/admin/menu/addmenuitem',array('id' => $menu->id)); ?>" class="action add"></a></li>
     </ul>
 </div><!--/title-bar-->
 
