@@ -195,6 +195,7 @@ class MenuController extends ControllerAdmin
     {
         //include menu necessary scripts
         Yii::app()->clientScript->registerScriptFile($this->assetsPath.'/js/vendor.add-menu.js',CClientScript::POS_END);
+        Yii::app()->clientScript->registerScriptFile($this->assetsPath.'/js/menu.edititem.js',CClientScript::POS_END);
 
         //exclude jquery to avoid conflict between jquery from Yii core
         Yii::app()->clientScript->scriptMap=array('jquery-1.11.2.min.js' => false);
@@ -209,6 +210,10 @@ class MenuController extends ControllerAdmin
         $arrStatuses = ExtStatus::model()->arrayForMenuForm(true);
         //types
         $arrTypes = ExtMenuItemType::model()->arrayForMenuItemForm(true);
+        //content items by type (first type)
+        $objFirstType = ExtMenuItemType::model()->find();
+        $objConItems = !empty($objFirstType) ? $this->getContentsByType($objFirstType) : array();
+
         //form
         $form_mdl = new MenuItemForm();
 
@@ -234,6 +239,8 @@ class MenuController extends ControllerAdmin
 
                 if($form_mdl->validate())
                 {
+                    Debug::out($_POST);
+                    exit();
                     //TODO: perform adding menu item
 
                     //back to list
@@ -242,49 +249,72 @@ class MenuController extends ControllerAdmin
             }
         }
 
-
-        $this->render('add_menu_item',array('languages' => $objLanguages, 'parent_items' => $arrParentItems, 'statuses' => $arrStatuses, 'types' => $arrTypes, 'form_model' => $form_mdl, 'menu' => $objMenu));
+        $this->render('add_menu_item',array(
+            'languages' => $objLanguages,
+            'parent_items' => $arrParentItems,
+            'statuses' => $arrStatuses,
+            'types' => $arrTypes,
+            'form_model' => $form_mdl,
+            'menu' => $objMenu,
+            'content_items' => $objConItems,
+            'first_type' => $objFirstType
+            )
+        );
     }
 
+    /**
+     * Returns all content items by menu item type
+     * @param $type ExtMenuItemType
+     * @return ExtPage[]|ExtNewsCategory[]|ExtProductCategory[]|array
+     */
+    private function getContentsByType($type)
+    {
+        $objItems = array();
+
+        if(!empty($type))
+        {
+            switch($type->id)
+            {
+                case ExtMenuItemType::TYPE_SINGLE_PAGE:
+                    $objItems = ExtPage::model()->findAll(array('order' => 'priority DESC'));
+                    break;
+
+                case ExtMenuItemType::TYPE_NEWS_CATALOG:
+                    $objItems = ExtNewsCategory::model()->findAll(array('order' => 'priority DESC'));
+                    break;
+
+                case ExtMenuItemType::TYPE_PRODUCTS_CATALOG:
+                    $objItems = ExtProductCategory::model()->findAll(array('order' => 'priority DESC'));
+                    break;
+
+                case ExtMenuItemType::TYPE_CONTACT_FORM:
+                    $objItems = array();
+                    break;
+
+                case ExtMenuItemType::TYPE_COMPLEX_PAGE:
+                    $objItems = array();
+                    break;
+
+                default:
+                    $objItems = array();
+                    break;
+
+            }
+        }
+
+        return $objItems;
+    }
 
     /**
      * Loads list of available content items by type
      * @param int $id
+     * @param null $selected
      */
-    public function actionAjaxContentItemsByType($id = ExtMenuItemType::TYPE_SINGLE_PAGE)
+    public function actionAjaxContentItemsByType($id = ExtMenuItemType::TYPE_SINGLE_PAGE, $selected = null)
     {
         $type = ExtMenuItemType::model()->findByPk($id);
-        $objItems = array();
-
-        switch($id)
-        {
-            case ExtMenuItemType::TYPE_SINGLE_PAGE:
-                $objItems = ExtPage::model()->findAll(array('order' => 'priority DESC'));
-                break;
-
-            case ExtMenuItemType::TYPE_NEWS_CATALOG:
-                $objItems = ExtNewsCategory::model()->findAll(array('order' => 'priority DESC'));
-                break;
-
-            case ExtMenuItemType::TYPE_PRODUCTS_CATALOG:
-                $objItems = ExtProductCategory::model()->findAll(array('order' => 'priority DESC'));
-                break;
-
-            case ExtMenuItemType::TYPE_CONTACT_FORM:
-                $objItems = array();
-                break;
-
-            case ExtMenuItemType::TYPE_COMPLEX_PAGE:
-                $objItems = array();
-                break;
-
-            default:
-                $objItems = array();
-                break;
-
-        }
-
-        $this->renderPartial('_ajax_content_items',array('objContentItems' => $objItems, 'type' => $type));
+        $objItems = $this->getContentsByType($type);
+        $this->renderPartial('_ajax_content_items',array('objContentItems' => $objItems, 'type' => $type, 'selected' => $selected));
     }
 
     /**

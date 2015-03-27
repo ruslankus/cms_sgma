@@ -5,6 +5,9 @@
 <?php /* @var $form_model MenuItemForm */ ?>
 <?php /* @var $menu ExtMenu */ ?>
 <?php /* @var $form CActiveForm */ ?>
+<?php /* @var $content_items ExtPage[]|ExtNewsCategory[]|ExtProductCategory[]|array */ ?>
+<?php /* @var $first_type ExtMenuItemType  */ ?>
+<?php /* @var $this MenuController */ ?>
 
 <main>
     <div class="title-bar world">
@@ -28,7 +31,7 @@
         </div><!--/tab-line-->
 
         <div class="inner-content">
-            <?php $form=$this->beginWidget('CActiveForm', array('id' =>'add-item-form','enableAjaxValidation'=>true,'htmlOptions'=>array(),'clientOptions' => array('validateOnSubmit'=>true))); ?>
+            <?php $form=$this->beginWidget('CActiveForm', array('id' =>'add-item-form','enableAjaxValidation'=>true,'htmlOptions'=>array('data-update_url' => Yii::app()->createUrl('/admin/menu/AjaxContentItemsByType')),'clientOptions' => array('validateOnSubmit'=>true))); ?>
                 <div class="tabs">
                     <?php foreach($languages as $index => $language): ?>
                     <table data-tab="<?php echo $language->prefix; ?>" <?php if($index == 0): ?> class="active" <?php endif; ?>>
@@ -54,21 +57,12 @@
                     <tr>
                         <td class="label"><?php echo $form->labelEx($form_model,'type_id'); ?></td>
                         <td class="value">
-                            <?php echo $form->dropDownList($form_model,'type_id',$types,array('class'=>''));?>
+                            <?php echo $form->dropDownList($form_model,'type_id',$types,array('class'=>'load-items-selector'));?>
                         </td>
                     </tr>
                     <tr id="loadable-selector">
                         <?php echo $form->hiddenField($form_model,'content_item_id',array('value' => '')); ?>
-<!--                        <td class="label">Select article</td>-->
-<!--                        <td class="value">-->
-<!--                            <select name="type">-->
-<!--                                <option>First article</option>-->
-<!--                                <option>First article</option>-->
-<!--                                <option>First article</option>-->
-<!--                                <option>First article</option>-->
-<!--                                <option>First article</option>-->
-<!--                            </select>-->
-<!--                        </td>-->
+                        <?php $this->renderPartial('_ajax_content_items',array('objContentItems' => $content_items, 'type' => $first_type)); ?>
                     </tr>
                     <tr>
                         <td class="label"><?php echo ATrl::t()->getLabel('Link'); ?></td>
@@ -82,18 +76,18 @@
                     </tr>
                     <tr>
                         <td class="label">&nbsp;</td>
-                        <td class="value"><input type="submit" value="<?php echo ATrl::t()->getLabel('Save'); ?>" /></td>
+                        <td class="value">
+                            <?php echo CHtml::submitButton(ATrl::t()->getLabel('Save'),array()); ?>
+                        </td>
                     </tr>
                     <tr>
                         <td class="label">&nbsp;</td>
                         <td class="value">
-                            <div class="errorMessage float-right">
-                                <?php echo $form->error($form_model,'label'); ?>
-                                <?php echo $form->error($form_model,'status_id'); ?>
-                                <?php echo $form->error($form_model,'type_id'); ?>
-                                <?php echo $form->error($form_model,'parent_id'); ?>
-                                <?php echo $form->error($form_model,'content_item_id'); ?>
-                            </div>
+                            <?php echo $form->error($form_model,'label',array('class'=>'float-right errorMessage')); ?>
+                            <?php echo $form->error($form_model,'status_id',array('class'=>'float-right errorMessage')); ?>
+                            <?php echo $form->error($form_model,'type_id',array('class'=>'float-right errorMessage')); ?>
+                            <?php echo $form->error($form_model,'parent_id',array('class'=>'float-right errorMessage')); ?>
+                            <?php echo $form->error($form_model,'content_item_id',array('class'=>'float-right errorMessage')); ?>
                         </td>
                     </tr>
                 </table>
