@@ -70,9 +70,6 @@ $.build_sort = function()
           for(var i = 0; i < previous_order.length; i++){if(previous_order[i] != ""){_p_order.push(previous_order[i]);}}
           for(var y = 0; y < new_order.length; y++){if(new_order[y] != ""){_n_order.push(new_order[y]);}}
 
-          console.log(_p_order);
-          console.log(_n_order);
-
           var result = {'old':_p_order,'new':_n_order};
           $orders.val(JSON.stringify(result)).trigger("change");
       }

@@ -35,6 +35,8 @@ class AdminLanguages extends CActiveRecord
 		return array(
 			array('priority, status', 'numerical', 'integerOnly'=>true),
 			array('prefix, name, icon', 'safe'),
+			array('prefix,name', 'unique'),
+			array('prefix,name', 'required'),
 			// The following rule is used by search().
 			// @todo Please remove those attributes that should not be searched.
 			array('id, prefix, name, icon, priority, status', 'safe', 'on'=>'search'),

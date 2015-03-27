@@ -158,6 +158,7 @@ class MenuController extends ControllerAdmin
     public function actionMenuItems($id,$page = 1,$ajax = 0)
     {
         //include js file for AJAX updating
+        Yii::app()->clientScript->registerScriptFile($this->assetsPath.'/js/vendor.dialog-box.js',CClientScript::POS_END);
         Yii::app()->clientScript->registerScriptFile($this->assetsPath.'/js/vendor.trees.js',CClientScript::POS_END);
         Yii::app()->clientScript->registerScriptFile($this->assetsPath.'/js/vendor.main-menu.js',CClientScript::POS_END);
 
@@ -239,9 +240,42 @@ class MenuController extends ControllerAdmin
 
                 if($form_mdl->validate())
                 {
-                    Debug::out($_POST);
-                    exit();
-                    //TODO: perform adding menu item
+                    /* @var $parent ExtMenuItem */
+
+                    //menu item
+                    $menuItem = new ExtMenuItem();
+                    $menuItem->attributes = $form_mdl->attributes;
+                    $menuItem->time_updated = time();
+                    $menuItem->time_created = time();
+                    $menuItem->last_change_by = Yii::app()->user->id;
+                    $menuItem->priority = Sort::GetNextPriority('MenuItem',array('parent_id' => $form_mdl->parent_id));
+                    $menuItem->save();
+
+                    //translations
+                    foreach($_POST['MenuItemForm']['titles'] as $lngId => $title)
+                    {
+                        $menuItemTrl = new MenuItemTrl();
+                        $menuItemTrl->menu_item_id = $menuItem -> id;
+                        $menuItemTrl->lng_id = $lngId;
+                        $menuItemTrl->value = $title;
+                        $menuItemTrl->save();
+                    }
+
+                    //updating branch
+                    if($menuItem->parent_id != 0)
+                    {
+                        $parent = ExtMenuItem::model()->findByPk($menuItem->parent_id);
+                        $arrBranch = !empty($parent) ? explode(":",$parent->branch) : array(0);
+                    }
+                    else
+                    {
+                        $arrBranch = array(0);
+                    }
+
+                    $arrBranch[] = $menuItem->id;
+                    $strBranch = implode(":",$arrBranch);
+                    $menuItem->branch = $strBranch;
+                    $menuItem->update();
 
                     //back to list
                     $this->redirect(Yii::app()->createUrl('/admin/menu/menuitems',array('id' => $objMenu->id)));
@@ -305,6 +339,7 @@ class MenuController extends ControllerAdmin
         return $objItems;
     }
 
+    /************************************* A J A X  S E C T I O N *****************************************************/
     /**
      * Loads list of available content items by type
      * @param int $id
@@ -315,61 +350,6 @@ class MenuController extends ControllerAdmin
         $type = ExtMenuItemType::model()->findByPk($id);
         $objItems = $this->getContentsByType($type);
         $this->renderPartial('_ajax_content_items',array('objContentItems' => $objItems, 'type' => $type, 'selected' => $selected));
-    }
-
-    /**
-     * Edit menu item
-     * @param $id
-     * @throws CHttpException
-     */
-    public function actionEditItem($id)
-    {
-        //include js file for AJAX updating
-        Yii::app()->clientScript->registerScriptFile($this->assetsPath.'/js/menu.edititem.js',CClientScript::POS_END);
-
-        //find item of menu
-        $objItem = ExtMenuItem::model()->findByPk($id);
-
-        //languages
-        $objLanguages = ExtLanguages::model()->findAll();
-
-        //get all menu items in menu of current item
-        $objItems = $objItem->menu->buildObjArrRecursive();
-
-        //all types of item
-        $objTypes = MenuItemType::model()->findAll();
-
-        ///if not found
-        if(empty($objItem))
-        {
-            throw new CHttpException(404);
-        }
-
-        if(isset($_POST['ItemForm']))
-        {
-            //TODO: update item
-        }
-
-        $this->render('edit_menu_item',array('languages' => $objLanguages, 'curItem' => $objItem, 'items' => $objItems, 'types' => $objTypes));
-    }
-
-
-    /**
-     * Confirm deletion pup-up
-     * @param string $type
-     * @param $id
-     */
-    public function actionPopDel($type = 'item',$id)
-    {
-        $link = "#";
-
-        switch ($type)
-        {
-            case 'menu': $link = Yii::app()->createUrl('/admin/menu/deletemenu',array('id' => $id));  break;
-            case 'item': $link = Yii::app()->createUrl('/admin/menu/deleteitem',array('id' => $id, 'ajax' => 1)); break;
-        }
-
-        $this->renderPartial('_confirm_delete',array('link' => $link));
     }
 
 
@@ -390,6 +370,7 @@ class MenuController extends ControllerAdmin
     }
 
     /**
+     * Deletes item form db
      * @param $id
      * @param int $ajax
      * @throws CHttpException
@@ -408,13 +389,44 @@ class MenuController extends ControllerAdmin
         //menu id
         $menu_id = $objItem->menu_id;
 
-        //delete item (and all related with it content by CASCADE)
+        $objItem->deleteChildren();
         $objItem->delete();
 
         if(!$ajax)
         {
             //back to listing items of menu
             $this->redirect(Yii::app()->createUrl('/admin/menu/menuitems',array('id' => $menu_id)));
+        }
+        else
+        {
+            echo "OK";
+        }
+    }
+
+    /**
+     * Move item's priority
+     * @param int $id
+     * @param string $dir
+     * @param int $ajax
+     * @throws CHttpException
+     */
+    public function actionMove($id, $dir, $ajax = 0)
+    {
+        //find item of menu
+        $objItem = ExtMenuItem::model()->findByPk($id);
+
+        ///if not found
+        if(empty($objItem))
+        {
+            throw new CHttpException(404);
+        }
+
+        Sort::Move($objItem,$dir,'ExtMenuItem',array('parent_id' => $objItem->parent_id));
+
+        if(!$ajax)
+        {
+            //back to listing items of menu
+            $this->redirect(Yii::app()->createUrl('/admin/menu/menuitems',array('id' => $objItem->menu_id)));
         }
         else
         {

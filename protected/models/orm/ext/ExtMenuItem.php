@@ -87,6 +87,26 @@ class ExtMenuItem extends MenuItem
     }
 
     /**
+     * Deletes all children of item
+     */
+    public function deleteChildren()
+    {
+        /* @var $child ExtMenuItem */
+        $menu = $this->menu;
+
+        if(!empty($menu))
+        {
+            $children = $menu->buildObjArrRecursive($this->id);
+
+            foreach($children as $child)
+            {
+                $child->delete();
+            }
+        }
+
+    }
+
+    /**
      * Override, relate with extended models
      * @return array relational rules.
      */

@@ -24,17 +24,46 @@ $(document).on("change","#orders",function(){
 });
 
 // Table reloaded event
-$(document).find('.sortable').change(function(){
+$(document).on("table-update",".sortable",function(){
     $.enable_handlers();
 });
 
 // Delete menu label event
 $(document).on("click", ".delete", function()
 	{
-		var data_id = $(this).parent().parent().attr("data-id");
-		var link = "_handles/popup-confirm.html#"+data_id;
-		$.popup({"url":link});
-		$.popup.show();
+        var href = $(this).attr('href');
+        var message = $(this).data('message');
+        var yesLabel = $(this).data('yes');
+        var noLabel = $(this).data('no');
+
+        $.dialogBoxEx({
+            buttons: [
+                //confirm button
+                {label:yesLabel,click:function(){
+                    var request = $.ajax({url: href});
+
+                    request.done(function(msg){
+                        if(msg == 'OK')
+                        {
+                            $.dialogBoxEx.hide();
+                            ajaxRefreshTable();
+                        }
+                    });
+
+                    request.fail(function(jqXHR,textStatus) {
+                        alert( "Request failed: " + textStatus);
+                    });
+
+                },classes:'button confirm'},
+
+                //cancel button
+                {label:noLabel,click:function(){$.dialogBoxEx.hide();},classes:'button cancel'}
+            ],
+            message: message
+        });
+
+        $.dialogBoxEx.show();
+
 		return false;
 	});
 
@@ -48,22 +77,24 @@ $(document).on("click", ".edit", function()
 	});
 
 // move label up
-$(document).on("click", ".go-up", function()
+$(document).on("click", ".move-item", function()
 	{
-		var data_id = $(this).parent().parent().attr("data-id");
-		console.log(data_id+" up");
-		$(".sortable").load("_handles/main-menu.html", function() { $.enable_handlers(); });
+        var href = $(this).attr('href');
+        var request = $.ajax({url: href});
+
+        request.done(function(msg){
+            if(msg == 'OK')
+            {
+                ajaxRefreshTable();
+            }
+        });
+
+        request.fail(function(jqXHR,textStatus) {
+            alert( "Request failed: " + textStatus);
+        });
+
 		return false;
 	});
-
-$(document).on("click", ".go-down", function()
-	{
-		var data_id = $(this).parent().parent().attr("data-id");
-		console.log(data_id+" down");
-		$(".sortable").load("_handles/main-menu.html", function() { $.enable_handlers(); });
-		return false;
-	});
-
 
 
 });// end document ready
@@ -77,6 +108,6 @@ var ajaxRefreshTable = function()
     var request = $.ajax({url: $('#ajax-refresh-link').val()});
 
     request.done(function(data){
-        $('.sortable').html(data).trigger('change');
+        $('.sortable').html(data).trigger('table-update');
     });
 };
