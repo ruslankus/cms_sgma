@@ -348,7 +348,41 @@ class TranslationController extends ControllerAdmin
     }
 
    /*-------------- END ajax section (Admin panel languages) -------------------*/
+/*
+    public function actionUniqueCeckAdminLanguageAjax(){
+        $label = $_POST['label'];
+        $arrJson = array();
+        if(!empty($label))
+        {
+            if($user = AdminLabels::model()->exists('label=:label',array('label'=>$label)))
+            {
+                $arrJson['status'] = "error";
+                $arrJson['err_txt'] = Trl::t()->getMsg("Duplicate error");
+                echo json_encode($arrJson);
+            }
+            else
+            {
+                $arrJson['status'] = "success";
+                echo json_encode($arrJson);
+            }      
+        }
+        else
+        {
+            $arrJson['status'] = "error";
+            $arrJson['err_txt'] = Trl::t()->getMsg("Label empty");
+            echo json_encode($arrJson);
+        }  
+    }
+*/
+    public function actionAddAdminLanguageAjax()
+    {
+        $lang_prefix = Yii::app()->language;
+        $request = Yii::app()->request;
+        $resArr=array();
+        $resArr['html'] = $this->renderPartial('_addLanguage',array('lang_prefix'=>$lang_prefix),true);
+        echo json_encode($resArr);
 
+    }
 
    /*-------------- END ajax section (Admin panel languages) -------------------*/
 

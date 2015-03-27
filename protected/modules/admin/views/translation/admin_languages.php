@@ -1,6 +1,6 @@
 <?php
 Yii::app()->clientScript->registerCssFile($this->assetsPath.'/css/vendor.labels.css');
-Yii::app()->clientScript->registerScriptFile($this->assetsPath.'/js/vendor.languages.js',CClientScript::POS_END);
+Yii::app()->clientScript->registerScriptFile($this->assetsPath.'/js/vendor.language.js',CClientScript::POS_END);
 $pagesArr = $pager->getPreparedArray();
 $totalPages = $pager->getTotalPages();
 $perPage = $pager->getPerPage();
@@ -39,8 +39,11 @@ $currentPage = $pager->getCurrentPage();
 					foreach($pagesArr as $row): ?>
 						<div class="translate-row">
 							<div class="translate-cell id"><?php echo $n; ?></div>
-							<div class="translate-cell labels"><input type="text" id="lang-name-<?php echo $row['id'];?>" value="<?php echo $row['name']; ?>" name="lang_name" disabled/></div>
-							<div class="translate-cell translations"><input type="text" id="lang-prefix-<?php echo $row['id'];?>" value="<?php echo $row['prefix']; ?>" name="lang_prefix" disabled/></div>
+							<div class="translate-cell labels" id="lang-<?php echo $row['id'];?>">
+								<input type="text" value="<?php echo $row['name']; ?>" name="lang_name" disabled/>
+								<div class="errorMessage"></div>
+							</div>
+							<div class="translate-cell translations"><input type="text" value="<?php echo $row['prefix']; ?>" name="lang_prefix" disabled/><div class="errorMessage"></div> </div>
 							<div class="translate-cell actions">
 								<a href="#" class="action edit edit-page" data-id="<?php echo $row['id'];?>" data-prefix="<?php echo $lang_prefix; ?>"></a>
 								<a href="#" class="action save" data-id="<?php echo $row['id'];?>" data-prefix="<?php echo $lang_prefix; ?>"></a>

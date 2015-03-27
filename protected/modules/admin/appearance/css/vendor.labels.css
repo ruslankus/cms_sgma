@@ -126,8 +126,9 @@
 	{
 		display: table-cell;
 		text-align: center;
-		vertical-align: middle;
+		vertical-align: top;
 		height: 45px;
+		padding-top: 8px;
 	}
 .content.translation .translate-content > .translate-row > .translate-cell.id { width: 100px; }
 .content.translation .translate-content > .translate-row > .translate-cell.labels{ text-align: left; }
@@ -182,6 +183,15 @@
 	{
 		background: none;
 		border: none;
+	}
+.content.translation .translate-content > .translate-row > .translate-cell.labels .errorMessage,
+.content.translation .translate-content > .translate-row > .translate-cell.translations .errorMessage
+	{
+		color: #fb8f73;
+		font-family: "Open_sans";	
+		font-size: 13px;
+		width: 100%;
+		display: none;
 	}
 .content.translation .translate-content > .translate-row > .translate-cell.actions > .action
 	{

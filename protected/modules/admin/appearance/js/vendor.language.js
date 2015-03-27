@@ -11,9 +11,9 @@
 	{
 		e.preventDefault();
 		var prefix = $(this).data('prefix');
-		var sel_lng = $('#styled-language').val();
-		var link = '/'+ prefix +'/admin/Translation/AddAdminLabelAjax';
-	    $.ajax({ type: "post",url:link,data:{sel_lng:sel_lng}}).done(function(data){
+		
+		var link = '/'+ prefix +'/admin/Translation/AddAdminLanguageAjax';
+	    $.ajax({ type: "post",url:link}).done(function(data){
 	        
 	        obj = jQuery.parseJSON(data);
 
@@ -22,13 +22,16 @@
 			$.popup.show();
 
 	    });
+		
 	});
 
 	    
 	 $(document).on('click','.add-label-popup',function(e){
-	     var prefix = $(this).data('prefix');
-	     var value = $('#label-popup').val();
-	     var link = '/'+ prefix +'/admin/Translation/UniqueCeckAdminLabelAjax';
+	     var prefix = $(this).data('prefix'); 
+	     var lang_name = $('#label-popup').val();
+		 var lang_prefix = $('#label-popup').val();
+/*
+	     var link = '/'+ prefix +'/admin/Translation/UniqueCeckAdminlanguageAjax';
 	    $.ajaxSetup({async:false});
 	    $.ajax({ type: "post",url:link,data:{label:value}}).done(function(data){
 	        
@@ -48,7 +51,7 @@
 	        }
 	       
 	    });
-	     
+*/	     
 	    
 	 });
 	/*
