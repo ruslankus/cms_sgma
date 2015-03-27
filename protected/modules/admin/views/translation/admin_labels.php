@@ -1,4 +1,5 @@
 <?php
+Yii::app()->clientScript->registerCssFile($this->assetsPath.'/css/vendor.labels.css');
 Yii::app()->clientScript->registerScriptFile($this->assetsPath.'/js/vendor.labels.js',CClientScript::POS_END);
 $pagesArr = $pager->getPreparedArray();
 $totalPages = $pager->getTotalPages();
@@ -60,7 +61,7 @@ $currentPage = $pager->getCurrentPage();
 								<a href="index.html" class="action delete" data-id="<?php echo $row['translation_id'];?>" data-prefix="<?php echo $lang_prefix; ?>" data-label="<?php echo $row['label']?>"></a>
 							</div><!--/translate-cell actions-->
 						</div><!--/translate-row-->
-				<?php $n++; endforeach;?>
+				<?php*/ $n++; endforeach;?>
 			</div><!--/translate-content-->
 			<?php
 			if($totalPages>1)

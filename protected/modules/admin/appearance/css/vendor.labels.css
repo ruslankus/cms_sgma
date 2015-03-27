@@ -147,6 +147,42 @@
 		font-family: "Open_sans";
 		font-weight: normal;
 	}
+.content.translation .translate-content > .translate-row > .translate-cell.translations > input
+	{
+		width: 275px;
+		height: 35px;
+		border: 1px solid #ddd;
+		border-radius: 3px;
+		padding-left: 5px;
+		padding-right: 5px;
+		color: #968b8b;
+		font-size: 14px;
+		font-family: "Open_sans";
+		font-weight: normal;
+	}
+.content.translation .translate-content > .translate-row > .translate-cell.translations > input:disabled
+	{
+		background: none;
+		border: none;
+	}
+.content.translation .translate-content > .translate-row > .translate-cell.labels > input
+	{
+		width: 95%;
+		height: 35px;
+		border: 1px solid #ddd;
+		border-radius: 3px;
+		padding-left: 5px;
+		padding-right: 5px;
+		color: #968b8b;
+		font-size: 14px;
+		font-family: "Open_sans";
+		font-weight: normal;
+	}
+.content.translation .translate-content > .translate-row > .translate-cell.labels > input:disabled
+	{
+		background: none;
+		border: none;
+	}
 .content.translation .translate-content > .translate-row > .translate-cell.actions > .action
 	{
 		width: 35px;
@@ -155,7 +191,8 @@
 		border-radius: 3px;
 		display: inline-block;
 		padding: 0;
-		margin: 0 5px;
+		margin: 0 3px;
 	}
 .content.translation .translate-content > .translate-row > .translate-cell.actions > .action.save{ background: #149fe4 url(../images/icon-save-white.png) center center no-repeat; }
 .content.translation .translate-content > .translate-row > .translate-cell.actions > .action.delete{ background: #149fe4 url(../images/icon-delete.png) center center no-repeat; }
+.content.translation .translate-content > .translate-row > .translate-cell.actions > .action.edit{ background: #149fe4 url(../images/icon-edit.png) center center no-repeat; }

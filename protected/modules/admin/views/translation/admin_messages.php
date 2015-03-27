@@ -1,4 +1,5 @@
 <?php
+Yii::app()->clientScript->registerCssFile($this->assetsPath.'/css/vendor.labels.css');
 Yii::app()->clientScript->registerScriptFile($this->assetsPath.'/js/vendor.messages.js',CClientScript::POS_END);
 $pagesArr = $pager->getPreparedArray();
 $totalPages = $pager->getTotalPages();

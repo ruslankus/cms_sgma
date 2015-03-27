@@ -318,7 +318,33 @@ class TranslationController extends ControllerAdmin
 
     public function actionAdminLanguages()
     {
-        $this->renderText('admin language list');
+        $request = Yii::app()->request;
+        $lang_prefix = Yii::app()->language;
+        $arrSelect = ExtAdminLanguages::model()->selectArray();    
+        $arrLang = AdminLanguages::model()->findAll();
+        $curr_page = $request->getPost('curr_page');
+        
+        if(empty($curr_page))
+        {
+            $curr_page=1;
+        }
+        if(empty($curr_lng)){
+           $curr_lng = $lang_prefix; 
+        }
+
+        if(!empty($sel_lng)){
+            $curr_lng = $sel_lng;   
+        }
+        $search_label = $request->getPost('search_label');  
+        $arrLabel = ExtAdminLabels::model()->getLabels($curr_lng, array('search_label' => $search_label));
+        
+        $pager = CPaginator::getInstanse($arrLang,10,$curr_page);
+        //$prepPages = $pager->getPreparedArray();
+
+        $this->render('admin_languages',array('arrLabel' => $arrLabel,
+                        'arrSelect' => $arrSelect,'lang_prefix' => $lang_prefix,'select_lng' => $curr_lng,
+                        'search_val' => $search_label,'pager'=>$pager,'arrLang'=>$arrLang)); 
+         
     }
 
    /*-------------- END ajax section (Admin panel languages) -------------------*/
