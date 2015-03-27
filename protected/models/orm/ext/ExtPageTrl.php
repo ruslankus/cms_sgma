@@ -28,17 +28,17 @@ class ExtPageTrl extends PageTrl
             
             $param[':label'] = $label;
             $con->createCommand($sql)->execute($param);
-            $labelId = $con->getLastInsertID('page');
+            $pageId = $con->getLastInsertID('page');
             //adding tranlation
             
-            $sql  = "INSERT INTO ".$this->tableName()."(`article_id`, `lng_id`, `header`) ";
+            $sql  = "INSERT INTO ".$this->tableName()."(`page_id`, `lng_id`, `title`) ";
             $sql .= "VALUES ";
             $i=0;
             foreach($arrTitle as $key => $value){
                 if($i == 0){
-                    $sql .= "({$labelId}, {$key}, '{$value}') ";
+                    $sql .= "({$pageId}, {$key}, '{$value}') ";
                 }else{
-                     $sql .= ",({$labelId}, {$key}, '{$value}') ";
+                     $sql .= ",({$pageId}, {$key}, '{$value}') ";
                 } 
                 $i++;   
             }

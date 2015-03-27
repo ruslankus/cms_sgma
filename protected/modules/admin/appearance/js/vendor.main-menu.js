@@ -64,19 +64,9 @@ $(document).on("click", ".go-down", function()
 		return false;
 	});
 
-// for popup confirm
-$(document).on("click", ".unique-class-name", function(){
-	console.log("ok");
-	return false;
-});
 
-// for input submits
-$(document).on("submit", ".unique-class-name", function(){
-	console.log("ok");
-	return false;
-});
 
-});
+});// end document ready
 
 
 /**
