@@ -39,8 +39,8 @@
 								<tr>
 									<td class="label">label</td>
 									<td class="value">                                   
-                                    <?php echo $form->textField($model,'label');?>
-                                    <?php echo $form->error($model,'label');?>
+                                    <?php echo $form->textField($model,'page_label');?>
+                                    <?php echo $form->error($model,'page_label');?>
                                     </td>
 								</tr>
 								<tr>

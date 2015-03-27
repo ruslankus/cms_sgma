@@ -20,16 +20,5 @@ $(".del").click(function()
 		console.log("delete"+data_id);
 		return false;
 	});
-// Delete menu label event
-$(document).on("click", ".delete", function()
-	{
-		if ($(this).hasClass("active"))
-			{
-				var data_id = $(this).attr("data-id");
-				var link = "_handles/popup-confirm.html";
-				$.popup({"url":link});
-				$.popup.show();
-			}
-		return false;
-	});
+
 });

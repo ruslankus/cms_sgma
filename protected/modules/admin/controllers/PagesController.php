@@ -22,12 +22,29 @@ class PagesController extends ControllerAdmin
     
     
     public function actionCreate(){
-        Yii::app()->clientScript->registerScriptFile($this->assetsPath.'/js/vendor.add-menu.js',CClientScript::POS_END);
+        Yii::app()->clientScript->registerScriptFile($this->assetsPath.'/js/vendor.add-page.js',CClientScript::POS_END);
         $model = new AddPageForm();
         
-        if(isset($_POST['save'])){
+        if(isset($_POST['AddPageForm'])){
+            //Debug::d($_POST);
+            $model->attributes = $_POST['AddPageForm'];
+            $arrTitle = array();
+            if($model->validate()){
+                //get title
+                foreach(SiteLng::lng()->getLngs() as $objLng){
+                    $lngPrefix = $objLng->prefix;
+                    $arrTitle[$objLng->id] = $_POST['AddPageForm']["title_{$lngPrefix}"];
+                }
+                
+                $result = ExtPageTrl::model()->setNewPage($model->page_label,$arrTitle);
+                if($result){
+                    $this->redirect('index');
+                }else{
+                    
+                }
+            }
             
-            Debug::d($_POST);
+           
         }
         
         $this->render('new_page', array('model' => $model));

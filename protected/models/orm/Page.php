@@ -6,7 +6,6 @@
  * The followings are the available columns in table 'page':
  * @property integer $id
  * @property string $label
- * @property integer $menu_item_id
  * @property integer $status_id
  * @property integer $priority
  * @property integer $time_created
@@ -14,7 +13,6 @@
  * @property integer $last_change_by
  *
  * The followings are the available model relations:
- * @property MenuItem $menuItem
  * @property PageTrl[] $pageTrls
  */
 class Page extends CActiveRecord
@@ -35,11 +33,11 @@ class Page extends CActiveRecord
 		// NOTE: you should only define rules for those attributes that
 		// will receive user inputs.
 		return array(
-			array('menu_item_id, status_id, priority, time_created, time_update, last_change_by', 'numerical', 'integerOnly'=>true),
+			array('status_id, priority, time_created, time_update, last_change_by', 'numerical', 'integerOnly'=>true),
 			array('label', 'length', 'max'=>128),
 			// The following rule is used by search().
 			// @todo Please remove those attributes that should not be searched.
-			array('id, label, menu_item_id, status_id, priority, time_created, time_update, last_change_by', 'safe', 'on'=>'search'),
+			array('id, label, status_id, priority, time_created, time_update, last_change_by', 'safe', 'on'=>'search'),
 		);
 	}
 
@@ -51,8 +49,7 @@ class Page extends CActiveRecord
 		// NOTE: you may need to adjust the relation name and the related
 		// class name for the relations automatically generated below.
 		return array(
-			'menuItem' => array(self::BELONGS_TO, 'MenuItem', 'menu_item_id'),
-			'pageTrls' => array(self::HAS_MANY, 'PageTrl', 'article_id'),
+			'pageTrls' => array(self::HAS_MANY, 'PageTrl', 'page_id'),
 		);
 	}
 
@@ -64,7 +61,6 @@ class Page extends CActiveRecord
 		return array(
 			'id' => 'ID',
 			'label' => 'Label',
-			'menu_item_id' => 'Menu Item',
 			'status_id' => 'Status',
 			'priority' => 'Priority',
 			'time_created' => 'Time Created',
@@ -93,7 +89,6 @@ class Page extends CActiveRecord
 
 		$criteria->compare('id',$this->id);
 		$criteria->compare('label',$this->label,true);
-		$criteria->compare('menu_item_id',$this->menu_item_id);
 		$criteria->compare('status_id',$this->status_id);
 		$criteria->compare('priority',$this->priority);
 		$criteria->compare('time_created',$this->time_created);
@@ -115,6 +110,4 @@ class Page extends CActiveRecord
 	{
 		return parent::model($className);
 	}
-    
-    
 }

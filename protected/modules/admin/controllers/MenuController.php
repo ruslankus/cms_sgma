@@ -191,37 +191,164 @@ class MenuController extends ControllerAdmin
 
     }
 
+    public function actionAddMenuItem($id)
+    {
+        //include menu necessary scripts
+        Yii::app()->clientScript->registerScriptFile($this->assetsPath.'/js/vendor.add-menu.js',CClientScript::POS_END);
+        Yii::app()->clientScript->registerScriptFile($this->assetsPath.'/js/menu.edititem.js',CClientScript::POS_END);
+
+        //exclude jquery to avoid conflict between jquery from Yii core
+        Yii::app()->clientScript->scriptMap=array('jquery-1.11.2.min.js' => false);
+
+        //all languages
+        $objLanguages = SiteLng::lng()->getLngs();
+        //current menu
+        $objMenu = ExtMenu::model()->findByPk($id);
+        //get all menu items in menu of current item (for parent selection)
+        $arrParentItems = $objMenu->arrayForMenuItemForm();
+        //statuses
+        $arrStatuses = ExtStatus::model()->arrayForMenuForm(true);
+        //types
+        $arrTypes = ExtMenuItemType::model()->arrayForMenuItemForm(true);
+        //content items by type (first type)
+        $objFirstType = ExtMenuItemType::model()->find();
+        $objConItems = !empty($objFirstType) ? $this->getContentsByType($objFirstType) : array();
+
+        //form
+        $form_mdl = new MenuItemForm();
+
+
+        if(Yii::app()->request->isAjaxRequest)
+        {
+            //if ajax validation
+            if(isset($_POST['ajax']))
+            {
+                if($_POST['ajax'] == 'add-item-form')
+                {
+                    echo CActiveForm::validate($form_mdl);
+                }
+                Yii::app()->end();
+            }
+        }
+        else
+        {
+            //if have form
+            if($_POST['MenuItemForm'])
+            {
+                $form_mdl->attributes = $_POST['MenuItemForm'];
+
+                if($form_mdl->validate())
+                {
+                    /* @var $parent ExtMenuItem */
+
+                    //menu item
+                    $menuItem = new ExtMenuItem();
+                    $menuItem->attributes = $form_mdl->attributes;
+                    $menuItem->time_updated = time();
+                    $menuItem->time_created = time();
+                    $menuItem->last_change_by = Yii::app()->user->id;
+                    $menuItem->priority = Sort::GetNextPriority('MenuItem',array('parent_id' => $form_mdl->parent_id));
+                    $menuItem->save();
+
+                    //translations
+                    foreach($_POST['MenuItemForm']['titles'] as $lngId => $title)
+                    {
+                        $menuItemTrl = new MenuItemTrl();
+                        $menuItemTrl->menu_item_id = $menuItem -> id;
+                        $menuItemTrl->lng_id = $lngId;
+                        $menuItemTrl->value = $title;
+                        $menuItemTrl->save();
+                    }
+
+                    //updating branch
+                    if($menuItem->parent_id != 0)
+                    {
+                        $parent = ExtMenuItem::model()->findByPk($menuItem->parent_id);
+                        $arrBranch = !empty($parent) ? explode(":",$parent->branch) : array(0);
+                    }
+                    else
+                    {
+                        $arrBranch = array(0);
+                    }
+
+                    $arrBranch[] = $menuItem->id;
+                    $strBranch = implode(":",$arrBranch);
+                    $menuItem->branch = $strBranch;
+                    $menuItem->update();
+
+
+                    //back to list
+                    $this->redirect(Yii::app()->createUrl('/admin/menu/menuitems',array('id' => $objMenu->id)));
+                }
+            }
+        }
+
+        $this->render('add_menu_item',array(
+            'languages' => $objLanguages,
+            'parent_items' => $arrParentItems,
+            'statuses' => $arrStatuses,
+            'types' => $arrTypes,
+            'form_model' => $form_mdl,
+            'menu' => $objMenu,
+            'content_items' => $objConItems,
+            'first_type' => $objFirstType
+            )
+        );
+    }
+
+    /**
+     * Returns all content items by menu item type
+     * @param $type ExtMenuItemType
+     * @return ExtPage[]|ExtNewsCategory[]|ExtProductCategory[]|array
+     */
+    private function getContentsByType($type)
+    {
+        $objItems = array();
+
+        if(!empty($type))
+        {
+            switch($type->id)
+            {
+                case ExtMenuItemType::TYPE_SINGLE_PAGE:
+                    $objItems = ExtPage::model()->findAll(array('order' => 'priority DESC'));
+                    break;
+
+                case ExtMenuItemType::TYPE_NEWS_CATALOG:
+                    $objItems = ExtNewsCategory::model()->findAll(array('order' => 'priority DESC'));
+                    break;
+
+                case ExtMenuItemType::TYPE_PRODUCTS_CATALOG:
+                    $objItems = ExtProductCategory::model()->findAll(array('order' => 'priority DESC'));
+                    break;
+
+                case ExtMenuItemType::TYPE_CONTACT_FORM:
+                    $objItems = array();
+                    break;
+
+                case ExtMenuItemType::TYPE_COMPLEX_PAGE:
+                    $objItems = array();
+                    break;
+
+                default:
+                    $objItems = array();
+                    break;
+
+            }
+        }
+
+        return $objItems;
+    }
 
     /**
      * Loads list of available content items by type
      * @param int $id
+     * @param null $selected
      */
-    public function actionAjaxContentItemsByType($id = ExtMenuItemType::TYPE_SINGLE_PAGE)
+    public function actionAjaxContentItemsByType($id = ExtMenuItemType::TYPE_SINGLE_PAGE, $selected = null)
     {
-        $objItems = array();
-
-        switch($id)
-        {
-            case ExtMenuItemType::TYPE_SINGLE_PAGE:
-                $objItems = ExtPage::model()->findAll(array('order' => 'priority DESC'));
-                break;
-
-            case ExtMenuItemType::TYPE_NEWS_CATALOG:
-                $objItems = ExtNewsCategory::model()->findAll(array('order' => 'priority DESC'));
-                break;
-
-            case ExtMenuItemType::TYPE_PRODUCTS_CATALOG:
-                $objItems = ExtProductCategory::model()->findAll(array('order' => 'priority DESC'));
-                break;
-
-            case ExtMenuItemType::TYPE_CONTACT_FORM:
-                break;
-
-            case ExtMenuItemType::TYPE_COMPLEX_PAGE:
-                break;
-        }
-
-        $this->renderPartial('_ajax_content_items',array('objContentItems' => $objItems));
+        $type = ExtMenuItemType::model()->findByPk($id);
+        $objItems = $this->getContentsByType($type);
+        $this->renderPartial('_ajax_content_items',array('objContentItems' => $objItems, 'type' => $type, 'selected' => $selected));
     }
 
     /**
