@@ -5,15 +5,15 @@
  *
  * The followings are the available columns in table 'page_trl':
  * @property integer $id
- * @property string $header
+ * @property string $title
  * @property string $meta_description
  * @property string $content
- * @property integer $article_id
+ * @property integer $page_id
  * @property integer $lng_id
  *
  * The followings are the available model relations:
  * @property Languages $lng
- * @property Page $article
+ * @property Page $page
  */
 class PageTrl extends CActiveRecord
 {
@@ -33,13 +33,13 @@ class PageTrl extends CActiveRecord
 		// NOTE: you should only define rules for those attributes that
 		// will receive user inputs.
 		return array(
-			array('article_id, lng_id', 'numerical', 'integerOnly'=>true),
-			array('header', 'length', 'max'=>512),
+			array('page_id, lng_id', 'numerical', 'integerOnly'=>true),
+			array('title', 'length', 'max'=>512),
 			array('meta_description', 'length', 'max'=>256),
 			array('content', 'safe'),
 			// The following rule is used by search().
 			// @todo Please remove those attributes that should not be searched.
-			array('id, header, meta_description, content, article_id, lng_id', 'safe', 'on'=>'search'),
+			array('id, title, meta_description, content, page_id, lng_id', 'safe', 'on'=>'search'),
 		);
 	}
 
@@ -52,7 +52,7 @@ class PageTrl extends CActiveRecord
 		// class name for the relations automatically generated below.
 		return array(
 			'lng' => array(self::BELONGS_TO, 'Languages', 'lng_id'),
-			'article' => array(self::BELONGS_TO, 'Page', 'article_id'),
+			'page' => array(self::BELONGS_TO, 'Page', 'page_id'),
 		);
 	}
 
@@ -63,10 +63,10 @@ class PageTrl extends CActiveRecord
 	{
 		return array(
 			'id' => 'ID',
-			'header' => 'Header',
+			'title' => 'Title',
 			'meta_description' => 'Meta Description',
 			'content' => 'Content',
-			'article_id' => 'Article',
+			'page_id' => 'Page',
 			'lng_id' => 'Lng',
 		);
 	}
@@ -90,19 +90,16 @@ class PageTrl extends CActiveRecord
 		$criteria=new CDbCriteria;
 
 		$criteria->compare('id',$this->id);
-		$criteria->compare('header',$this->header,true);
+		$criteria->compare('title',$this->title,true);
 		$criteria->compare('meta_description',$this->meta_description,true);
 		$criteria->compare('content',$this->content,true);
-		$criteria->compare('article_id',$this->article_id);
+		$criteria->compare('page_id',$this->page_id);
 		$criteria->compare('lng_id',$this->lng_id);
 
 		return new CActiveDataProvider($this, array(
 			'criteria'=>$criteria,
 		));
 	}
-    
-    
-     
 
 	/**
 	 * Returns the static model of the specified AR class.

@@ -61,7 +61,7 @@ $currentPage = $pager->getCurrentPage();
 								<a href="index.html" class="action delete" data-id="<?php echo $row['translation_id'];?>" data-prefix="<?php echo $lang_prefix; ?>" data-label="<?php echo $row['label']?>"></a>
 							</div><!--/translate-cell actions-->
 						</div><!--/translate-row-->
-				<?php*/ $n++; endforeach;?>
+				<?php $n++; endforeach;?>
 			</div><!--/translate-content-->
 			<?php
 			if($totalPages>1)

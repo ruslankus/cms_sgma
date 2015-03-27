@@ -347,33 +347,74 @@ class TranslationController extends ControllerAdmin
          
     }
 
+    public function actionAddAdminLanguage()
+    {
+        $request = Yii::app()->request;
+        $lang_name = $request->getPost('label_name');
+        $lang_prefix = $request->getPost('label_prefix');
+        $model = new AdminLanguages();
+        $model->name =  $lang_name;
+        $model->prefix =  $lang_prefix;
+        $model->save();
+        $this->redirect(array('AdminLanguages')); 
+        /*
+        $arrLng = ExtAdminLanguages::model()->getAllLang();
+        ExtAdminLabels::model()->addLabel($label,$arrLng);
+        $this->redirect(array('admin','sel_lng'=>$sel_lng)); 
+       */ 
+    }
+
    /*-------------- END ajax section (Admin panel languages) -------------------*/
-/*
+
     public function actionUniqueCeckAdminLanguageAjax(){
-        $label = $_POST['label'];
+        $lang_name = $_POST['lang_name'];
+        $lang_prefix = $_POST['lang_prefix'];
         $arrJson = array();
-        if(!empty($label))
+        if(!empty($lang_name)) // check language name
         {
-            if($user = AdminLabels::model()->exists('label=:label',array('label'=>$label)))
+            if($user = AdminLanguages::model()->exists('name=:name',array('name'=>$lang_name)))
             {
                 $arrJson['status'] = "error";
-                $arrJson['err_txt'] = Trl::t()->getMsg("Duplicate error");
-                echo json_encode($arrJson);
+                $arrJson['err_name_txt'] = Trl::t()->getMsg("Duplicate error");
+
             }
             else
             {
                 $arrJson['status'] = "success";
-                echo json_encode($arrJson);
+
             }      
         }
         else
         {
             $arrJson['status'] = "error";
-            $arrJson['err_txt'] = Trl::t()->getMsg("Label empty");
-            echo json_encode($arrJson);
-        }  
+            $arrJson['err_name_txt'] = Trl::t()->getMsg("Label empty");
+;
+        } // END check language name
+
+        if(!empty($lang_prefix)) // check language prefix
+        {
+            if($user = AdminLanguages::model()->exists('prefix=:prefix',array('prefix'=>$lang_prefix)))
+            {
+                $arrJson['status'] = "error";
+                $arrJson['err_prefix_txt'] = Trl::t()->getMsg("Duplicate error");
+ 
+            }
+            else
+            {
+                $arrJson['status'] = "success";
+
+            }      
+        }
+        else
+        {
+            $arrJson['status'] = "error";
+            $arrJson['err_prefix_txt'] = Trl::t()->getMsg("Label empty");
+           
+        } // END check language prefix
+
+        echo json_encode($arrJson);
     }
-*/
+
     public function actionAddAdminLanguageAjax()
     {
         $lang_prefix = Yii::app()->language;

@@ -8,7 +8,7 @@
     <div class="title-bar">
         <h1><?php echo ATrl::t()->getLabel('All menus'); ?></h1>
         <ul class="actions">
-            <li><a href="<?php echo Yii::app()->createUrl('admin/menu/addmenu'); ?>" class="action add"></a></li>
+            <li><a href="#" class="action add"></a></li>
         </ul>
     </div><!--/title-bar-->
     <div class="content list">

@@ -191,6 +191,61 @@ class MenuController extends ControllerAdmin
 
     }
 
+    public function actionAddMenuItem($id)
+    {
+        //include menu necessary scripts
+        Yii::app()->clientScript->registerScriptFile($this->assetsPath.'/js/vendor.add-menu.js',CClientScript::POS_END);
+
+        //exclude jquery to avoid conflict between jquery from Yii core
+        Yii::app()->clientScript->scriptMap=array('jquery-1.11.2.min.js' => false);
+
+        //all languages
+        $objLanguages = SiteLng::lng()->getLngs();
+        //current menu
+        $objMenu = ExtMenu::model()->findByPk($id);
+        //get all menu items in menu of current item (for parent selection)
+        $arrParentItems = $objMenu->arrayForMenuItemForm();
+        //statuses
+        $arrStatuses = ExtStatus::model()->arrayForMenuForm(true);
+        //types
+        $arrTypes = ExtMenuItemType::model()->arrayForMenuItemForm(true);
+        //form
+        $form_mdl = new MenuItemForm();
+
+
+        if(Yii::app()->request->isAjaxRequest)
+        {
+            //if ajax validation
+            if(isset($_POST['ajax']))
+            {
+                if($_POST['ajax'] == 'add-item-form')
+                {
+                    echo CActiveForm::validate($form_mdl);
+                }
+                Yii::app()->end();
+            }
+        }
+        else
+        {
+            //if have form
+            if($_POST['MenuItemForm'])
+            {
+                $form_mdl->attributes = $_POST['MenuItemForm'];
+
+                if($form_mdl->validate())
+                {
+                    //TODO: perform adding menu item
+
+                    //back to list
+                    $this->redirect(Yii::app()->createUrl('/admin/menu/menuitems',array('id' => $objMenu->id)));
+                }
+            }
+        }
+
+
+        $this->render('add_menu_item',array('languages' => $objLanguages, 'parent_items' => $arrParentItems, 'statuses' => $arrStatuses, 'types' => $arrTypes, 'form_model' => $form_mdl, 'menu' => $objMenu));
+    }
+
 
     /**
      * Loads list of available content items by type
@@ -198,6 +253,7 @@ class MenuController extends ControllerAdmin
      */
     public function actionAjaxContentItemsByType($id = ExtMenuItemType::TYPE_SINGLE_PAGE)
     {
+        $type = ExtMenuItemType::model()->findByPk($id);
         $objItems = array();
 
         switch($id)
@@ -215,13 +271,20 @@ class MenuController extends ControllerAdmin
                 break;
 
             case ExtMenuItemType::TYPE_CONTACT_FORM:
+                $objItems = array();
                 break;
 
             case ExtMenuItemType::TYPE_COMPLEX_PAGE:
+                $objItems = array();
                 break;
+
+            default:
+                $objItems = array();
+                break;
+
         }
 
-        $this->renderPartial('_ajax_content_items',array('objContentItems' => $objItems));
+        $this->renderPartial('_ajax_content_items',array('objContentItems' => $objItems, 'type' => $type));
     }
 
     /**

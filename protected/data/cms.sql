@@ -2,15 +2,15 @@
 Navicat MySQL Data Transfer
 
 Source Server         : local
-Source Server Version : 50535
+Source Server Version : 50538
 Source Host           : localhost:3306
 Source Database       : cms_sigma
 
 Target Server Type    : MYSQL
-Target Server Version : 50535
+Target Server Version : 50538
 File Encoding         : 65001
 
-Date: 2015-03-27 00:30:26
+Date: 2015-03-27 13:53:58
 */
 
 SET FOREIGN_KEY_CHECKS=0;
@@ -181,6 +181,7 @@ CREATE TABLE `menu_item` (
   `parent_id` int(11) DEFAULT NULL,
   `priority` int(11) DEFAULT NULL,
   `type_id` int(11) DEFAULT NULL,
+  `content_item_id` int(11) DEFAULT NULL,
   `status_id` int(11) DEFAULT NULL,
   `time_created` int(11) DEFAULT NULL,
   `time_updated` int(11) DEFAULT NULL,
@@ -188,6 +189,7 @@ CREATE TABLE `menu_item` (
   PRIMARY KEY (`id`),
   KEY `menu_id` (`menu_id`),
   KEY `type_id` (`type_id`),
+  KEY `content_item_id` (`content_item_id`),
   CONSTRAINT `menu_item_ibfk_1` FOREIGN KEY (`type_id`) REFERENCES `menu_item_type` (`id`) ON DELETE NO ACTION ON UPDATE NO ACTION,
   CONSTRAINT `menu_item_ibfk_2` FOREIGN KEY (`menu_id`) REFERENCES `menu` (`id`) ON DELETE CASCADE ON UPDATE NO ACTION
 ) ENGINE=InnoDB AUTO_INCREMENT=14 DEFAULT CHARSET=utf8;
@@ -195,11 +197,11 @@ CREATE TABLE `menu_item` (
 -- ----------------------------
 -- Records of menu_item
 -- ----------------------------
-INSERT INTO `menu_item` VALUES ('1', '1', '0:1', 'News', '0', '3', '2', '1', '0', '1427408703', '1');
-INSERT INTO `menu_item` VALUES ('10', '1', '0:10', 'Products', '0', '4', '3', '1', '0', '1427408703', '1');
-INSERT INTO `menu_item` VALUES ('11', '1', '0:11', 'Tests', '0', '5', '1', '1', '0', '1427408703', '1');
-INSERT INTO `menu_item` VALUES ('12', '1', '0:12', 'Other', '0', '2', '1', '1', '0', '1427408703', '1');
-INSERT INTO `menu_item` VALUES ('13', '1', '0:13', 'Weapons', '0', '1', '1', '1', '0', '1427408703', '1');
+INSERT INTO `menu_item` VALUES ('1', '1', '0:1', 'News', '0', '3', '2', null, '1', '0', '1427408703', '1');
+INSERT INTO `menu_item` VALUES ('10', '1', '0:10', 'Products', '0', '4', '3', null, '1', '0', '1427408703', '1');
+INSERT INTO `menu_item` VALUES ('11', '1', '0:11', 'Tests', '0', '5', '1', null, '1', '0', '1427408703', '1');
+INSERT INTO `menu_item` VALUES ('12', '1', '0:12', 'Other', '0', '2', '1', null, '1', '0', '1427408703', '1');
+INSERT INTO `menu_item` VALUES ('13', '1', '0:13', 'Weapons', '0', '1', '1', null, '1', '0', '1427408703', '1');
 
 -- ----------------------------
 -- Table structure for `menu_item_trl`
@@ -309,16 +311,13 @@ DROP TABLE IF EXISTS `news_category`;
 CREATE TABLE `news_category` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
   `parent_id` int(11) DEFAULT NULL,
-  `menu_item_id` int(11) DEFAULT NULL,
   `label` char(128) DEFAULT NULL,
   `status_id` int(11) DEFAULT NULL,
   `priority` int(11) DEFAULT NULL,
   `time_created` int(11) DEFAULT NULL,
   `time_update` int(11) DEFAULT NULL,
   `last_change_by` int(11) DEFAULT NULL,
-  PRIMARY KEY (`id`),
-  KEY `menu_item_id` (`menu_item_id`),
-  CONSTRAINT `news_category_ibfk_1` FOREIGN KEY (`menu_item_id`) REFERENCES `menu_item` (`id`) ON DELETE CASCADE ON UPDATE NO ACTION
+  PRIMARY KEY (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 -- ----------------------------
@@ -375,21 +374,17 @@ DROP TABLE IF EXISTS `page`;
 CREATE TABLE `page` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
   `label` char(128) DEFAULT NULL,
-  `menu_item_id` int(11) DEFAULT NULL,
   `status_id` int(11) DEFAULT NULL,
   `priority` int(11) DEFAULT NULL,
   `time_created` int(11) DEFAULT NULL,
   `time_update` int(11) DEFAULT NULL,
   `last_change_by` int(11) DEFAULT NULL,
-  PRIMARY KEY (`id`),
-  KEY `menu_item_id` (`menu_item_id`),
-  CONSTRAINT `page_ibfk_1` FOREIGN KEY (`menu_item_id`) REFERENCES `menu_item` (`id`) ON DELETE CASCADE ON UPDATE NO ACTION
+  PRIMARY KEY (`id`)
 ) ENGINE=InnoDB AUTO_INCREMENT=5 DEFAULT CHARSET=utf8;
 
 -- ----------------------------
 -- Records of page
 -- ----------------------------
-INSERT INTO `page` VALUES ('3', 'Page 1', '1', '1', '1', '0', '0', '1');
 
 -- ----------------------------
 -- Table structure for `page_trl`
@@ -397,23 +392,21 @@ INSERT INTO `page` VALUES ('3', 'Page 1', '1', '1', '1', '0', '0', '1');
 DROP TABLE IF EXISTS `page_trl`;
 CREATE TABLE `page_trl` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
-  `header` varchar(512) DEFAULT NULL,
+  `title` varchar(512) DEFAULT NULL,
   `meta_description` varchar(256) DEFAULT NULL,
   `content` text,
-  `article_id` int(11) DEFAULT NULL,
+  `page_id` int(11) DEFAULT NULL,
   `lng_id` int(11) DEFAULT NULL,
   PRIMARY KEY (`id`),
-  KEY `article_id` (`article_id`),
+  KEY `article_id` (`page_id`),
   KEY `lng_id` (`lng_id`),
   CONSTRAINT `page_trl_ibfk_1` FOREIGN KEY (`lng_id`) REFERENCES `languages` (`id`) ON DELETE CASCADE ON UPDATE NO ACTION,
-  CONSTRAINT `page_trl_ibfk_2` FOREIGN KEY (`article_id`) REFERENCES `page` (`id`) ON DELETE CASCADE ON UPDATE NO ACTION
+  CONSTRAINT `page_trl_ibfk_2` FOREIGN KEY (`page_id`) REFERENCES `page` (`id`) ON DELETE CASCADE ON UPDATE NO ACTION
 ) ENGINE=InnoDB AUTO_INCREMENT=10 DEFAULT CHARSET=utf8;
 
 -- ----------------------------
 -- Records of page_trl
 -- ----------------------------
-INSERT INTO `page_trl` VALUES ('5', 'Page 1', 'meta', 'Content', '3', '1');
-INSERT INTO `page_trl` VALUES ('9', 'Страница1', 'мета', 'Содержимое', '3', '2');
 
 -- ----------------------------
 -- Table structure for `product`
@@ -448,16 +441,13 @@ DROP TABLE IF EXISTS `product_category`;
 CREATE TABLE `product_category` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
   `parent_id` int(11) DEFAULT NULL,
-  `menu_item_id` int(11) DEFAULT NULL,
   `label` char(128) DEFAULT NULL,
   `status_id` int(11) DEFAULT NULL,
   `priority` int(11) DEFAULT NULL,
   `time_created` int(11) DEFAULT NULL,
   `time_update` int(11) DEFAULT NULL,
   `last_change_by` int(11) DEFAULT NULL,
-  PRIMARY KEY (`id`),
-  KEY `menu_item_id` (`menu_item_id`),
-  CONSTRAINT `product_category_ibfk_1` FOREIGN KEY (`menu_item_id`) REFERENCES `menu_item` (`id`) ON DELETE CASCADE ON UPDATE NO ACTION
+  PRIMARY KEY (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 -- ----------------------------

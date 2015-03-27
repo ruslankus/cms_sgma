@@ -67,6 +67,48 @@ Class ExtMenu extends Menu
 
 
     /**
+     * Build array which looks like (id => label), special for form-use
+     * @param int $parent_id
+     * @param bool $appendNestingLines
+     * @param bool $add_root
+     * @return array
+     */
+    public function arrayForMenuItemForm($parent_id = 0,$appendNestingLines = true, $add_root = true)
+    {
+        /* @var $all ExtMenuItem[] */
+
+        $result = array();
+
+        //get all items
+        $all = $this->buildObjArrRecursive($parent_id);
+
+        //add root category (name as menu name)
+        if($add_root)
+        {
+            $result[0] = $this->label;
+        }
+        //pass through all
+        foreach($all as $item)
+        {
+            //lines which shows how deep is item nesting
+            $nestingLines = "";
+
+            if($appendNestingLines)
+            {
+                //append them
+                for($i=0; $i < $item->nestingLevel(); $i++)
+                {
+                    $nestingLines.="-";
+                }
+            }
+            //create label for each id
+            $result[$item->id] = $nestingLines.$item->label;
+        }
+
+        return $result;
+    }
+
+    /**
      * Groups array by root-categories (to build blocks easier in template)
      * @param $array
      * @return array
