@@ -24,7 +24,7 @@ $(document).on("change","#orders",function(){
 });
 
 // Table reloaded event
-$(document).find('.sortable').change(function(){
+$(document).on("table-update",".sortable",function(){
     $.enable_handlers();
 });
 
@@ -108,6 +108,6 @@ var ajaxRefreshTable = function()
     var request = $.ajax({url: $('#ajax-refresh-link').val()});
 
     request.done(function(data){
-        $('.sortable').html(data).trigger('change');
+        $('.sortable').html(data).trigger('table-update');
     });
 };
