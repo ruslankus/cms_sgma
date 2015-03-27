@@ -239,9 +239,43 @@ class MenuController extends ControllerAdmin
 
                 if($form_mdl->validate())
                 {
-                    Debug::out($_POST);
-                    exit();
-                    //TODO: perform adding menu item
+                    /* @var $parent ExtMenuItem */
+
+                    //menu item
+                    $menuItem = new ExtMenuItem();
+                    $menuItem->attributes = $form_mdl->attributes;
+                    $menuItem->time_updated = time();
+                    $menuItem->time_created = time();
+                    $menuItem->last_change_by = Yii::app()->user->id;
+                    $menuItem->priority = Sort::GetNextPriority('MenuItem',array('parent_id' => $form_mdl->parent_id));
+                    $menuItem->save();
+
+                    //translations
+                    foreach($_POST['MenuItemForm']['titles'] as $lngId => $title)
+                    {
+                        $menuItemTrl = new MenuItemTrl();
+                        $menuItemTrl->menu_item_id = $menuItem -> id;
+                        $menuItemTrl->lng_id = $lngId;
+                        $menuItemTrl->value = $title;
+                        $menuItemTrl->save();
+                    }
+
+                    //updating branch
+                    if($menuItem->parent_id != 0)
+                    {
+                        $parent = ExtMenuItem::model()->findByPk($menuItem->parent_id);
+                        $arrBranch = !empty($parent) ? explode(":",$parent->branch) : array(0);
+                    }
+                    else
+                    {
+                        $arrBranch = array(0);
+                    }
+
+                    $arrBranch[] = $menuItem->id;
+                    $strBranch = implode(":",$arrBranch);
+                    $menuItem->branch = $strBranch;
+                    $menuItem->update();
+
 
                     //back to list
                     $this->redirect(Yii::app()->createUrl('/admin/menu/menuitems',array('id' => $objMenu->id)));
