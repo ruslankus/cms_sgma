@@ -22,7 +22,7 @@ class PagesController extends ControllerAdmin
     
     
     public function actionCreate(){
-        Yii::app()->clientScript->registerScriptFile($this->assetsPath.'/js/vendor.add-menu.js',CClientScript::POS_END);
+        Yii::app()->clientScript->registerScriptFile($this->assetsPath.'/js/vendor.add-page.js',CClientScript::POS_END);
         $model = new AddPageForm();
         
         if(isset($_POST['AddPageForm'])){
