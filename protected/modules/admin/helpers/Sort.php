@@ -78,4 +78,37 @@ class Sort
 
         }
     }
+
+    /**
+     * Returns next priority for some item (used in adding)
+     * @param $className
+     * @param array $condition
+     * @return int
+     */
+    public static function GetNextPriority($className,$condition = array())
+    {
+        /* @var $className CActiveRecord */
+        /* @var $itemsAll MenuItem[] | Page[] | Product[] | News[] */
+
+        $itemsAll = array();
+        if(!empty($condition))
+        {
+            $itemsAll = $className::model()->findAllByAttributes($condition);
+        }
+        else
+        {
+            $itemsAll = $className::model()->findAll();
+        }
+
+        $max = 0;
+        foreach($itemsAll as $item)
+        {
+            if($item->priority > $max)
+            {
+                $max = $item->priority;
+            }
+        }
+
+        return $max + 1;
+    }
 }
