@@ -5,7 +5,7 @@
  */
 class AddPageForm extends CFormModel
 {
-    public $label;
+    public $page_label;
 
 
 	/**
@@ -14,7 +14,7 @@ class AddPageForm extends CFormModel
 	public function rules()
 	{
         return array(
-            array('label', 'required'),          
+            array('page_label', 'required'),          
         );
 	}
 
@@ -22,7 +22,7 @@ class AddPageForm extends CFormModel
     public function attributeLabels()
     {
         return array(
-            'label' => ATrl::t()->getLabel('label'),           
+            'label' => ATrl::t()->getLabel('$page_label'),           
         );
     }
     
