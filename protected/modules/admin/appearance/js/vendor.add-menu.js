@@ -32,11 +32,4 @@ $(document).on("click", ".delete", function()
 			}
 		return false;
 	});
-// Submit form
-$(document).on("submit", "form", function()
-	{
-        var data = $(this).serialize();
-		console.log(data);
-		return false;
-	});
 });

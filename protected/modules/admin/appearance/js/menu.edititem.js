@@ -1,16 +1,16 @@
-jQuery('document').ready(function(){
+$('document').ready(function(){
 
-    jQuery('#type_id').change(function(){
+    $('.load-items-selector').change(function(){
 
-        var link = jQuery(this).data('link') + '/' + jQuery(this).val();
+        var url = $('#add-item-form').data('update_url')+'/id/'+$(this).val();
 
-        jQuery.ajax({
-            url: link,
+        $.ajax({
+            url: url,
             context: document.body
         }).done(
             function(data)
             {
-                jQuery('.loadable-by-type').html(data);
+                $('#loadable-selector').html(data);
             }
         );
 
