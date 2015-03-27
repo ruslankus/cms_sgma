@@ -11,6 +11,7 @@
  * @property integer $parent_id
  * @property integer $priority
  * @property integer $type_id
+ * @property integer $content_item_id
  * @property integer $status_id
  * @property integer $time_created
  * @property integer $time_updated
@@ -20,9 +21,6 @@
  * @property MenuItemType $type
  * @property Menu $menu
  * @property MenuItemTrl[] $menuItemTrls
- * @property NewsCategory[] $newsCategories
- * @property Page[] $pages
- * @property ProductCategory[] $productCategories
  */
 class MenuItem extends CActiveRecord
 {
@@ -42,11 +40,11 @@ class MenuItem extends CActiveRecord
 		// NOTE: you should only define rules for those attributes that
 		// will receive user inputs.
 		return array(
-			array('menu_id, parent_id, priority, type_id, status_id, time_created, time_updated, last_change_by', 'numerical', 'integerOnly'=>true),
+			array('menu_id, parent_id, priority, type_id, content_item_id, status_id, time_created, time_updated, last_change_by', 'numerical', 'integerOnly'=>true),
 			array('branch, label', 'length', 'max'=>128),
 			// The following rule is used by search().
 			// @todo Please remove those attributes that should not be searched.
-			array('id, menu_id, branch, label, parent_id, priority, type_id, status_id, time_created, time_updated, last_change_by', 'safe', 'on'=>'search'),
+			array('id, menu_id, branch, label, parent_id, priority, type_id, content_item_id, status_id, time_created, time_updated, last_change_by', 'safe', 'on'=>'search'),
 		);
 	}
 
@@ -61,9 +59,6 @@ class MenuItem extends CActiveRecord
 			'type' => array(self::BELONGS_TO, 'MenuItemType', 'type_id'),
 			'menu' => array(self::BELONGS_TO, 'Menu', 'menu_id'),
 			'menuItemTrls' => array(self::HAS_MANY, 'MenuItemTrl', 'menu_item_id'),
-			'newsCategories' => array(self::HAS_MANY, 'NewsCategory', 'menu_item_id'),
-			'pages' => array(self::HAS_MANY, 'Page', 'menu_item_id'),
-			'productCategories' => array(self::HAS_MANY, 'ProductCategory', 'menu_item_id'),
 		);
 	}
 
@@ -80,6 +75,7 @@ class MenuItem extends CActiveRecord
 			'parent_id' => 'Parent',
 			'priority' => 'Priority',
 			'type_id' => 'Type',
+			'content_item_id' => 'Content Item',
 			'status_id' => 'Status',
 			'time_created' => 'Time Created',
 			'time_updated' => 'Time Updated',
@@ -112,6 +108,7 @@ class MenuItem extends CActiveRecord
 		$criteria->compare('parent_id',$this->parent_id);
 		$criteria->compare('priority',$this->priority);
 		$criteria->compare('type_id',$this->type_id);
+		$criteria->compare('content_item_id',$this->content_item_id);
 		$criteria->compare('status_id',$this->status_id);
 		$criteria->compare('time_created',$this->time_created);
 		$criteria->compare('time_updated',$this->time_updated);

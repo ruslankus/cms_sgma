@@ -6,7 +6,6 @@
  * The followings are the available columns in table 'product_category':
  * @property integer $id
  * @property integer $parent_id
- * @property integer $menu_item_id
  * @property string $label
  * @property integer $status_id
  * @property integer $priority
@@ -16,7 +15,6 @@
  *
  * The followings are the available model relations:
  * @property Product[] $products
- * @property MenuItem $menuItem
  * @property ProductCategoryTrl[] $productCategoryTrls
  */
 class ProductCategory extends CActiveRecord
@@ -37,11 +35,11 @@ class ProductCategory extends CActiveRecord
 		// NOTE: you should only define rules for those attributes that
 		// will receive user inputs.
 		return array(
-			array('parent_id, menu_item_id, status_id, priority, time_created, time_update, last_change_by', 'numerical', 'integerOnly'=>true),
+			array('parent_id, status_id, priority, time_created, time_update, last_change_by', 'numerical', 'integerOnly'=>true),
 			array('label', 'length', 'max'=>128),
 			// The following rule is used by search().
 			// @todo Please remove those attributes that should not be searched.
-			array('id, parent_id, menu_item_id, label, status_id, priority, time_created, time_update, last_change_by', 'safe', 'on'=>'search'),
+			array('id, parent_id, label, status_id, priority, time_created, time_update, last_change_by', 'safe', 'on'=>'search'),
 		);
 	}
 
@@ -54,7 +52,6 @@ class ProductCategory extends CActiveRecord
 		// class name for the relations automatically generated below.
 		return array(
 			'products' => array(self::HAS_MANY, 'Product', 'category_id'),
-			'menuItem' => array(self::BELONGS_TO, 'MenuItem', 'menu_item_id'),
 			'productCategoryTrls' => array(self::HAS_MANY, 'ProductCategoryTrl', 'product_category_id'),
 		);
 	}
@@ -67,7 +64,6 @@ class ProductCategory extends CActiveRecord
 		return array(
 			'id' => 'ID',
 			'parent_id' => 'Parent',
-			'menu_item_id' => 'Menu Item',
 			'label' => 'Label',
 			'status_id' => 'Status',
 			'priority' => 'Priority',
@@ -97,7 +93,6 @@ class ProductCategory extends CActiveRecord
 
 		$criteria->compare('id',$this->id);
 		$criteria->compare('parent_id',$this->parent_id);
-		$criteria->compare('menu_item_id',$this->menu_item_id);
 		$criteria->compare('label',$this->label,true);
 		$criteria->compare('status_id',$this->status_id);
 		$criteria->compare('priority',$this->priority);
