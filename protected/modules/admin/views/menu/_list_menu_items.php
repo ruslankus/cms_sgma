@@ -20,7 +20,7 @@
                         <div class="type"><?php echo Trl::t()->getLabel($children->type->label); ?></div>
                         <div class="action">
                             <a href="<?php echo Yii::app()->createUrl('admin/menu/edititem',array('id' => $children->id)); ?>" class="edit"><span class="ficoned pencil"></span></a>
-                            <a data-popup="<?php echo Yii::app()->createUrl('admin/menu/popdel',array('type' => 'item', 'id' => $children->id)); ?>" href="#" class="delete"><span class="ficoned trash-can"></span></a>
+                            <a data-message="<?php echo ATrl::t()->getLabel('Are your sure ?'); ?>" data-yes="<?php echo ATrl::t()->getLabel('Delete'); ?>" data-no="<?php echo ATrl::t()->getLabel('Cancel'); ?>" href="<?php echo Yii::app()->createUrl('/admin/menu/deleteitem',array('id' => $children->id, 'ajax' => 1)); ?>" class="delete"><span class="ficoned trash-can"></span></a>
                         </div>
                     </div><!--/row root-->
                 <?php else: ?>
@@ -33,7 +33,7 @@
                         <div class="type"><?php echo Trl::t()->getLabel($children->type->label); ?></div>
                         <div class="action">
                             <a href="<?php echo Yii::app()->createUrl('admin/menu/edititem',array('id' => $children->id)); ?>" class="edit"><span class="ficoned pencil"></span></a>
-                            <a data-popup="<?php echo Yii::app()->createUrl('admin/menu/popdel',array('type' => 'item','id' => $children->id)); ?>" href="#" class="delete"><span class="ficoned trash-can"></span></a>
+                            <a data-message="<?php echo ATrl::t()->getLabel('Are your sure ?'); ?>" data-yes="<?php echo ATrl::t()->getLabel('Delete'); ?>" data-no="<?php echo ATrl::t()->getLabel('Cancel'); ?>" href="<?php echo Yii::app()->createUrl('/admin/menu/deleteitem',array('id' => $children->id, 'ajax' => 1)); ?>" class="delete"><span class="ficoned trash-can"></span></a>
                         </div>
                     </div><!--/row-->
                 <?php endif; ?>

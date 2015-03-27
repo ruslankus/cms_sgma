@@ -31,10 +31,39 @@ $(document).find('.sortable').change(function(){
 // Delete menu label event
 $(document).on("click", ".delete", function()
 	{
-		var data_id = $(this).parent().parent().attr("data-id");
-		var link = "_handles/popup-confirm.html#"+data_id;
-		$.popup({"url":link});
-		$.popup.show();
+        var href = $(this).attr('href');
+        var message = $(this).data('message');
+        var yesLabel = $(this).data('yes');
+        var noLabel = $(this).data('no');
+
+        $.dialogBoxEx({
+            buttons: [
+                //confirm button
+                {label:yesLabel,click:function(){
+                    var request = $.ajax({url: href});
+
+                    request.done(function(msg){
+                        if(msg == 'OK')
+                        {
+                            $.dialogBoxEx.hide();
+                            ajaxRefreshTable();
+                        }
+                    });
+
+                    request.fail(function(jqXHR,textStatus) {
+                        alert( "Request failed: " + textStatus);
+                    });
+
+                },classes:'button confirm'},
+
+                //cancel button
+                {label:noLabel,click:function(){$.dialogBoxEx.hide();},classes:'button cancel'}
+            ],
+            message: message
+        });
+
+        $.dialogBoxEx.show();
+
 		return false;
 	});
 

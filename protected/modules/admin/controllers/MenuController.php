@@ -158,6 +158,7 @@ class MenuController extends ControllerAdmin
     public function actionMenuItems($id,$page = 1,$ajax = 0)
     {
         //include js file for AJAX updating
+        Yii::app()->clientScript->registerScriptFile($this->assetsPath.'/js/vendor.dialog-box.js',CClientScript::POS_END);
         Yii::app()->clientScript->registerScriptFile($this->assetsPath.'/js/vendor.trees.js',CClientScript::POS_END);
         Yii::app()->clientScript->registerScriptFile($this->assetsPath.'/js/vendor.main-menu.js',CClientScript::POS_END);
 
@@ -276,7 +277,6 @@ class MenuController extends ControllerAdmin
                     $menuItem->branch = $strBranch;
                     $menuItem->update();
 
-
                     //back to list
                     $this->redirect(Yii::app()->createUrl('/admin/menu/menuitems',array('id' => $objMenu->id)));
                 }
@@ -351,61 +351,6 @@ class MenuController extends ControllerAdmin
         $this->renderPartial('_ajax_content_items',array('objContentItems' => $objItems, 'type' => $type, 'selected' => $selected));
     }
 
-    /**
-     * Edit menu item
-     * @param $id
-     * @throws CHttpException
-     */
-    public function actionEditItem($id)
-    {
-        //include js file for AJAX updating
-        Yii::app()->clientScript->registerScriptFile($this->assetsPath.'/js/menu.edititem.js',CClientScript::POS_END);
-
-        //find item of menu
-        $objItem = ExtMenuItem::model()->findByPk($id);
-
-        //languages
-        $objLanguages = ExtLanguages::model()->findAll();
-
-        //get all menu items in menu of current item
-        $objItems = $objItem->menu->buildObjArrRecursive();
-
-        //all types of item
-        $objTypes = MenuItemType::model()->findAll();
-
-        ///if not found
-        if(empty($objItem))
-        {
-            throw new CHttpException(404);
-        }
-
-        if(isset($_POST['ItemForm']))
-        {
-            //TODO: update item
-        }
-
-        $this->render('edit_menu_item',array('languages' => $objLanguages, 'curItem' => $objItem, 'items' => $objItems, 'types' => $objTypes));
-    }
-
-
-    /**
-     * Confirm deletion pup-up
-     * @param string $type
-     * @param $id
-     */
-    public function actionPopDel($type = 'item',$id)
-    {
-        $link = "#";
-
-        switch ($type)
-        {
-            case 'menu': $link = Yii::app()->createUrl('/admin/menu/deletemenu',array('id' => $id));  break;
-            case 'item': $link = Yii::app()->createUrl('/admin/menu/deleteitem',array('id' => $id, 'ajax' => 1)); break;
-        }
-
-        $this->renderPartial('_confirm_delete',array('link' => $link));
-    }
-
 
     /**
      * Changes order (for draggable items)
@@ -424,6 +369,7 @@ class MenuController extends ControllerAdmin
     }
 
     /**
+     * Deletes item form db
      * @param $id
      * @param int $ajax
      * @throws CHttpException
@@ -442,7 +388,7 @@ class MenuController extends ControllerAdmin
         //menu id
         $menu_id = $objItem->menu_id;
 
-        //delete item (and all related with it content by CASCADE)
+        $objItem->deleteChildren();
         $objItem->delete();
 
         if(!$ajax)
@@ -454,6 +400,5 @@ class MenuController extends ControllerAdmin
         {
             echo "OK";
         }
-
     }
 }
