@@ -43,8 +43,7 @@ class PagesController extends ControllerAdmin
                     
                 }
             }
-            
-           
+       
         }
         
         $this->render('new_page', array('model' => $model));
@@ -52,18 +51,30 @@ class PagesController extends ControllerAdmin
     }//create
     
     
-    public function actionEdit($id = null){
+    public function actionEditContent($id = null){
         
-         if(empty($siteLng)){
-            $siteLng = Yii::app()->language; 
-        }
+        $request = Yii::app()->request;
+        if($request->isAjaxRequest){
+            
+            $pageId = $request->getPost('pageId');
+            $lngId = $request->getPost('lngId');
+            
+            $objPage = PageTrl::model()->findByAttributes(array('lng_id' => $lngId, 'page_id' => $pageId));
+            
+            $this->renderPartial('_page_edit',array('objPage' => $objPage));
+            Yii::app()->end();
+        }//ajax part
         
+        Yii::app()->clientScript->registerScriptFile($this->assetsPath.'/js/vendor.textarea.js',CClientScript::POS_END);
+        Yii::app()->clientScript->registerScriptFile($this->assetsPath.'/js/vendor.edit-page-content.js',CClientScript::POS_END);
        
+        $siteLng = SiteLng::lng()->getCurrLng()->id;  
+        
         //$objPage = ExtPage::model()->findByPk($id);
         $arrPage = ExtPage::model()->getPage();
-        //Debug::d($objPage->trl);
+        //Debug::d($arrPage);
         
-        $this->render('edit', array('arrPage' => $arrPage ));
+        $this->render('edit_content', array('arrPage' => $arrPage, 'page_id' => $id, 'siteLng' =>$siteLng ));
     }//edit
     
     public function actionDelete(){

@@ -86,46 +86,7 @@ $( '.root li' ).each( function() {
     });
 	$( '.root li.hasChild' ).hover( function( ) { $( this ).addClass("jactive"); $( this ).children( 'ul' ).show( 'slide', 300 ); }, function( ) { $( this ).removeClass("jactive"); $( this ).find( 'ul' ).hide( 'slide', 300 ); });
 
-/*
- * Custom select box
-*/
-$.fn.select = function()
-	{
-		var $this = this;
-		var wrapper = $("<div></div>",{class:"wrap-select"});
-		wrapper.addClass($this.attr("class"));
-		wrapper.insertBefore($this);
-		var container = $("<ul>",{class:"select"}).appendTo(wrapper);
-		var default_find = false;
-		$this.hide();
-		$this.children("option").each(function(i)
-		{
-			var item = $("<li>"+$(this).html()+"</li>").css({"background-image":"url("+$(this).attr("data-image")+")"}).attr("value",$(this).val()).appendTo(container);
-			if ($(this).attr("selected") == "selected") { item.addClass("selected"); default_find = true; }
-		});
-		if (default_find == false) { container.find("li:first").addClass("selected"); }
-		
-		container.find("li").click(function(){
-			if ($(this).hasClass("selected"))
-			{
-				container.find("li").each(function()
-					{
-						if (!$(this).hasClass("selected"))
-							$(this).toggle("blind",300);
-					});
-			}
-			else {
-				$this.val($(this).attr("value")).trigger("change");
-				$(this).addClass("selected");
-				$(this).siblings().removeClass("selected");
-				container.find("li").each(function()
-					{
-						if (!$(this).hasClass("selected"))
-							$(this).hide("blind",300);
-					});
-			}
-		});
-	}
+
 
 /*
  * Custom confirm box
