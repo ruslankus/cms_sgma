@@ -28,12 +28,12 @@
 	    
 	 $(document).on('click','.add-label-popup',function(e){
 	     var prefix = $(this).data('prefix'); 
-	     var lang_name = $('#label-popup').val();
-		 var lang_prefix = $('#label-popup').val();
-/*
+	     var lang_name = $('#label_name').val();
+		 var lang_prefix = $('#label_prefix').val();
+		 console.log('prefix = '+prefix+' name = '+lang_name+' lang_prefix = '+lang_prefix);
 	     var link = '/'+ prefix +'/admin/Translation/UniqueCeckAdminlanguageAjax';
 	    $.ajaxSetup({async:false});
-	    $.ajax({ type: "post",url:link,data:{label:value}}).done(function(data){
+	    $.ajax({ type: "post",url:link,data:{lang_name:lang_name,lang_prefix:lang_prefix}}).done(function(data){
 	        
 	        obj = jQuery.parseJSON(data);
 
@@ -44,14 +44,29 @@
 	       
 	        if(obj.status=="error")
 	        {
-	           $('.add-label-err').html(obj.err_txt);
+	        	if(obj.err_name_txt)
+	        	{
+	        		$('.add-lang-name-err').html(obj.err_name_txt);
+	        	} 
+	        	else
+	        	{
+	        		$('.add-lang-name-err').html('');
+	        	}
+
+	        	if(obj.err_prefix_txt)
+	        	{
+	        		$('.add-lang-prefix-err').html(obj.err_prefix_txt);
+	        	}
+	        	else
+	        	{
+	        		$('.add-lang-prefix-err').html('');
+	        	}
 
 	           e.preventDefault();
 	            
 	        }
 	       
-	    });
-*/	     
+	    });    
 	    
 	 });
 	/*
