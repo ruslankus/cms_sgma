@@ -76,10 +76,10 @@
 	{
 		e.preventDefault();
 		var prefix = $(this).data('prefix');
-		var labelId = $(this).data('id');
-		var labelName = $(this).data('label');
-		var link = '/'+ prefix +'/admin/Translation/DelAdminLabelAjax';
-	    $.ajax({ type: "post",url:link,data:{id : labelId, name: labelName}}).done(function(data){        
+		var langId = $(this).data('id');
+		var lang_name = $("#lang-"+langId+" input[name='lang_name']").val();
+		var link = '/'+ prefix +'/admin/Translation/DelAdminLanguageAjax/'+langId;
+	    $.ajax({ type: "post",url:link,data:{lang_name : lang_name}}).done(function(data){        
 	        obj = jQuery.parseJSON(data);
 			var html = obj.html;
 			$.popup(html);
@@ -97,14 +97,29 @@
 		e.preventDefault();
 		var id = $(this).data('id');
 		var prefix = $(this).data('prefix');
-		var value = $("#tr-"+id).val();
-		var curr_lng = $('#styled-language').val;
-		var link = '/'+ prefix +'/admin/Translation/SaveAdminLabelAjax/'+id;
+		var lang_name = $("#lang-"+id+" input[name='lang_name']").val();
+		var lang_prefix = $("#lang-"+id+" input[name='lang_prefix']").val();
+		var link = '/'+ prefix +'/admin/Translation/SaveAdminLanguageAjax/'+id;
+	    $.ajaxSetup({async:false});
+	    $.ajax({ type: "post",url:link,data:{lang_name:lang_name,lang_prefix:lang_prefix}}).done(function(data){
+	        
+	        obj = jQuery.parseJSON(data);
 
-	    $.ajax({ type: "post",url:link,data:{value:value}}).done(function(data){        
+	       
+	        if(obj.save==false)
+	        {
+	        
+	        	$("#lang-"+id+" .errorMessage").html(obj.err_txt);
+	        	$("#lang-"+id+" .errorMessage").show();
+	        }
+	        else
+	        {
+	        	$("#lang-"+id+" .errorMessage").hide();
+	        	$("#lang-"+id+" input").attr('disabled',true);
 
-	    });
-
+	        }
+	       
+	    });   
 	});
 
 
@@ -122,4 +137,11 @@
 
     });
 
+	$(document).on("click",".edit",function(e)
+	{
+		$('.translate-row input').attr('disabled',true);
+		var id = $(this).data('id');
+		$("#lang-"+id+" input").removeAttr('disabled');
+
+	});
 })( jQuery );

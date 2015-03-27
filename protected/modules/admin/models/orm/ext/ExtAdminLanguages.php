@@ -34,5 +34,11 @@ Class ExtAdminLanguages extends AdminLanguages
        return $retData;
     } 
     
-    
+    public function writeTrl($lang_id,$arrLabels)
+    {
+        foreach($arrLabels as $label):
+            $label_id = $label['id'];
+        endforeach;
+        //return $id;
+    }
 }    

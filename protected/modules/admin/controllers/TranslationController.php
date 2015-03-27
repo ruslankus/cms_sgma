@@ -328,40 +328,47 @@ class TranslationController extends ControllerAdmin
         {
             $curr_page=1;
         }
-        if(empty($curr_lng)){
-           $curr_lng = $lang_prefix; 
-        }
 
-        if(!empty($sel_lng)){
-            $curr_lng = $sel_lng;   
-        }
         $search_label = $request->getPost('search_label');  
         $arrLabel = ExtAdminLabels::model()->getLabels($curr_lng, array('search_label' => $search_label));
         
         $pager = CPaginator::getInstanse($arrLang,10,$curr_page);
         //$prepPages = $pager->getPreparedArray();
 
-        $this->render('admin_languages',array('arrLabel' => $arrLabel,
-                        'arrSelect' => $arrSelect,'lang_prefix' => $lang_prefix,'select_lng' => $curr_lng,
-                        'search_val' => $search_label,'pager'=>$pager,'arrLang'=>$arrLang)); 
+        $this->render('admin_languages',array(
+                        'lang_prefix' => $lang_prefix,'select_lng' => $curr_lng,
+                        'pager'=>$pager)); 
          
     }
 
     public function actionAddAdminLanguage()
     {
         $request = Yii::app()->request;
-        $lang_name = $request->getPost('label_name');
-        $lang_prefix = $request->getPost('label_prefix');
+        $lang_prefix = Yii::app()->language;
+        $new_lang_name = $request->getPost('label_name');
+        $new_lang_prefix = $request->getPost('label_prefix');
         $model = new AdminLanguages();
-        $model->name =  $lang_name;
-        $model->prefix =  $lang_prefix;
-        $model->save();
+        $model->name =  $new_lang_name;
+        $model->prefix =  $new_lang_prefix;
+        $save = $model->save();
+        $id=$model->id;
+        if($save)
+        {
+            $arrLabels = ExtAdminLabels::model()->getLabels($lang_prefix);
+            $newLang = ExtAdminLanguages::model()->writeTrl($id,$arrLabels);
+        
+        }
+
         $this->redirect(array('AdminLanguages')); 
-        /*
-        $arrLng = ExtAdminLanguages::model()->getAllLang();
-        ExtAdminLabels::model()->addLabel($label,$arrLng);
-        $this->redirect(array('admin','sel_lng'=>$sel_lng)); 
-       */ 
+    }
+
+    public function actionDelAdminLanguage($id = null)
+    {
+        $model = AdminLanguages::model()->findByPk($id);
+        $model->delete();
+        $this->redirect(array('AdminLanguages'));
+         
+        
     }
 
    /*-------------- END ajax section (Admin panel languages) -------------------*/
@@ -425,6 +432,31 @@ class TranslationController extends ControllerAdmin
 
     }
 
+    public function actionDelAdminLanguageAjax($id = null){
+        $lang_prefix = Yii::app()->language;
+        $request = Yii::app()->request;
+        $lang_name = $request->getPost('lang_name');
+        $resArr=array();
+        $resArr['html'] = $this->renderPartial('_deleteLanguage',array('lang_prefix' =>$lang_prefix,
+                    'id'=>$id,'lang_name'=>$lang_name),true);
+        echo json_encode($resArr);
+    }
+
+    public function actionSaveAdminLanguageAjax($id = null){
+        $request = Yii::app()->request;
+        if($request->isAjaxRequest){
+            $lang_name = $request->getPost('lang_name');
+            $lang_prefix = trim($request->getPost('lang_prefix'));
+            $objLang = AdminLanguages::model()->findByPk((int)$id);
+            $objLang->name = $lang_name;
+            $objLang->prefix = $lang_prefix;
+            $save = $objLang->save();
+            $resArr=array();
+            $resArr['save'] = $save;
+            $resArr['err_txt'] = Trl::t()->getMsg("language or prefix error");
+            echo json_encode($resArr);
+        }
+    }//SaveAdminLabel
    /*-------------- END ajax section (Admin panel languages) -------------------*/
 
     /**

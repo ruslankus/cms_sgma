@@ -37,13 +37,17 @@ $currentPage = $pager->getCurrentPage();
 				<?php 
 					$n = $currentPage*$perPage-$perPage+1; // first number on page
 					foreach($pagesArr as $row): ?>
-						<div class="translate-row">
+						<div class="translate-row" id="lang-<?php echo $row['id'];?>">
 							<div class="translate-cell id"><?php echo $n; ?></div>
-							<div class="translate-cell labels" id="lang-<?php echo $row['id'];?>">
-								<input type="text" value="<?php echo $row['name']; ?>" name="lang_name" disabled/>
+							<div class="translate-cell labels">
 								<div class="errorMessage"></div>
+								<input type="text" value="<?php echo $row['name']; ?>" name="lang_name" disabled/>
 							</div>
-							<div class="translate-cell translations"><input type="text" value="<?php echo $row['prefix']; ?>" name="lang_prefix" disabled/><div class="errorMessage"></div> </div>
+							<div class="translate-cell translations">
+								<input type="text" value="<?php echo $row['prefix']; ?>" name="lang_prefix" disabled/>
+
+							</div>
+
 							<div class="translate-cell actions">
 								<a href="#" class="action edit edit-page" data-id="<?php echo $row['id'];?>" data-prefix="<?php echo $lang_prefix; ?>"></a>
 								<a href="#" class="action save" data-id="<?php echo $row['id'];?>" data-prefix="<?php echo $lang_prefix; ?>"></a>
