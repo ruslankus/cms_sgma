@@ -6,7 +6,7 @@
 	/*
 	 * Popup with input
 	*/ 
-	
+
 	$('.add-label').click(function(e)
 	{
 		e.preventDefault();
@@ -88,16 +88,7 @@
 	    });
 
 	});
-	/*
-	 * Search submit
-	*/
-	$('#search-label-form').submit(function(e)
-	{
-		value = $(this).children("input[type=text]").val();
-		console.log(value);
-		e.preventDefault();
-		return false;
-	});
+
 
     /**
      * When clicked on pagination page
