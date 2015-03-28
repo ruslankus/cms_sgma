@@ -24,7 +24,7 @@ class SiteLng
         $this->_objLngs = Languages::model()->findAll();
         $prefix = Yii::app()->language;
         foreach($this->_objLngs as $lng){
-            if($lng->prefix = $prefix){
+            if($lng->prefix == $prefix){
                 $this->_currLngObj = $lng;
             }
         }

@@ -68,13 +68,13 @@ class PagesController extends ControllerAdmin
         Yii::app()->clientScript->registerScriptFile($this->assetsPath.'/js/vendor.textarea.js',CClientScript::POS_END);
         Yii::app()->clientScript->registerScriptFile($this->assetsPath.'/js/vendor.edit-page-content.js',CClientScript::POS_END);
        
-        $siteLng = SiteLng::lng()->getCurrLng()->id;  
+        $objCurrLng = SiteLng::lng()->getCurrLng();  
         
         //$objPage = ExtPage::model()->findByPk($id);
-        $arrPage = ExtPage::model()->getPage();
+        $arrPage = ExtPage::model()->getPage($id,$objCurrLng->prefix);
         //Debug::d($arrPage);
         
-        $this->render('edit_content', array('arrPage' => $arrPage, 'page_id' => $id, 'siteLng' =>$siteLng ));
+        $this->render('edit_content', array('arrPage' => $arrPage, 'page_id' => $id, 'siteLng' => $objCurrLng->id ));
     }//edit
     
     public function actionDelete(){
