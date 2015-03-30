@@ -37,6 +37,12 @@ class AdminModule extends CWebModule
             'icon' => '',
             'html_class' => 'pages',
             'title' => 'Pages',
+
+            'sub' => array(
+                array('controller' => 'pages', 'action' => 'index', 'title' => 'Single pages'),
+                array('controller' => 'contacts', 'action' => 'list', 'title' => 'Contact pages'),
+                array('controller' => 'complex' ,'action' => 'list', 'title' => 'Complex pages')
+            ),
         ),
         array(
             'controller' => 'products',

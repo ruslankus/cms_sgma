@@ -192,6 +192,10 @@ class MenuController extends ControllerAdmin
 
     }
 
+    /**
+     * Add new menu item and create it in database
+     * @param $id
+     */
     public function actionAddMenuItem($id)
     {
         //include menu necessary scripts
@@ -297,6 +301,10 @@ class MenuController extends ControllerAdmin
     }
 
 
+    /**
+     * Edit menu item and update it
+     * @param $id
+     */
     public function actionEditMenuItem($id)
     {
         //include menu necessary scripts

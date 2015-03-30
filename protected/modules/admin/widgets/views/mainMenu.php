@@ -17,6 +17,7 @@
                     <?php foreach($sub as $subItemInfo): ?>
                         <?php $title = !empty($subItemInfo['title']) ? $subItemInfo['title'] : 'untitled'; ?>
                         <?php $controller = !empty($subItemInfo['controller']) ? $subItemInfo['controller'] : $controller; ?>
+                        <?php $action = !empty($subItemInfo['action']) ? $subItemInfo['action'] : $action; ?>
                         <li><a href="<?php echo Yii::app()->createUrl('/admin/'.$controller.'/'.$action); ?>"><?php echo ATrl::t()->getLabel($title); ?></a></li>
                     <?php endforeach; ?>
                 </ul>
