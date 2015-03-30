@@ -24,4 +24,28 @@ class ThemeHelper
 
         return $templates;
     }
+
+
+    /**
+     * Returns all widget templates for concrete theme
+     * @param $selectedTheme
+     * @return array
+     */
+    public static function getTemplatesForWidgets($selectedTheme)
+    {
+        $themeManager = Yii::app()->themeManager;
+        $dir = $themeManager->basePath.DS.$selectedTheme.DS.'views'.DS.'widgets';
+        $files = scandir($dir);
+        $templates = array();
+
+        foreach($files as $fileName)
+        {
+            if($fileName != ".." && $fileName != ".")
+            {
+                $templates[$fileName] = $fileName;
+            }
+        }
+
+        return $templates;
+    }
 }

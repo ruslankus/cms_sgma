@@ -41,7 +41,7 @@ $(document).on("click", ".delete", function()
                 //confirm button
                 {label:yesLabel,click:function(){
                     var request = $.ajax({url: href});
-                    $.preLoader.show();
+//                    $.preLoader.show();
                     request.done(function(msg){
                         if(msg == 'OK')
                         {

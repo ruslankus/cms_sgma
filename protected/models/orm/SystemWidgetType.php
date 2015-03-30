@@ -4,7 +4,7 @@
  * This is the model class for table "system_widget_type".
  *
  * The followings are the available columns in table 'system_widget_type':
- * @property integer $int
+ * @property integer $id
  * @property string $label
  *
  * The followings are the available model relations:
@@ -28,12 +28,12 @@ class SystemWidgetType extends CActiveRecord
 		// NOTE: you should only define rules for those attributes that
 		// will receive user inputs.
 		return array(
-			array('int', 'required'),
-			array('int', 'numerical', 'integerOnly'=>true),
+			array('id', 'required'),
+			array('id', 'numerical', 'integerOnly'=>true),
 			array('label', 'length', 'max'=>255),
 			// The following rule is used by search().
 			// @todo Please remove those attributes that should not be searched.
-			array('int, label', 'safe', 'on'=>'search'),
+			array('id, label', 'safe', 'on'=>'search'),
 		);
 	}
 
@@ -55,7 +55,7 @@ class SystemWidgetType extends CActiveRecord
 	public function attributeLabels()
 	{
 		return array(
-			'int' => 'Int',
+			'id' => 'ID',
 			'label' => 'Label',
 		);
 	}
@@ -78,7 +78,7 @@ class SystemWidgetType extends CActiveRecord
 
 		$criteria=new CDbCriteria;
 
-		$criteria->compare('int',$this->int);
+		$criteria->compare('id',$this->id);
 		$criteria->compare('label',$this->label,true);
 
 		return new CActiveDataProvider($this, array(

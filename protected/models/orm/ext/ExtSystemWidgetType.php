@@ -1,9 +1,9 @@
 <?php
 /**
- * Class ExtSystemWidget
- * @property ExtWidRegistration[] $widRegistrations
+ * Class ExtSystemWidgetType
+ * @property ExtSystemWidget[] $systemWidgets
  */
-Class ExtSystemWidget extends SystemWidget
+Class ExtSystemWidgetType extends SystemWidgetType
 {
 
     /**
@@ -15,6 +15,25 @@ Class ExtSystemWidget extends SystemWidget
         return parent::model($className);
     }
 
+    /**
+     * Returns array for using in yii form's drop-downs
+     * @param bool $translate
+     * @return array
+     */
+    public function getAllTypesForForm($translate = false)
+    {
+        /* @var $types self[] */
+
+        $result = array();
+        $types = self::model()->findAll();
+
+        foreach($types as $type)
+        {
+            $result[$type->id] = $translate ? ATrl::t()->getLabel($type->label) : $type->label;
+        }
+
+        return $result;
+    }
 
     /**
      * Override, relate with extended models
@@ -34,10 +53,6 @@ Class ExtSystemWidget extends SystemWidget
                 $relations[$name][1] = 'Ext'.$relation[1];
             }
         }
-
-        //relate with translation
-        $lng = Yii::app()->language;
-        $relations['trl'] = array(self::HAS_ONE, 'MenuItemTrl', 'menu_item_id', 'with' => array('lng' => array('condition' => "lng.prefix='{$lng}'")));
 
         //return modified relations
         return $relations;

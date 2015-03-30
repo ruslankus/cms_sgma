@@ -24,9 +24,9 @@ class AddMenuForm extends CFormModel
     public function attributeLabels()
     {
         return array(
-            'label' => ATrl::t()->getLabel('label'),
-            'status_id' => ATrl::t()->getLabel('status'),
-            'template_name' => ATrl::t()->getLabel('template_name'),
+            'label' => ATrl::t()->getLabel('Label'),
+            'status_id' => ATrl::t()->getLabel('Status'),
+            'template_name' => ATrl::t()->getLabel('Template'),
         );
     }
 }

@@ -36,7 +36,7 @@
     </div><!--/content-->
     <div class="pagination">
         <?php for($i = 0; $i < $total_pages; $i++): ?>
-            <a href="<?php echo Yii::app()->createUrl('admin/menu/index/',array('page' => $i+1)) ?>" <?php if($current_page == $i+1): ?> class="active" <?php endif; ?>><?php echo $i+1; ?></a>
+            <a href="<?php echo Yii::app()->createUrl('admin/menu/list/',array('page' => $i+1)) ?>" <?php if($current_page == $i+1): ?> class="active" <?php endif; ?>><?php echo $i+1; ?></a>
         <?php endfor; ?>
     </div><!--/pagination-->
 
