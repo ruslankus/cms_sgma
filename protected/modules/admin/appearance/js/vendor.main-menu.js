@@ -67,15 +67,6 @@ $(document).on("click", ".delete", function()
 		return false;
 	});
 
-// Delete menu label event
-$(document).on("click", ".edit", function()
-	{
-		var data_id = $(this).parent().parent().attr("data-id");
-		$.popup("edit "+data_id+" ?");
-		$.popup.show();
-		return false;
-	});
-
 // move label up
 $(document).on("click", ".move-item", function()
 	{

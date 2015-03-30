@@ -37,7 +37,7 @@
                                 <div class="sequen"></div>
                                 <div class="type"><?php echo Trl::t()->getLabel($children->type->label); ?></div>
                                 <div class="action">
-                                    <a href="<?php echo Yii::app()->createUrl('admin/menu/edititem',array('id' => $children->id)); ?>" class="edit"><span class="ficoned pencil"></span></a>
+                                    <a href="<?php echo Yii::app()->createUrl('admin/menu/editmenuitem',array('id' => $children->id)); ?>" class="edit"><span class="ficoned pencil"></span></a>
                                     <a data-message="<?php echo ATrl::t()->getLabel('Are your sure ?'); ?>" data-yes="<?php echo ATrl::t()->getLabel('Delete'); ?>" data-no="<?php echo ATrl::t()->getLabel('Cancel'); ?>" href="<?php echo Yii::app()->createUrl('/admin/menu/deleteitem',array('id' => $children->id, 'ajax' => 1)); ?>" class="delete"><span class="ficoned trash-can"></span></a>
                                 </div>
                             </div><!--/row root-->
@@ -50,7 +50,7 @@
                                 </div><!--/sequen-->
                                 <div class="type"><?php echo Trl::t()->getLabel($children->type->label); ?></div>
                                 <div class="action">
-                                    <a href="<?php echo Yii::app()->createUrl('admin/menu/edititem',array('id' => $children->id)); ?>" class="edit"><span class="ficoned pencil"></span></a>
+                                    <a href="<?php echo Yii::app()->createUrl('admin/menu/editmenuitem',array('id' => $children->id)); ?>" class="edit"><span class="ficoned pencil"></span></a>
                                     <a data-message="<?php echo ATrl::t()->getLabel('Are your sure ?'); ?>" data-yes="<?php echo ATrl::t()->getLabel('Delete'); ?>" data-no="<?php echo ATrl::t()->getLabel('Cancel'); ?>" href="<?php echo Yii::app()->createUrl('/admin/menu/deleteitem',array('id' => $children->id, 'ajax' => 1)); ?>" class="delete"><span class="ficoned trash-can"></span></a>
                                 </div>
                             </div><!--/row-->

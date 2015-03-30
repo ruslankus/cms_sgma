@@ -296,6 +296,137 @@ class MenuController extends ControllerAdmin
         );
     }
 
+
+    public function actionEditMenuItem($id)
+    {
+        //include menu necessary scripts
+        Yii::app()->clientScript->registerScriptFile($this->assetsPath.'/js/vendor.add-menu.js',CClientScript::POS_END);
+        Yii::app()->clientScript->registerScriptFile($this->assetsPath.'/js/menu.edititem.js',CClientScript::POS_END);
+
+        //exclude jquery to avoid conflict between jquery from Yii core
+        Yii::app()->clientScript->scriptMap=array('jquery-1.11.2.min.js' => false);
+
+        //all languages
+        $objLanguages = SiteLng::lng()->getLngs();
+        //menu item
+        $menuItem = ExtMenuItem::model()->findByPk($id);
+        //current menu
+        $objMenu = $menuItem->menu;
+        //get all menu items in menu of current item (for parent selection)
+        $objParentItems = $objMenu->menuItems;
+        //statuses
+        $arrStatuses = ExtStatus::model()->arrayForMenuForm(true);
+        //types
+        $arrTypes = ExtMenuItemType::model()->arrayForMenuItemForm(true);
+        //content items by type (first type)
+        $objFirstType = ExtMenuItemType::model()->findByPk($menuItem->type_id);
+        $objConItems = !empty($objFirstType) ? $this->getContentsByType($objFirstType) : array();
+
+        //form
+        $form_mdl = new MenuItemForm();
+
+        if(Yii::app()->request->isAjaxRequest)
+        {
+            //if ajax validation
+            if(isset($_POST['ajax']))
+            {
+                if($_POST['ajax'] == 'add-item-form')
+                {
+                    echo CActiveForm::validate($form_mdl);
+                }
+                Yii::app()->end();
+            }
+        }
+        else
+        {
+            //if have form
+            if($_POST['MenuItemForm'])
+            {
+                $form_mdl->attributes = $_POST['MenuItemForm'];
+
+                if($form_mdl->validate())
+                {
+                    /* @var $parent ExtMenuItem */
+
+                    //do we need to recalculate priority
+                    $bNewPriority = $menuItem->parent_id != $form_mdl->parent_id;
+
+                    //menu item
+                    $menuItem->attributes = $form_mdl->attributes;
+                    $menuItem->time_updated = time();
+                    $menuItem->last_change_by = Yii::app()->user->id;
+
+                    if($bNewPriority)
+                    {
+                        $menuItem->priority = Sort::GetNextPriority('MenuItem',array('parent_id' => $form_mdl->parent_id));
+                    }
+
+                    $menuItem->save();
+
+                    //translations
+                    foreach($_POST['MenuItemForm']['titles'] as $lngId => $title)
+                    {
+                        //try find translation
+                        $menuItemTrl = MenuItemTrl::model()->findByAttributes(array('lng_id' => $lngId, 'menu_item_id' => $menuItem->id));
+
+                        //if not found - create
+                        if(empty($menuItemTrl))
+                        {
+                            $menuItemTrl = new MenuItemTrl();
+                        }
+
+                        $menuItemTrl->menu_item_id = $menuItem -> id;
+                        $menuItemTrl->lng_id = $lngId;
+                        $menuItemTrl->value = $title;
+
+                        //save or update
+                        if($menuItemTrl->isNewRecord)
+                        {
+                            $menuItemTrl->save();
+                        }
+                        else
+                        {
+                            $menuItemTrl->update();
+                        }
+
+                    }
+
+                    //updating branch
+                    if($menuItem->parent_id != 0)
+                    {
+                        $parent = ExtMenuItem::model()->findByPk($menuItem->parent_id);
+                        $arrBranch = !empty($parent) ? explode(":",$parent->branch) : array(0);
+                    }
+                    else
+                    {
+                        $arrBranch = array(0);
+                    }
+
+                    $arrBranch[] = $menuItem->id;
+                    $strBranch = implode(":",$arrBranch);
+                    $menuItem->branch = $strBranch;
+                    $menuItem->update();
+
+                    //back to list
+                    $this->redirect(Yii::app()->createUrl('/admin/menu/menuitems',array('id' => $objMenu->id)));
+                }
+            }
+        }
+
+        $this->render('edit_menu_item',array(
+                'languages' => $objLanguages,
+                'parent_items' => $objParentItems,
+                'statuses' => $arrStatuses,
+                'types' => $arrTypes,
+                'form_model' => $form_mdl,
+                'menu' => $objMenu,
+                'content_items' => $objConItems,
+                'first_type' => $objFirstType,
+                'menuItem' => $menuItem,
+            )
+        );
+    }
+
     /**
      * Returns all content items by menu item type
      * @param $type ExtMenuItemType
