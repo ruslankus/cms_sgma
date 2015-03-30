@@ -16,24 +16,31 @@ Class ExtMessages extends Messages
      * @param $currLng
      * @return array
      */
-    public function getLabels($currLng) {
+    public function getMessages($lng,$cond=array()){
+        $sql = "SELECT t1.id,t2.label,t1.value, t2.id AS translation_id
+            FROM messages_trl t1
+            JOIN messages t2 ON t1.translation_id = t2.id
+            JOIN languages t3 ON t1.lng_id = t3.id
+          WHERE t3.prefix = :prefix";
+        
+        $param = array();
+        
+        if(!empty($cond['search_label'])){
+             $sql .= " AND t2.label LIKE :label";
+             $param[':label'] = "%{$cond['search_label']}%";
 
-        $arrLabels = array();
-        $sql  = "SELECT t1.label , t2.value FROM messages t1 ";
-        $sql .= "JOIN messages_trl t2 ON t2.translation_id = t1.id ";
-        $sql .= "JOIN languages t3 ON t2.lng_id = t3.id ";
-        $sql .= "WHERE t3.prefix = :prefix";
-        $params[':prefix'] = $currLng;
-        $con = $this->dbConnection;
-        $data=$con->createCommand($sql)->queryAll(true,$params);
-
-        foreach($data as $row){
-            $arrLabels[$row['label']] = $row['value'];
         }
-
-        return $arrLabels;
-    }
-
+        
+        //add order
+        $sql .= " ORDER BY t1.id DESC"; 
+        
+        
+        $param[':prefix'] = $lng;
+        $con = $this->dbConnection;        
+        $retData = $con->createCommand($sql)->queryAll(true,$param);
+        
+        return $retData;        
+    }//getLabels
     /**
      * Adds label
      * @param $label
@@ -42,7 +49,7 @@ Class ExtMessages extends Messages
      */
     public function addMessage($label,$arrLng){
 
-        $sql = "INSERT INTO messages ('label') VALUES (:label)";
+        $sql = "INSERT INTO messages (`label`) VALUES (:label)";
 
         $sql_param[':label'] = $label;
 
@@ -50,8 +57,8 @@ Class ExtMessages extends Messages
         $con->createCommand($sql)->execute($sql_param);
         $labelId = $con->getLastInsertID('messages');
 
-        $sql = "INSERT INTO messages_trl ('translation_id', 'lng_id', 'value') VALUES ";
-
+        /*
+        $sql = "INSERT INTO messages_trl (`translation_id`, `lng_id`, `value`) VALUES ";
         foreach($arrLng as $key => $lng){
             if($key == 0){
                 $sql .= "($labelId, {$lng['id']}, '')";
@@ -62,6 +69,17 @@ Class ExtMessages extends Messages
 
         $con->createCommand($sql)->execute();
         $labelTrl[] = $con->getLastInsertID('messages_trl');
+        */
+        
+        foreach($arrLng as $lng){
+           
+            $sql = "INSERT INTO messages_trl (`translation_id`, `lng_id`, `value`) VALUES ";
+            $sql .= "($labelId, {$lng['id']}, ' ')";
+            
+            $con->createCommand($sql)->execute();
+            $labelTrl[] = $con->getLastInsertID('messages_trl');
+        }
+        
 
         return true;
     }
@@ -72,10 +90,10 @@ Class ExtMessages extends Messages
      * @return bool
      */
     public function deleteMessage($id){
-        $sql = "PRAGMA foreign_keys = ON";
+        //$sql = "PRAGMA foreign_keys = ON";
 
         $con = $this->dbConnection;
-        $con->createCommand($sql)->execute();
+        //$con->createCommand($sql)->execute();
 
         $sql = "DELETE FROM messages
                 WHERE id = ".(int)$id;

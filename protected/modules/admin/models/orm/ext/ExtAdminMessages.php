@@ -36,7 +36,6 @@ Class ExtAdminMessages extends AdminMessages
     }
     */
 
-
     public function getMessages($lng,$cond=array()){
         $sql = "SELECT t1.id,t2.label,t1.value, t2.id AS translation_id
             FROM messages_trl t1
