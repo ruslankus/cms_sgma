@@ -347,18 +347,22 @@ class TranslationController extends ControllerAdmin
         $lang_prefix = Yii::app()->language;
         $new_lang_name = $request->getPost('label_name');
         $new_lang_prefix = $request->getPost('label_prefix');
+        ExtAdminLanguages::model()->writeTrl($new_lang_name,$new_lang_prefix);
+        /*
         $model = new AdminLanguages();
         $model->name =  $new_lang_name;
         $model->prefix =  $new_lang_prefix;
+        
         $save = $model->save();
         $id=$model->id;
         if($save)
         {
-            $arrLabels = ExtAdminLabels::model()->getLabels($lang_prefix);
-            $newLang = ExtAdminLanguages::model()->writeTrl($id,$arrLabels);
+            $arrLabels = AdminLabels::model()->findAll();
+            $arrMessages = ExtAdminMessages::model()->findAll();
+            ExtAdminLanguages::model()->writeTrl($id,$arrLabels,$arrMessages);
         
         }
-
+        */
         $this->redirect(array('AdminLanguages')); 
     }
 
