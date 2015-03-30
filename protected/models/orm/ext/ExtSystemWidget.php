@@ -17,6 +17,29 @@ Class ExtSystemWidget extends SystemWidget
 
 
     /**
+     * Get translation for specified language
+     * @param $lngId
+     * @return SystemWidgetTrl
+     */
+    public function getTrl($lngId)
+    {
+        //all translations
+        $translations = $this->systemWidgetTrls;
+
+        //select just one by lng id
+        foreach($translations as $trl)
+        {
+            if($trl->lng_id == $lngId)
+            {
+                return $trl;
+            }
+        }
+
+        //or return new empty if not found
+        return new SystemWidgetTrl();
+    }
+
+    /**
      * Override, relate with extended models
      * @return array relational rules.
      */

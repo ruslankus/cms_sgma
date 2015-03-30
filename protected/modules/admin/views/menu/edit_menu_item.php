@@ -22,7 +22,7 @@
     <div class="content menu-content">
 
         <div class="header">
-            <span><?php echo ATrl::t()->getLabel('Add menu item'); ?></span>
+            <span><?php echo ATrl::t()->getLabel('Edit menu item'); ?></span>
         </div><!--/header-->
 
         <div class="tab-line">

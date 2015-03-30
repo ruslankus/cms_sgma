@@ -8,9 +8,6 @@ class WidgetForm extends CFormModel
     public $label;
     public $type_id;
     public $template_name;
-    public $custom_name;
-    public $custom_html;
-
 
     /**
      * Declares the validation rules.
