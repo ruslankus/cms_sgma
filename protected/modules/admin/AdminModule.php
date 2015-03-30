@@ -9,44 +9,66 @@ class AdminModule extends CWebModule
      * TODO: add access by role feature to menu
      * @var array
      */
+
     public static $adminMenu = array(
-        'main' => array(
-            'title' => 'Dashboard',
-            'default' => 'index',
-            'icon' => '',
-            'html_class' => 'dashboard'),
 
-        'menu' => array(
+        array(
+            'controller' => 'main',
+            'action' => 'index',
+            'icon' => '',
+            'html_class' => 'dashboard',
+            'title' => 'Dashboard'
+        ),
+        array(
+            'controller' => 'menu',
+            'action' => 'list',
+            'icon' => '',
+            'html_class' => 'pages',
             'title' => 'Menu',
-            'default' => 'list',
-            'icon' => '',
-            'html_class' => 'pages'),
 
-        'pages' => array(
+            'sub' => array(
+                array('controller' => 'menu', 'action' => 'list', 'title' => 'Menus'),
+                array('controller' => 'widgets', 'action' => 'list', 'title' => 'Widgets')
+            ),
+        ),
+        array(
+            'controller' => 'pages',
+            'action' => 'index',
+            'icon' => '',
+            'html_class' => 'pages',
             'title' => 'Pages',
-            'default' => 'index',
-            'icon' => '',
-            'html_class' => 'pages'),
-
-        'products' => array(
-            'title' => 'Products',
-            'default' => 'index',
+        ),
+        array(
+            'controller' => 'products',
+            'action' => 'list',
             'icon' => '',
             'html_class' => 'products',
-            'actions' => array('index' => array('title' => 'Products'),'categories' => array('title' => 'Categories'),
-        )),
-        'settings' => array(
-            'title' => 'Settings',
-            'default' => 'index',
+            'title' => 'Products',
+
+            'sub' => array(
+                array('controller' => 'products', 'action' => 'list', 'title' => 'Products'),
+                array('controller' => 'products', 'action' => 'categories', 'title' => 'Categories'),
+            ),
+        ),
+        array(
+            'controller' => 'settings',
+            'action' => 'index',
             'icon' => '',
-            'html_class' => 'settings'),
-            
-        'Translation' => array(
-            'title' => 'Translation',
-            'default' => 'index',
+            'html_class' => 'settings',
+            'title' => 'Settings',
+        ),
+        array(
+            'controller' => 'translation',
+            'action' => 'index',
             'icon' => '',
             'html_class' => 'translate',
-            'actions' => array('admin' => array('title' => 'Panel translation'),'site' => array('title' => 'Site translation'))),    
+            'title' => 'Translation',
+
+            'sub' => array(
+                array('controller' => 'translation', 'action' => 'index', 'title' => 'Panel translation'),
+                array('controller' => 'translationsite', 'action' => 'index', 'title' => 'Site translation'),
+            ),
+        ),
     );
 
     public function init()
