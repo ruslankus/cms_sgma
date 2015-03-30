@@ -1,0 +1,208 @@
+/*-- translations */
+.content.translation
+	{
+		border: 1px solid #dddddd;
+	}
+.content.translation .header
+	{
+		height:52px;
+		border-bottom: 1px solid #ddd;
+		position: relative;
+		background: #f6f6f6 url(../images/icon-translation.png) 15px center no-repeat;
+	}
+.content.translation .header > span
+	{
+		position: absolute;
+		font-size: 17px;
+		left: 50px;
+		top: 14px;
+	}
+.content.translation .header > a
+	{
+		font-size: 17px;
+		left: 50px;
+		top: 14px;
+		display: block;
+		float: right;
+		height: 52px;
+		width: auto;
+		padding: 15px 10px 0;
+		border-left: 1px solid #ddd;
+		margin-right: -1px;
+		-webkit-transition: background-color 0.3s;
+		-moz-transition: background-color 0.3s;
+		transition: background-color 0.3s;
+		color: #868686;
+		text-decoration: none;
+		font-size: 15px;
+		font-weight: normal;
+	}
+.content.translation .header > a.active,
+.content.translation .header > a:hover
+	{
+		background-color: #149fe4;
+		color: #fff;
+		border: none;
+		font-weight: bold;
+		border-left: 1px solid #149fe4;
+	}
+.content.translation > .translate-actions
+	{
+		height: 40px;
+		margin: 20px 25px;
+		position: relative;
+	}
+.content.translation > .translate-actions select
+	{
+		height: 40px;
+		margin-right:10px;
+		position: relative;
+		display: inline-block;
+		width: 145px;
+		min-height: 30px;
+		border: 1px solid #ddd;
+		border-radius: 3px;
+		padding: 5px 3px 5px;
+		z-index: 18;
+		position: relative;
+		color: #868686;
+	}
+.content.translation  .add-label
+	{
+		float: left;
+		color: #fff;
+		background-color: #149fe4;
+		height: 40px;
+		border: 1px solid #0084c6;
+		border-radius: 3px;
+		font-size: 15px;
+		font-weight: normal;
+		font-family: "Open_sans";
+		padding-left: 10px;
+		padding-right: 10px;
+		cursor: pointer;
+	}
+.content.translation  .search-label
+	{
+		float: left;
+		height: 40px;
+		border: 1px solid #ddd;
+		border-radius: 3px;
+		font-size: 15px;
+		font-weight: normal;
+		font-family: "Open_sans";
+		padding-left: 10px;
+		padding-right: 10px;
+		margin-left: 30px;
+	}
+.content.translation  .search-label-button
+	{
+		float: left;
+		height: 40px;
+		border: 1px solid #ddd;
+		border-radius: 3px;
+		font-size: 15px;
+		font-weight: normal;
+		font-family: "Open_sans";
+		padding-left: 10px;
+		padding-right: 10px;
+		margin-left: 10px;
+		color: #fff;
+		border: 1px solid #eb603c;
+		background-color: #fb8f73;
+		cursor: pointer;
+	}
+.content.translation .translate-content
+	{
+		display: table;
+		width: 100%;
+	}
+.content.translation .translate-content > .translate-row
+	{
+		display: table-row;
+		width: 100%;
+	}
+.content.translation .translate-content > .translate-row > .translate-cell
+	{
+		display: table-cell;
+		text-align: center;
+		vertical-align: top;
+		height: 45px;
+		padding-top: 8px;
+	}
+.content.translation .translate-content > .translate-row > .translate-cell.id { width: 100px; }
+.content.translation .translate-content > .translate-row > .translate-cell.labels{ text-align: left; }
+.content.translation .translate-content > .translate-row > .translate-cell.translations{ width: 280px;padding-left:5px;text-align:left; }
+.content.translation .translate-content > .translate-row > .translate-cell.actions { width: 170px; }
+
+.content.translation .translate-content > .translate-row > .translate-cell.translations > input
+	{
+		width: 275px;
+		height: 35px;
+		border: 1px solid #ddd;
+		border-radius: 3px;
+		padding-left: 5px;
+		padding-right: 5px;
+		color: #968b8b;
+		font-size: 14px;
+		font-family: "Open_sans";
+		font-weight: normal;
+	}
+.content.translation .translate-content > .translate-row > .translate-cell.translations > input
+	{
+		width: 275px;
+		height: 35px;
+		border: 1px solid #ddd;
+		border-radius: 3px;
+		padding-left: 5px;
+		padding-right: 5px;
+		color: #968b8b;
+		font-size: 14px;
+		font-family: "Open_sans";
+		font-weight: normal;
+	}
+.content.translation .translate-content > .translate-row > .translate-cell.translations > input:disabled
+	{
+		background: none;
+		border: none;
+	}
+.content.translation .translate-content > .translate-row > .translate-cell.labels > input
+	{
+		width: 95%;
+		height: 35px;
+		border: 1px solid #ddd;
+		border-radius: 3px;
+		padding-left: 5px;
+		padding-right: 5px;
+		color: #968b8b;
+		font-size: 14px;
+		font-family: "Open_sans";
+		font-weight: normal;
+	}
+.content.translation .translate-content > .translate-row > .translate-cell.labels > input:disabled
+	{
+		background: none;
+		border: none;
+	}
+.content.translation .translate-content > .translate-row > .translate-cell.labels .errorMessage,
+.content.translation .translate-content > .translate-row > .translate-cell.translations .errorMessage
+	{
+		color: #fb8f73;
+		font-family: "Open_sans";	
+		font-size: 13px;
+		width: 100%;
+		display: none;
+	}
+.content.translation .translate-content > .translate-row > .translate-cell.actions > .action
+	{
+		width: 35px;
+		height: 35px;
+		border: 1px solid #0084c6;
+		border-radius: 3px;
+		display: inline-block;
+		padding: 0;
+		margin: 0 3px;
+	}
+.content.translation .translate-content > .translate-row > .translate-cell.actions > .action.save{ background: #149fe4 url(../images/icon-save-white.png) center center no-repeat; }
+.content.translation .translate-content > .translate-row > .translate-cell.actions > .action.delete{ background: #149fe4 url(../images/icon-delete.png) center center no-repeat; }
+.content.translation .translate-content > .translate-row > .translate-cell.actions > .action.edit{ background: #149fe4 url(../images/icon-edit.png) center center no-repeat; }
