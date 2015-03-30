@@ -16,7 +16,7 @@ Class ExtAdminMessages extends AdminMessages
      * @param $currLng
      * @return array
      */
-    /*
+   
     public function getLabels($currLng) {
 
         $arrLabels = array();
@@ -34,9 +34,8 @@ Class ExtAdminMessages extends AdminMessages
 
         return $arrLabels;
     }
-    */
 
-    public function getMessages($lng,$cond=array()){
+    public function getMessagesList($lng,$cond=array()){
         $sql = "SELECT t1.id,t2.label,t1.value, t2.id AS translation_id
             FROM messages_trl t1
             JOIN messages t2 ON t1.translation_id = t2.id
@@ -94,7 +93,7 @@ Class ExtAdminMessages extends AdminMessages
         foreach($arrLng as $lng){
            
             $sql = "INSERT INTO messages_trl ('translation_id', 'lng_id', 'value') VALUES ";
-            $sql .= "($labelId, {$lng['id']}, ' ')";
+            $sql .= "($labelId, {$lng['id']}, '')";
             
             $con->createCommand($sql)->execute();
             $labelTrl[] = $con->getLastInsertID('messages_trl');

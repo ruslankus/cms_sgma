@@ -33,7 +33,7 @@ class TranslationController extends ControllerAdmin
             $curr_lng = $sel_lng;   
         }
         $search_label = $request->getPost('search_label');  
-        $arrLabel = ExtAdminLabels::model()->getLabels($curr_lng, array('search_label' => $search_label));
+        $arrLabel = ExtAdminLabels::model()->getLabelsList($curr_lng, array('search_label' => $search_label));
 
         $pager = CPaginator::getInstanse($arrLabel,10,$curr_page);
         //$prepPages = $pager->getPreparedArray();
@@ -77,12 +77,18 @@ class TranslationController extends ControllerAdmin
         $curr_page = $request->getPost('curr_page');
         $select_lng = $request->getPost('lng');
         $search_label = $request->getPost('search_val');
-        $arrLabel = ExtAdminLabels::model()->getLabels($select_lng,array('search_label' => $search_label));
+        if(empty($curr_page))
+        {
+            $curr_page=1;
+        }        
+        $arrLabel = ExtAdminLabels::model()->getLabelsList($select_lng,array('search_label' => $search_label));
         $pager = CPaginator::getInstanse($arrLabel,10,$curr_page);
         $retData = $this->renderPartial('_admin_labels',array('arrLabel' => $arrLabel,
                 'arrSelect' => $arrSelect,'lang_prefix' => $lang_prefix,'select_lng' => $select_lng,
                 'search_val' => $search_label, 'pager'=>$pager)); 
+
         echo $retData;     
+        
     }
 
     public function actionUniqueCeckAdminLabelAjax(){
@@ -136,7 +142,7 @@ class TranslationController extends ControllerAdmin
         $request = Yii::app()->request;
         if($request->isAjaxRequest){
             $curr_lng = $request->getPost('curr_lng');
-            $value_label = trim($request->getPost('value'));
+            $value_label = $request->getPost('value');
             
             $objLabel = AdminLabelsTrl::model()->findByPk((int)$id);
            
@@ -176,7 +182,7 @@ class TranslationController extends ControllerAdmin
             $curr_lng = $sel_lng;   
         }
         $search_label = $request->getPost('search_label');  
-        $arrLabel = ExtAdminMessages::model()->getMessages($curr_lng, array('search_label' => $search_label));
+        $arrLabel = ExtAdminMessages::model()->getMessagesList($curr_lng, array('search_label' => $search_label));
 
         $pager = CPaginator::getInstanse($arrLabel,10,$curr_page);
         //$prepPages = $pager->getPreparedArray();
@@ -228,7 +234,7 @@ class TranslationController extends ControllerAdmin
         $select_lng = $request->getPost('lng');
         $search_label = $request->getPost('search_val');
         
-        $arrLabel = ExtAdminMessages::model()->getMessages($select_lng,array('search_label' => $search_label));
+        $arrLabel = ExtAdminMessages::model()->getMessagesList($select_lng,array('search_label' => $search_label));
 
         $pager = CPaginator::getInstanse($arrLabel,10,$curr_page);
         $retData = $this->renderPartial('_admin_messages',array('arrLabel' => $arrLabel,
@@ -243,7 +249,7 @@ class TranslationController extends ControllerAdmin
         $request = Yii::app()->request;
         if($request->isAjaxRequest){
             $curr_lng = $request->getPost('curr_lng');
-            $value_label = trim($request->getPost('value'));
+            $value_label = $request->getPost('value');
             
             $objLabel = AdminMessagesTrl::model()->findByPk((int)$id);
            
@@ -325,7 +331,7 @@ class TranslationController extends ControllerAdmin
         }
 
         $search_label = $request->getPost('search_label');  
-        $arrLabel = ExtAdminLabels::model()->getLabels($curr_lng, array('search_label' => $search_label));
+        $arrLabel = ExtAdminLabels::model()->getLabelsList($curr_lng, array('search_label' => $search_label));
         
         $pager = CPaginator::getInstanse($arrLang,10,$curr_page);
         //$prepPages = $pager->getPreparedArray();

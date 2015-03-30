@@ -8,7 +8,7 @@ $currentPage = $pager->getCurrentPage();
 ?>
 <main>
 	<div class="title-bar world">
-		<h1><?php echo Trl::t()->getLabel('Settings')?></h1>
+		<h1><?php echo ATrl::t()->getLabel('Settings')?></h1>
 		<ul class="actions">
 			<li><a href="" class="action undo"></a></li>
 		</ul>
@@ -16,22 +16,22 @@ $currentPage = $pager->getCurrentPage();
 
 	<div class="content translation">
 		<div class="header">
-			<span><?php echo Trl::t()->getLabel('Languages')?></span>
-			<a href="/<?php echo $lang_prefix?>/admin/TranslationSite/AdminLanguages" class="languages active"><?php echo Trl::t()->getLabel('Languages')?></a>
-			<a href="/<?php echo $lang_prefix?>/admin/TranslationSite/AdminMessages" class="messages"><?php echo Trl::t()->getLabel('Messages')?></a>
-			<a href="/<?php echo $lang_prefix?>/admin/TranslationSite/Admin" class="labels"><?php echo Trl::t()->getLabel('Labels')?></a>
+			<span><?php echo ATrl::t()->getLabel('Languages')?></span>
+			<a href="/<?php echo $lang_prefix?>/admin/TranslationSite/AdminLanguages" class="languages active"><?php echo ATrl::t()->getLabel('Languages')?></a>
+			<a href="/<?php echo $lang_prefix?>/admin/TranslationSite/AdminMessages" class="messages"><?php echo ATrl::t()->getLabel('Messages')?></a>
+			<a href="/<?php echo $lang_prefix?>/admin/TranslationSite/Admin" class="labels"><?php echo ATrl::t()->getLabel('Labels')?></a>
 		</div><!--/header-->
 		<div class="translate-actions">
-				<input type="submit" data-prefix="<?php echo $lang_prefix?>" class="add-label" value="<?php echo Trl::t()->getLabel('Add language');?>" />
+				<input type="submit" data-prefix="<?php echo $lang_prefix?>" class="add-label" value="<?php echo ATrl::t()->getLabel('Add language');?>" />
 
 		</div><!--/translate-actions-->
 		<div class="translation-list">
 			<div class="translate-content">
 				<div class="translate-row">
 					<div class="translate-cell id">#</div>
-					<div class="translate-cell labels"><?php echo Trl::t()->getLabel('Language name')?></div>
-					<div class="translate-cell translations"><?php echo Trl::t()->getLabel('Prefix')?></div>
-					<div class="translate-cell actions"><?php echo Trl::t()->getLabel('Actions')?></div>
+					<div class="translate-cell labels"><?php echo ATrl::t()->getLabel('Language name')?></div>
+					<div class="translate-cell translations"><?php echo ATrl::t()->getLabel('Prefix')?></div>
+					<div class="translate-cell actions"><?php echo ATrl::t()->getLabel('Actions')?></div>
 				</div><!--/translate-row-->
 
 				<?php 

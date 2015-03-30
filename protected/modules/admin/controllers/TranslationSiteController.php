@@ -33,7 +33,7 @@ class TranslationSiteController extends ControllerAdmin
             $curr_lng = $sel_lng;   
         }
         $search_label = $request->getPost('search_label');  
-        $arrLabel = ExtLabels::model()->getLabels($curr_lng, array('search_label' => $search_label));
+        $arrLabel = ExtLabels::model()->getLabelsList($curr_lng, array('search_label' => $search_label));
         $pager = CPaginator::getInstanse($arrLabel,10,$curr_page);
 
         $this->render('admin_labels',array('arrLabel' => $arrLabel,
@@ -77,7 +77,7 @@ class TranslationSiteController extends ControllerAdmin
         $curr_page = $request->getPost('curr_page');
         $select_lng = $request->getPost('lng');
         $search_label = $request->getPost('search_val');
-        $arrLabel = ExtLabels::model()->getLabels($select_lng,array('search_label' => $search_label));
+        $arrLabel = ExtLabels::model()->getLabelsList($select_lng,array('search_label' => $search_label));
         $pager = CPaginator::getInstanse($arrLabel,10,$curr_page);
         $retData = $this->renderPartial('_admin_labels',array('arrLabel' => $arrLabel,
                 'arrSelect' => $arrSelect,'lang_prefix' => $lang_prefix,'select_lng' => $select_lng,
@@ -324,7 +324,7 @@ class TranslationSiteController extends ControllerAdmin
         }
 
         $search_label = $request->getPost('search_label');  
-        $arrLabel = ExtLabels::model()->getLabels($curr_lng, array('search_label' => $search_label));
+        $arrLabel = ExtLabels::model()->getLabelsList($curr_lng, array('search_label' => $search_label));
         
         $pager = CPaginator::getInstanse($arrLang,10,$curr_page);
         //$prepPages = $pager->getPreparedArray();

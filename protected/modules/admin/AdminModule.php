@@ -72,7 +72,7 @@ class AdminModule extends CWebModule
 
             'sub' => array(
                 array('controller' => 'translation', 'action' => 'index', 'title' => 'Panel translation'),
-                array('controller' => 'translationsite', 'action' => 'index', 'title' => 'Site translation'),
+                array('controller' => 'translationSite', 'action' => 'index', 'title' => 'Site translation'),
             ),
         ),
     );

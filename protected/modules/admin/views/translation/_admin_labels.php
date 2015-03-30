@@ -7,9 +7,9 @@ $currentPage = $pager->getCurrentPage();
 <div class="translate-content">
 	<div class="translate-row">
 		<div class="translate-cell id">#</div>
-		<div class="translate-cell labels"><?php echo Trl::t()->getLabel('Labels')?></div>
-		<div class="translate-cell translations"><?php echo Trl::t()->getLabel('Translations')?></div>
-		<div class="translate-cell actions"><?php echo Trl::t()->getLabel('Actions')?></div>
+		<div class="translate-cell labels"><?php echo ATrl::t()->getLabel('Labels')?></div>
+		<div class="translate-cell translations"><?php echo ATrl::t()->getLabel('Translations')?></div>
+		<div class="translate-cell actions"><?php echo ATrl::t()->getLabel('Actions')?></div>
 	</div><!--/translate-row-->
 	<?php 
 		$n = $currentPage*$perPage-$perPage+1; // first number on page
