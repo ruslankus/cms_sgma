@@ -1,34 +1,27 @@
 <?php
 
 /**
- * This is the model class for table "languages".
+ * This is the model class for table "contacts".
  *
- * The followings are the available columns in table 'languages':
+ * The followings are the available columns in table 'contacts':
  * @property integer $id
- * @property string $name
- * @property string $prefix
- * @property string $icon
+ * @property string $label
+ * @property string $template
+ * @property string $map_url
+ * @property string $map_code
  *
  * The followings are the available model relations:
- * @property ContactsFieldsTrl[] $contactsFieldsTrls
+ * @property ContactsFields[] $contactsFields
  * @property ContactsTrl[] $contactsTrls
- * @property LabelsTrl[] $labelsTrls
- * @property MenuItemTrl[] $menuItemTrls
- * @property MessagesTrl[] $messagesTrls
- * @property NewsTrl[] $newsTrls
- * @property PageTrl[] $pageTrls
- * @property ProductCategoryTrl[] $productCategoryTrls
- * @property ProductTrl[] $productTrls
- * @property SystemWidgetTrl[] $systemWidgetTrls
  */
-class Languages extends CActiveRecord
+class Contacts extends CActiveRecord
 {
 	/**
 	 * @return string the associated database table name
 	 */
 	public function tableName()
 	{
-		return 'languages';
+		return 'contacts';
 	}
 
 	/**
@@ -39,12 +32,13 @@ class Languages extends CActiveRecord
 		// NOTE: you should only define rules for those attributes that
 		// will receive user inputs.
 		return array(
-			array('name', 'length', 'max'=>64),
-			array('prefix', 'length', 'max'=>16),
-			array('icon', 'length', 'max'=>128),
+			array('label', 'length', 'max'=>128),
+			array('template', 'length', 'max'=>256),
+			array('map_url', 'length', 'max'=>1024),
+			array('map_code', 'safe'),
 			// The following rule is used by search().
 			// @todo Please remove those attributes that should not be searched.
-			array('id, name, prefix, icon', 'safe', 'on'=>'search'),
+			array('id, label, template, map_url, map_code', 'safe', 'on'=>'search'),
 		);
 	}
 
@@ -56,16 +50,8 @@ class Languages extends CActiveRecord
 		// NOTE: you may need to adjust the relation name and the related
 		// class name for the relations automatically generated below.
 		return array(
-			'contactsFieldsTrls' => array(self::HAS_MANY, 'ContactsFieldsTrl', 'lng_id'),
-			'contactsTrls' => array(self::HAS_MANY, 'ContactsTrl', 'lng_id'),
-			'labelsTrls' => array(self::HAS_MANY, 'LabelsTrl', 'lng_id'),
-			'menuItemTrls' => array(self::HAS_MANY, 'MenuItemTrl', 'lng_id'),
-			'messagesTrls' => array(self::HAS_MANY, 'MessagesTrl', 'lng_id'),
-			'newsTrls' => array(self::HAS_MANY, 'NewsTrl', 'lng_id'),
-			'pageTrls' => array(self::HAS_MANY, 'PageTrl', 'lng_id'),
-			'productCategoryTrls' => array(self::HAS_MANY, 'ProductCategoryTrl', 'lng_id'),
-			'productTrls' => array(self::HAS_MANY, 'ProductTrl', 'lng_id'),
-			'systemWidgetTrls' => array(self::HAS_MANY, 'SystemWidgetTrl', 'lng_id'),
+			'contactsFields' => array(self::HAS_MANY, 'ContactsFields', 'contacts_id'),
+			'contactsTrls' => array(self::HAS_MANY, 'ContactsTrl', 'contacts_id'),
 		);
 	}
 
@@ -76,9 +62,10 @@ class Languages extends CActiveRecord
 	{
 		return array(
 			'id' => 'ID',
-			'name' => 'Name',
-			'prefix' => 'Prefix',
-			'icon' => 'Icon',
+			'label' => 'Label',
+			'template' => 'Template',
+			'map_url' => 'Map Url',
+			'map_code' => 'Map Code',
 		);
 	}
 
@@ -101,9 +88,10 @@ class Languages extends CActiveRecord
 		$criteria=new CDbCriteria;
 
 		$criteria->compare('id',$this->id);
-		$criteria->compare('name',$this->name,true);
-		$criteria->compare('prefix',$this->prefix,true);
-		$criteria->compare('icon',$this->icon,true);
+		$criteria->compare('label',$this->label,true);
+		$criteria->compare('template',$this->template,true);
+		$criteria->compare('map_url',$this->map_url,true);
+		$criteria->compare('map_code',$this->map_code,true);
 
 		return new CActiveDataProvider($this, array(
 			'criteria'=>$criteria,
@@ -114,7 +102,7 @@ class Languages extends CActiveRecord
 	 * Returns the static model of the specified AR class.
 	 * Please note that you should have this exact method in all your CActiveRecord descendants!
 	 * @param string $className active record class name.
-	 * @return Languages the static model class
+	 * @return Contacts the static model class
 	 */
 	public static function model($className=__CLASS__)
 	{

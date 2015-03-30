@@ -10,7 +10,7 @@ Target Server Type    : MYSQL
 Target Server Version : 50538
 File Encoding         : 65001
 
-Date: 2015-03-27 13:53:58
+Date: 2015-03-30 13:54:30
 */
 
 SET FOREIGN_KEY_CHECKS=0;
@@ -89,6 +89,81 @@ INSERT INTO `available` VALUES ('11', '5', '2');
 INSERT INTO `available` VALUES ('12', '6', '2');
 
 -- ----------------------------
+-- Table structure for `contacts`
+-- ----------------------------
+DROP TABLE IF EXISTS `contacts`;
+CREATE TABLE `contacts` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `label` varchar(128) DEFAULT NULL,
+  `template` varchar(256) DEFAULT NULL,
+  `map_url` varchar(1024) DEFAULT NULL,
+  `map_code` text,
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+-- ----------------------------
+-- Records of contacts
+-- ----------------------------
+
+-- ----------------------------
+-- Table structure for `contacts_fields`
+-- ----------------------------
+DROP TABLE IF EXISTS `contacts_fields`;
+CREATE TABLE `contacts_fields` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `contacts_id` int(11) DEFAULT NULL,
+  `label` int(11) DEFAULT NULL,
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+-- ----------------------------
+-- Records of contacts_fields
+-- ----------------------------
+
+-- ----------------------------
+-- Table structure for `contacts_fields_trl`
+-- ----------------------------
+DROP TABLE IF EXISTS `contacts_fields_trl`;
+CREATE TABLE `contacts_fields_trl` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `name` varchar(1024) DEFAULT NULL,
+  `value` text,
+  `contacts_field_id` int(11) DEFAULT NULL,
+  `lng_id` int(11) DEFAULT NULL,
+  PRIMARY KEY (`id`),
+  KEY `contacts_field_id` (`contacts_field_id`),
+  KEY `lng_id` (`lng_id`),
+  CONSTRAINT `contacts_fields_trl_ibfk_2` FOREIGN KEY (`lng_id`) REFERENCES `languages` (`id`) ON DELETE CASCADE ON UPDATE NO ACTION,
+  CONSTRAINT `contacts_fields_trl_ibfk_1` FOREIGN KEY (`contacts_field_id`) REFERENCES `contacts_fields` (`id`) ON DELETE CASCADE ON UPDATE NO ACTION
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+-- ----------------------------
+-- Records of contacts_fields_trl
+-- ----------------------------
+
+-- ----------------------------
+-- Table structure for `contacts_trl`
+-- ----------------------------
+DROP TABLE IF EXISTS `contacts_trl`;
+CREATE TABLE `contacts_trl` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `lng_id` int(11) DEFAULT NULL,
+  `contacts_id` int(11) DEFAULT NULL,
+  `text` text,
+  `title` text,
+  `meta_description` text,
+  PRIMARY KEY (`id`),
+  KEY `contacts_id` (`contacts_id`),
+  KEY `lng_id` (`lng_id`),
+  CONSTRAINT `contacts_trl_ibfk_2` FOREIGN KEY (`lng_id`) REFERENCES `languages` (`id`) ON DELETE CASCADE ON UPDATE NO ACTION,
+  CONSTRAINT `contacts_trl_ibfk_1` FOREIGN KEY (`contacts_id`) REFERENCES `contacts` (`id`) ON DELETE CASCADE ON UPDATE NO ACTION
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+-- ----------------------------
+-- Records of contacts_trl
+-- ----------------------------
+
+-- ----------------------------
 -- Table structure for `labels`
 -- ----------------------------
 DROP TABLE IF EXISTS `labels`;
@@ -160,7 +235,7 @@ CREATE TABLE `menu` (
   `last_change_by` int(11) DEFAULT NULL,
   `template_name` varchar(512) DEFAULT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=10 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=6 DEFAULT CHARSET=utf8;
 
 -- ----------------------------
 -- Records of menu
@@ -192,16 +267,17 @@ CREATE TABLE `menu_item` (
   KEY `content_item_id` (`content_item_id`),
   CONSTRAINT `menu_item_ibfk_1` FOREIGN KEY (`type_id`) REFERENCES `menu_item_type` (`id`) ON DELETE NO ACTION ON UPDATE NO ACTION,
   CONSTRAINT `menu_item_ibfk_2` FOREIGN KEY (`menu_id`) REFERENCES `menu` (`id`) ON DELETE CASCADE ON UPDATE NO ACTION
-) ENGINE=InnoDB AUTO_INCREMENT=14 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=33 DEFAULT CHARSET=utf8;
 
 -- ----------------------------
 -- Records of menu_item
 -- ----------------------------
-INSERT INTO `menu_item` VALUES ('1', '1', '0:1', 'News', '0', '3', '2', null, '1', '0', '1427408703', '1');
-INSERT INTO `menu_item` VALUES ('10', '1', '0:10', 'Products', '0', '4', '3', null, '1', '0', '1427408703', '1');
-INSERT INTO `menu_item` VALUES ('11', '1', '0:11', 'Tests', '0', '5', '1', null, '1', '0', '1427408703', '1');
-INSERT INTO `menu_item` VALUES ('12', '1', '0:12', 'Other', '0', '2', '1', null, '1', '0', '1427408703', '1');
-INSERT INTO `menu_item` VALUES ('13', '1', '0:13', 'Weapons', '0', '1', '1', null, '1', '0', '1427408703', '1');
+INSERT INTO `menu_item` VALUES ('1', '1', '0:1', 'News', '0', '4', '2', null, '1', '0', '1427712447', '1');
+INSERT INTO `menu_item` VALUES ('10', '1', '0:10', 'Products', '0', '5', '1', '5', '1', '0', '1427712447', '1');
+INSERT INTO `menu_item` VALUES ('11', '1', '0:11', 'Tests', '0', '6', '1', null, '1', '0', '1427712447', '1');
+INSERT INTO `menu_item` VALUES ('12', '1', '0:12', 'Other', '0', '3', '1', null, '1', '0', '1427712447', '1');
+INSERT INTO `menu_item` VALUES ('31', '1', '0:10:31', 'Page 3', '10', '1', '1', '6', '1', '1427472506', '1427705893', '1');
+INSERT INTO `menu_item` VALUES ('32', '1', '0:10:32', 'Some label', '10', '2', '1', '5', '1', '1427706388', '1427706430', '1');
 
 -- ----------------------------
 -- Table structure for `menu_item_trl`
@@ -217,13 +293,17 @@ CREATE TABLE `menu_item_trl` (
   KEY `menu_item_trl_ibfk_2` (`lng_id`),
   CONSTRAINT `menu_item_trl_ibfk_1` FOREIGN KEY (`lng_id`) REFERENCES `languages` (`id`) ON DELETE CASCADE ON UPDATE NO ACTION,
   CONSTRAINT `menu_item_trl_ibfk_2` FOREIGN KEY (`menu_item_id`) REFERENCES `menu_item` (`id`) ON DELETE CASCADE ON UPDATE NO ACTION
-) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=55 DEFAULT CHARSET=utf8;
 
 -- ----------------------------
 -- Records of menu_item_trl
 -- ----------------------------
 INSERT INTO `menu_item_trl` VALUES ('1', 'News', '1', '1');
 INSERT INTO `menu_item_trl` VALUES ('2', 'Новости', '1', '2');
+INSERT INTO `menu_item_trl` VALUES ('51', 'bbbbbb', '10', '1');
+INSERT INTO `menu_item_trl` VALUES ('52', 'GGG', '10', '2');
+INSERT INTO `menu_item_trl` VALUES ('53', 'Some title', '32', '1');
+INSERT INTO `menu_item_trl` VALUES ('54', 'Какое-то название', '32', '2');
 
 -- ----------------------------
 -- Table structure for `menu_item_type`
@@ -238,7 +318,7 @@ CREATE TABLE `menu_item_type` (
 -- ----------------------------
 -- Records of menu_item_type
 -- ----------------------------
-INSERT INTO `menu_item_type` VALUES ('1', 'Singel page');
+INSERT INTO `menu_item_type` VALUES ('1', 'Single page');
 INSERT INTO `menu_item_type` VALUES ('2', 'News catalog');
 INSERT INTO `menu_item_type` VALUES ('3', 'Product catalog');
 INSERT INTO `menu_item_type` VALUES ('4', 'Contact form');
@@ -380,11 +460,13 @@ CREATE TABLE `page` (
   `time_update` int(11) DEFAULT NULL,
   `last_change_by` int(11) DEFAULT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=5 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=10 DEFAULT CHARSET=utf8;
 
 -- ----------------------------
 -- Records of page
 -- ----------------------------
+INSERT INTO `page` VALUES ('8', 'Page 1', null, null, null, null, null);
+INSERT INTO `page` VALUES ('9', 'Page 2', null, null, null, null, null);
 
 -- ----------------------------
 -- Table structure for `page_trl`
@@ -402,11 +484,15 @@ CREATE TABLE `page_trl` (
   KEY `lng_id` (`lng_id`),
   CONSTRAINT `page_trl_ibfk_1` FOREIGN KEY (`lng_id`) REFERENCES `languages` (`id`) ON DELETE CASCADE ON UPDATE NO ACTION,
   CONSTRAINT `page_trl_ibfk_2` FOREIGN KEY (`page_id`) REFERENCES `page` (`id`) ON DELETE CASCADE ON UPDATE NO ACTION
-) ENGINE=InnoDB AUTO_INCREMENT=10 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=7 DEFAULT CHARSET=utf8;
 
 -- ----------------------------
 -- Records of page_trl
 -- ----------------------------
+INSERT INTO `page_trl` VALUES ('3', 'Some page 1', null, null, '8', '1');
+INSERT INTO `page_trl` VALUES ('4', 'Какая-то страница 1', null, null, '8', '2');
+INSERT INTO `page_trl` VALUES ('5', 'Some page 2', null, null, '9', '1');
+INSERT INTO `page_trl` VALUES ('6', 'Какая-то страница 2', null, null, '9', '2');
 
 -- ----------------------------
 -- Table structure for `product`

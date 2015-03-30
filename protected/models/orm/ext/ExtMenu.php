@@ -20,7 +20,7 @@ Class ExtMenu extends Menu
      */
     public function getAllItemsWithTrlSQL()
     {
-        $sql = "SELECT t1.*, t2.`value` as trl FROM menu_item t1
+        $sql = "SELECT t1.*, t2.value as trl FROM menu_item t1
                 JOIN menu_item_trl t2 ON t2.menu_item_id = t1.id
                 JOIN languages t3 ON t2.lng_id = t3.id
                 WHERE t3.prefix = :prefix AND t1.menu_id = :id";
