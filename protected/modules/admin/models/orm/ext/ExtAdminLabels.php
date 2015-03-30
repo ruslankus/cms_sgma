@@ -65,39 +65,47 @@ Class ExtAdminLabels extends AdminLabels
      * @return bool
      */
     public function addLabel($label,$arrLng){
-
-        $sql = "INSERT INTO labels ('label') VALUES (:label)";
-
-        $sql_param[':label'] = $label;
-
         $con = $this->dbConnection;
-        $con->createCommand($sql)->execute($sql_param);
-        $labelId = $con->getLastInsertID('labels');
+        $transaction = $con->beginTransaction();
+        try{
 
-        $sql = "INSERT INTO labels_trl ('translation_id', 'lng_id', 'value') VALUES ";
-        /*
-        foreach($arrLng as $key => $lng){
-            if($key == 0){
-                $sql .= "($labelId, {$lng['id']}, '')";
-            }else{
-                $sql .= ",($labelId, {$lng['id']}, '')";
-            }
-        }
+          $sql = "INSERT INTO labels ('label') VALUES (:label)";
 
-        $con->createCommand($sql)->execute();
-        $labelTrl[] = $con->getLastInsertID('labels_trl');
-        */
-        
-        foreach($arrLng as $lng){
-           
-            $sql = "INSERT INTO labels_trl ('translation_id', 'lng_id', 'value') VALUES ";
-            $sql .= "($labelId, {$lng['id']}, '')";
-            
-            $con->createCommand($sql)->execute();
-            $labelTrl[] = $con->getLastInsertID('labels_trl');
+          $sql_param[':label'] = $label;
+
+          
+          $con->createCommand($sql)->execute($sql_param);
+          $labelId = $con->getLastInsertID('labels');
+
+          $sql = "INSERT INTO labels_trl ('translation_id', 'lng_id', 'value') VALUES ";
+          /*
+          foreach($arrLng as $key => $lng){
+              if($key == 0){
+                  $sql .= "($labelId, {$lng['id']}, '')";
+              }else{
+                  $sql .= ",($labelId, {$lng['id']}, '')";
+              }
+          }
+
+          $con->createCommand($sql)->execute();
+          $labelTrl[] = $con->getLastInsertID('labels_trl');
+          */
+          
+          foreach($arrLng as $lng){
+             
+              $sql = "INSERT INTO labels_trl ('translation_id', 'lng_id', 'value') VALUES ";
+              $sql .= "($labelId, {$lng['id']}, '')";
+              
+              $con->createCommand($sql)->execute();
+              $labelTrl[] = $con->getLastInsertID('labels_trl');
+          }
+          $transaction->commit();
+          return true;
+          
+        }catch(Exception $e){
+            $transaction->rollback();
+            return false;
         }
-        
-        return true;
     }
 
     /**

@@ -176,7 +176,7 @@ class TranslationSiteController extends ControllerAdmin
             $curr_lng = $sel_lng;   
         }
         $search_label = $request->getPost('search_label');  
-        $arrLabel = ExtMessages::model()->getMessages($curr_lng, array('search_label' => $search_label));
+        $arrLabel = ExtMessages::model()->getMessagesList($curr_lng, array('search_label' => $search_label));
 
         $pager = CPaginator::getInstanse($arrLabel,10,$curr_page);
         //$prepPages = $pager->getPreparedArray();

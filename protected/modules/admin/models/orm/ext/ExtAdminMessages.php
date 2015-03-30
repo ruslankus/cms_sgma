@@ -68,39 +68,47 @@ Class ExtAdminMessages extends AdminMessages
      */
     public function addMessage($label,$arrLng){
 
-        $sql = "INSERT INTO messages ('label') VALUES (:label)";
-
-        $sql_param[':label'] = $label;
-
         $con = $this->dbConnection;
-        $con->createCommand($sql)->execute($sql_param);
-        $labelId = $con->getLastInsertID('messages');
+        $transaction = $con->beginTransaction();
 
-        $sql = "INSERT INTO messages_trl ('translation_id', 'lng_id', 'value') VALUES ";
-        /*
-        foreach($arrLng as $key => $lng){
-            if($key == 0){
-                $sql .= "($labelId, {$lng['id']}, '')";
-            }else{
-                $sql .= ",($labelId, {$lng['id']}, '')";
-            }
+        try{
+
+          $sql = "INSERT INTO messages ('label') VALUES (:label)";
+
+          $sql_param[':label'] = $label;
+
+          $con->createCommand($sql)->execute($sql_param);
+          $labelId = $con->getLastInsertID('messages');
+
+          $sql = "INSERT INTO messages_trl ('translation_id', 'lng_id', 'value') VALUES ";
+          /*
+          foreach($arrLng as $key => $lng){
+              if($key == 0){
+                  $sql .= "($labelId, {$lng['id']}, '')";
+              }else{
+                  $sql .= ",($labelId, {$lng['id']}, '')";
+              }
+          }
+
+          $con->createCommand($sql)->execute();
+          $labelTrl[] = $con->getLastInsertID('messages_trl');
+          */
+          
+          foreach($arrLng as $lng){
+             
+              $sql = "INSERT INTO messages_trl ('translation_id', 'lng_id', 'value') VALUES ";
+              $sql .= "($labelId, {$lng['id']}, '')";
+              
+              $con->createCommand($sql)->execute();
+              $labelTrl[] = $con->getLastInsertID('messages_trl');
+          }
+          $transaction->commit();
+          return true;
+
+        }catch(Exception $e){
+            $transaction->rollback();
+            return false;
         }
-
-        $con->createCommand($sql)->execute();
-        $labelTrl[] = $con->getLastInsertID('messages_trl');
-        */
-        
-        foreach($arrLng as $lng){
-           
-            $sql = "INSERT INTO messages_trl ('translation_id', 'lng_id', 'value') VALUES ";
-            $sql .= "($labelId, {$lng['id']}, '')";
-            
-            $con->createCommand($sql)->execute();
-            $labelTrl[] = $con->getLastInsertID('messages_trl');
-        }
-        
-
-        return true;
     }
 
     /**
