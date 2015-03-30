@@ -1,12 +1,31 @@
+#pre-load-overlay
+{
+    position: fixed;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(255, 255, 255, 0.6);
+    padding: 0;
+    margin: 0;
+    left: 0;
+    top: 0;
+    z-index: 9999;
+
+}
 #floatingCirclesG{
-    position:relative;
+    position: absolute;
     width:50px;
     height:50px;
-    -moz-transform:scale(0.6);
-    -webkit-transform:scale(0.6);
-    -ms-transform:scale(0.6);
-    -o-transform:scale(0.6);
-    transform:scale(0.6);
+
+    /*-moz-transform:scale(0.6);*/
+    /*-webkit-transform:scale(0.6);*/
+    /*-ms-transform:scale(0.6);*/
+    /*-o-transform:scale(0.6);*/
+    /*transform:scale(0.6);*/
+
+    left: 50%;
+    right: 50%;
+    top: 50%;
+    bottom: 50%;
 }
 
 .f_circleG{

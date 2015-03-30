@@ -41,17 +41,22 @@ $(document).on("click", ".delete", function()
                 //confirm button
                 {label:yesLabel,click:function(){
                     var request = $.ajax({url: href});
-
+                    $.preLoader.show();
                     request.done(function(msg){
                         if(msg == 'OK')
                         {
                             $.dialogBoxEx.hide();
                             ajaxRefreshTable();
                         }
+                        else
+                        {
+                            $.preLoader.hide();
+                        }
                     });
 
                     request.fail(function(jqXHR,textStatus) {
                         alert( "Request failed: " + textStatus);
+                        $.preLoader.hide();
                     });
 
                 },classes:'button confirm'},
@@ -72,16 +77,21 @@ $(document).on("click", ".move-item", function()
 	{
         var href = $(this).attr('href');
         var request = $.ajax({url: href});
-
+        $.preLoader.show();
         request.done(function(msg){
             if(msg == 'OK')
             {
                 ajaxRefreshTable();
             }
+            else
+            {
+                $.preLoader.hide();
+            }
         });
 
         request.fail(function(jqXHR,textStatus) {
             alert( "Request failed: " + textStatus);
+            $.preLoader.hide();
         });
 
 		return false;
@@ -100,5 +110,11 @@ var ajaxRefreshTable = function()
 
     request.done(function(data){
         $('.sortable').html(data).trigger('table-update');
+        $.preLoader.hide();
+    });
+
+    request.fail(function(jqXHR,textStatus) {
+        alert( "Request failed: " + textStatus);
+        $.preLoader.hide();
     });
 };
