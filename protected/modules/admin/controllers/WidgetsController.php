@@ -9,7 +9,6 @@ class WidgetsController extends ControllerAdmin
     public function actionList($page = 1)
     {
         //include necessary scripts and css
-        Yii::app()->clientScript->registerScriptFile($this->assetsPath.'/js/vendor.dialog-box.js',CClientScript::POS_END);
         Yii::app()->clientScript->registerScriptFile($this->assetsPath.'/js/vendor.menu-list.js',CClientScript::POS_END);
         Yii::app()->clientScript->registerCssFile($this->assetsPath.'/css/vendor.lightbox.css');
 
@@ -75,7 +74,6 @@ class WidgetsController extends ControllerAdmin
         /* @var $objLanguages Languages[] */
 
         //include menu necessary scripts
-        Yii::app()->clientScript->registerScriptFile($this->assetsPath.'/js/vendor.dialog-box.js',CClientScript::POS_END);
         Yii::app()->clientScript->registerScriptFile($this->assetsPath.'/js/vendor.add-menu.js',CClientScript::POS_END);
         Yii::app()->clientScript->registerScriptFile($this->assetsPath.'/js/menu.edititem.js',CClientScript::POS_END);
 
