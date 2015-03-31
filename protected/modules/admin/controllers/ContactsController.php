@@ -2,7 +2,7 @@
 
 class ContactsController extends ControllerAdmin
 {
-    public function actionList($page = 1)
+    public function actionIndex($page = 1)
     {
         $currLng = Yii::app()->language;
         
@@ -12,9 +12,8 @@ class ContactsController extends ControllerAdmin
         
         $objContacts = Contacts::model()->with(array('contactsTrls.lng' => array('condition' => "lng.prefix='{$siteLng}'")))->findall();
         
-        //Debug::d($objContacts);
-                
-        $this->render('contacts_list',array('objContacts' => $objContacts, 'currLng' => $currLng));
+        $pager = CPaginator::getInstanse($objContacts,10,$page);
+        $this->render('index',array('pager' => $pager, 'currLng' => $currLng));
     }
 
     public function actionCreate(){
@@ -45,5 +44,80 @@ class ContactsController extends ControllerAdmin
         $this->render('new_contact', array('model' => $model));
         
     }//create
+
+    public function actionEditContent($id = null){
+        
+        $request = Yii::app()->request;
+        if($request->isAjaxRequest){
+            
+            $pageId = $request->getPost('pageId');
+            $lngId = $request->getPost('lngId');
+            
+            $objPage = ContactsTrl::model()->findByAttributes(array('lng_id' => $lngId, 'contacts_id' => $pageId));
+            
+            $this->renderPartial('_editContact',array('objPage' => $objPage));
+            Yii::app()->end();
+        }//ajax part
+        
+        //Yii::app()->clientScript->registerScriptFile($this->assetsPath.'/js/vendor.textarea.js',CClientScript::POS_END);
+        Yii::app()->clientScript->registerScriptFile($this->assetsPath.'/js/vendor.edit-contact.js',CClientScript::POS_END);
+       
+        $objCurrLng = SiteLng::lng()->getCurrLng();  
+        
+        //$objPage = ExtPage::model()->findByPk($id);
+        $arrPage = ExtContacts::model()->getContact($id,$objCurrLng->prefix);
+        //Debug::d($arrPage);
+        
+        $this->render('editContact', array('arrPage' => $arrPage, 'page_id' => $id, 'siteLng' => $objCurrLng->id ));
+    }//edit
+
+    public function actionDeleteContact($id=null)
+    {
+    	$objContact = Contacts::model()->findByPk($id);
+    	$objContact->delete();
+    	$this->redirect(array('index'));
+    }
+
+    /* ----------------------------- ajax section -------------------------------------- */
+
+    public function actionIndexAjax($page = 1)
+    {
+    	$request = Yii::app()->request;
+        $currLng = Yii::app()->language;
+        
+        if($request->isAjaxRequest)
+        {    
+	        $page = $request->getPost('curr_page');
+	        if(empty($siteLng)){
+	            $siteLng = Yii::app()->language; 
+	        }
+	        
+	        $objContacts = Contacts::model()->with(array('contactsTrls.lng' => array('condition' => "lng.prefix='{$siteLng}'")))->findall();
+	        
+	        $pager = CPaginator::getInstanse($objContacts,10,$page);
+	        $this->renderPartial('_index',array('pager' => $pager, 'currLng' => $currLng));
+
+	        Yii::app()->end();
+    	}
+    }
     
+    public function actionDeleteContactAjax($id=null)
+    {
+    	$request = Yii::app()->request;
+        $currLng = Yii::app()->language;
+        
+        if($request->isAjaxRequest)
+        {    
+
+        	$contact_name = $request->getPost('name');
+
+	        $arrJson = array();
+
+	        $arrJson['html'] = $this->renderPartial('_deleteContact',array('id' => $id, 'lang_prefix' => $currLng, 'contact_name' => $contact_name), true);
+
+	        echo json_encode($arrJson);
+
+	        Yii::app()->end();
+    	}
+    }
 }

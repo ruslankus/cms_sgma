@@ -36,4 +36,17 @@ class ExtContacts extends Contacts
         //return modified relations
         return $relations;
     }
+
+    public function getContact($contact_id,$lng = 'en'){
+        $contact = Yii::app()->db->createCommand();
+        $contact->select('label,title,text,meta_description');
+        $contact->from('contacts t1');
+        $contact->join('contacts_trl t2' ,'t2.contacts_id=t1.id ');
+        $contact->join('languages t3' ,'t2.lng_id=t3.id ');
+        $contact->where("t3.prefix=:prefix and t1.id=:id", array(':prefix' => $lng,':id' => $contact_id));
+        
+        $result = $contact->queryRow();
+      
+        return $result; 
+    }
 }
