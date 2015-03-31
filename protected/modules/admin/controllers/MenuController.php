@@ -504,10 +504,9 @@ class MenuController extends ControllerAdmin
     /**
      * Deletes item form db
      * @param $id
-     * @param int $ajax
      * @throws CHttpException
      */
-    public function actionDeleteItem($id, $ajax = 0)
+    public function actionDeleteItem($id)
     {
         //find item of menu
         $objItem = ExtMenuItem::model()->findByPk($id);
@@ -524,7 +523,7 @@ class MenuController extends ControllerAdmin
         $objItem->deleteChildren();
         $objItem->delete();
 
-        if(!$ajax)
+        if(!Yii::app()->request->isAjaxRequest)
         {
             //back to listing items of menu
             $this->redirect(Yii::app()->createUrl('/admin/menu/menuitems',array('id' => $menu_id)));
@@ -539,10 +538,9 @@ class MenuController extends ControllerAdmin
      * Move item's priority
      * @param int $id
      * @param string $dir
-     * @param int $ajax
      * @throws CHttpException
      */
-    public function actionMove($id, $dir, $ajax = 0)
+    public function actionMove($id, $dir)
     {
         //find item of menu
         $objItem = ExtMenuItem::model()->findByPk($id);
@@ -555,7 +553,7 @@ class MenuController extends ControllerAdmin
 
         Sort::Move($objItem,$dir,'ExtMenuItem',array('parent_id' => $objItem->parent_id));
 
-        if(!$ajax)
+        if(!Yii::app()->request->isAjaxRequest)
         {
             //back to listing items of menu
             $this->redirect(Yii::app()->createUrl('/admin/menu/menuitems',array('id' => $objItem->menu_id)));
