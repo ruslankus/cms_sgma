@@ -84,6 +84,9 @@ class MenuController extends ControllerAdmin
      */
     public function actionEditMenu($id)
     {
+        Yii::app()->clientScript->registerCssFile($this->assetsPath.'/css/vendor.css');
+        Yii::app()->clientScript->registerCssFile($this->assetsPath.'/css/vendor.edit-menu-instance.css');
+
         //find menu
         $menu = ExtMenu::model()->findByPk((int)$id);
 
