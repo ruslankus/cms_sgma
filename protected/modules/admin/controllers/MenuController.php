@@ -324,7 +324,7 @@ class MenuController extends ControllerAdmin
         //current menu
         $objMenu = $menuItem->menu;
         //get all menu items in menu of current item (for parent selection)
-        $objParentItems = $objMenu->menuItems;
+        $objParentItems = $objMenu->buildObjArrRecursive();
         //statuses
         $arrStatuses = ExtStatus::model()->arrayForMenuForm(true);
         //types
