@@ -15,7 +15,7 @@ class SysCustom extends CWidget
     public function getViewPath($checkTheme=false)
     {
         $themeManager = Yii::app()->themeManager;
-        return $themeManager->basePath.DS.Yii::app()->theme->name.DS.'views'.DS.'widgets'.DS.'custom';
+        return $themeManager->basePath.DS.Yii::app()->theme->name.DS.'views'.DS.'widgets';
     }
 
     public function run()

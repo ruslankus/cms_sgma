@@ -22,7 +22,7 @@ class MenuController extends ControllerAdmin
         Yii::app()->clientScript->scriptMap=array('jquery-1.11.2.min.js' => false);
 
         //menu form
-        $form_mdl = new AddMenuForm();
+        $form_mdl = new MenuForm();
         //currently selected theme
         $selectedTheme = 'dark'; //TODO: select theme from DB
         //get all templates for menus
@@ -45,9 +45,9 @@ class MenuController extends ControllerAdmin
         else
         {
             //if have form
-            if($_POST['AddMenuForm'])
+            if($_POST['MenuForm'])
             {
-                $form_mdl->attributes = $_POST['AddMenuForm'];
+                $form_mdl->attributes = $_POST['MenuForm'];
 
                 if($form_mdl->validate())
                 {
@@ -94,7 +94,7 @@ class MenuController extends ControllerAdmin
         }
 
         //menu form
-        $form_mdl = new AddMenuForm();
+        $form_mdl = new MenuForm();
         //currently selected theme
         $selectedTheme = 'dark'; //TODO: select theme from DB
         //get all templates for menus
@@ -103,9 +103,9 @@ class MenuController extends ControllerAdmin
         $statuses = ExtStatus::model()->arrayForMenuForm(true);
 
         //if have form
-        if($_POST['AddMenuForm'])
+        if($_POST['MenuForm'])
         {
-            $form_mdl->attributes = $_POST['AddMenuForm'];
+            $form_mdl->attributes = $_POST['MenuForm'];
 
             if($form_mdl->validate())
             {

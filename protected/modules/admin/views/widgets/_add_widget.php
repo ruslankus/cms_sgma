@@ -1,6 +1,6 @@
 <?php /* @var $this WidgetsController */ ?>
 <?php /* @var $form CActiveForm */ ?>
-<?php /* @var $form_model AddMenuForm */ ?>
+<?php /* @var $form_model MenuForm */ ?>
 <?php /* @var $templates array() */ ?>
 <?php /* @var $types array() */ ?>
 
@@ -15,15 +15,15 @@
                         <td><?php echo $form->textField($form_model,'label',array('placeholder' => ATrl::t()->getLabel('label'))); ?></td>
                     </tr>
                     <tr>
-                        <td><?php echo $form->labelEx($form_model,'template_name'); ?></td>
-                        <td>
-                            <?php echo $form->dropDownList($form_model,'template_name',$templates,array('class'=>''));?>
-                        </td>
-                    </tr>
-                    <tr>
                         <td><?php echo $form->labelEx($form_model,'type_id'); ?></td>
                         <td>
                             <?php echo $form->dropDownList($form_model,'type_id',$types,array('class'=>''));?>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td><?php echo $form->labelEx($form_model,'template_name'); ?></td>
+                        <td>
+                            <?php echo $form->dropDownList($form_model,'template_name',$templates,array('class'=>''));?>
                         </td>
                     </tr>
                 </table>

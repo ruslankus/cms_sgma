@@ -1,6 +1,6 @@
 <?php /* @var $this MenuController */ ?>
 <?php /* @var $form CActiveForm */ ?>
-<?php /* @var $form_model AddMenuForm */ ?>
+<?php /* @var $form_model MenuForm */ ?>
 <?php /* @var $templates array() */ ?>
 <?php /* @var $statuses array() */ ?>
 <?php /* @var $menu ExtMenu */ ?>

@@ -3,7 +3,7 @@
 /**
  * Class AddMenuForm
  */
-class AddMenuForm extends CFormModel
+class MenuForm extends CFormModel
 {
 	public $label;
 	public $status_id;
