@@ -28,6 +28,9 @@ class DynamicWidgets
     //items separated, array looks like 'positions' => (1 => 'HTML of widget 1', 2 => 'HTML of widget 2')
     public $widgetsArr = array();
 
+    //items as object
+    public $objWidgetsArr = array();
+
 
     /**
      * Returns all available widget positions for specified theme
@@ -72,7 +75,6 @@ class DynamicWidgets
         return false;
     }
 
-
     /**
      * Initialisation
      * @param null $positions
@@ -98,15 +100,15 @@ class DynamicWidgets
     /**
      * Main initialisation
      */
-    private function __construct($positions,$controller) {
-
-        $arrPositionTitles = array();
-        $arrPositionTitlesArr = array();
-
+    private function __construct($positions,$controller)
+    {
         foreach($positions as $number => $title)
         {
-            $arrPositionTitles[$title] = '';
-            $arrPositionTitlesArr[$title] = array();
+            $this->widgets[$title] = '';
+            $this->widgetsArr[$title] = array();
+
+            $this->objWidgetsArr[$number]['title'] = $title;
+            $this->objWidgetsArr[$number]['objects'] = array();
 
             /* @var $controller Controller */
             /* @var $registrations ExtWidRegistration[] */
@@ -165,8 +167,9 @@ class DynamicWidgets
                             $widgetContent = $ex->getMessage();
                         }
 
-                        $arrPositionTitles[$title].= $widgetContent;
-                        $arrPositionTitlesArr[$title][] = $widgetContent;
+                        $this->widgets[$title].= $widgetContent;
+                        $this->widgetssArr[$title][] = $widgetContent;
+                        $this->objWidgetsArr[$number]['objects'][] = $widgetInfo;
                     }
                 }
 
@@ -190,15 +193,13 @@ class DynamicWidgets
                             $menuContent = $ex->getMessage();
                         }
 
-                        $arrPositionTitles[$title].= $menuContent;
-                        $arrPositionTitlesArr[$title][] = $menuContent;
+                        $this->widgets[$title].= $menuContent;
+                        $this->widgetsArr[$title][] = $menuContent;
+                        $this->objWidgetsArr[$number]['objects'][] = $menuInfo;
                     }
                 }
             }
         }
-
-        $this->widgets = $arrPositionTitles;
-        $this->widgetsArr = $arrPositionTitlesArr;
     }
 
     /**

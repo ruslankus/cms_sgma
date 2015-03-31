@@ -6,6 +6,9 @@
 Class ExtSystemWidget extends SystemWidget
 {
 
+    //type of registration
+    public $registration_type = DynamicWidgets::REGISTRATION_WIDGET;
+
     /**
      * @param string $className
      * @return self
