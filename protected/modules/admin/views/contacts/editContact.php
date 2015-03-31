@@ -24,7 +24,7 @@
 					<span>Don't forget to save content before choosing another language.</span>
 				</div><!--/inner-top-->
                 <form method="post" id="content-form">
-                <?php print_r($_POST);?>
+                <?php print_r($arrPage);?>
                 <input type="hidden" name="lngId"  value="<?php echo $siteLng ?>"/>
                 <input type="hidden" name="pageId"  value="<?php echo $page_id ?>"/>
 				<div class="inner-editor">
@@ -37,11 +37,11 @@
 					<textarea name="text"><?php echo $arrPage['text']; ?></textarea>
 					<table>
 						<tr>
-							<td class="label">Note</td>
-							<td class="value"><input type="text" name="note" /></td>
+							<td class="label">Meta</td>
+							<td class="value"><input type="text" name="meta" value="<?php echo $arrPage['meta_description']; ?>" /></td>
 						</tr>
 					</table>
-					<input id="save-content" type="submit" value="Save" />
+					<input id="save-content" name="save-content" type="submit" value="Save" />
 				</div><!--/inner-editor-->
 		        </form>  
 		</div><!--/content translate-->
