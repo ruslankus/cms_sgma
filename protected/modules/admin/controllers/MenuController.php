@@ -67,14 +67,9 @@ class MenuController extends ControllerAdmin
 
         /* @var $menus ExtMenu[] */
         $menus = ExtMenu::model()->findAll();
+        $array = CPaginator::getInstance($menus,10,$page)->getPreparedArray();
 
-        //pager stuff
-        $perPage = 10;
-        $total_pages = (int)ceil(count($menus)/$perPage);
-        $offset = (int)($perPage * ($page - 1));
-        $itemsOfPage = array_slice($menus,$offset,$perPage);
-
-        $this->render('list_menu',array('menus' => $itemsOfPage, 'total_pages' => $total_pages, 'current_page' => $page, 'form_params' => $form_params));
+        $this->render('list_menu',array('menus' => $array,'form_params' => $form_params));
     }
 
     /**
@@ -177,20 +172,15 @@ class MenuController extends ControllerAdmin
         //get all items
         $items = $menu->buildObjArrRecursive();
         $items = ExtMenu::model()->divideToRootGroups($items);
-
-        //pager stuff
-        $perPage = 10;
-        $total_pages = (int)ceil(count($items)/$perPage);
-        $offset = (int)($perPage * ($page - 1));
-        $itemsOfPage = array_slice($items,$offset,$perPage,true);
+        $array = CPaginator::getInstance($items,10,$page)->getPreparedArray();
 
         if(!$ajax)
         {
-            $this->render('list_menu_items',array('items' => $itemsOfPage, 'pages' => $total_pages, 'menu' => $menu ,'current_page' => $page));
+            $this->render('list_menu_items',array('items' => $array,'menu' => $menu));
         }
         else
         {
-            $this->renderPartial('_list_menu_items',array('items' => $itemsOfPage, 'pages' => $total_pages, 'menu' => $menu ,'current_page' => $page));
+            $this->render('list_menu_items',array('items' => $array,'menu' => $menu));
         }
 
     }

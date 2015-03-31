@@ -7,16 +7,15 @@ class CPaginator
     private $_total_pages = 0; //count of pages
     private $_current_page = 0; //selected page
     
-    private static $_instanse = false;
+    private static $_instance = false;
     
-    public static function getInstanse($arr,$on_page = 3,$current_page = 1){
-        if(!self::$_instanse){
-            self::$_instanse = new self($arr,$on_page,$current_page);
+    public static function getInstance($arr = null,$on_page = 3,$current_page = 1){
+        if(!self::$_instance && $arr !== null){
+            self::$_instance = new self($arr,$on_page,$current_page);
         }
-        return self::$_instanse;
+        return self::$_instance;
     }
-    
-    
+
     /**
      * Constructor for pager
      * @param array $arr
@@ -34,10 +33,10 @@ class CPaginator
     
     private function __clone(){}
     
-    public function getPreparedArray()
+    public function getPreparedArray($preserve_keys = true)
     {
         $offset = (int)($this->_limit * ($this->_current_page - 1));
-        return array_slice($this->_array,$offset,$this->_limit);
+        return array_slice($this->_array,$offset,$this->_limit,$preserve_keys);
     }
     
     public function getTotalPages(){
@@ -52,13 +51,12 @@ class CPaginator
     {
         return $this->_current_page;
     }
-    
-    
+
     public function getNextPage(){
         return $this->_current_page + 1;
     }
     
-    Public function getPreviusPage(){
+    Public function getPreviousPage(){
         return $this->_current_page - 1;
     }
     
@@ -67,7 +65,7 @@ class CPaginator
     }
     
     public function hasPreviousPage(){
-        return ($this->getPreviusPage() >= 1) ? true : false;
+        return ($this->getPreviousPage() >= 1) ? true : false;
     }
     
   

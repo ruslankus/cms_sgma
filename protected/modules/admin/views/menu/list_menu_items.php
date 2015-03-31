@@ -1,9 +1,7 @@
 <?php /* @var $items array() */ ?>
 <?php /* @var $children ExtMenuItem */ ?>
-<?php /* @var $pages int  */ ?>
 <?php /* @var $templates array() */ ?>
 <?php /* @var $menu ExtMenu */ ?>
-<?php /* @var $current_page int */ ?>
 <?php /* @var $this ControllerAdmin */ ?>
 
 <main>
@@ -30,12 +28,12 @@
 </div><!--/content-->
     
 <div class="pagination">
-    <?php for($i = 0; $i < $pages; $i++): ?>
-        <a href="<?php echo Yii::app()->createUrl('admin/menu/menuitems/',array('id' => $menu->id, 'page' => $i+1)); ?>" <?php if($current_page == $i+1): ?> class="active" <?php endif; ?>><?php echo $i+1; ?></a>
+    <?php for($i = 0; $i < CPaginator::getInstance()->getTotalPages(); $i++): ?>
+        <a href="<?php echo Yii::app()->createUrl('admin/menu/menuitems/',array('id' => $menu->id, 'page' => $i+1)); ?>" <?php if(CPaginator::getInstance()->getCurrentPage() == $i+1): ?> class="active" <?php endif; ?>><?php echo $i+1; ?></a>
     <?php endfor; ?>
 </div><!--/pagination-->
 
-<input type="hidden" id="ajax-refresh-link" value="<?php echo Yii::app()->createUrl('/admin/menu/menuitems/',array('id' => $menu->id, 'page' => $current_page, 'ajax' => 1)); ?>">
+<input type="hidden" id="ajax-refresh-link" value="<?php echo Yii::app()->createUrl('/admin/menu/menuitems/',array('id' => $menu->id, 'page' => CPaginator::getInstance()->getCurrentPage(), 'ajax' => 1)); ?>">
 <input type="hidden" id="ajax-swap-link" value="<?php echo Yii::app()->createUrl('/admin/menu/ajaxorderitems'); ?>">
 
 </main>
