@@ -40,7 +40,7 @@ class AdminModule extends CWebModule
 
             'sub' => array(
                 array('controller' => 'pages', 'action' => 'index', 'title' => 'Single pages'),
-                array('controller' => 'contacts', 'action' => 'list', 'title' => 'Contact pages'),
+                array('controller' => 'contacts', 'action' => 'index', 'title' => 'Contact pages'),
                 array('controller' => 'complex' ,'action' => 'list', 'title' => 'Complex pages')
             ),
         ),
