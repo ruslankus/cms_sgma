@@ -11,7 +11,7 @@ $(document).ready(function() {
         lngId = $(this).val();
     	getContent(pageId,lngId);
         console.log(this);
-    	$(document).find("textarea").textarea({width : "100%"}); // reattach editor to textarea after ajax load.done;	
+    	//$(document).find("textarea").textarea({width : "100%"}); // reattach editor to textarea after ajax load.done;	
     });
     // Undo event
     $(".undo").click(function(){
