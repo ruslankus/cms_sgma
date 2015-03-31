@@ -82,5 +82,10 @@ class PagesController extends ControllerAdmin
     }//delete
     
     
+    public function actionSaveContent($id = null){
+        
+    }// save
+    
+    
     
 }//PageController    
