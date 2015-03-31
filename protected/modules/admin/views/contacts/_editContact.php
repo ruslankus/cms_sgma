@@ -7,8 +7,8 @@
 <textarea name="name"><?php echo $objPage->text?></textarea>
 <table>
 	<tr>
-		<td class="label">Note</td>
-		<td class="value"><input type="text" name="note" /></td>
+		<td class="label">Meta</td>
+		<td class="value"><input type="text" name="meta" value="<?php echo $objPage->meta_description?>" /></td>
 	</tr>
 </table>
-<input id="save-content" type="submit" value="Save" />
+<input id="save-content" name="save-content" type="submit" value="Save" />

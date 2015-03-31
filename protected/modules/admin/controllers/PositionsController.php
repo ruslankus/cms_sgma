@@ -6,9 +6,13 @@ class PositionsController extends ControllerAdmin
      */
     public function actionRegistration()
     {
+
+        $positions = DynamicWidgets::getArrayOfPositionsByThemeName('dsd');
+
+
         Yii::app()->clientScript->registerScriptFile($this->assetsPath.'/js/vendor.edit-widgets.js',CClientScript::POS_END);
         Yii::app()->clientScript->registerCssFile($this->assetsPath.'/css/vendor.edit-widgets.css');
 
-        $this->renderText('This is registration');
+        $this->render('registration');
     }
 }
