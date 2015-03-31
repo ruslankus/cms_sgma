@@ -13,8 +13,7 @@
     <div class="title-bar world">
         <h1><?php echo ATrl::t()->getLabel('Edit menu'); ?></h1>
         <ul class="actions">
-            <li><a href="" class="action undo"></a></li>
-            <li><a href="" class="action del" data-id="1"></a></li>
+            <li><a href="<?php echo Yii::app()->createUrl('/admin/menu/menuitems',array('id' => $menu->id)); ?>" class="action undo"></a></li>
         </ul>
     </div><!--/title-bar-->
 

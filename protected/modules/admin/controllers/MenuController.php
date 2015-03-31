@@ -150,10 +150,9 @@ class MenuController extends ControllerAdmin
      * List all items of menu
      * @param $id
      * @param int $page
-     * @param int $ajax
      * @throws CHttpException
      */
-    public function actionMenuItems($id,$page = 1,$ajax = 0)
+    public function actionMenuItems($id,$page = 1)
     {
         //include js file for AJAX updating
         Yii::app()->clientScript->registerScriptFile($this->assetsPath.'/js/vendor.dialog-box.js',CClientScript::POS_END);
@@ -174,15 +173,15 @@ class MenuController extends ControllerAdmin
         $items = ExtMenu::model()->divideToRootGroups($items);
         $array = CPaginator::getInstance($items,10,$page)->getPreparedArray();
 
-        if(!$ajax)
+        
+        if(Yii::app()->request->isAjaxRequest)
         {
-            $this->render('list_menu_items',array('items' => $array,'menu' => $menu));
+            $this->renderPartial('_list_menu_items',array('items' => $array,'menu' => $menu));
         }
         else
         {
             $this->render('list_menu_items',array('items' => $array,'menu' => $menu));
         }
-
     }
 
     /**
@@ -301,6 +300,7 @@ class MenuController extends ControllerAdmin
     public function actionEditMenuItem($id)
     {
         //include menu necessary scripts
+        Yii::app()->clientScript->registerScriptFile($this->assetsPath.'/js/vendor.dialog-box.js',CClientScript::POS_END);
         Yii::app()->clientScript->registerScriptFile($this->assetsPath.'/js/vendor.add-menu.js',CClientScript::POS_END);
         Yii::app()->clientScript->registerScriptFile($this->assetsPath.'/js/menu.edititem.js',CClientScript::POS_END);
 

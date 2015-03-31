@@ -9,16 +9,24 @@ $(".menu-content > .tab-line > span").bind("click", function(e){
 		cont.fadeIn(300);
 	cont.siblings().hide();
 });
-$(".undo").click(function()
-	{
-		console.log("undo");
-		return false;
-	});
+
 $(".del").click(function()
 	{
-		data_id = $(this).attr("data-id");
-		console.log("delete"+data_id);
-		return false;
+        var href = $(this).attr('href');
+        var message = $(this).data('message');
+        var yesLabel = $(this).data('yes');
+        var noLabel = $(this).data('no');
+
+        $.dialogBoxEx({
+            buttons: [
+                {label:yesLabel,url:href,classes:'button confirm'},
+                {label:noLabel,click:function(){$.dialogBoxEx.hide();},classes:'button cancel'}
+            ],
+            message: message
+        });
+        $.dialogBoxEx.show();
+
+        return false;
 	});
 // Delete menu label event
 $(document).on("click", ".delete", function()
