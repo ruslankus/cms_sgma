@@ -238,40 +238,53 @@ class MenuController extends ControllerAdmin
                 {
                     /* @var $parent ExtMenuItem */
 
-                    //menu item
-                    $menuItem = new ExtMenuItem();
-                    $menuItem->attributes = $form_mdl->attributes;
-                    $menuItem->time_updated = time();
-                    $menuItem->time_created = time();
-                    $menuItem->last_change_by = Yii::app()->user->id;
-                    $menuItem->priority = Sort::GetNextPriority('MenuItem',array('parent_id' => $form_mdl->parent_id));
-                    $menuItem->save();
+                    //use transaction
+                    $con = Yii::app()->db;
+                    $transaction = $con->beginTransaction();
 
-                    //translations
-                    foreach($_POST['MenuItemForm']['titles'] as $lngId => $title)
+                    try
                     {
-                        $menuItemTrl = new MenuItemTrl();
-                        $menuItemTrl->menu_item_id = $menuItem -> id;
-                        $menuItemTrl->lng_id = $lngId;
-                        $menuItemTrl->value = $title;
-                        $menuItemTrl->save();
-                    }
+                        //menu item
+                        $menuItem = new ExtMenuItem();
+                        $menuItem->attributes = $form_mdl->attributes;
+                        $menuItem->time_updated = time();
+                        $menuItem->time_created = time();
+                        $menuItem->last_change_by = Yii::app()->user->id;
+                        $menuItem->priority = Sort::GetNextPriority('MenuItem',array('parent_id' => $form_mdl->parent_id));
+                        $menuItem->save();
 
-                    //updating branch
-                    if($menuItem->parent_id != 0)
-                    {
-                        $parent = ExtMenuItem::model()->findByPk($menuItem->parent_id);
-                        $arrBranch = !empty($parent) ? explode(":",$parent->branch) : array(0);
-                    }
-                    else
-                    {
-                        $arrBranch = array(0);
-                    }
+                        //translations
+                        foreach($_POST['MenuItemForm']['titles'] as $lngId => $title)
+                        {
+                            $menuItemTrl = new MenuItemTrl();
+                            $menuItemTrl->menu_item_id = $menuItem -> id;
+                            $menuItemTrl->lng_id = $lngId;
+                            $menuItemTrl->value = $title;
+                            $menuItemTrl->save();
+                        }
 
-                    $arrBranch[] = $menuItem->id;
-                    $strBranch = implode(":",$arrBranch);
-                    $menuItem->branch = $strBranch;
-                    $menuItem->update();
+                        //updating branch
+                        if($menuItem->parent_id != 0)
+                        {
+                            $parent = ExtMenuItem::model()->findByPk($menuItem->parent_id);
+                            $arrBranch = !empty($parent) ? explode(":",$parent->branch) : array(0);
+                        }
+                        else
+                        {
+                            $arrBranch = array(0);
+                        }
+
+                        $arrBranch[] = $menuItem->id;
+                        $strBranch = implode(":",$arrBranch);
+                        $menuItem->branch = $strBranch;
+                        $menuItem->update();
+
+                        $transaction->commit();
+                    }
+                    catch(Exception $ex)
+                    {
+                        $transaction->rollback();
+                    }
 
                     //back to list
                     $this->redirect(Yii::app()->createUrl('/admin/menu/menuitems',array('id' => $objMenu->id)));
@@ -352,61 +365,77 @@ class MenuController extends ControllerAdmin
                     //do we need to recalculate priority
                     $bNewPriority = $menuItem->parent_id != $form_mdl->parent_id;
 
-                    //menu item
-                    $menuItem->attributes = $form_mdl->attributes;
-                    $menuItem->time_updated = time();
-                    $menuItem->last_change_by = Yii::app()->user->id;
+                    //use transaction
+                    $con = Yii::app()->db;
+                    $transaction = $con->beginTransaction();
 
-                    if($bNewPriority)
+                    //try to update
+                    try
                     {
-                        $menuItem->priority = Sort::GetNextPriority('MenuItem',array('parent_id' => $form_mdl->parent_id));
-                    }
+                        //menu item
+                        $menuItem->attributes = $form_mdl->attributes;
+                        $menuItem->time_updated = time();
+                        $menuItem->last_change_by = Yii::app()->user->id;
 
-                    $menuItem->save();
-
-                    //translations
-                    foreach($_POST['MenuItemForm']['titles'] as $lngId => $title)
-                    {
-                        //try find translation
-                        $menuItemTrl = MenuItemTrl::model()->findByAttributes(array('lng_id' => $lngId, 'menu_item_id' => $menuItem->id));
-
-                        //if not found - create
-                        if(empty($menuItemTrl))
+                        if($bNewPriority)
                         {
-                            $menuItemTrl = new MenuItemTrl();
+                            $menuItem->priority = Sort::GetNextPriority('MenuItem',array('parent_id' => $form_mdl->parent_id));
                         }
 
-                        $menuItemTrl->menu_item_id = $menuItem -> id;
-                        $menuItemTrl->lng_id = $lngId;
-                        $menuItemTrl->value = $title;
+                        $menuItem->update();
 
-                        //save or update
-                        if($menuItemTrl->isNewRecord)
+                        //translations
+                        foreach($_POST['MenuItemForm']['titles'] as $lngId => $title)
                         {
-                            $menuItemTrl->save();
+                            //try find translation
+                            $menuItemTrl = MenuItemTrl::model()->findByAttributes(array('lng_id' => $lngId, 'menu_item_id' => $menuItem->id));
+
+                            //if not found - create
+                            if(empty($menuItemTrl))
+                            {
+                                $menuItemTrl = new MenuItemTrl();
+                            }
+
+                            $menuItemTrl->menu_item_id = $menuItem -> id;
+                            $menuItemTrl->lng_id = $lngId;
+                            $menuItemTrl->value = $title;
+
+                            //save or update
+                            if($menuItemTrl->isNewRecord)
+                            {
+                                $menuItemTrl->save();
+                            }
+                            else
+                            {
+                                $menuItemTrl->update();
+                            }
+
+                        }
+
+                        //updating branch
+                        if($menuItem->parent_id != 0)
+                        {
+                            $parent = ExtMenuItem::model()->findByPk($menuItem->parent_id);
+                            $arrBranch = !empty($parent) ? explode(":",$parent->branch) : array(0);
                         }
                         else
                         {
-                            $menuItemTrl->update();
+                            $arrBranch = array(0);
                         }
 
+                        $arrBranch[] = $menuItem->id;
+                        $strBranch = implode(":",$arrBranch);
+                        $menuItem->branch = $strBranch;
+                        $menuItem->update();
+
+                        $transaction->commit();
+
+                    }
+                    catch(Exception $ex)
+                    {
+                        $transaction->rollback();
                     }
 
-                    //updating branch
-                    if($menuItem->parent_id != 0)
-                    {
-                        $parent = ExtMenuItem::model()->findByPk($menuItem->parent_id);
-                        $arrBranch = !empty($parent) ? explode(":",$parent->branch) : array(0);
-                    }
-                    else
-                    {
-                        $arrBranch = array(0);
-                    }
-
-                    $arrBranch[] = $menuItem->id;
-                    $strBranch = implode(":",$arrBranch);
-                    $menuItem->branch = $strBranch;
-                    $menuItem->update();
 
                     //back to list
                     $this->redirect(Yii::app()->createUrl('/admin/menu/menuitems',array('id' => $objMenu->id)));
