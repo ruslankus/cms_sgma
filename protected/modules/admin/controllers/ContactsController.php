@@ -12,7 +12,7 @@ class ContactsController extends ControllerAdmin
         
         $objContacts = Contacts::model()->with(array('contactsTrls.lng' => array('condition' => "lng.prefix='{$siteLng}'")))->findall();
         
-        $pager = CPaginator::getInstanse($objContacts,10,$page);
+        $pager = CPaginator::getInstance($objContacts,10,$page);
         $this->render('index',array('pager' => $pager, 'currLng' => $currLng));
     }
 
@@ -94,7 +94,7 @@ class ContactsController extends ControllerAdmin
 	        
 	        $objContacts = Contacts::model()->with(array('contactsTrls.lng' => array('condition' => "lng.prefix='{$siteLng}'")))->findall();
 	        
-	        $pager = CPaginator::getInstanse($objContacts,10,$page);
+	        $pager = CPaginator::getInstance($objContacts,10,$page);
 	        $this->renderPartial('_index',array('pager' => $pager, 'currLng' => $currLng));
 
 	        Yii::app()->end();
