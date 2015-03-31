@@ -11,8 +11,6 @@ class WidgetsController extends ControllerAdmin
         //include necessary scripts and css
         Yii::app()->clientScript->registerScriptFile($this->assetsPath.'/js/vendor.dialog-box.js',CClientScript::POS_END);
         Yii::app()->clientScript->registerScriptFile($this->assetsPath.'/js/vendor.menu-list.js',CClientScript::POS_END);
-
-        Yii::app()->clientScript->registerCssFile($this->assetsPath.'/css/vendor.css');
         Yii::app()->clientScript->registerCssFile($this->assetsPath.'/css/vendor.lightbox.css');
 
         //exclude jquery to avoid conflict between jquery from Yii core
@@ -62,14 +60,9 @@ class WidgetsController extends ControllerAdmin
 
         //widgets
         $widgets = ExtSystemWidget::model()->findAll();
+        $array = CPaginator::getInstance($widgets,10,$page)->getPreparedArray();
 
-        //pager stuff
-        $perPage = 10;
-        $total_pages = (int)ceil(count($widgets)/$perPage);
-        $offset = (int)($perPage * ($page - 1));
-        $itemsOfPage = array_slice($widgets,$offset,$perPage);
-
-        $this->render('list_widgets',array('widgets' => $itemsOfPage, 'current_page' => $page, 'total_pages' => $total_pages, 'form_params' => $form_params));
+        $this->render('list_widgets',array('widgets' => $array, 'form_params' => $form_params));
     }
 
 
@@ -82,6 +75,7 @@ class WidgetsController extends ControllerAdmin
         /* @var $objLanguages Languages[] */
 
         //include menu necessary scripts
+        Yii::app()->clientScript->registerScriptFile($this->assetsPath.'/js/vendor.dialog-box.js',CClientScript::POS_END);
         Yii::app()->clientScript->registerScriptFile($this->assetsPath.'/js/vendor.add-menu.js',CClientScript::POS_END);
         Yii::app()->clientScript->registerScriptFile($this->assetsPath.'/js/menu.edititem.js',CClientScript::POS_END);
 
@@ -124,42 +118,55 @@ class WidgetsController extends ControllerAdmin
 
                 if($form_mdl->validate())
                 {
-                    //update
-                    $objWidget->attributes = $form_mdl->attributes;
-                    $objWidget->update();
 
-                    //multi-language fields
-                    $customName = $_POST['WidgetForm']['custom_name'];
-                    $customHtml = $_POST['WidgetForm']['custom_name'];
+                    $con = Yii::app()->db;
+                    $transaction = $con->beginTransaction();
 
-                    //update translations
-                    foreach($objLanguages as $language)
+                    try
                     {
-                        //try find translation for language
-                        $trl = SystemWidgetTrl::model()->findByAttributes(array('lng_id' => $language->id, 'widget_id' => $objWidget->id));
+                        //update
+                        $objWidget->attributes = $form_mdl->attributes;
+                        $objWidget->update();
 
-                        //if not found
-                        if(empty($trl))
+                        //multi-language fields
+                        $customName = $_POST['WidgetForm']['custom_name'];
+                        $customHtml = $_POST['WidgetForm']['custom_name'];
+
+                        //update translations
+                        foreach($objLanguages as $language)
                         {
-                            //create translation for this widget and this language
-                            $trl = new SystemWidgetTrl();
-                            $trl -> widget_id = $objWidget->id;
-                            $trl -> lng_id = $language->id;
+                            //try find translation for language
+                            $trl = SystemWidgetTrl::model()->findByAttributes(array('lng_id' => $language->id, 'widget_id' => $objWidget->id));
+
+                            //if not found
+                            if(empty($trl))
+                            {
+                                //create translation for this widget and this language
+                                $trl = new SystemWidgetTrl();
+                                $trl -> widget_id = $objWidget->id;
+                                $trl -> lng_id = $language->id;
+                            }
+
+                            //set data
+                            $trl -> custom_html = $customHtml[$language->id];
+                            $trl -> custom_name = $customName[$language->id];
+
+                            //save pr update
+                            if($trl->isNewRecord)
+                            {
+                                $trl->save();
+                            }
+                            else
+                            {
+                                $trl->update();
+                            }
                         }
 
-                        //set data
-                        $trl -> custom_html = $customHtml[$language->id];
-                        $trl -> custom_name = $customName[$language->id];
-
-                        //save pr update
-                        if($trl->isNewRecord)
-                        {
-                            $trl->save();
-                        }
-                        else
-                        {
-                            $trl->update();
-                        }
+                        $transaction->commit();
+                    }
+                    catch(Exception $ex)
+                    {
+                        $transaction->rollback();
                     }
                 }
 

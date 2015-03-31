@@ -38,7 +38,11 @@ $(document).on("click", ".delete", function()
 
         $.dialogBoxEx({
             buttons: [
-                //confirm button
+
+                //cancel button settings
+                {label:noLabel,click:function(){$.dialogBoxEx.hide();},classes:'button cancel'},
+
+                //confirm button settings
                 {label:yesLabel,click:function(){
                     var request = $.ajax({url: href});
 //                    $.preLoader.show();
@@ -59,10 +63,8 @@ $(document).on("click", ".delete", function()
                         $.preLoader.hide();
                     });
 
-                },classes:'button confirm'},
+                },classes:'button confirm'}
 
-                //cancel button
-                {label:noLabel,click:function(){$.dialogBoxEx.hide();},classes:'button cancel'}
             ],
             message: message
         });

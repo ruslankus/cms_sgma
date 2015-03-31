@@ -1,8 +1,6 @@
 <?php /* @var $this WidgetsController */ ?>
 <?php /* @var $form_params array */ ?>
 <?php /* @var $widgets ExtSystemWidget[] */ ?>
-<?php /* @var $total_pages int */ ?>
-<?php /* @var $current_page int */ ?>
 
 <main>
     <div class="title-bar">
@@ -35,8 +33,8 @@
 
     </div><!--/content-->
     <div class="pagination">
-        <?php for($i = 0; $i < $total_pages; $i++): ?>
-            <a href="<?php echo Yii::app()->createUrl('admin/widgets/list/',array('page' => $i+1)) ?>" <?php if($current_page == $i+1): ?> class="active" <?php endif; ?>><?php echo $i+1; ?></a>
+        <?php for($i = 0; $i < CPaginator::getInstance()->getTotalPages(); $i++): ?>
+            <a href="<?php echo Yii::app()->createUrl('admin/widgets/list/',array('page' => $i+1)) ?>" <?php if(CPaginator::getInstance()->getCurrentPage() == $i+1): ?> class="active" <?php endif; ?>><?php echo $i+1; ?></a>
         <?php endfor; ?>
     </div><!--/pagination-->
 

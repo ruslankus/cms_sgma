@@ -746,6 +746,11 @@ body
 		margin: 0;
 		z-index: 6;
 	}
+.content > .tab-line > span > a
+	{
+		text-decoration: none;
+		color: #868686;
+	}
 .content > .tab-line > span.active
 	{
 		font-weight: bold;
@@ -859,6 +864,7 @@ body
 		width:auto;
 		margin: 25px;
 		height: auto;
+		position: relative;
 	}
 .content .inner-content .form-zone
 	{
@@ -1122,6 +1128,23 @@ body
 		clear: both;
 		content: ' ';
 	}
+.popup-box > .popup-content .popup-close{
+	font: normal normal normal 14px/1 FontAwesome;
+	display: inline-block;
+	font-size: inherit;
+	color: inherit;
+	text-rendering: auto;
+	-webkit-font-smoothing: antialiased;
+	-moz-osx-font-smoothing: grayscale;
+	transform: translate(0, 0);
+	position: absolute;
+	font-size: 18px;
+	right: 10px;
+	top: 10px;
+	text-decoration: none;
+  }
+
+.popup-box > .popup-content .popup-close:before { content: "\f00d"; }
 .popup-box > .popup-content input[type=text]
 	{
 		width: 100%;
@@ -1175,6 +1198,7 @@ body
 		color: #fff;
 		font-weight: bold;
 		float: right;
+		cursor: pointer;
 	}
 .popup-box > .popup-content button.button.confirm,
 .popup-box > .popup-content input.button.confirm
@@ -1187,6 +1211,7 @@ body
 		float: right;
 		padding: 0;
 		text-align: center;
+		cursor: pointer;
 	}
 .popup-box > .popup-content .button.cancel
 	{
@@ -1194,5 +1219,21 @@ body
 		background-color: #f6f6f6;
 		border-radius: 3px;
 		color: #868686;
-		float: left;		
+		float: right;
+		margin-left: 10px;		
+	}
+.loader
+	{
+		background: #fff url(../images/loader.gif) center center no-repeat;
+		min-height: 300px;
+		position: absolute;
+		bottom: -10px;
+		left: -10px;
+		right:-10px;
+		top: -10px;
+		display: none;
+	}
+.e-message
+	{
+		padding:50px 0;
 	}

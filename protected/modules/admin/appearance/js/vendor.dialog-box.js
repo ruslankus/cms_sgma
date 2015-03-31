@@ -16,7 +16,7 @@
 
             if(typeof params.message !== 'undefined')
             {
-                $(".popup-box > .popup-content").html('<span class="message">'+params.message+'</span>');
+                $(".popup-box > .popup-content").html('<a class="popup-close" href="#"></a><span class="message">'+params.message+'</span>');
             }
 
             if (typeof params.buttons !== 'undefined' && params.buttons.length > 0)
@@ -42,7 +42,7 @@
     $.dialogBoxEx.show = function(){
         $("body").css({"overflow":"hidden"});
         $('.popup-box').fadeIn();
-        var top = ($(window).height()-$(".popup-box > .popup-content").height())/2;
+        var top = ($(window).height())/2-$(".popup-box > .popup-content").height() - 150;
         $(".popup-box > .popup-content").animate({"margin-top":top+"px"},300);
     };
 

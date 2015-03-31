@@ -112,6 +112,9 @@ class ControllerAdmin extends CController
         Yii::app()->clientScript->registerCssFile($this->assetsPath.'/css/style.css');
         Yii::app()->clientScript->registerCssFile($this->assetsPath.'/css/preloader.css');
 
+        //vendor
+        Yii::app()->clientScript->registerCssFile($this->assetsPath.'/css/vendor.css');
+
         //register scripts
         Yii::app()->clientScript->registerScriptFile($this->assetsPath.'/js/jquery-1.11.2.min.js',CClientScript::POS_END);
         Yii::app()->clientScript->registerScriptFile($this->assetsPath.'/js/jquery-ui.min.js',CClientScript::POS_END);
