@@ -48,10 +48,28 @@ class CPaginator
         return $this->_limit;
     }
 
-      public function getCurrentPage()
+    public function getCurrentPage()
     {
         return $this->_current_page;
     }
+    
+    
+    public function getNextPage(){
+        return $this->_current_page + 1;
+    }
+    
+    Public function getPreviusPage(){
+        return $this->_current_page - 1;
+    }
+    
+    public function hasNextPage(){
+        return ($this->getNextPage() <= $this->_total_pages)? true : false;
+    }
+    
+    public function hasPreviousPage(){
+        return ($this->getPreviusPage() >= 1) ? true : false;
+    }
+    
   
     
 }//Cpagenator
