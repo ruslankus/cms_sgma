@@ -66,6 +66,11 @@ class ContactsController extends ControllerAdmin
                 $contactTrlObj->title=$_POST['SaveContactForm']['title'];
                 $contactTrlObj->meta_description=$_POST['SaveContactForm']['meta'];
                 $contactTrlObj->update();
+                $model->image=CUploadedFile::getInstance($model,'image');
+                echo $model->image->extensionName;
+                $path = "uploads/images/".$model->image;
+                $image_save = $model->image->saveAs($path);
+ 
            
             }
         } 
