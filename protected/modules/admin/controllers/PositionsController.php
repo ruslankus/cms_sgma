@@ -111,6 +111,47 @@ class PositionsController extends ControllerAdmin
         {
             $this->redirect(Yii::app()->createUrl('admin/positions/registration'));
         }
+    }
 
+
+    /**
+     * Moves registration up and down by priority
+     * @param $rt
+     * @param $id
+     * @param $pos
+     * @param $dir
+     */
+    public function actionMove($rt,$id,$pos,$dir)
+    {
+        /* @var $reg ExtWidRegistration */
+
+        $registrationTypeId = (int)$rt;
+        $widgetOrMenuId = (int)$id;
+        $positionNumber = (int)$pos;
+
+        $reg = null;
+
+        if($registrationTypeId == DynamicWidgets::REGISTRATION_WIDGET)
+        {
+            $reg = ExtWidRegistration::model()->findByAttributes(array('widget_id' => $widgetOrMenuId, 'position_nr' => $positionNumber));
+        }
+        elseif($registrationTypeId == DynamicWidgets::REGISTRATION_MENU)
+        {
+            $reg = ExtWidRegistration::model()->findByAttributes(array('menu_id' => $widgetOrMenuId, 'position_nr' => $positionNumber));
+        }
+
+        if(!empty($reg))
+        {
+            Sort::Move($reg,$dir,'ExtWidRegistration',array('position_nr' => $positionNumber),'priority ASC');
+        }
+
+        if(Yii::app()->request->isAjaxRequest)
+        {
+            echo "OK";
+        }
+        else
+        {
+            $this->redirect(Yii::app()->createUrl('admin/positions/registration'));
+        }
     }
 }

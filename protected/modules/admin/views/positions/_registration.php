@@ -19,8 +19,8 @@
                     <?php foreach($objects as $object): ?>
                         <div class="item">
                             <span><?php echo $object->label; ?></span>
-                            <a href="#" class="move-down"><i class="ficoned arrow-down"></i></a>
-                            <a href="#" class="move-up"><i class="ficoned arrow-up"></i></a>
+                            <a href="<?php echo Yii::app()->createUrl('admin/positions/move',array('rt' => $object->registration_type, 'id' => $object->id, 'pos' => $position_id, 'dir' => 'down')); ?>" class="move-down move"><i class="ficoned arrow-down"></i></a>
+                            <a href="<?php echo Yii::app()->createUrl('admin/positions/move',array('rt' => $object->registration_type, 'id' => $object->id, 'pos' => $position_id, 'dir' => 'up')); ?>" class="move-up move"><i class="ficoned arrow-up"></i></a>
                             <a href="<?php echo Yii::app()->createUrl('admin/positions/delete',array('rt' => $object->registration_type, 'id' => $object->id, 'pos' => $position_id)) ?>" class="iconed delete"></a>
 
                             <select disabled name="name">
