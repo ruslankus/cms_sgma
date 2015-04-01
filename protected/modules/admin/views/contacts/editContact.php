@@ -12,9 +12,13 @@
 			<a href="edit-page.html">Page Settings</a>
 			<a href="edit-page-content.html" class="active">Content</a>
 		</div><!--/header-->
-		
-            <form method="post" id="content-form">
+			<?php $form=$this->beginWidget('CActiveForm', array(
+				'id'=>'save-contact-form-SaveContactForm-form',
+				'enableAjaxValidation'=>false,
+			)); ?>
 			<div class="inner-top">
+<?php
+/*
 				<select name="language" id="styled-language-editor" class="float-left">
                 
                 <?php foreach(SiteLng::lng()->getLngs() as $objLng):?>
@@ -22,27 +26,43 @@
                 <?php endforeach;?>  
 				 
 				</select>
+				<?php
+*/
+				?>
+			    <?php
+			    echo $form->dropDownList($model,
+			      'lngId',
+			      CHtml::listData(SiteLng::lng()->getLngs(),'id','name'),array('id'=>'styled-language-editor', 'class'=>'float-left')
+			    );
+			    ?>
 				<span>Don't forget to save content before choosing another language.</span>
 			</div><!--/inner-top-->
-            <?php print_r($_POST);?>
-            <input type="hidden" name="lngId"  value="<?php echo $siteLng ?>"/>
-            <input type="hidden" name="pageId"  value="<?php echo $page_id ?>"/>
+
+
 			<div class="inner-editor">
 				<table>
 					<tr>
 						<td class="label">Title</td>
-						<td class="value"><input type="text" name="title" value="<?php echo $arrPage['title']; ?>" /></td>
+						<td class="value">
+							<?php echo $form->textField($model,'title',array('value'=>$arrPage['title'])); ?>
+							<?php echo $form->error($model,'title'); ?>
+						</td>
 					</tr>
 				</table>
-				<textarea name="text" id="edit"><?php echo $arrPage['text']; ?></textarea>
+				<?php echo $form->textArea($model,'text',array('id'=>'edit','value'=>$arrPage['text'])); ?>
+				<?php echo $form->error($model,'text'); ?>
 				<table>
 					<tr>
 						<td class="label">Meta</td>
-						<td class="value"><input type="text" name="meta" value="<?php echo $arrPage['meta_description']; ?>" /></td>
+						<td class="value">
+							<?php echo $form->textField($model,'meta',array('value'=>$arrPage['meta_description'])); ?>
+							<?php echo $form->error($model,'meta_description'); ?>
+
+						</td>
 					</tr>
 				</table>
-				<input id="save-content" name="save-content" type="submit" value="Save" />
+				<?php echo CHtml::submitButton('Save'); ?>
 			</div><!--/inner-editor-->
-	        </form>  
+			<?php $this->endWidget(); ?>
 	</div><!--/content translate-->
 </main>

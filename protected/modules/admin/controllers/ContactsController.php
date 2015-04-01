@@ -64,8 +64,16 @@ class ContactsController extends ControllerAdmin
             $model->attributes=$_POST['SaveContactForm'];
             if($model->validate())
             {
-                // form inputs are valid, do something here
-                return;
+
+                $criteria = new CDbCriteria;
+                $criteria->condition = "lng_id=':lng_id' AND contacts_id=':contacts_id'";
+                $criteria->params = array(':lang_id'=>$_POST['SaveContactForm']['lngId'],':contacts_id'=>$id);
+                $contactTrlObj = ContactsTrl::model()->find(array('condition'=>'lng_id=:lng_id AND contacts_id=:contacts_id','params'=>array('lng_id'=>$_POST['SaveContactForm']['lngId'],'contacts_id'=>$id)));
+                $contactTrlObj->text=$_POST['SaveContactForm']['text'];
+                $contactTrlObj->title=$_POST['SaveContactForm']['title'];
+                $contactTrlObj->meta_description=$_POST['SaveContactForm']['meta'];
+                $contactTrlObj->update();
+           
             }
         } 
 

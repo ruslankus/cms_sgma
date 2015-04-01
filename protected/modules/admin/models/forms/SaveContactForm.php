@@ -6,10 +6,9 @@
 class SaveContactForm extends CFormModel
 {
    public $lngId;
-   public $contactId;
    public $title;
    public $text;
-
+   public $meta;
    
    /**
 	 * Declares the validation rules.
@@ -17,8 +16,8 @@ class SaveContactForm extends CFormModel
 	public function rules()
 	{
         return array(
-            array('title,text,lngId,contactId', 'required'),
-            array('title,text,lngId,contactId', 'safe'),          
+            array('title,text,lngId', 'required'),
+            array('title,text,lngId,meta', 'safe'),          
         );
 	}
    

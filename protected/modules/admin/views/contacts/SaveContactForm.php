@@ -39,7 +39,7 @@
 
 	<div class="row">
 		<?php echo $form->labelEx($model,'contactId'); ?>
-		<?php echo $form->textArea($model,'contactId',array('id'=>'edit')); ?>
+		<?php echo $form->textField($model,'contactId'); ?>
 		<?php echo $form->error($model,'contactId'); ?>
 	</div>
 
