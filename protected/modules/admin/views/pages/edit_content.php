@@ -30,10 +30,13 @@
 					<table>
 						<tr>
 							<td class="label">Title</td>
-							<td class="value"><input type="text" name="title" value="<?php echo $arrPage['title']; ?>" /></td>
+							<td class="value">                           
+                            <?php echo CHtml::activeTextField($model,'title',array('value' => $arrPage['title'])); ?>
+                            </td>
 						</tr>
 					</table>
-					<textarea name="name"><?php echo $arrPage['title']?></textarea>
+					
+                     <?php echo CHtml::activeTextArea($model,'content',array('value' => $arrPage['content'],'class' => 'ckeditor', 'id'=> 'edit')); ?>
 					<table>
 						<tr>
 							<td class="label">Note</td>

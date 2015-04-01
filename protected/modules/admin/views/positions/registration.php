@@ -30,6 +30,8 @@
                     <?php foreach($registered as $position_id => $array): ?>
                         <?php $title = $array['title']; ?>
                         <?php $objects = $array['objects']; ?>
+                        <?php $addedIds = $array['keys']; ?>
+
                         <div class="cell">
                             <div class="widget">
                                 <div class="widget-header"><?php echo $title; ?></div>
@@ -45,11 +47,26 @@
                                             <select name="name">
                                                 <option value="<?php echo $object->registration_type.','.$object->id; ?>"><?php echo $object->label; ?></option>
                                                 <?php foreach($all as $obj): ?>
+                                                    <?php if() ?>
                                                     <option value="<?php echo $obj->registration_type.','.$obj->id; ?>"><?php echo $obj->label; ?></option>
                                                 <?php endforeach; ?>
                                             </select>
                                         </div><!--/item-->
                                     <?php endforeach; ?>
+
+                                    <div class="item">
+                                        <span data-type="<?php echo $object->registration_type; ?>" data-id="<?php echo $object->id; ?>"><?php echo $object->label; ?></span>
+                                        <a href="#" class="move-down"><i class="ficoned arrow-down"></i></a>
+                                        <a href="#" class="move-up"><i class="ficoned arrow-up"></i></a>
+                                        <a href="#" class="iconed delete"></a>
+
+                                        <select name="name">
+                                            <option value="<?php echo $object->registration_type.','.$object->id; ?>"><?php echo $object->label; ?></option>
+                                            <?php foreach($all as $obj): ?>
+                                                <option value="<?php echo $obj->registration_type.','.$obj->id; ?>"><?php echo $obj->label; ?></option>
+                                            <?php endforeach; ?>
+                                        </select>
+                                    </div><!--/item-->
 
                                 </div><!--/widget-content-->
                             </div><!--/widget-->

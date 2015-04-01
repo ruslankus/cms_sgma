@@ -109,6 +109,7 @@ class DynamicWidgets
 
             $this->objWidgetsArr[$number]['title'] = $title;
             $this->objWidgetsArr[$number]['objects'] = array();
+            $this->objWidgetsArr[$number]['keys'] = array();
 
             /* @var $controller Controller */
             /* @var $registrations ExtWidRegistration[] */
@@ -170,6 +171,7 @@ class DynamicWidgets
                         $this->widgets[$title].= $widgetContent;
                         $this->widgetssArr[$title][] = $widgetContent;
                         $this->objWidgetsArr[$number]['objects'][] = $widgetInfo;
+                        $this->objWidgetsArr[$number]['keys'][] = array($widgetInfo->registration_type,$widgetInfo->id);
                     }
                 }
 
@@ -196,6 +198,7 @@ class DynamicWidgets
                         $this->widgets[$title].= $menuContent;
                         $this->widgetsArr[$title][] = $menuContent;
                         $this->objWidgetsArr[$number]['objects'][] = $menuInfo;
+                        $this->objWidgetsArr[$number]['keys'][] = array($menuInfo->registration_type,$menuInfo->id);
                     }
                 }
             }
