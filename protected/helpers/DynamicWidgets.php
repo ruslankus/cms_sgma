@@ -117,7 +117,7 @@ class DynamicWidgets
             /* @var $menuInfo ExtMenu */
 
             //Search for all widget registrations
-            $registrations = ExtWidRegistration::model()->findAllByAttributes(array('position_nr' => $number), array('order' => 'priority DESC'));
+            $registrations = ExtWidRegistration::model()->findAllByAttributes(array('position_nr' => $number), array('order' => 'priority ASC'));
 
             foreach($registrations as $registration)
             {
