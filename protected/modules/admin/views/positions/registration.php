@@ -7,8 +7,7 @@
     <div class="title-bar">
         <h1><?php echo ATrl::t()->getLabel('Settings'); ?></h1>
         <ul class="actions">
-            <li><a href="" class="action undo"></a></li>
-            <li><a href="" class="action del" data-id="1"></a></li>
+            <li><a href="<?php echo Yii::app()->request->urlReferrer; ?>" class="action undo"></a></li>
         </ul>
     </div><!--/title-bar-->
 
@@ -25,58 +24,10 @@
         </div><!--/tab-line-->
 
         <div class="inner-content">
-            <form>
-                <div class="row">
-                    <?php foreach($registered as $position_id => $array): ?>
-                        <?php $title = $array['title']; ?>
-                        <?php $objects = $array['objects']; ?>
-                        <?php $addedIds = $array['keys']; ?>
-
-                        <div class="cell">
-                            <div class="widget">
-                                <div class="widget-header"><?php echo $title; ?></div>
-                                <div class="widget-content">
-
-                                    <?php foreach($objects as $object): ?>
-                                        <div class="item">
-                                            <span data-type="<?php echo $object->registration_type; ?>" data-id="<?php echo $object->id; ?>"><?php echo $object->label; ?></span>
-                                            <a href="#" class="move-down"><i class="ficoned arrow-down"></i></a>
-                                            <a href="#" class="move-up"><i class="ficoned arrow-up"></i></a>
-                                            <a href="#" class="iconed delete"></a>
-
-                                            <select name="name">
-                                                <option value="<?php echo $object->registration_type.','.$object->id; ?>"><?php echo $object->label; ?></option>
-                                                <?php foreach($all as $obj): ?>
-                                                    <?php if() ?>
-                                                    <option value="<?php echo $obj->registration_type.','.$obj->id; ?>"><?php echo $obj->label; ?></option>
-                                                <?php endforeach; ?>
-                                            </select>
-                                        </div><!--/item-->
-                                    <?php endforeach; ?>
-
-                                    <div class="item">
-                                        <span data-type="<?php echo $object->registration_type; ?>" data-id="<?php echo $object->id; ?>"><?php echo $object->label; ?></span>
-                                        <a href="#" class="move-down"><i class="ficoned arrow-down"></i></a>
-                                        <a href="#" class="move-up"><i class="ficoned arrow-up"></i></a>
-                                        <a href="#" class="iconed delete"></a>
-
-                                        <select name="name">
-                                            <option value="<?php echo $object->registration_type.','.$object->id; ?>"><?php echo $object->label; ?></option>
-                                            <?php foreach($all as $obj): ?>
-                                                <option value="<?php echo $obj->registration_type.','.$obj->id; ?>"><?php echo $obj->label; ?></option>
-                                            <?php endforeach; ?>
-                                        </select>
-                                    </div><!--/item-->
-
-                                </div><!--/widget-content-->
-                            </div><!--/widget-->
-                        </div><!--/cell-->
-                    <?php endforeach; ?>
-                </div><!--/row-->
-
-                <input type="submit" value="Save" class="save float-left" />
-            </form>
+            <?php $this->renderPartial('_registration',array('registered' => $registered, 'all' => $all)); ?>
         </div><!--/inner-content-->
 
+        <input type="hidden" id="ajax-refresh-link" value="<?php echo Yii::app()->createUrl('admin/positions/registration'); ?>">
+        <input type="hidden" id="ajax-register-link" value="<?php echo Yii::app()->createUrl('admin/positions/ajaxregister'); ?>">
     </div><!--/content menu-->
 </main>

@@ -7,6 +7,9 @@ class PositionsController extends ControllerAdmin
     public function actionRegistration()
     {
 
+        Yii::app()->clientScript->registerScriptFile($this->assetsPath.'/js/vendor.edit-widgets.js',CClientScript::POS_END);
+        Yii::app()->clientScript->registerCssFile($this->assetsPath.'/css/vendor.edit-widgets.css');
+
         $positions = DynamicWidgets::getArrayOfPositionsByThemeName('dark');
         DynamicWidgets::init($positions,$this);
         $registered = DynamicWidgets::get()->objWidgetsArr;
@@ -26,9 +29,55 @@ class PositionsController extends ControllerAdmin
             $allPossibleObjects[] = $obj;
         }
 
-        Yii::app()->clientScript->registerScriptFile($this->assetsPath.'/js/vendor.edit-widgets.js',CClientScript::POS_END);
-        Yii::app()->clientScript->registerCssFile($this->assetsPath.'/css/vendor.edit-widgets.css');
+        if(Yii::app()->request->isAjaxRequest)
+        {
+            $this->renderPartial('_registration',array('registered' => $registered, 'all' => $allPossibleObjects));
+        }
+        else
+        {
+            $this->render('registration',array('registered' => $registered, 'all' => $allPossibleObjects));
+        }
 
-        $this->render('registration',array('registered' => $registered, 'all' => $allPossibleObjects));
+    }
+
+    /**
+     * Registration of widget or menu
+     * @param $rt
+     * @param $id
+     * @param $pos
+     */
+    public function actionAjaxRegister($rt,$id,$pos)
+    {
+        $registrationTypeId = (int)$rt;
+        $widgetOrMenuId = (int)$id;
+        $positionNumber = (int)$pos;
+
+        if($registrationTypeId != 0 && $widgetOrMenuId != 0 && $positionNumber != 0)
+        {
+            $registration = new ExtWidRegistration();
+            $registration->position_nr = $positionNumber;
+            $registration->priority = Sort::GetNextPriority('ExtWidRegistration',array('position_nr' => $positionNumber));
+            $registration->type_id = $registrationTypeId;
+            $registration->status_id = ExtStatus::VISIBLE;
+
+            if($registrationTypeId == DynamicWidgets::REGISTRATION_WIDGET)
+            {
+                if(ExtSystemWidget::model()->countByAttributes(array('id' => $widgetOrMenuId)) > 0)
+                {
+                    $registration->widget_id = $widgetOrMenuId;
+                }
+            }
+            elseif($registrationTypeId == DynamicWidgets::REGISTRATION_MENU)
+            {
+                if(ExtMenu::model()->countByAttributes(array('id' => $widgetOrMenuId)) > 0)
+                {
+                    $registration->menu_id = $widgetOrMenuId;
+                }
+            }
+
+            $registration->save();
+        }
+
+        echo "OK";
     }
 }
