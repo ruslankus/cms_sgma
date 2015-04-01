@@ -10,7 +10,7 @@ Target Server Type    : MYSQL
 Target Server Version : 50538
 File Encoding         : 65001
 
-Date: 2015-04-01 17:05:09
+Date: 2015-04-01 17:24:25
 */
 
 SET FOREIGN_KEY_CHECKS=0;
@@ -758,7 +758,7 @@ CREATE TABLE `wid_registration` (
   CONSTRAINT `wid_registration_ibfk_1` FOREIGN KEY (`type_id`) REFERENCES `wid_registration_type` (`id`) ON DELETE NO ACTION ON UPDATE NO ACTION,
   CONSTRAINT `wid_registration_ibfk_2` FOREIGN KEY (`menu_id`) REFERENCES `menu` (`id`) ON DELETE CASCADE ON UPDATE NO ACTION,
   CONSTRAINT `wid_registration_ibfk_3` FOREIGN KEY (`widget_id`) REFERENCES `system_widget` (`id`) ON DELETE CASCADE ON UPDATE NO ACTION
-) ENGINE=InnoDB AUTO_INCREMENT=42 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=46 DEFAULT CHARSET=utf8;
 
 -- ----------------------------
 -- Records of wid_registration
@@ -767,6 +767,7 @@ INSERT INTO `wid_registration` VALUES ('33', '3', null, '1', '2', '1', '1');
 INSERT INTO `wid_registration` VALUES ('34', '4', null, '1', '2', '2', '1');
 INSERT INTO `wid_registration` VALUES ('37', null, '1', '2', '9', '1', '1');
 INSERT INTO `wid_registration` VALUES ('39', null, '1', '2', '1', '1', '1');
+INSERT INTO `wid_registration` VALUES ('44', null, '2', '2', '1', '2', '1');
 
 -- ----------------------------
 -- Table structure for `wid_registration_type`
