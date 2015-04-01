@@ -22,6 +22,7 @@ class PagesController extends ControllerAdmin
     
     
     public function actionCreate(){
+        
         Yii::app()->clientScript->registerScriptFile($this->assetsPath.'/js/vendor.add-page.js',CClientScript::POS_END);
         $model = new AddPageForm();
         
@@ -53,6 +54,7 @@ class PagesController extends ControllerAdmin
     
     public function actionEditContent($id = null){
         
+        $model = new SavePageForm();
         $request = Yii::app()->request;
         if($request->isAjaxRequest){
             
@@ -61,11 +63,13 @@ class PagesController extends ControllerAdmin
             
             $objPage = PageTrl::model()->findByAttributes(array('lng_id' => $lngId, 'page_id' => $pageId));
             
-            $this->renderPartial('_page_edit',array('objPage' => $objPage));
+            $this->renderPartial('_page_edit',array('objPage' => $objPage, 'model' => $model));
             Yii::app()->end();
         }//ajax part
         
-        Yii::app()->clientScript->registerScriptFile($this->assetsPath.'/js/vendor.textarea.js',CClientScript::POS_END);
+        Yii::app()->clientScript->registerCssFile($this->assetsPath.'/css/vendor.css');
+        Yii::app()->clientScript->registerScriptFile($this->assetsPath.'/ckeditor/ckeditor.js',CClientScript::POS_END);
+        Yii::app()->clientScript->registerScriptFile($this->assetsPath.'/ckeditor/adapters/jquery.js',CClientScript::POS_END);
         Yii::app()->clientScript->registerScriptFile($this->assetsPath.'/js/vendor.edit-page-content.js',CClientScript::POS_END);
        
         $objCurrLng = SiteLng::lng()->getCurrLng();  
@@ -74,7 +78,8 @@ class PagesController extends ControllerAdmin
         $arrPage = ExtPage::model()->getPage($id,$objCurrLng->prefix);
         //Debug::d($arrPage);
         
-        $this->render('edit_content', array('arrPage' => $arrPage, 'page_id' => $id, 'siteLng' => $objCurrLng->id ));
+        $this->render('edit_content', array('arrPage' => $arrPage,'model' =>$model,
+         'page_id' => $id, 'siteLng' => $objCurrLng->id ));
     }//edit
     
     public function actionDelete(){
@@ -83,6 +88,24 @@ class PagesController extends ControllerAdmin
     
     
     public function actionSaveContent($id = null){
+        
+        $request = Yii::app()->request;
+        if($request->isAjaxRequest){
+            
+            $model = new SavePageForm();
+            $model->attributes = $_POST['SavePageForm'];
+            if($model->validate()){
+                
+            }else{
+                $this->renderPartial('_error_page_edit',array('model' => $model));
+            }
+            
+           
+
+            
+        }else{
+            //excepton    
+        }
         
     }// save
     

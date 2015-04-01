@@ -2,10 +2,13 @@
     	<table>
     		<tr>
     			<td class="label">Title</td>
-    			<td class="value"><input type="text" name="title" value="<?php echo $objPage->title?>" /></td>
+    			<td class="value">               
+                    <?php echo CHtml::activeTextField($model,'title',array('value' => $objPage->title)); ?>
+                </td>
     		</tr>
     	</table>
-    	<textarea name="name"><?php echo $objPage->content?></textarea>
+    	
+        <?php echo CHtml::activeTextArea($model,'content',array('value' => $objPage->content,'class' => 'ckeditor', 'id'=> 'edit')); ?>
     	<table>
     		<tr>
     			<td class="label">Note</td>
