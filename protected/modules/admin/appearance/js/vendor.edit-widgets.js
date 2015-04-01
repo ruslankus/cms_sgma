@@ -36,19 +36,34 @@ $(document).on("change",".selector-of-widget",function(){
     });
 });
 
-//delete button
-$(".del").click(function()
-	{
-		data_id = $(this).attr("data-id");
-		console.log("delete"+data_id);
-		return false;
-	});//end delete button
 // delete widget row
 $(document).on("click", ".delete", function()
-	{	
-		data_id = $(this).attr("data-id");
-		console.log("delete"+data_id);
-		return false;
+	{
+        //register widget - action url
+        var url = $(this).attr('href');
+
+        //request
+        var request = $.ajax({url: url});
+
+        $.preLoader.show();
+
+        request.done(function(data){
+            if(data == 'OK')
+            {
+                ajaxRefreshTable();
+            }
+            else
+            {
+                $.preLoader.hide();
+            }
+        });
+
+        request.fail(function(jqXHR,textStatus) {
+            alert( "Request failed: " + textStatus);
+            $.preLoader.hide();
+        });
+
+        return false;
 	});//end delete widget row
 });//end ready
 

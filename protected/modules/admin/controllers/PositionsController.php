@@ -80,4 +80,37 @@ class PositionsController extends ControllerAdmin
 
         echo "OK";
     }
+
+
+    /**
+     * Delete registered
+     * @param $rt
+     * @param $id
+     * @param $pos
+     */
+    public function actionDelete($rt,$id,$pos)
+    {
+        $registrationTypeId = (int)$rt;
+        $widgetOrMenuId = (int)$id;
+        $positionNumber = (int)$pos;
+
+        if($registrationTypeId == DynamicWidgets::REGISTRATION_WIDGET)
+        {
+            ExtWidRegistration::model()->deleteAllByAttributes(array('widget_id' => $widgetOrMenuId, 'position_nr' => $positionNumber));
+        }
+        elseif($registrationTypeId == DynamicWidgets::REGISTRATION_MENU)
+        {
+            ExtWidRegistration::model()->deleteAllByAttributes(array('menu_id' => $widgetOrMenuId, 'position_nr' => $positionNumber));
+        }
+
+        if(Yii::app()->request->isAjaxRequest)
+        {
+            echo "OK";
+        }
+        else
+        {
+            $this->redirect(Yii::app()->createUrl('admin/positions/registration'));
+        }
+
+    }
 }

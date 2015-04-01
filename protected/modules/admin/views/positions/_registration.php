@@ -1,5 +1,6 @@
 <?php /* @var $registered array */ ?>
 <?php /* @var $all ExtSystemWidget[]|ExtMenu[]  */ ?>
+<?php /* @var $objects ExtSystemWidget[]|ExtMenu[] */ ?>
 
 <form>
     <div class="row">
@@ -20,7 +21,7 @@
                             <span><?php echo $object->label; ?></span>
                             <a href="#" class="move-down"><i class="ficoned arrow-down"></i></a>
                             <a href="#" class="move-up"><i class="ficoned arrow-up"></i></a>
-                            <a href="#" class="iconed delete"></a>
+                            <a href="<?php echo Yii::app()->createUrl('admin/positions/delete',array('rt' => $object->registration_type, 'id' => $object->id, 'pos' => $position_id)) ?>" class="iconed delete"></a>
 
                             <select disabled name="name">
                                 <option value="<?php echo $object->registration_type.','.$object->id; ?>"><?php echo $object->label; ?></option>
