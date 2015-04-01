@@ -7,10 +7,11 @@ $(document).ready(function() {
      * Language onchange event
     */
     $("#styled-language-editor").on('change',function(){
-        pageId = $("#styled-language-editor option:selected").data("page");
-        lngId = $(this).val();
-    	getContent(pageId,lngId);
-        console.log(this);
+        var prefix = $(this).data('prefix');
+        var pageId = $(this).data("page");
+        var lngId = $(this).val();
+    	getLangValues(pageId,lngId,prefix);
+      
     	//$(document).find("textarea").textarea({width : "100%"}); // reattach editor to textarea after ajax load.done;	
     });
     // Undo event
@@ -32,9 +33,15 @@ $(document).ready(function() {
 
 
 
-function getContent(pageId,lngIg){
-    console.log(pageId);
+function getLangValues(pageId,lngId,prefix){
    $.ajaxSetup({async:false});
-   $('.inner-editor').load('/en/admin/contacts/editcontent/',{ pageId:pageId, lngId:lngId});
-    
+   var link = "/"+prefix+"/admin/contacts/EditContentAjax/"+pageId;
+    $.ajax({ type: "post",url:link,data:{lngId:lngId}}).done(function(data){
+        obj = jQuery.parseJSON(data);
+        $('#title').val(obj.title);
+        $('#edit').val(obj.text);
+        $('#meta').val(obj.meta);
+        console.log(obj);
+
+    });    
 }//getContent

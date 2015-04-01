@@ -45,30 +45,23 @@ class ContactsController extends ControllerAdmin
         
     }//create
 
-    public function actionEditContent($id = null){
+    public function actionEditContent($id = null)
+    {
         $model = new SaveContactForm();
         $request = Yii::app()->request;
-        if($request->isAjaxRequest){
-            
-            $pageId = $request->getPost('pageId');
-            $lngId = $request->getPost('lngId');
-            
-            $objPage = ContactsTrl::model()->findByAttributes(array('lng_id' => $lngId, 'contacts_id' => $pageId));
-            
-            $this->renderPartial('_editContact',array('objPage' => $objPage));
-            Yii::app()->end();
-        }//ajax part
-
+        $prefix = Yii::app()->language;
         if(isset($_POST['SaveContactForm']))
         {
             $model->attributes=$_POST['SaveContactForm'];
             if($model->validate())
             {
-
+                $siteLng = $_POST['SaveContactForm']['lngId'];
+                $langObj = Languages::model()->findByPk($siteLng);
+                $curr_prefix = $langObj->prefix;
                 $criteria = new CDbCriteria;
                 $criteria->condition = "lng_id=':lng_id' AND contacts_id=':contacts_id'";
-                $criteria->params = array(':lang_id'=>$_POST['SaveContactForm']['lngId'],':contacts_id'=>$id);
-                $contactTrlObj = ContactsTrl::model()->find(array('condition'=>'lng_id=:lng_id AND contacts_id=:contacts_id','params'=>array('lng_id'=>$_POST['SaveContactForm']['lngId'],'contacts_id'=>$id)));
+                $criteria->params = array(':lang_id'=>$siteLng,':contacts_id'=>$id);
+                $contactTrlObj = ContactsTrl::model()->find(array('condition'=>'lng_id=:lng_id AND contacts_id=:contacts_id','params'=>array('lng_id'=>$siteLng,'contacts_id'=>$id)));
                 $contactTrlObj->text=$_POST['SaveContactForm']['text'];
                 $contactTrlObj->title=$_POST['SaveContactForm']['title'];
                 $contactTrlObj->meta_description=$_POST['SaveContactForm']['meta'];
@@ -77,34 +70,26 @@ class ContactsController extends ControllerAdmin
             }
         } 
 
-      /*  
-        if($request->getPost('save-content')){
-            
-            $criteria = new CDbCriteria;
-            $criteria->condition = "lng_id=':lng_id' AND contacts_id=':contacts_id'";
-            $criteria->params = array(':lang_id'=>$_POST['lngId'],':contacts_id'=>$id);
-           // $model = ContactsTrl::model()->findAll($criteria);
-            //$model = ContactsTrl::model()->findByAttributes(array('lng_id'=>$_POST['lngId'],'contacts_id'=>$id));
-            $model = ContactsTrl::model()->find(array('condition'=>'lng_id=:lng_id AND contacts_id=:contacts_id','params'=>array('lng_id'=>$_POST['lngId'],'contacts_id'=>$id)));
-            $model->text=$request->getPost('text');
-            $model->title=$request->getPost('title');
-            $model->meta_description=$request->getPost('meta');
-            $model->update();
-            echo $model->title;
-
-        }
-*/
         Yii::app()->clientScript->registerScriptFile($this->assetsPath.'/ckeditor/ckeditor.js',CClientScript::POS_END);
         Yii::app()->clientScript->registerScriptFile($this->assetsPath.'/ckeditor/adapters/jquery.js',CClientScript::POS_END);
         Yii::app()->clientScript->registerScriptFile($this->assetsPath.'/js/vendor.edit-contact.js',CClientScript::POS_END);
        
+        
         $objCurrLng = SiteLng::lng()->getCurrLng();  
         
+
+
+        if(empty($siteLng))
+        {
+            $siteLng = $objCurrLng->id;
+            $curr_prefix = $objCurrLng->prefix;
+
+        }
+
         //$objPage = ExtPage::model()->findByPk($id);
-        $arrPage = ExtContacts::model()->getContact($id,$objCurrLng->prefix);
+        $arrPage = ExtContacts::model()->getContact($id,$curr_prefix);
         //Debug::d($arrPage);
-        
-        $this->render('editContact', array('arrPage' => $arrPage, 'model' => $model, 'page_id' => $id, 'siteLng' => $objCurrLng->id ));
+        $this->render('editContact', array('arrPage' => $arrPage, 'model' => $model, 'contact_id' => $id, 'siteLng' => $siteLng, 'prefix' => $prefix ));
     }//edit
 
     public function actionDeleteContact($id=null)
@@ -115,6 +100,26 @@ class ContactsController extends ControllerAdmin
     }
 
     /* ----------------------------- ajax section -------------------------------------- */
+    public function actionEditContentAjax($id = null)
+    {
+        
+        $request = Yii::app()->request;
+        if($request->isAjaxRequest){
+            
+            $lngId = $request->getPost('lngId');
+            
+            $objPage = ContactsTrl::model()->findByAttributes(array('lng_id' => $lngId, 'contacts_id' => $id));
+            $arrJson = array();
+            $arrJson['title'] = $objPage->title;
+            $arrJson['meta'] = $objPage->meta_description;
+            $arrJson['text'] = $objPage->text;
+
+            echo json_encode($arrJson);
+            Yii::app()->end();
+        }//ajax part
+        
+
+    }
 
     public function actionIndexAjax($page = 1)
     {

@@ -17,24 +17,19 @@
 				'enableAjaxValidation'=>false,
 			)); ?>
 			<div class="inner-top">
-<?php
-/*
-				<select name="language" id="styled-language-editor" class="float-left">
-                
-                <?php foreach(SiteLng::lng()->getLngs() as $objLng):?>
-				  <option value="<?php echo $objLng->id;?>" data-page="<?php echo $page_id ?>"><?php echo  ucwords($objLng->name); ?> </option>
-                <?php endforeach;?>  
-				 
-				</select>
-				<?php
-*/
-				?>
-			    <?php
+			<?php
+				if($_POST['SaveContactForm']['lngId']){
+					$selected = $_POST['SaveContactForm']['lngId'];
+				}
+				else
+				{
+					$selected = $siteLng;
+				}
 			    echo $form->dropDownList($model,
 			      'lngId',
-			      CHtml::listData(SiteLng::lng()->getLngs(),'id','name'),array('id'=>'styled-language-editor', 'class'=>'float-left')
+			      CHtml::listData(SiteLng::lng()->getLngs(),'id','name'),array('id'=>'styled-language-editor', 'class'=>'float-left', 'data-prefix' => $prefix, 'data-page'=>$contact_id,'options' => array($selected=>array('selected'=>true)))
 			    );
-			    ?>
+			?>
 				<span>Don't forget to save content before choosing another language.</span>
 			</div><!--/inner-top-->
 
@@ -44,7 +39,7 @@
 					<tr>
 						<td class="label">Title</td>
 						<td class="value">
-							<?php echo $form->textField($model,'title',array('value'=>$arrPage['title'])); ?>
+							<?php echo $form->textField($model,'title',array('value'=>$arrPage['title'],'id'=>'title')); ?>
 							<?php echo $form->error($model,'title'); ?>
 						</td>
 					</tr>
@@ -55,7 +50,7 @@
 					<tr>
 						<td class="label">Meta</td>
 						<td class="value">
-							<?php echo $form->textField($model,'meta',array('value'=>$arrPage['meta_description'])); ?>
+							<?php echo $form->textField($model,'meta',array('value'=>$arrPage['meta_description'],'id'=>'meta')); ?>
 							<?php echo $form->error($model,'meta_description'); ?>
 
 						</td>
