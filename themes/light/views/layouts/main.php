@@ -10,6 +10,7 @@
 </head>
 
 <body>
+LIGHT LAYOUT
 <?php echo $content; ?>
 </body>
 

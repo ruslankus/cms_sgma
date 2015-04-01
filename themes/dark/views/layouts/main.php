@@ -10,10 +10,8 @@
 </head>
 
 <body>
-<?php echo DynamicWidgets::get('Top'); ?>
+DARK LAYOUT
 <?php echo $content; ?>
-<?php echo DynamicWidgets::get('Top-right'); ?>
-<?php echo DynamicWidgets::get('Special'); ?>
 </body>
 
 </html>

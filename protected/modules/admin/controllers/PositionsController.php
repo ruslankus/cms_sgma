@@ -10,16 +10,10 @@ class PositionsController extends ControllerAdmin
         Yii::app()->clientScript->registerScriptFile($this->assetsPath.'/js/vendor.edit-widgets.js',CClientScript::POS_END);
         Yii::app()->clientScript->registerCssFile($this->assetsPath.'/css/vendor.edit-widgets.css');
 
-
         $themeName = 'dark'; //TODO: get theme name form current settings
 
         DynamicWidgets::init($themeName,$this);
         $registered = DynamicWidgets::get()->objWidgetsArr;
-
-        $registeredWid = DynamicWidgets::get()->widgetsArr;
-        Debug::out($registeredWid);
-        exit();
-
 
         //get all possible items
         $allWidgets = ExtSystemWidget::model()->findAll();
@@ -44,7 +38,6 @@ class PositionsController extends ControllerAdmin
         {
             $this->render('registration',array('registered' => $registered, 'all' => $allPossibleObjects));
         }
-
     }
 
     /**
