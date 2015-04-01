@@ -6,7 +6,7 @@ class SysLogin extends CWidget
      * @var ExtSystemWidget
      */
     public $widgetInfo;
-
+    public $themeName;
 
     /**
      * Override of getting view dir for widget
@@ -15,13 +15,20 @@ class SysLogin extends CWidget
      */
     public function getViewPath($checkTheme=false)
     {
-        $themeManager = Yii::app()->themeManager;
-        return $themeManager->basePath.DS.Yii::app()->theme->name.DS.'views'.DS.'widgets';
+        $path = Yii::app()->getBasePath().DS.'widgets'.DS.'views';
+        $theme = Yii::app()->themeManager->getTheme($this->themeName);
+        if(!empty($theme))
+        {
+            $path = $theme->getBasePath().DS.'views'.DS.'widgets';
+        }
+        return $path;
     }
 
     public function run()
     {
+        $template = $this->widgetInfo->template_name;
+        $template = str_replace(".php","",$template);
 
-        $this->render($this->widgetInfo->template_name);
+        $this->render($template);
     }
 }

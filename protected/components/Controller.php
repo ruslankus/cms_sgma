@@ -44,7 +44,7 @@ class Controller extends CController
         $language = Yii::app()->request->getParam('language',Yii::app()->params['defaultLanguage']);
         $this->setLanguage($language);
         
-        //TODO: get theme from db
+        //TODO: get theme name form current settings
         Yii::app()->theme = "light";    
         
     }//init
@@ -57,16 +57,9 @@ class Controller extends CController
     protected function beforeAction($action) {
 
         /**
-         * Read all widget positions from INI file
-         */
-        $themeConfigFile = !empty(Yii::app()->theme) ? Yii::app()->theme->basePath.'/config/theme.ini' : Yii::app()->basePath.'/config/theme.ini';
-        $arrThemeConfig = file_exists($themeConfigFile) ? parse_ini_file($themeConfigFile,true) : array();
-        $arrWidgetPositions = !empty($arrThemeConfig['widget_positions']) ? $arrThemeConfig['widget_positions'] : array();
-
-        /**
          * Initialise dynamic widgets
          */
-        DynamicWidgets::init($arrWidgetPositions,$this);
+        DynamicWidgets::init(Yii::app()->theme->name,$this);
 
         /*
         //publish dir to assets (fonts, css, js, images)
