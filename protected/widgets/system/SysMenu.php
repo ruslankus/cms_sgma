@@ -11,6 +11,7 @@ class SysMenu extends CWidget
      * @var ExtMenu
      */
     public $menu;
+    public $themeName;
 
     /**
      * Override of getting view dir for widget
@@ -19,12 +20,21 @@ class SysMenu extends CWidget
      */
     public function getViewPath($checkTheme=false)
     {
-        $themeManager = Yii::app()->themeManager;
-        return $themeManager->basePath.DS.Yii::app()->theme->name.DS.'views'.DS.'menus';
+        $path = Yii::app()->getBasePath().DS.'widgets'.DS.'views';
+        $theme = Yii::app()->themeManager->getTheme($this->themeName);
+        if(!empty($theme))
+        {
+            $path = $theme->getBasePath().DS.'views'.DS.'menus';
+        }
+        return $path;
+
     }
 
     public function run()
     {
-        $this->render($this->menu->template_name,array('label' => $this->menu->label));
+        $template = $this->menu->template_name;
+        $template = str_replace(".php","",$template);
+
+        $this->render($template,array('label' => $this->menu->label));
     }
 }

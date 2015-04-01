@@ -75,19 +75,21 @@ class DynamicWidgets
         return false;
     }
 
+
     /**
      * Initialisation
      * @param null $positions
      * @param null $controller
+     * @param null $themeName
      * @return bool
      */
-    public static function init($positions = null, $controller = null)
+    public static function init($positions = null, $controller = null, $themeName = null)
     {
         $success = true;
 
         try
         {
-            self::$_instance = new self($positions,$controller);
+            self::$_instance = new self($positions,$controller,$themeName);
         }
         catch(Exception $ex)
         {
@@ -100,8 +102,15 @@ class DynamicWidgets
     /**
      * Main initialisation
      */
-    private function __construct($positions,$controller)
+    private function __construct($themeName,$controller)
     {
+        $positions = self::getArrayOfPositionsByThemeName($themeName);
+
+        if(empty($positions))
+        {
+            return;
+        }
+
         foreach($positions as $number => $title)
         {
             $this->widgets[$title] = '';
@@ -157,10 +166,11 @@ class DynamicWidgets
                                 break;
                         }
 
+
                         try
                         {
                             //Try get widget content
-                            $widgetContent = $controller->widget($widgetPath,array('widgetInfo' => $widgetInfo),true);
+                            $widgetContent = $controller->widget($widgetPath,array('widgetInfo' => $widgetInfo, 'themeName' => $themeName),true);
                         }
                         catch(Exception $ex)
                         {
@@ -169,7 +179,7 @@ class DynamicWidgets
                         }
 
                         $this->widgets[$title].= $widgetContent;
-                        $this->widgetssArr[$title][] = $widgetContent;
+                        $this->widgetsArr[$title][] = $widgetContent;
                         $this->objWidgetsArr[$number]['objects'][] = $widgetInfo;
                         $this->objWidgetsArr[$number]['keys'][] = array($widgetInfo->registration_type,$widgetInfo->id);
                     }
@@ -187,7 +197,7 @@ class DynamicWidgets
                         try
                         {
                             //Try get widget content
-                            $menuContent = $controller->widget($widgetPath,array('menu' => $menuInfo),true);
+                            $menuContent = $controller->widget($widgetPath,array('menu' => $menuInfo, 'themeName' => $themeName),true);
                         }
                         catch(Exception $ex)
                         {
