@@ -91,13 +91,31 @@ class PagesController extends ControllerAdmin
         
         $request = Yii::app()->request;
         if($request->isAjaxRequest){
-            
+            //Debug::d($_POST);
             $model = new SavePageForm();
             $model->attributes = $_POST['SavePageForm'];
             if($model->validate()){
                 
+                $objData = PageTrl::model()->findByAttributes(array('lng_id' => $model->lngId,
+                'page_id' => $model->pageId));
+                if(!empty($objData)){
+                    
+                    $objData->content = strip_tags($model->content);
+                    $objData->title = $model->title;
+                    if($objData->update()){
+                        $this->renderPartial('_success_page_edit',array('model' => $model));
+                        Yii::app()->end();    
+                    }else{
+                        Debug::d($objData);
+                    }
+                    
+                }else{
+                    Debug::d($model);
+                }
+           
             }else{
                 $this->renderPartial('_error_page_edit',array('model' => $model));
+                Yii::app()->end();
             }
             
            

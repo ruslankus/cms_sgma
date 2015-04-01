@@ -42,6 +42,20 @@ $(document).ready(function() {
 	});
     
     
+     $(document).on('click', "#edit-more", function(){
+        
+        lngId = $('.lngId').val();
+        pageId = $('.pageId').val();
+        $('.inner-editor').html("<div class=\"loader\" style=\"display: block;\"></div>");
+        getContent(pageId,lngId);
+        
+        $(document).find("#edit").ckeditor() // reattach editor to textarea after ajax load.done; 
+        return false;
+     });
+    
+    
+    
+    
 });//document ready
 
 
