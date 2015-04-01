@@ -1,4 +1,5 @@
-   
+         <?php echo CHtml::activeHiddenField($model,'lngId',array('value' => $objPage->lng_id));?>
+         <?php echo CHtml::activeHiddenField($model,'pageId',array('value' => $objPage->page_id));?>
     	<table>
     		<tr>
     			<td class="label">Title</td>
@@ -12,7 +13,9 @@
     	<table>
     		<tr>
     			<td class="label">Note</td>
-    			<td class="value"><input type="text" name="note" /></td>
+    			<td class="value">
+                    <?php echo CHtml::activeTextField($model,'note')?>
+                </td>
     		</tr>
     	</table>
     	<input id="save-content" type="submit" value="Save" />

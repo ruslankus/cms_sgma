@@ -24,10 +24,12 @@
 					<span>Don't forget to save content before choosing another language.</span>
 				</div><!--/inner-top-->
                 <form method="post" id="content-form">
-                <input type="hidden" name="lngId"  value="<?php echo $siteLng ?>"/>
-                <input type="hidden" name="pageId"  value="<?php echo $page_id ?>"/>
+               
 				<div class="inner-editor">
-					<table>
+               
+                <?php echo CHtml::activeHiddenField($model,'lngId',array('value' => $siteLng));?>
+                <?php echo CHtml::activeHiddenField($model,'pageId',array('value' => $page_id));?>
+               	<table>
 						<tr>
 							<td class="label">Title</td>
 							<td class="value">                           
@@ -40,7 +42,9 @@
 					<table>
 						<tr>
 							<td class="label">Note</td>
-							<td class="value"><input type="text" name="note" /></td>
+							<td class="value">                           
+                            <?php echo CHtml::activeTextField($model,'note')?>
+                            </td>
 						</tr>
 					</table>
 					<input id="save-content" type="submit" value="Save" />
