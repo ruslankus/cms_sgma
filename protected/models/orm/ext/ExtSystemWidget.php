@@ -2,6 +2,7 @@
 /**
  * Class ExtSystemWidget
  * @property ExtWidRegistration[] $widRegistrations
+ * @property SystemWidgetTrl $trl
  */
 Class ExtSystemWidget extends SystemWidget
 {

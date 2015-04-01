@@ -60,5 +60,5 @@
         <?php endforeach; ?>
     </div><!--/row-->
 
-    <input type="submit" value="Save" class="save float-left" />
+<!--    <input type="submit" value="Save" class="save float-left" />-->
 </form>

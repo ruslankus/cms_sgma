@@ -24,11 +24,19 @@ class SysCustom extends CWidget
         return $path;
     }
 
+    /*****************************************************************************************************************/
+
     public function run()
     {
         $template = $this->widgetInfo->template_name;
         $template = str_replace(".php","",$template);
 
-        $this->render($template);
+        $params = array(
+            'label' => $this->widgetInfo->label,
+            'title' => $this->widgetInfo->trl->custom_name,
+            'text' => $this->widgetInfo->trl->custom_html
+        );
+
+        $this->render($template,$params);
     }
 }
