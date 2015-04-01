@@ -10,7 +10,7 @@ Target Server Type    : MYSQL
 Target Server Version : 50538
 File Encoding         : 65001
 
-Date: 2015-03-30 13:54:30
+Date: 2015-04-01 17:05:09
 */
 
 SET FOREIGN_KEY_CHECKS=0;
@@ -113,7 +113,9 @@ CREATE TABLE `contacts_fields` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
   `contacts_id` int(11) DEFAULT NULL,
   `label` int(11) DEFAULT NULL,
-  PRIMARY KEY (`id`)
+  PRIMARY KEY (`id`),
+  KEY `contacts_id` (`contacts_id`),
+  CONSTRAINT `contacts_fields_ibfk_1` FOREIGN KEY (`contacts_id`) REFERENCES `contacts` (`id`) ON DELETE CASCADE ON UPDATE NO ACTION
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 -- ----------------------------
@@ -133,8 +135,8 @@ CREATE TABLE `contacts_fields_trl` (
   PRIMARY KEY (`id`),
   KEY `contacts_field_id` (`contacts_field_id`),
   KEY `lng_id` (`lng_id`),
-  CONSTRAINT `contacts_fields_trl_ibfk_2` FOREIGN KEY (`lng_id`) REFERENCES `languages` (`id`) ON DELETE CASCADE ON UPDATE NO ACTION,
-  CONSTRAINT `contacts_fields_trl_ibfk_1` FOREIGN KEY (`contacts_field_id`) REFERENCES `contacts_fields` (`id`) ON DELETE CASCADE ON UPDATE NO ACTION
+  CONSTRAINT `contacts_fields_trl_ibfk_1` FOREIGN KEY (`contacts_field_id`) REFERENCES `contacts_fields` (`id`) ON DELETE CASCADE ON UPDATE NO ACTION,
+  CONSTRAINT `contacts_fields_trl_ibfk_2` FOREIGN KEY (`lng_id`) REFERENCES `languages` (`id`) ON DELETE CASCADE ON UPDATE NO ACTION
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 -- ----------------------------
@@ -155,8 +157,8 @@ CREATE TABLE `contacts_trl` (
   PRIMARY KEY (`id`),
   KEY `contacts_id` (`contacts_id`),
   KEY `lng_id` (`lng_id`),
-  CONSTRAINT `contacts_trl_ibfk_2` FOREIGN KEY (`lng_id`) REFERENCES `languages` (`id`) ON DELETE CASCADE ON UPDATE NO ACTION,
-  CONSTRAINT `contacts_trl_ibfk_1` FOREIGN KEY (`contacts_id`) REFERENCES `contacts` (`id`) ON DELETE CASCADE ON UPDATE NO ACTION
+  CONSTRAINT `contacts_trl_ibfk_1` FOREIGN KEY (`contacts_id`) REFERENCES `contacts` (`id`) ON DELETE CASCADE ON UPDATE NO ACTION,
+  CONSTRAINT `contacts_trl_ibfk_2` FOREIGN KEY (`lng_id`) REFERENCES `languages` (`id`) ON DELETE CASCADE ON UPDATE NO ACTION
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 -- ----------------------------
@@ -235,13 +237,13 @@ CREATE TABLE `menu` (
   `last_change_by` int(11) DEFAULT NULL,
   `template_name` varchar(512) DEFAULT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=6 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=5 DEFAULT CHARSET=utf8;
 
 -- ----------------------------
 -- Records of menu
 -- ----------------------------
-INSERT INTO `menu` VALUES ('1', 'Main menu', '1', '0', '1427279702', '1', 'main_menu.php');
-INSERT INTO `menu` VALUES ('2', 'Additional Menu', '1', '0', '1427279715', '1', 'main_menu.php');
+INSERT INTO `menu` VALUES ('1', 'Main menu', '1', '0', '1427894986', '1', 'main_menu.php');
+INSERT INTO `menu` VALUES ('2', 'Additional Menu', '1', '0', '1427895296', '1', 'other_menu.php');
 INSERT INTO `menu` VALUES ('4', 'RIght menu', '1', '1427278569', '1427279732', '1', 'main_menu.php');
 
 -- ----------------------------
@@ -267,17 +269,19 @@ CREATE TABLE `menu_item` (
   KEY `content_item_id` (`content_item_id`),
   CONSTRAINT `menu_item_ibfk_1` FOREIGN KEY (`type_id`) REFERENCES `menu_item_type` (`id`) ON DELETE NO ACTION ON UPDATE NO ACTION,
   CONSTRAINT `menu_item_ibfk_2` FOREIGN KEY (`menu_id`) REFERENCES `menu` (`id`) ON DELETE CASCADE ON UPDATE NO ACTION
-) ENGINE=InnoDB AUTO_INCREMENT=33 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=31 DEFAULT CHARSET=utf8;
 
 -- ----------------------------
 -- Records of menu_item
 -- ----------------------------
-INSERT INTO `menu_item` VALUES ('1', '1', '0:1', 'News', '0', '4', '2', null, '1', '0', '1427712447', '1');
-INSERT INTO `menu_item` VALUES ('10', '1', '0:10', 'Products', '0', '5', '1', '5', '1', '0', '1427712447', '1');
-INSERT INTO `menu_item` VALUES ('11', '1', '0:11', 'Tests', '0', '6', '1', null, '1', '0', '1427712447', '1');
-INSERT INTO `menu_item` VALUES ('12', '1', '0:12', 'Other', '0', '3', '1', null, '1', '0', '1427712447', '1');
-INSERT INTO `menu_item` VALUES ('31', '1', '0:10:31', 'Page 3', '10', '1', '1', '6', '1', '1427472506', '1427705893', '1');
-INSERT INTO `menu_item` VALUES ('32', '1', '0:10:32', 'Some label', '10', '2', '1', '5', '1', '1427706388', '1427706430', '1');
+INSERT INTO `menu_item` VALUES ('1', '1', '0:1', 'News', '0', '5', '2', null, '1', '0', '1427807496', '1');
+INSERT INTO `menu_item` VALUES ('10', '1', '0:10', 'Products', '0', '3', '1', '5', '1', '0', '1427807496', '1');
+INSERT INTO `menu_item` VALUES ('11', '1', '0:11', 'Some-cat', '0', '4', '1', '8', '1', '0', '1427807496', '1');
+INSERT INTO `menu_item` VALUES ('26', '1', '0:11:26', 'ddd', '11', '2', '1', '8', '1', '1427808477', '1427895024', '1');
+INSERT INTO `menu_item` VALUES ('27', '1', '0:11:27', 'edf', '11', '1', '1', '8', '1', '1427877013', '1427877013', '1');
+INSERT INTO `menu_item` VALUES ('28', '1', '0:11:26:28', 'Test test test', '26', '1', '1', '9', '1', '1427892417', '1427892417', '1');
+INSERT INTO `menu_item` VALUES ('29', '2', '0:29', 'Item 1', '0', '7', '1', '8', '1', '1427895318', '1427895339', '1');
+INSERT INTO `menu_item` VALUES ('30', '2', '0:30', 'Item 2', '0', '6', '1', '8', '1', '1427895332', '1427895339', '1');
 
 -- ----------------------------
 -- Table structure for `menu_item_trl`
@@ -293,7 +297,7 @@ CREATE TABLE `menu_item_trl` (
   KEY `menu_item_trl_ibfk_2` (`lng_id`),
   CONSTRAINT `menu_item_trl_ibfk_1` FOREIGN KEY (`lng_id`) REFERENCES `languages` (`id`) ON DELETE CASCADE ON UPDATE NO ACTION,
   CONSTRAINT `menu_item_trl_ibfk_2` FOREIGN KEY (`menu_item_id`) REFERENCES `menu_item` (`id`) ON DELETE CASCADE ON UPDATE NO ACTION
-) ENGINE=InnoDB AUTO_INCREMENT=55 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=91 DEFAULT CHARSET=utf8;
 
 -- ----------------------------
 -- Records of menu_item_trl
@@ -302,8 +306,18 @@ INSERT INTO `menu_item_trl` VALUES ('1', 'News', '1', '1');
 INSERT INTO `menu_item_trl` VALUES ('2', 'Новости', '1', '2');
 INSERT INTO `menu_item_trl` VALUES ('51', 'bbbbbb', '10', '1');
 INSERT INTO `menu_item_trl` VALUES ('52', 'GGG', '10', '2');
-INSERT INTO `menu_item_trl` VALUES ('53', 'Some title', '32', '1');
-INSERT INTO `menu_item_trl` VALUES ('54', 'Какое-то название', '32', '2');
+INSERT INTO `menu_item_trl` VALUES ('69', 'GGGG', '11', '1');
+INSERT INTO `menu_item_trl` VALUES ('70', 'Ухаха', '11', '2');
+INSERT INTO `menu_item_trl` VALUES ('81', 'Some title', '26', '1');
+INSERT INTO `menu_item_trl` VALUES ('82', 'Какое-то название', '26', '2');
+INSERT INTO `menu_item_trl` VALUES ('83', 'ddd', '27', '1');
+INSERT INTO `menu_item_trl` VALUES ('84', '', '27', '2');
+INSERT INTO `menu_item_trl` VALUES ('85', 'Title of page', '28', '1');
+INSERT INTO `menu_item_trl` VALUES ('86', 'Название', '28', '2');
+INSERT INTO `menu_item_trl` VALUES ('87', 'Item 1', '29', '1');
+INSERT INTO `menu_item_trl` VALUES ('88', '', '29', '2');
+INSERT INTO `menu_item_trl` VALUES ('89', 'Item 2', '30', '1');
+INSERT INTO `menu_item_trl` VALUES ('90', '', '30', '2');
 
 -- ----------------------------
 -- Table structure for `menu_item_type`
@@ -630,18 +644,15 @@ CREATE TABLE `system_widget` (
   `template_name` varchar(256) DEFAULT NULL,
   PRIMARY KEY (`id`),
   KEY `system_widget_ibfk_1` (`type_id`),
-  CONSTRAINT `system_widget_ibfk_1` FOREIGN KEY (`type_id`) REFERENCES `system_widget_type` (`int`) ON DELETE NO ACTION ON UPDATE NO ACTION
-) ENGINE=InnoDB AUTO_INCREMENT=7 DEFAULT CHARSET=utf8;
+  CONSTRAINT `system_widget_ibfk_1` FOREIGN KEY (`type_id`) REFERENCES `system_widget_type` (`id`) ON DELETE NO ACTION ON UPDATE NO ACTION
+) ENGINE=InnoDB AUTO_INCREMENT=5 DEFAULT CHARSET=utf8;
 
 -- ----------------------------
 -- Records of system_widget
 -- ----------------------------
-INSERT INTO `system_widget` VALUES ('1', 'Search field', '1', 'template');
-INSERT INTO `system_widget` VALUES ('2', 'Login widget', '2', 'template');
-INSERT INTO `system_widget` VALUES ('3', 'Small login widget', '2', 'template_small');
-INSERT INTO `system_widget` VALUES ('4', 'Languages in top', '4', 'template_top');
-INSERT INTO `system_widget` VALUES ('5', 'Languages', '4', 'template');
-INSERT INTO `system_widget` VALUES ('6', 'My custom widget', '6', 'template');
+INSERT INTO `system_widget` VALUES ('2', 'Login widget', '2', 'login.php');
+INSERT INTO `system_widget` VALUES ('3', 'Search widget', '1', 'search.php');
+INSERT INTO `system_widget` VALUES ('4', 'Custom', '6', 'custom.php');
 
 -- ----------------------------
 -- Table structure for `system_widget_trl`
@@ -658,22 +669,24 @@ CREATE TABLE `system_widget_trl` (
   KEY `widget_id` (`widget_id`),
   CONSTRAINT `system_widget_trl_ibfk_1` FOREIGN KEY (`widget_id`) REFERENCES `system_widget` (`id`) ON DELETE CASCADE ON UPDATE NO ACTION,
   CONSTRAINT `system_widget_trl_ibfk_2` FOREIGN KEY (`lng_id`) REFERENCES `languages` (`id`) ON DELETE CASCADE ON UPDATE NO ACTION
-) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=7 DEFAULT CHARSET=utf8;
 
 -- ----------------------------
 -- Records of system_widget_trl
 -- ----------------------------
-INSERT INTO `system_widget_trl` VALUES ('1', 'My custom widget', '<p>some html</p>', '6', '1');
-INSERT INTO `system_widget_trl` VALUES ('2', 'Мой кастомный виджет', '<p>какой-то HTML</p>', '6', '1');
+INSERT INTO `system_widget_trl` VALUES ('3', '', '', '2', '1');
+INSERT INTO `system_widget_trl` VALUES ('4', '', '', '2', '2');
+INSERT INTO `system_widget_trl` VALUES ('5', 'Custom Title', 'Custom Title', '4', '1');
+INSERT INTO `system_widget_trl` VALUES ('6', 'Введенное название', 'Введенное название', '4', '2');
 
 -- ----------------------------
 -- Table structure for `system_widget_type`
 -- ----------------------------
 DROP TABLE IF EXISTS `system_widget_type`;
 CREATE TABLE `system_widget_type` (
-  `int` int(11) NOT NULL,
+  `id` int(11) NOT NULL,
   `label` varchar(255) DEFAULT NULL,
-  PRIMARY KEY (`int`)
+  PRIMARY KEY (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 -- ----------------------------
@@ -745,17 +758,15 @@ CREATE TABLE `wid_registration` (
   CONSTRAINT `wid_registration_ibfk_1` FOREIGN KEY (`type_id`) REFERENCES `wid_registration_type` (`id`) ON DELETE NO ACTION ON UPDATE NO ACTION,
   CONSTRAINT `wid_registration_ibfk_2` FOREIGN KEY (`menu_id`) REFERENCES `menu` (`id`) ON DELETE CASCADE ON UPDATE NO ACTION,
   CONSTRAINT `wid_registration_ibfk_3` FOREIGN KEY (`widget_id`) REFERENCES `system_widget` (`id`) ON DELETE CASCADE ON UPDATE NO ACTION
-) ENGINE=InnoDB AUTO_INCREMENT=9 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=42 DEFAULT CHARSET=utf8;
 
 -- ----------------------------
 -- Records of wid_registration
 -- ----------------------------
-INSERT INTO `wid_registration` VALUES ('3', '1', null, '1', '1', '1', '1');
-INSERT INTO `wid_registration` VALUES ('4', '2', null, '1', '1', '2', '1');
-INSERT INTO `wid_registration` VALUES ('5', '3', null, '1', '2', '1', '1');
-INSERT INTO `wid_registration` VALUES ('6', '4', null, '1', '3', '1', '1');
-INSERT INTO `wid_registration` VALUES ('7', '5', null, '1', '4', '1', '1');
-INSERT INTO `wid_registration` VALUES ('8', null, '1', '2', '5', '1', '1');
+INSERT INTO `wid_registration` VALUES ('33', '3', null, '1', '2', '1', '1');
+INSERT INTO `wid_registration` VALUES ('34', '4', null, '1', '2', '2', '1');
+INSERT INTO `wid_registration` VALUES ('37', null, '1', '2', '9', '1', '1');
+INSERT INTO `wid_registration` VALUES ('39', null, '1', '2', '1', '1', '1');
 
 -- ----------------------------
 -- Table structure for `wid_registration_type`
