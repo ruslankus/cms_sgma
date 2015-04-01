@@ -19,8 +19,8 @@ $(".del").click(function()
 
         $.dialogBoxEx({
             buttons: [
-                {label:yesLabel,url:href,classes:'button confirm'},
-                {label:noLabel,click:function(){$.dialogBoxEx.hide();},classes:'button cancel'}
+                {label:noLabel,click:function(){$.dialogBoxEx.hide();},classes:'button cancel'},
+                {label:yesLabel,url:href,classes:'button confirm'}
             ],
             message: message
         });

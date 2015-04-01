@@ -12,7 +12,7 @@ class ContactsController extends ControllerAdmin
         
         $objContacts = Contacts::model()->with(array('contactsTrls.lng' => array('condition' => "lng.prefix='{$siteLng}'")))->findall();
         
-        $pager = CPaginator::getInstanse($objContacts,10,$page);
+        $pager = CPaginator::getInstance($objContacts,10,$page);
         $this->render('index',array('pager' => $pager, 'currLng' => $currLng));
     }
 
@@ -59,6 +59,20 @@ class ContactsController extends ControllerAdmin
             Yii::app()->end();
         }//ajax part
         
+        if($request->getPost('save-content')){
+            $criteria = new CDbCriteria;
+            $criteria->condition = "lng_id=':lng_id' AND contacts_id=':contacts_id'";
+            $criteria->params = array(':lang_id'=>$_POST['lngId'],':contacts_id'=>$id);
+           // $model = ContactsTrl::model()->findAll($criteria);
+            //$model = ContactsTrl::model()->findByAttributes(array('lng_id'=>$_POST['lngId'],'contacts_id'=>$id));
+            $model = ContactsTrl::model()->find(array('condition'=>'lng_id=:lng_id AND contacts_id=:contacts_id','params'=>array('lng_id'=>$_POST['lngId'],'contacts_id'=>$id)));
+            $model->text=$request->getPost('text');
+            $model->title=$request->getPost('title');
+            $model->meta_description=$request->getPost('meta');
+            $model->update();
+            echo $model->title;
+        }
+
         //Yii::app()->clientScript->registerScriptFile($this->assetsPath.'/js/vendor.textarea.js',CClientScript::POS_END);
         Yii::app()->clientScript->registerScriptFile($this->assetsPath.'/js/vendor.edit-contact.js',CClientScript::POS_END);
        
@@ -94,7 +108,7 @@ class ContactsController extends ControllerAdmin
 	        
 	        $objContacts = Contacts::model()->with(array('contactsTrls.lng' => array('condition' => "lng.prefix='{$siteLng}'")))->findall();
 	        
-	        $pager = CPaginator::getInstanse($objContacts,10,$page);
+	        $pager = CPaginator::getInstance($objContacts,10,$page);
 	        $this->renderPartial('_index',array('pager' => $pager, 'currLng' => $currLng));
 
 	        Yii::app()->end();

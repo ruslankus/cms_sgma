@@ -11,10 +11,7 @@ class MenuController extends ControllerAdmin
     public function actionList($page = 1)
     {
         //include necessary scripts and css
-        Yii::app()->clientScript->registerScriptFile($this->assetsPath.'/js/vendor.dialog-box.js',CClientScript::POS_END);
         Yii::app()->clientScript->registerScriptFile($this->assetsPath.'/js/vendor.menu-list.js',CClientScript::POS_END);
-
-        Yii::app()->clientScript->registerCssFile($this->assetsPath.'/css/vendor.css');
         Yii::app()->clientScript->registerCssFile($this->assetsPath.'/css/vendor.lightbox.css');
 
 
@@ -79,7 +76,6 @@ class MenuController extends ControllerAdmin
      */
     public function actionEditMenu($id)
     {
-        Yii::app()->clientScript->registerCssFile($this->assetsPath.'/css/vendor.css');
         Yii::app()->clientScript->registerCssFile($this->assetsPath.'/css/vendor.edit-menu-instance.css');
 
         //find menu
@@ -155,7 +151,6 @@ class MenuController extends ControllerAdmin
     public function actionMenuItems($id,$page = 1)
     {
         //include js file for AJAX updating
-        Yii::app()->clientScript->registerScriptFile($this->assetsPath.'/js/vendor.dialog-box.js',CClientScript::POS_END);
         Yii::app()->clientScript->registerScriptFile($this->assetsPath.'/js/vendor.trees.js',CClientScript::POS_END);
         Yii::app()->clientScript->registerScriptFile($this->assetsPath.'/js/vendor.main-menu.js',CClientScript::POS_END);
 
@@ -313,7 +308,6 @@ class MenuController extends ControllerAdmin
     public function actionEditMenuItem($id)
     {
         //include menu necessary scripts
-        Yii::app()->clientScript->registerScriptFile($this->assetsPath.'/js/vendor.dialog-box.js',CClientScript::POS_END);
         Yii::app()->clientScript->registerScriptFile($this->assetsPath.'/js/vendor.add-menu.js',CClientScript::POS_END);
         Yii::app()->clientScript->registerScriptFile($this->assetsPath.'/js/menu.edititem.js',CClientScript::POS_END);
 
@@ -327,7 +321,7 @@ class MenuController extends ControllerAdmin
         //current menu
         $objMenu = $menuItem->menu;
         //get all menu items in menu of current item (for parent selection)
-        $objParentItems = $objMenu->menuItems;
+        $objParentItems = $objMenu->buildObjArrRecursive();
         //statuses
         $arrStatuses = ExtStatus::model()->arrayForMenuForm(true);
         //types

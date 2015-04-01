@@ -6,8 +6,7 @@ $(".wrapper > a.user").click(function(e){
 	e.preventDefault();
 	$(this).toggleClass("active");
 	$(".wrapper > .user-open").toggle("blind",300);
-		
-});
+});//end user opened
 /*
  * Main language list open
 */
@@ -15,20 +14,20 @@ $(".wrapper > .langlist > a").click(function(e){
 	e.preventDefault();
 	$(this).toggleClass("active");
 	$(".wrapper > .langlist > ul").toggle("blind",300);
-});
+});//end language list
 /*
  * Toggle all checkboxes
 */
 $.fn.toggleAll = function() {
-	var checkbox = this;
-	this.change(function() {
-		if(checkbox.is(':checked'))
-			checkbox.parent().parent().parent().find(".cell.checkbox > input[type=checkbox]").prop("checked", true);
-		else
-			checkbox.parent().parent().parent().find(".cell.checkbox > input[type=checkbox]").prop("checked", false);
-	});
-	//this.prop('checked', true);
-}
+		var checkbox = this;
+		this.change(function() {
+			if(checkbox.is(':checked'))
+				checkbox.parent().parent().parent().find(".cell.checkbox > input[type=checkbox]").prop("checked", true);
+			else
+				checkbox.parent().parent().parent().find(".cell.checkbox > input[type=checkbox]").prop("checked", false);
+		});
+		//this.prop('checked', true);
+	}//end toggle checkbox
 /*
  * Sidebar
 */
@@ -76,7 +75,7 @@ $(".wrapper > .menu").click(function(e){
 			});
 			document.cookie="inluMenu=minimazed; path=/"; // Write menu status to cookie.
 		}	
-});
+});//end sidebar
 /*
  * Sidebar tree
 */
@@ -85,86 +84,14 @@ $( '.root li' ).each( function() {
             $( this ).addClass( 'hasChild hasChildIndicator' );     
     });
 	$( '.root li.hasChild' ).hover( function( ) { $( this ).addClass("jactive"); $( this ).children( 'ul' ).show( 'slide', 300 ); }, function( ) { $( this ).removeClass("jactive"); $( this ).find( 'ul' ).hide( 'slide', 300 ); });
-
-
-
+//end sider tree
 /*
- * Custom confirm box
+ * Custom select box
 */
-$.confirm = function(params){
-
-        if($('.popup-box').length){
-            return false;
-        }
-		
-        var markup = [
-            '<div class="popup-box">',
-            '<div class="popup-confirm" id="popup-content">',
-            '<span class="message">',params.message,'</span>',
-			'<a href="#" class="button cancel">Cancel</a>',
-			'<a href="#" class="button confirm">Confirm</a>',
-			'<div class="clearfix"></div>',
-            '</div></div></div>'
-        ].join('');
-
-        $(markup).hide().appendTo('body').fadeIn();
-		$("body").css({"overflow":"hidden"});
-		$(".popup-box > .popup-confirm").animate({"margin-top":"80px"},300);
-		
-		$(".popup-box > .popup-confirm > .confirm").click(function(e){
-			e.preventDefault();
-			params.confirm();
-            $.confirm.hide();
-            return false;
-		});
-		$(".popup-box > .popup-confirm > .cancel").click(function(e){
-			e.preventDefault();
-            $.confirm.hide();
-            return false;
-		});
-		
-    }
 /*
- * Custom confirm box
+ * Popup
 */
-$.input = function(params){
-
-        if($('.popup-box').length){
-            return false;
-        }
-		var $this = this;
-        var markup = [
-            '<div class="popup-box">',
-            '<div class="popup-input" id="popup-content">',
-            '<input type="text" value="" id="popup-input-value" placeholder="',params.placeholder,'"/>',
-            '<span class="errorMessage"></span>',
-			'<a href="#" class="button cancel">Cancel</a>',
-			'<a href="#" class="button confirm">Confirm</a>',
-			'<div class="clearfix"></div>',
-            '</div></div></div>'
-        ].join('');
-
-        $(markup).hide().appendTo('body').fadeIn();
-		$("body").css({"overflow":"hidden"});
-		$(".popup-box > .popup-input").animate({"margin-top":"80px"},300);
-		
-		$(".popup-box > .popup-input > .confirm").click(function(e){
-			params.value = $(".popup-box > .popup-input > #popup-input-value").val();
-			e.preventDefault();
-			var validates = params.validate();
-			if ( validates !== true) { $(".popup-box > .popup-input > .errorMessage").html(validates); }
-			else { params.confirmed();  $.confirm.hide(); }
-            return false;
-		});
-		$(".popup-box > .popup-input > .cancel").click(function(e){
-			e.preventDefault();
-            $.confirm.hide();
-            return false;
-		});
-		
-    }
-/* Popup */
-$.popup = function(params){
+	$.popup = function(params){
         if(!$('.popup-box').length){
             var markup = [
             '<div class="popup-box">',
@@ -173,14 +100,29 @@ $.popup = function(params){
 			].join('');
 			$(markup).hide().appendTo('body');
         }
-		if (typeof params.url !== 'undefined') { $(".popup-box > .popup-content").load(params.url); }
-		else { $(".popup-box > .popup-content").html(params); }
+		if($.type(params) !== "object")
+		{
+			$(".popup-box > .popup-content").html(params);
+		}
+		else
+		{
+			if (typeof params.url !== 'undefined') { $(".popup-box > .popup-content").load(params.url, function(){$('.popup-box > .popup-content').append('<a class="popup-close" href="#"></a>');if(params.show==true){$.popup.onshow();}}); }
+			else if (typeof params.html !== 'undefined') { $(".popup-box > .popup-content").html(params.html);if(params.show==true){$.popup.onshow();}}
+			else { $(".popup-box > .popup-content").html("Parameters empty.");}
+		}
+		$('.popup-box > .popup-content').append('<a class="popup-close" href="#"></a>');
 		return true;
     }
 	$.popup.show = function(){
 		$("body").css({"overflow":"hidden"});
 		$('.popup-box').fadeIn();
-		var top = ($(window).height()-$(".popup-box > .popup-content").height())/2;
+		var top = ($(window).height())/2-$(".popup-box > .popup-content").height() - 150;
+		$(".popup-box > .popup-content").animate({"margin-top":top+"px"},300);
+	}
+	$.popup.onshow = function(){
+		$("body").css({"overflow":"hidden"});
+		$('.popup-box').fadeIn();
+		var top = ($(window).height())/2-$(".popup-box > .popup-content").height();
 		$(".popup-box > .popup-content").animate({"margin-top":top+"px"},300);
 	}
 	$.popup.hide = function(){
@@ -188,21 +130,38 @@ $.popup = function(params){
             $(this).remove();
 			$("body").css({"overflow":"auto"});
         });
-	}
-    $.confirm.hide = function(){
-        $('.popup-box').fadeOut(function(){
-            $(this).remove();
-			$("body").css({"overflow":"auto"});
-        });
-    }
+	}//end popup functions
+//popup disable on ESC
 $(document).keyup(function(e) {
   if (e.keyCode == 27)
 	  {
-		$.confirm.hide();
+		$.popup.hide();
 	  }
-});
-$(document).on("click", ".popup-content a.cancel",function(e){
+});//end popup disable on ESC
+//popup disable on click
+$(document).on("click", ".popup-content .cancel",function(e){
 	e.preventDefault();
 	$.popup.hide();
 });
+$(document).on("click", ".popup-content .popup-close",function(e){
+	e.preventDefault();
+	$.popup.hide();
+});//end popup disable on click
+/*
+ * File upload input
+*/
+$.fileUploadInput = function()
+{
+	var $input = $(document).find("input[type=file]");
+	$input.each(function(){
+		var $this = $(this);
+		var label = $("<span/>",{"class":"file"}).html($input.attr("data-label")).prependTo($this.parent());
+		var input = $("<input/>",{"class":"file","type":"text","id":$input.attr("id")}).prependTo($this.parent());
+		$this.css({"position":"absolute","top":"-99999px"});
+		input.on("click",function() { $this.click(); });
+		label.on("click",function() { $this.click(); });
+		$this.on("change", function() { input.val($this.val().split('\\').pop()); });
+	})
+};//end file upload input
+$.fileUploadInput();
 })(jQuery);

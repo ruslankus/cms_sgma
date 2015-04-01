@@ -62,6 +62,11 @@ class AdminModule extends CWebModule
             'icon' => '',
             'html_class' => 'settings',
             'title' => 'Settings',
+
+            'sub' => array(
+                array('controller' => 'settings', 'action' => 'index', 'title' => 'General'),
+                array('controller' => 'positions', 'action' => 'registration', 'title' => 'Widget positions'),
+            ),
         ),
         array(
             'controller' => 'translation',

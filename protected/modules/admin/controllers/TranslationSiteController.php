@@ -34,7 +34,7 @@ class TranslationSiteController extends ControllerAdmin
         }
         $search_label = $request->getPost('search_label');  
         $arrLabel = ExtLabels::model()->getLabelsList($curr_lng, array('search_label' => $search_label));
-        $pager = CPaginator::getInstanse($arrLabel,10,$curr_page);
+        $pager = CPaginator::getInstance($arrLabel,10,$curr_page);
 
         $this->render('admin_labels',array('arrLabel' => $arrLabel,
                         'arrSelect' => $arrSelect,'lang_prefix' => $lang_prefix,'select_lng' => $curr_lng,
@@ -78,7 +78,7 @@ class TranslationSiteController extends ControllerAdmin
         $select_lng = $request->getPost('lng');
         $search_label = $request->getPost('search_val');
         $arrLabel = ExtLabels::model()->getLabelsList($select_lng,array('search_label' => $search_label));
-        $pager = CPaginator::getInstanse($arrLabel,10,$curr_page);
+        $pager = CPaginator::getInstance($arrLabel,10,$curr_page);
         $retData = $this->renderPartial('_admin_labels',array('arrLabel' => $arrLabel,
                 'arrSelect' => $arrSelect,'lang_prefix' => $lang_prefix,'select_lng' => $select_lng,
                 'search_val' => $search_label, 'pager'=>$pager)); 
@@ -178,7 +178,7 @@ class TranslationSiteController extends ControllerAdmin
         $search_label = $request->getPost('search_label');  
         $arrLabel = ExtMessages::model()->getMessagesList($curr_lng, array('search_label' => $search_label));
 
-        $pager = CPaginator::getInstanse($arrLabel,10,$curr_page);
+        $pager = CPaginator::getInstance($arrLabel,10,$curr_page);
         //$prepPages = $pager->getPreparedArray();
 
         $this->render('admin_messages',array('arrLabel' => $arrLabel,
@@ -229,7 +229,7 @@ class TranslationSiteController extends ControllerAdmin
         
         $arrLabel = ExtMessages::model()->getMessages($select_lng,array('search_label' => $search_label));
 
-        $pager = CPaginator::getInstanse($arrLabel,10,$curr_page);
+        $pager = CPaginator::getInstance($arrLabel,10,$curr_page);
         $retData = $this->renderPartial('_admin_messages',array('arrLabel' => $arrLabel,
                 'arrSelect' => $arrSelect,'lang_prefix' => $lang_prefix,'select_lng' => $select_lng,
                 'search_val' => $search_label, 'pager'=>$pager)); 
@@ -326,7 +326,7 @@ class TranslationSiteController extends ControllerAdmin
         $search_label = $request->getPost('search_label');  
         $arrLabel = ExtLabels::model()->getLabelsList($curr_lng, array('search_label' => $search_label));
         
-        $pager = CPaginator::getInstanse($arrLang,10,$curr_page);
+        $pager = CPaginator::getInstance($arrLang,10,$curr_page);
         //$prepPages = $pager->getPreparedArray();
 
         $this->render('admin_languages',array(

@@ -5,6 +5,9 @@
  */
 Class ExtMenu extends Menu
 {
+    //type of registration
+    public $registration_type = DynamicWidgets::REGISTRATION_MENU;
+
     /**
      * @param string $className
      * @return self

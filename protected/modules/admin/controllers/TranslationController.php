@@ -35,7 +35,7 @@ class TranslationController extends ControllerAdmin
         $search_label = $request->getPost('search_label');  
         $arrLabel = ExtAdminLabels::model()->getLabelsList($curr_lng, array('search_label' => $search_label));
 
-        $pager = CPaginator::getInstanse($arrLabel,10,$curr_page);
+        $pager = CPaginator::getInstance($arrLabel,10,$curr_page);
         //$prepPages = $pager->getPreparedArray();
 
         $this->render('admin_labels',array('arrLabel' => $arrLabel,
@@ -82,7 +82,7 @@ class TranslationController extends ControllerAdmin
             $curr_page=1;
         }        
         $arrLabel = ExtAdminLabels::model()->getLabelsList($select_lng,array('search_label' => $search_label));
-        $pager = CPaginator::getInstanse($arrLabel,10,$curr_page);
+        $pager = CPaginator::getInstance($arrLabel,10,$curr_page);
         $retData = $this->renderPartial('_admin_labels',array('arrLabel' => $arrLabel,
                 'arrSelect' => $arrSelect,'lang_prefix' => $lang_prefix,'select_lng' => $select_lng,
                 'search_val' => $search_label, 'pager'=>$pager)); 
@@ -184,7 +184,7 @@ class TranslationController extends ControllerAdmin
         $search_label = $request->getPost('search_label');  
         $arrLabel = ExtAdminMessages::model()->getMessagesList($curr_lng, array('search_label' => $search_label));
 
-        $pager = CPaginator::getInstanse($arrLabel,10,$curr_page);
+        $pager = CPaginator::getInstance($arrLabel,10,$curr_page);
         //$prepPages = $pager->getPreparedArray();
 
         $this->render('admin_messages',array('arrLabel' => $arrLabel,
@@ -236,7 +236,7 @@ class TranslationController extends ControllerAdmin
         
         $arrLabel = ExtAdminMessages::model()->getMessagesList($select_lng,array('search_label' => $search_label));
 
-        $pager = CPaginator::getInstanse($arrLabel,10,$curr_page);
+        $pager = CPaginator::getInstance($arrLabel,10,$curr_page);
         $retData = $this->renderPartial('_admin_messages',array('arrLabel' => $arrLabel,
                 'arrSelect' => $arrSelect,'lang_prefix' => $lang_prefix,'select_lng' => $select_lng,
                 'search_val' => $search_label, 'pager'=>$pager)); 
@@ -333,7 +333,7 @@ class TranslationController extends ControllerAdmin
         $search_label = $request->getPost('search_label');  
         $arrLabel = ExtAdminLabels::model()->getLabelsList($curr_lng, array('search_label' => $search_label));
         
-        $pager = CPaginator::getInstanse($arrLang,10,$curr_page);
+        $pager = CPaginator::getInstance($arrLang,10,$curr_page);
         //$prepPages = $pager->getPreparedArray();
 
         $this->render('admin_languages',array(
