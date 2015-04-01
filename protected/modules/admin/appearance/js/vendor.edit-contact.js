@@ -1,7 +1,7 @@
 $(document).ready(function() {
     
     
-    //$("textarea").textarea({width : "100%"});
+    $("#edit").ckeditor();
     
     /*
      * Language onchange event

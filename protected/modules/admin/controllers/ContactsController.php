@@ -46,7 +46,7 @@ class ContactsController extends ControllerAdmin
     }//create
 
     public function actionEditContent($id = null){
-        
+        $model = new SaveContactForm();
         $request = Yii::app()->request;
         if($request->isAjaxRequest){
             
@@ -58,8 +58,20 @@ class ContactsController extends ControllerAdmin
             $this->renderPartial('_editContact',array('objPage' => $objPage));
             Yii::app()->end();
         }//ajax part
-        
+
+        if(isset($_POST['SaveContactForm']))
+        {
+            $model->attributes=$_POST['SaveContactForm'];
+            if($model->validate())
+            {
+                // form inputs are valid, do something here
+                return;
+            }
+        } 
+
+      /*  
         if($request->getPost('save-content')){
+            
             $criteria = new CDbCriteria;
             $criteria->condition = "lng_id=':lng_id' AND contacts_id=':contacts_id'";
             $criteria->params = array(':lang_id'=>$_POST['lngId'],':contacts_id'=>$id);
@@ -71,9 +83,11 @@ class ContactsController extends ControllerAdmin
             $model->meta_description=$request->getPost('meta');
             $model->update();
             echo $model->title;
-        }
 
-        //Yii::app()->clientScript->registerScriptFile($this->assetsPath.'/js/vendor.textarea.js',CClientScript::POS_END);
+        }
+*/
+        Yii::app()->clientScript->registerScriptFile($this->assetsPath.'/ckeditor/ckeditor.js',CClientScript::POS_END);
+        Yii::app()->clientScript->registerScriptFile($this->assetsPath.'/ckeditor/adapters/jquery.js',CClientScript::POS_END);
         Yii::app()->clientScript->registerScriptFile($this->assetsPath.'/js/vendor.edit-contact.js',CClientScript::POS_END);
        
         $objCurrLng = SiteLng::lng()->getCurrLng();  
@@ -82,7 +96,7 @@ class ContactsController extends ControllerAdmin
         $arrPage = ExtContacts::model()->getContact($id,$objCurrLng->prefix);
         //Debug::d($arrPage);
         
-        $this->render('editContact', array('arrPage' => $arrPage, 'page_id' => $id, 'siteLng' => $objCurrLng->id ));
+        $this->render('editContact', array('arrPage' => $arrPage, 'model' => $model, 'page_id' => $id, 'siteLng' => $objCurrLng->id ));
     }//edit
 
     public function actionDeleteContact($id=null)
