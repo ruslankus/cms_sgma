@@ -14,28 +14,6 @@ class Controller extends CController
     public $description = "";
 
 
-    /**
-     * Constructor override - to assign language
-     * @param string $id
-     * @param null $module
-     */
-    /* 
-    public function __construct($id,$module=null)
-    {
-        //set default ime-zone
-        date_default_timezone_set('Europe/Vilnius');
-
-        $language = Yii::app()->request->getParam('language',Yii::app()->params['defaultLanguage']);
-        $this->setLanguage($language);
-
-        //TODO: get theme from db
-        Yii::app()->theme = "dark";
-
-        parent::__construct($id,$module);
-    }
-    */
-    
-    
     public function init(){
         
         //set default ime-zone
@@ -44,8 +22,8 @@ class Controller extends CController
         $language = Yii::app()->request->getParam('language',Yii::app()->params['defaultLanguage']);
         $this->setLanguage($language);
         
-        //TODO: get theme from db
-        Yii::app()->theme = "light";    
+        //TODO: get theme name form current settings
+        Yii::app()->theme = "dark";
         
     }//init
 
@@ -57,16 +35,9 @@ class Controller extends CController
     protected function beforeAction($action) {
 
         /**
-         * Read all widget positions from INI file
-         */
-        $themeConfigFile = !empty(Yii::app()->theme) ? Yii::app()->theme->basePath.'/config/theme.ini' : Yii::app()->basePath.'/config/theme.ini';
-        $arrThemeConfig = file_exists($themeConfigFile) ? parse_ini_file($themeConfigFile,true) : array();
-        $arrWidgetPositions = !empty($arrThemeConfig['widget_positions']) ? $arrThemeConfig['widget_positions'] : array();
-
-        /**
          * Initialise dynamic widgets
          */
-        DynamicWidgets::init($arrWidgetPositions,$this);
+        DynamicWidgets::init(Yii::app()->theme->name,$this);
 
         /*
         //publish dir to assets (fonts, css, js, images)

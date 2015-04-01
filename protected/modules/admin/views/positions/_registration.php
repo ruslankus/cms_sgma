@@ -29,6 +29,14 @@
                         </div><!--/item-->
                     <?php endforeach; ?>
 
+                    <?php $available = array(); ?>
+                    <?php foreach($all as $obj): ?>
+                        <?php if(!in_array(array($obj->registration_type,$obj->id),$addedIds)): ?>
+                            <?php $available[] = $obj; ?>
+                        <?php endif; ?>
+                    <?php endforeach; ?>
+
+                    <?php if(!empty($available)): ?>
                     <div class="item">
                         <span><?php echo ATrl::t()->getLabel('Select widget'); ?></span>
                         <a style="visibility: hidden;" href="#" class="move-down"><i class="ficoned arrow-down"></i></a>
@@ -36,13 +44,15 @@
                         <a style="visibility: hidden;"  href="#" class="iconed delete"></a>
                         <select name="name" class="selector-of-widget">
                             <option value="0,0,0"></option>
-                            <?php foreach($all as $obj): ?>
+                            <?php foreach($available as $obj): ?>
                                 <?php if(!in_array(array($obj->registration_type,$obj->id),$addedIds)): ?>
                                     <option value="<?php echo $obj->registration_type.','.$obj->id.','.$position_id; ?>"><?php echo $obj->label; ?></option>
                                 <?php endif; ?>
                             <?php endforeach; ?>
                         </select>
                     </div><!--/item-->
+                    <?php endif; ?>
+
                 </div><!--/widget-content-->
             </div><!--/widget-->
         </div><!--/cell-->

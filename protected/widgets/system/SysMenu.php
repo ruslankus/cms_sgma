@@ -11,6 +11,7 @@ class SysMenu extends CWidget
      * @var ExtMenu
      */
     public $menu;
+    public $themeName;
 
     /**
      * Override of getting view dir for widget
@@ -19,12 +20,124 @@ class SysMenu extends CWidget
      */
     public function getViewPath($checkTheme=false)
     {
-        $themeManager = Yii::app()->themeManager;
-        return $themeManager->basePath.DS.Yii::app()->theme->name.DS.'views'.DS.'menus';
+        $path = Yii::app()->getBasePath().DS.'widgets'.DS.'views';
+        $theme = Yii::app()->themeManager->getTheme($this->themeName);
+        if(!empty($theme))
+        {
+            $path = $theme->getBasePath().DS.'views'.DS.'menus';
+        }
+        return $path;
+
     }
 
+
+    /*****************************************************************************************************************/
+
+    /**
+     * Returns URL of menu item by it's type and id
+     * @param $type_id
+     * @param $content_item_id
+     * @param string $default_action
+     * @return string
+     */
+    private function getUrlByType($type_id,$content_item_id,$default_action = 'show')
+    {
+
+        $controller = $this->controllerOfType($type_id);
+        $url = Yii::app()->createUrl($controller.'/'.$default_action,array('id' => $content_item_id));
+
+        return $url;
+    }
+
+
+    /**
+     * Returns controller name for every link type
+     * @param $type_id
+     * @param string $default
+     * @return string
+     */
+    private function controllerOfType($type_id,$default = 'main')
+    {
+        $matches = array(
+            ExtMenuItemType::TYPE_SINGLE_PAGE => 'pages',
+            ExtMenuItemType::TYPE_NEWS_CATALOG => 'news',
+            ExtMenuItemType::TYPE_PRODUCTS_CATALOG => 'products',
+            ExtMenuItemType::TYPE_CONTACT_FORM => 'contacts',
+            ExtMenuItemType::TYPE_COMPLEX_PAGE => 'custom'
+        );
+
+        return array_key_exists($type_id,$matches) ? $matches[$type_id] : $default;
+    }
+
+
+    /**
+     * Make nested array from inline by recursive method
+     * @param $full_arr
+     * @param int $parent_id
+     * @return array
+     */
+    private function makeNested($full_arr,$parent_id = 0)
+    {
+        $result = array();
+        $operableItems = array();
+
+        foreach($full_arr as $item)
+        {
+            if($item['parent_id'] == $parent_id)
+            {
+                $operableItems[] = $item;
+            }
+        }
+
+        foreach($operableItems as $index => $itemIn)
+        {
+            if($itemIn['has_children'] == 0)
+            {
+                $result[$index] = $itemIn;
+            }
+            else
+            {
+                $result[$index] = $itemIn;
+                $result[$index]['children'] = $this->makeNested($full_arr,$itemIn['id']);
+            }
+        }
+
+        return $result;
+    }
+
+    /*****************************************************************************************************************/
+
+    /**
+     * Widget entry point
+     */
     public function run()
     {
-        $this->render($this->menu->template_name,array('label' => $this->menu->label));
+        $template = $this->menu->template_name;
+        $template = str_replace(".php","",$template);
+
+        $items_inline = array();
+        $items_nested = array();
+
+        if($this->menu->status_id == ExtStatus::VISIBLE)
+        {
+            $items = $this->menu->buildMenuItemsArrayFromObjArr();
+
+            foreach($items as $index => $item)
+            {
+                $items_inline[$index] = $item;
+                $items_inline[$index]['url'] = $this->getUrlByType($item['type_id'],$item['content_item_id']);
+                $items_inline[$index]['active'] = $this->controllerOfType($item['type_id']) == Yii::app()->controller->id ? 1 : 0;
+            }
+
+            $items_nested = $this->makeNested($items_inline);
+        }
+
+        $params = array(
+            'label' => $this->menu->label,
+            'items_inline' => $items_inline,
+            'items_nested' => $items_nested
+        );
+
+        $this->render($template,$params);
     }
 }

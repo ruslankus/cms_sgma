@@ -10,10 +10,10 @@
 </head>
 
 <body>
+DARK LAYOUT
 <?php echo DynamicWidgets::get('Top'); ?>
 <?php echo $content; ?>
-<?php echo DynamicWidgets::get('Top-right'); ?>
-<?php echo DynamicWidgets::get('Special'); ?>
+<?php echo DynamicWidgets::get('Central-left'); ?>
 </body>
 
 </html>

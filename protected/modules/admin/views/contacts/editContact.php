@@ -9,12 +9,12 @@
 	<div class="content page-content">
 		<div class="header">
 			<span>Some title</span>
-			<a href="edit-page.html">Page Settings</a>
-			<a href="edit-page-content.html" class="active">Content</a>
+			<a href="edit-page.html" class="active">Contact Form settings</a>
 		</div><!--/header-->
 			<?php $form=$this->beginWidget('CActiveForm', array(
 				'id'=>'save-contact-form-SaveContactForm-form',
 				'enableAjaxValidation'=>false,
+				'htmlOptions' => array('enctype' => 'multipart/form-data'),
 			)); ?>
 			<div class="inner-top">
 			<?php
@@ -35,6 +35,15 @@
 
 
 			<div class="inner-editor">
+				<table>
+					<tr>
+						<td class="label">image</td>
+						<td class="value">
+							<?php echo $form->fileField($model, 'image'); ?>
+							<?php echo $form->error($model, 'image'); ?>
+						</td>
+					</tr>
+				</table>
 				<table>
 					<tr>
 						<td class="label">Title</td>
