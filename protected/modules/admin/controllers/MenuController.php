@@ -487,7 +487,7 @@ class MenuController extends ControllerAdmin
         $previous = $orders['old'];
         $new = $orders['new'];
 
-        Sort::ReorderMenuItems($previous,$new);
+        Sort::ReorderItems("ExtMenuItem",$previous,$new);
 
         echo "OK";
     }
@@ -542,7 +542,7 @@ class MenuController extends ControllerAdmin
             throw new CHttpException(404);
         }
 
-        Sort::Move($objItem,$dir,'ExtMenuItem',array('parent_id' => $objItem->parent_id));
+        Sort::Move($objItem,$dir,'ExtMenuItem',array('parent_id' => $objItem->parent_id,'menu_id' => $objItem->menu_id));
 
         if(!Yii::app()->request->isAjaxRequest)
         {

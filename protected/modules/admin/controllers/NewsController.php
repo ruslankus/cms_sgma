@@ -27,6 +27,9 @@ class NewsController extends ControllerAdmin
     }
 
 
+    /**
+     * Adding category
+     */
     public function actionAddCat()
     {
         //include menu necessary scripts
@@ -77,13 +80,13 @@ class NewsController extends ControllerAdmin
                         //category
                         $category = new ExtNewsCategory();
                         $category->attributes = $form_mdl->attributes;
-                        $category->time_update = time();
+                        $category->time_updated = time();
                         $category->time_created = time();
                         $category->last_change_by = Yii::app()->user->id;
                         $category->priority = Sort::GetNextPriority('ExtNewsCategory',array('parent_id' => $form_mdl->parent_id));
                         $category->save();
 
-                        //update branch
+                        //update branch (branch can be useful for breadcrumbs and item filtering by category)
                         $category->updateBranch();
 
                         //translations
@@ -122,6 +125,83 @@ class NewsController extends ControllerAdmin
                 'form_model' => $form_mdl,
             )
         );
+    }
+
+
+    /**
+     * Changes order (for draggable items)
+     */
+    public function actionAjaxOrderItems()
+    {
+        $ordersJson = Yii::app()->request->getParam('orders');
+        $orders = json_decode($ordersJson,true);
+
+        $previous = $orders['old'];
+        $new = $orders['new'];
+
+        Sort::ReorderItems("ExtNewsCategory",$previous,$new);
+
+        echo "OK";
+    }
+
+    /**
+     * Move item's priority
+     * @param int $id
+     * @param string $dir
+     * @throws CHttpException
+     */
+    public function actionMove($id, $dir)
+    {
+        //find item of menu
+        $objItem = ExtNewsCategory::model()->findByPk($id);
+
+        ///if not found
+        if(empty($objItem))
+        {
+            throw new CHttpException(404);
+        }
+
+        Sort::Move($objItem,$dir,'ExtNewsCategory',array('parent_id' => $objItem->parent_id));
+
+        if(!Yii::app()->request->isAjaxRequest)
+        {
+            //back to listing items
+            $this->redirect(Yii::app()->createUrl('/admin/news/categories'));
+        }
+        else
+        {
+            echo "OK";
+        }
+    }
+
+    /**
+     * Deletes category from database
+     * @param $id
+     * @throws CHttpException
+     */
+    public function actionDeleteCat($id)
+    {
+        //find item of menu
+        $objItem = ExtNewsCategory::model()->findByPk($id);
+
+        ///if not found
+        if(empty($objItem))
+        {
+            throw new CHttpException(404);
+        }
+
+        $objItem->deleteChildren();
+        $objItem->delete();
+
+        if(!Yii::app()->request->isAjaxRequest)
+        {
+            //back to listing items
+            $this->redirect(Yii::app()->createUrl('/admin/news/categories'));
+        }
+        else
+        {
+            echo "OK";
+        }
     }
 
 

@@ -24,7 +24,7 @@
                             <a href="<?php echo Yii::app()->createUrl('admin/news/move',array('id' => $children->id,'dir' => 'up')); ?>" class="go-up move-item"><span class="ficoned arrow-up"></span></a>
                             <a href="<?php echo Yii::app()->createUrl('admin/news/move',array('id' => $children->id,'dir' => 'down')); ?>" class="go-down move-item"><span class="ficoned arrow-down"></span></a>
                         </div><!--/sequen-->
-                        <div class="type"><?php echo Trl::t()->getLabel($children->type->label); ?></div>
+                        <div class="type"><?php echo $children->countOfItems(); ?></div>
                         <div class="action">
                             <a href="<?php echo Yii::app()->createUrl('admin/news/editcat',array('id' => $children->id)); ?>" class="edit"><span class="ficoned pencil"></span></a>
                             <a data-message="<?php echo ATrl::t()->getLabel('Are your sure ?'); ?>" data-yes="<?php echo ATrl::t()->getLabel('Delete'); ?>" data-no="<?php echo ATrl::t()->getLabel('Cancel'); ?>" href="<?php echo Yii::app()->createUrl('/admin/news/deletecat',array('id' => $children->id)); ?>" class="delete"><span class="ficoned trash-can"></span></a>

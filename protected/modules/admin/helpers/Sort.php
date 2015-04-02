@@ -73,17 +73,23 @@ class Sort
         return false;
     }
 
+
     /**
      * Reorders priorities (used for ajax drag-n-drop sequence changing)
+     * @param string $className
      * @param array $oldOrder
      * @param array $newOrder
      */
-    public static function ReorderMenuItems($oldOrder,$newOrder)
+    public static function ReorderItems($className,$oldOrder,$newOrder)
     {
         if(!empty($oldOrder) && !empty($newOrder) && count($oldOrder) == count($newOrder))
         {
+            /* @var $className ExtMenuItem | ExtProductCategory | ExtNewsCategory | CActiveRecord */
+            /* @var $items ExtMenuItem[] | ExtProductCategory[] | ExtNewsCategory[] | CActiveRecord[] */
+            /* @var $item ExtMenuItem | ExtProductCategory | ExtNewsCategory | CActiveRecord */
+
             //get all items by old order's ID's and sort them by priority descending
-            $items = ExtMenuItem::model()->findAllByAttributes(array('id' => $oldOrder),array('order' => 'priority DESC'));
+            $items = $className::model()->findAllByAttributes(array('id' => $oldOrder),array('order' => 'priority DESC'));
 
             if(!empty($items))
             {
@@ -98,7 +104,7 @@ class Sort
                 foreach($newOrder as $id)
                 {
                     //set current iteration priority
-                    $item = ExtMenuItem::model()->findByPk($id);
+                    $item = $className::model()->findByPk($id);
                     $item->priority = $current_priority;
                     $item->last_change_by = Yii::app()->user->id;
                     $item->time_updated = time();

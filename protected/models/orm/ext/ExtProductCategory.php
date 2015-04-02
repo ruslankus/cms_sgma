@@ -55,6 +55,31 @@ class ExtProductCategory extends ProductCategory
         return $count;
     }
 
+    /**
+     * Count of news in this category
+     * @return string
+     */
+    public function countOfItems()
+    {
+        $count = News::model()->countByAttributes(array('category_id' => $this->id));
+        return $count;
+    }
+
+    /**
+     * Deletes all children of item
+     */
+    public function deleteChildren()
+    {
+        /* @var $children self[] */
+
+        $children = $this->buildObjArrRecursive($this->id);
+
+        foreach($children as $child)
+        {
+            $child->delete();
+        }
+    }
+
 
     /**
      * Build recursive array of categories (ORM) - use it for admin templates

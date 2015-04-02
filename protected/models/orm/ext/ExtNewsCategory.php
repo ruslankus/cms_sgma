@@ -66,6 +66,21 @@ class ExtNewsCategory extends NewsCategory
         return $count;
     }
 
+    /**
+     * Deletes all children of item
+     */
+    public function deleteChildren()
+    {
+        /* @var $children self[] */
+
+        $children = $this->buildObjArrRecursive($this->id);
+
+        foreach($children as $child)
+        {
+            $child->delete();
+        }
+    }
+
 
     /**
      * Build recursive array of categories (ORM) - use it for admin templates
