@@ -258,22 +258,6 @@ class MenuController extends ControllerAdmin
                             $menuItemTrl->save();
                         }
 
-                        //updating branch
-                        if($menuItem->parent_id != 0)
-                        {
-                            $parent = ExtMenuItem::model()->findByPk($menuItem->parent_id);
-                            $arrBranch = !empty($parent) ? explode(":",$parent->branch) : array(0);
-                        }
-                        else
-                        {
-                            $arrBranch = array(0);
-                        }
-
-                        $arrBranch[] = $menuItem->id;
-                        $strBranch = implode(":",$arrBranch);
-                        $menuItem->branch = $strBranch;
-                        $menuItem->update();
-
                         $transaction->commit();
                     }
                     catch(Exception $ex)
@@ -405,22 +389,6 @@ class MenuController extends ControllerAdmin
                             }
 
                         }
-
-                        //updating branch
-                        if($menuItem->parent_id != 0)
-                        {
-                            $parent = ExtMenuItem::model()->findByPk($menuItem->parent_id);
-                            $arrBranch = !empty($parent) ? explode(":",$parent->branch) : array(0);
-                        }
-                        else
-                        {
-                            $arrBranch = array(0);
-                        }
-
-                        $arrBranch[] = $menuItem->id;
-                        $strBranch = implode(":",$arrBranch);
-                        $menuItem->branch = $strBranch;
-                        $menuItem->update();
 
                         $transaction->commit();
 

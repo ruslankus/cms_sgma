@@ -57,6 +57,18 @@ class AdminModule extends CWebModule
             ),
         ),
         array(
+            'controller' => 'news',
+            'action' => 'list',
+            'icon' => '',
+            'html_class' => 'products',
+            'title' => 'News',
+
+            'sub' => array(
+                array('controller' => 'news', 'action' => 'categories', 'title' => 'Categories'),
+                array('controller' => 'news', 'action' => 'list', 'title' => 'News list'),
+            ),
+        ),
+        array(
             'controller' => 'settings',
             'action' => 'index',
             'icon' => '',

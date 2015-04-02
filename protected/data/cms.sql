@@ -10,7 +10,7 @@ Target Server Type    : MYSQL
 Target Server Version : 50538
 File Encoding         : 65001
 
-Date: 2015-04-02 11:25:28
+Date: 2015-04-02 12:44:48
 */
 
 SET FOREIGN_KEY_CHECKS=0;
@@ -253,7 +253,6 @@ DROP TABLE IF EXISTS `menu_item`;
 CREATE TABLE `menu_item` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
   `menu_id` int(11) DEFAULT NULL,
-  `branch` varchar(128) DEFAULT NULL,
   `label` varchar(128) DEFAULT NULL,
   `parent_id` int(11) DEFAULT NULL,
   `priority` int(11) DEFAULT NULL,
@@ -274,14 +273,14 @@ CREATE TABLE `menu_item` (
 -- ----------------------------
 -- Records of menu_item
 -- ----------------------------
-INSERT INTO `menu_item` VALUES ('1', '1', '0:1', 'News', '0', '4', '2', null, '1', '0', '1427960931', '1');
-INSERT INTO `menu_item` VALUES ('10', '1', '0:10', 'Products', '0', '3', '1', '8', '1', '0', '1427960931', '1');
-INSERT INTO `menu_item` VALUES ('11', '1', '0:11', 'Some-cat', '0', '5', '1', '8', '1', '0', '1427960983', '1');
-INSERT INTO `menu_item` VALUES ('26', '1', '0:11:26', 'ddd', '11', '1', '1', '8', '1', '1427808477', '1427895024', '1');
-INSERT INTO `menu_item` VALUES ('27', '1', '0:11:27', 'edf', '11', '2', '1', '8', '1', '1427877013', '1427961010', '1');
-INSERT INTO `menu_item` VALUES ('28', '1', '0:11:26:28', 'Test test test', '26', '1', '1', '9', '1', '1427892417', '1427892417', '1');
-INSERT INTO `menu_item` VALUES ('29', '2', '0:29', 'Item 1', '0', '7', '1', '8', '1', '1427895318', '1427895339', '1');
-INSERT INTO `menu_item` VALUES ('30', '2', '0:30', 'Item 2', '0', '6', '1', '8', '1', '1427895332', '1427895339', '1');
+INSERT INTO `menu_item` VALUES ('1', '1', 'News', '0', '4', '2', null, '1', '0', '1427960931', '1');
+INSERT INTO `menu_item` VALUES ('10', '1', 'Products', '0', '3', '1', '8', '1', '0', '1427960931', '1');
+INSERT INTO `menu_item` VALUES ('11', '1', 'Some-cat', '0', '5', '1', '8', '1', '0', '1427960983', '1');
+INSERT INTO `menu_item` VALUES ('26', '1', 'ddd', '11', '1', '1', '8', '1', '1427808477', '1427895024', '1');
+INSERT INTO `menu_item` VALUES ('27', '1', 'edf', '11', '2', '1', '8', '1', '1427877013', '1427961010', '1');
+INSERT INTO `menu_item` VALUES ('28', '1', 'Test test test', '26', '1', '1', '9', '1', '1427892417', '1427967707', '1');
+INSERT INTO `menu_item` VALUES ('29', '2', 'Item 1', '0', '7', '1', '8', '1', '1427895318', '1427895339', '1');
+INSERT INTO `menu_item` VALUES ('30', '2', 'Item 2', '0', '6', '1', '8', '1', '1427895332', '1427895339', '1');
 
 -- ----------------------------
 -- Table structure for `menu_item_trl`
@@ -312,7 +311,7 @@ INSERT INTO `menu_item_trl` VALUES ('81', 'Some title', '26', '1');
 INSERT INTO `menu_item_trl` VALUES ('82', 'Какое-то название', '26', '2');
 INSERT INTO `menu_item_trl` VALUES ('83', 'edf', '27', '1');
 INSERT INTO `menu_item_trl` VALUES ('84', 'edf', '27', '2');
-INSERT INTO `menu_item_trl` VALUES ('85', 'Title of page', '28', '1');
+INSERT INTO `menu_item_trl` VALUES ('85', 'Test test test', '28', '1');
 INSERT INTO `menu_item_trl` VALUES ('86', 'Название', '28', '2');
 INSERT INTO `menu_item_trl` VALUES ('87', 'Item 1', '29', '1');
 INSERT INTO `menu_item_trl` VALUES ('88', '', '29', '2');
@@ -405,7 +404,8 @@ DROP TABLE IF EXISTS `news_category`;
 CREATE TABLE `news_category` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
   `parent_id` int(11) DEFAULT NULL,
-  `label` char(128) DEFAULT NULL,
+  `branch` varchar(256) DEFAULT NULL,
+  `label` varchar(128) DEFAULT NULL,
   `status_id` int(11) DEFAULT NULL,
   `priority` int(11) DEFAULT NULL,
   `time_created` int(11) DEFAULT NULL,
@@ -541,7 +541,8 @@ DROP TABLE IF EXISTS `product_category`;
 CREATE TABLE `product_category` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
   `parent_id` int(11) DEFAULT NULL,
-  `label` char(128) DEFAULT NULL,
+  `branch` varchar(256) DEFAULT NULL,
+  `label` varchar(128) DEFAULT NULL,
   `status_id` int(11) DEFAULT NULL,
   `priority` int(11) DEFAULT NULL,
   `time_created` int(11) DEFAULT NULL,

@@ -60,34 +60,19 @@ class ExtMenuItem extends MenuItem
 
     /**
      * Returns nesting level
-     * @param bool $byBranch
      * @return int
      */
-    public function nestingLevel($byBranch = false)
+    public function nestingLevel()
     {
-        if($byBranch)
+        $level = 1;
+        $current = $this;
+        while($current->hasParent())
         {
-            $arrBranch = array();
-            $branchStr = $this->branch;
-            if(!empty($branchStr))
-            {
-                $arrBranch = explode(":",$branchStr);
-            }
-
-            return !empty($arrBranch) ? count($arrBranch) - 1 : 1;
+            $current = $current->getParent();
+            $level++;
         }
-        else
-        {
-            $level = 1;
-            $current = $this;
-            while($current->hasParent())
-            {
-                $current = $current->getParent();
-                $level++;
-            }
 
-            return $level;
-        }
+        return $level;
     }
 
 
