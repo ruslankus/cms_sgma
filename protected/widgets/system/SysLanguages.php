@@ -24,11 +24,23 @@ class SysLanguages extends CWidget
         return $path;
     }
 
+    /**
+     * Main entry
+     */
     public function run()
     {
+        $arrayLanguages = array();
+        $languages = SiteLng::lng()->getLngs();
+
+        foreach($languages as $index => $language)
+        {
+            $arrayLanguages[$index] = $language->attributes;
+            $arrayLanguages[$index]['url'] = "#"; //TODO: form url for language switching
+        }
+
         $template = $this->widgetInfo->template_name;
         $template = str_replace(".php","",$template);
 
-        $this->render($template);
+        $this->render($template,array('languages' => $arrayLanguages));
     }
 }

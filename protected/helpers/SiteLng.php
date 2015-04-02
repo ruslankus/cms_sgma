@@ -30,8 +30,10 @@ class SiteLng
         }
         //$this->_arrMessages = FormMessages::model()->getLabels();
     }
-    
-    
+
+    /**
+     * @return Languages[]
+     */
     public function getLngs(){
         return $this->_objLngs;
     }

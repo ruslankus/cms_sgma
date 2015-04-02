@@ -10,7 +10,7 @@ Target Server Type    : MYSQL
 Target Server Version : 50538
 File Encoding         : 65001
 
-Date: 2015-04-02 14:26:04
+Date: 2015-04-02 18:26:22
 */
 
 SET FOREIGN_KEY_CHECKS=0;
@@ -260,7 +260,6 @@ CREATE TABLE `labels` (
 -- ----------------------------
 -- Records of labels
 -- ----------------------------
-INSERT INTO `labels` VALUES ('1', 'label', '0', '0', '0', '0');
 
 -- ----------------------------
 -- Table structure for `labels_trl`
@@ -281,8 +280,6 @@ CREATE TABLE `labels_trl` (
 -- ----------------------------
 -- Records of labels_trl
 -- ----------------------------
-INSERT INTO `labels_trl` VALUES ('1', '1', '1', 'label');
-INSERT INTO `labels_trl` VALUES ('2', '1', '2', 'метка');
 
 -- ----------------------------
 -- Table structure for `languages`
@@ -315,14 +312,13 @@ CREATE TABLE `menu` (
   `last_change_by` int(11) DEFAULT NULL,
   `template_name` varchar(512) DEFAULT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=5 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=7 DEFAULT CHARSET=utf8;
 
 -- ----------------------------
 -- Records of menu
 -- ----------------------------
-INSERT INTO `menu` VALUES ('1', 'Main menu', '1', '0', '1427961062', '1', 'main_menu.php');
-INSERT INTO `menu` VALUES ('2', 'Additional Menu', '1', '0', '1427900323', '1', 'other_menu.php');
-INSERT INTO `menu` VALUES ('4', 'RIght menu', '1', '1427278569', '1427279732', '1', 'main_menu.php');
+INSERT INTO `menu` VALUES ('5', 'Main menu', '1', '1427987138', '1427987138', '1', 'main_menu.php');
+INSERT INTO `menu` VALUES ('6', 'Bottom menu', '1', '1427987161', '1427987161', '1', 'other_menu.php');
 
 -- ----------------------------
 -- Table structure for `menu_item`
@@ -346,19 +342,15 @@ CREATE TABLE `menu_item` (
   KEY `content_item_id` (`content_item_id`),
   CONSTRAINT `menu_item_ibfk_1` FOREIGN KEY (`type_id`) REFERENCES `menu_item_type` (`id`) ON DELETE NO ACTION ON UPDATE NO ACTION,
   CONSTRAINT `menu_item_ibfk_2` FOREIGN KEY (`menu_id`) REFERENCES `menu` (`id`) ON DELETE CASCADE ON UPDATE NO ACTION
-) ENGINE=InnoDB AUTO_INCREMENT=31 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=35 DEFAULT CHARSET=utf8;
 
 -- ----------------------------
 -- Records of menu_item
 -- ----------------------------
-INSERT INTO `menu_item` VALUES ('1', '1', 'News', '0', '4', '2', null, '1', '0', '1427960931', '1');
-INSERT INTO `menu_item` VALUES ('10', '1', 'Products', '0', '3', '1', '8', '1', '0', '1427960931', '1');
-INSERT INTO `menu_item` VALUES ('11', '1', 'Some-cat', '0', '5', '1', '8', '1', '0', '1427960983', '1');
-INSERT INTO `menu_item` VALUES ('26', '1', 'ddd', '11', '1', '1', '8', '1', '1427808477', '1427895024', '1');
-INSERT INTO `menu_item` VALUES ('27', '1', 'edf', '11', '2', '1', '8', '1', '1427877013', '1427961010', '1');
-INSERT INTO `menu_item` VALUES ('28', '1', 'Test test test', '26', '1', '1', '9', '1', '1427892417', '1427967707', '1');
-INSERT INTO `menu_item` VALUES ('29', '2', 'Item 1', '0', '7', '1', '8', '1', '1427895318', '1427895339', '1');
-INSERT INTO `menu_item` VALUES ('30', '2', 'Item 2', '0', '6', '1', '8', '1', '1427895332', '1427895339', '1');
+INSERT INTO `menu_item` VALUES ('31', '5', 'Home page', '0', '4', '1', '8', '1', '1427987229', '1427987481', '1');
+INSERT INTO `menu_item` VALUES ('32', '5', 'News', '0', '3', '2', '7', '1', '1427987311', '1427987481', '1');
+INSERT INTO `menu_item` VALUES ('33', '5', 'Products', '0', '2', '1', '8', '1', '1427987366', '1427987481', '1');
+INSERT INTO `menu_item` VALUES ('34', '5', 'Contacts', '0', '1', '1', '8', '1', '1427987474', '1427987481', '1');
 
 -- ----------------------------
 -- Table structure for `menu_item_trl`
@@ -374,27 +366,19 @@ CREATE TABLE `menu_item_trl` (
   KEY `menu_item_trl_ibfk_2` (`lng_id`),
   CONSTRAINT `menu_item_trl_ibfk_1` FOREIGN KEY (`lng_id`) REFERENCES `languages` (`id`) ON DELETE CASCADE ON UPDATE NO ACTION,
   CONSTRAINT `menu_item_trl_ibfk_2` FOREIGN KEY (`menu_item_id`) REFERENCES `menu_item` (`id`) ON DELETE CASCADE ON UPDATE NO ACTION
-) ENGINE=InnoDB AUTO_INCREMENT=91 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=99 DEFAULT CHARSET=utf8;
 
 -- ----------------------------
 -- Records of menu_item_trl
 -- ----------------------------
-INSERT INTO `menu_item_trl` VALUES ('1', 'News', '1', '1');
-INSERT INTO `menu_item_trl` VALUES ('2', 'Новости', '1', '2');
-INSERT INTO `menu_item_trl` VALUES ('51', 'Products', '10', '1');
-INSERT INTO `menu_item_trl` VALUES ('52', 'Продукты', '10', '2');
-INSERT INTO `menu_item_trl` VALUES ('69', 'Some-cat', '11', '1');
-INSERT INTO `menu_item_trl` VALUES ('70', 'Какая-то категория', '11', '2');
-INSERT INTO `menu_item_trl` VALUES ('81', 'Some title', '26', '1');
-INSERT INTO `menu_item_trl` VALUES ('82', 'Какое-то название', '26', '2');
-INSERT INTO `menu_item_trl` VALUES ('83', 'edf', '27', '1');
-INSERT INTO `menu_item_trl` VALUES ('84', 'edf', '27', '2');
-INSERT INTO `menu_item_trl` VALUES ('85', 'Test test test', '28', '1');
-INSERT INTO `menu_item_trl` VALUES ('86', 'Название', '28', '2');
-INSERT INTO `menu_item_trl` VALUES ('87', 'Item 1', '29', '1');
-INSERT INTO `menu_item_trl` VALUES ('88', '', '29', '2');
-INSERT INTO `menu_item_trl` VALUES ('89', 'Item 2', '30', '1');
-INSERT INTO `menu_item_trl` VALUES ('90', '', '30', '2');
+INSERT INTO `menu_item_trl` VALUES ('91', 'Home page', '31', '1');
+INSERT INTO `menu_item_trl` VALUES ('92', 'Главная', '31', '2');
+INSERT INTO `menu_item_trl` VALUES ('93', 'News', '32', '1');
+INSERT INTO `menu_item_trl` VALUES ('94', 'Новости', '32', '2');
+INSERT INTO `menu_item_trl` VALUES ('95', 'Products', '33', '1');
+INSERT INTO `menu_item_trl` VALUES ('96', 'Продукты', '33', '2');
+INSERT INTO `menu_item_trl` VALUES ('97', 'Contacts', '34', '1');
+INSERT INTO `menu_item_trl` VALUES ('98', 'Контакты', '34', '2');
 
 -- ----------------------------
 -- Table structure for `menu_item_type`
@@ -487,14 +471,18 @@ CREATE TABLE `news_category` (
   `status_id` int(11) DEFAULT NULL,
   `priority` int(11) DEFAULT NULL,
   `time_created` int(11) DEFAULT NULL,
-  `time_update` int(11) DEFAULT NULL,
+  `time_updated` int(11) DEFAULT NULL,
   `last_change_by` int(11) DEFAULT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=10 DEFAULT CHARSET=utf8;
 
 -- ----------------------------
 -- Records of news_category
 -- ----------------------------
+INSERT INTO `news_category` VALUES ('6', '0', '0:6', 'Politics', '1', '1', '1427986066', '1427986692', '1');
+INSERT INTO `news_category` VALUES ('7', '0', '0:7', 'Science', '1', '2', '1427986253', '1427986692', '1');
+INSERT INTO `news_category` VALUES ('8', '7', '0:7:8', 'Space', '1', '2', '1427986560', '1427986560', '1');
+INSERT INTO `news_category` VALUES ('9', '7', '0:7:9', 'Technologies', '1', '1', '1427986638', '1427986638', '1');
 
 -- ----------------------------
 -- Table structure for `news_category_trl`
@@ -509,12 +497,22 @@ CREATE TABLE `news_category_trl` (
   `lng_id` int(11) DEFAULT NULL,
   PRIMARY KEY (`id`),
   KEY `news_category_id` (`news_category_id`),
+  KEY `lng_id` (`lng_id`),
+  CONSTRAINT `news_category_trl_ibfk_2` FOREIGN KEY (`lng_id`) REFERENCES `languages` (`id`) ON DELETE CASCADE ON UPDATE NO ACTION,
   CONSTRAINT `news_category_trl_ibfk_1` FOREIGN KEY (`news_category_id`) REFERENCES `news_category` (`id`) ON DELETE CASCADE ON UPDATE NO ACTION
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=19 DEFAULT CHARSET=utf8;
 
 -- ----------------------------
 -- Records of news_category_trl
 -- ----------------------------
+INSERT INTO `news_category_trl` VALUES ('11', 'Politics', 'Politics, Putin, Obama', 'Last news about politics', '6', '1');
+INSERT INTO `news_category_trl` VALUES ('12', 'Политика', 'Политика, Путин, Обама', 'Последние новости из мира политики', '6', '2');
+INSERT INTO `news_category_trl` VALUES ('13', 'Science', 'Science, physics, discovery', 'Last news about science', '7', '1');
+INSERT INTO `news_category_trl` VALUES ('14', 'Наука', 'Наука, физика, открытия', 'Последние новости из мира науки', '7', '2');
+INSERT INTO `news_category_trl` VALUES ('15', 'Space', 'Sapce, astronauts', 'All about space', '8', '1');
+INSERT INTO `news_category_trl` VALUES ('16', 'Космос', 'Космос, астронавты', 'Все о космосе', '8', '2');
+INSERT INTO `news_category_trl` VALUES ('17', 'Technologies', 'Technologies, IT', 'All about technologies', '9', '1');
+INSERT INTO `news_category_trl` VALUES ('18', 'Технологии', 'Технологии, ИТ', 'Все  новости о технологиях', '9', '2');
 
 -- ----------------------------
 -- Table structure for `news_trl`
@@ -624,7 +622,7 @@ CREATE TABLE `product_category` (
   `status_id` int(11) DEFAULT NULL,
   `priority` int(11) DEFAULT NULL,
   `time_created` int(11) DEFAULT NULL,
-  `time_update` int(11) DEFAULT NULL,
+  `time_updated` int(11) DEFAULT NULL,
   `last_change_by` int(11) DEFAULT NULL,
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
@@ -726,14 +724,14 @@ CREATE TABLE `system_widget` (
   PRIMARY KEY (`id`),
   KEY `system_widget_ibfk_1` (`type_id`),
   CONSTRAINT `system_widget_ibfk_1` FOREIGN KEY (`type_id`) REFERENCES `system_widget_type` (`id`) ON DELETE NO ACTION ON UPDATE NO ACTION
-) ENGINE=InnoDB AUTO_INCREMENT=5 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=6 DEFAULT CHARSET=utf8;
 
 -- ----------------------------
 -- Records of system_widget
 -- ----------------------------
 INSERT INTO `system_widget` VALUES ('2', 'Login widget', '2', 'login.php');
 INSERT INTO `system_widget` VALUES ('3', 'Search widget', '1', 'search.php');
-INSERT INTO `system_widget` VALUES ('4', 'Custom', '6', 'custom.php');
+INSERT INTO `system_widget` VALUES ('5', 'Language switcher', '4', 'languages.php');
 
 -- ----------------------------
 -- Table structure for `system_widget_trl`
@@ -757,8 +755,6 @@ CREATE TABLE `system_widget_trl` (
 -- ----------------------------
 INSERT INTO `system_widget_trl` VALUES ('3', '', '', '2', '1');
 INSERT INTO `system_widget_trl` VALUES ('4', '', '', '2', '2');
-INSERT INTO `system_widget_trl` VALUES ('5', 'Custom Title', 'Custom html', '4', '1');
-INSERT INTO `system_widget_trl` VALUES ('6', 'Введенное название', 'Введенный текст', '4', '2');
 
 -- ----------------------------
 -- Table structure for `system_widget_type`
@@ -840,13 +836,13 @@ CREATE TABLE `wid_registration` (
   CONSTRAINT `wid_registration_ibfk_1` FOREIGN KEY (`type_id`) REFERENCES `wid_registration_type` (`id`) ON DELETE NO ACTION ON UPDATE NO ACTION,
   CONSTRAINT `wid_registration_ibfk_2` FOREIGN KEY (`menu_id`) REFERENCES `menu` (`id`) ON DELETE CASCADE ON UPDATE NO ACTION,
   CONSTRAINT `wid_registration_ibfk_3` FOREIGN KEY (`widget_id`) REFERENCES `system_widget` (`id`) ON DELETE CASCADE ON UPDATE NO ACTION
-) ENGINE=InnoDB AUTO_INCREMENT=53 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=55 DEFAULT CHARSET=utf8;
 
 -- ----------------------------
 -- Records of wid_registration
 -- ----------------------------
-INSERT INTO `wid_registration` VALUES ('48', null, '1', '2', '12', '1', '1');
-INSERT INTO `wid_registration` VALUES ('52', '4', null, '1', '12', '2', '1');
+INSERT INTO `wid_registration` VALUES ('53', '5', null, '1', '2', '1', '1');
+INSERT INTO `wid_registration` VALUES ('54', null, '5', '2', '1', '1', '1');
 
 -- ----------------------------
 -- Table structure for `wid_registration_type`
