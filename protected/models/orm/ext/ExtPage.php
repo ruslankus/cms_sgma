@@ -77,7 +77,9 @@ class ExtPage extends Page
     
     public function getPageWithImage($page_id,$lng = 'en'){
         
-        $sql = "SELECT * FROM ".$this->tableName();
+        $sql  = "SELECT * FROM ".$this->tableName();
+        $sql .= " WHERE id=".(int)$page_id;
+        $sql .= " LIMIT 1";
         $con = $this->dbConnection;
         $arrData = $con->createCommand($sql)->queryRow();
         

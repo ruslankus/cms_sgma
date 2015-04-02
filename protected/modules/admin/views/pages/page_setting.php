@@ -10,13 +10,25 @@
 					<div class="header">
 						<span>Some title</span>
 						<a href="edit-page.html" class="active">Page Settings</a>
-						<a href="/en/admin/editcontent/<?php echo $page_id?>">Content</a>
+						<a href="edit-page-content.html">Content</a>
 					</div><!--/header-->
 					
 					<div class="inner-content">
 						<div class="form-zone">
-						<form enctype="multipart/form-data">
+						<!--/ <form enctype="multipart/form-data"> -->
+                        <?php echo CHtml::beginForm(); ?>
 							<table>
+								<tr>
+									<td class="label">Template:</td>
+									<td class="value">
+										<select name="template">
+											<option>------------</option>
+											<option>template.php</option>
+											<option>template.php</option>
+											<option>template.php</option>
+										</select>
+									</td>
+								</tr>
 								<tr>
 									<td class="label">Choose image:</td>
 									<td class="value"><input name="file" type="file" id="file-input" data-label="Browse..." /></td>
@@ -25,45 +37,37 @@
 									<td class="label"><strong>Caption:</strong></td>
 									<td class="value"></td>
 								</tr>
+                                <?php foreach(SiteLng::lng()->getLngs() as $objLng):?>
 								<tr>
-									<td class="label">English</td>
-									<td class="value"><input type="text" name="lang_en" /></td>
+									<td class="label"><?php echo $objLng->name?></td>
+									<td class="value">                                    
+                                    <?php echo CHtml::activeTextField($model,"captions[{$objLng->prefix}]")?>
+                                    <?php echo CHtml::error($model,"captions[{$objLng->prefix}]") ?>
+                                    </td>
 								</tr>
-								<tr>
-									<td class="label">Russian</td>
-									<td class="value"><input type="text" name="lang_ru" /></td>
-								</tr>
-								<tr>
-									<td class="label">Lithuanian</td>
-									<td class="value"><input type="text" name="lang_lt" /></td>
-								</tr>
+                                <?php endforeach; ?>
+								
 							</table>
 							<input type="submit" value="Save" />
-						</form>
+					
+                        <?php echo CHtml::endForm(); ?>
 						</div><!--/form-zone-->
 						<div class="image-zone">
 							<strong>Preview</strong>
 							<div class="list">
+                            <?php foreach($arrImages as $item):?>
+                                <?php if(!empty($item)):?>
 								<div class="image">
-									<img src="/uploads/Koala.jpg" alt="" />
+									<img src="/uploads/images/Koala.jpg" alt="" />
 									<a href="#" class="delete active" data-id="1"></a>
 								</div>
-								<div class="image">
-									<img src="<?php echo $this->assetsPath ?>/images/no-image-upload.png" alt="" />
+                                <?php else:?>
+                                <div class="image">
+									<img src="images/no-image-upload.png" alt="" />
 									<a href="#" class="delete"></a>
-								</div>
-								<div class="image">
-									<img src="<?php echo $this->assetsPath ?>/images/no-image-upload.png" alt="" />
-									<a href="#" class="delete"></a>
-								</div>
-								<div class="image">
-									<img src="<?php echo $this->assetsPath ?>/images/no-image-upload.png" alt="" />
-									<a href="#" class="delete"></a>
-								</div>
-								<div class="image">
-									<img src="<?php echo $this->assetsPath ?>/images/no-image-upload.png" alt="" />
-									<a href="#" class="delete"></a>
-								</div>
+								</div>                                
+                                <?php endif;?>
+                            <?php endforeach; ?>  						
 							</div><!--/list-->
 						</div><!--/image-zone-->
 					</div><!--/inner-content-->

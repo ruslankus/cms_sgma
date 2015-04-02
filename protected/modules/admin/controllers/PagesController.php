@@ -118,9 +118,7 @@ class PagesController extends ControllerAdmin
                 Yii::app()->end();
             }
             
-           
-
-            
+        
         }else{
             //excepton    
         }
@@ -132,12 +130,31 @@ class PagesController extends ControllerAdmin
         
         //
         //$objPage = Page::model()->findByPk($id);
+        $model = new AddPageFile();
+        if(!empty($_POST['AddPageFile'])){
+            $model->attributes = $_POST['AddPageFile'];
+            if($model->validate()){
+                
+            }
+        }
         
-        $arrPage = ExtPage::model()->getPageWithImage($id);
-        Debug::d($arrPage);
+        $lngObj = SiteLng::lng()->getCurrLng();
+      
+        $arrPage = ExtPage::model()->getPageWithImage($id, $lngObj->prefix);
+        
+        $arrImages = $arrPage['images'];
+       
+        $elCount = count($arrImages);
+        if($elCount < 5){
+          
+            $arrComb = array_pad($arrImages,5,'');
+           
+        }
         
         
-        $this->render('page_setting',array('page_id' => $id, 'arrPage' => $arrPage));
+        
+        $this->render('page_setting',array('page_id' => $id, 'arrPage' => $arrPage,
+         'arrImages' => $arrComb, 'model' => $model));
         
         
         
