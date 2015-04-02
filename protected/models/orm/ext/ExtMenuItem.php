@@ -26,8 +26,7 @@ class ExtMenuItem extends MenuItem
      */
     public function hasChildren()
     {
-        $count = ExtMenuItem::model()->countByAttributes(array('menu_id' => $this->menu_id, 'parent_id' => $this->id));
-        return $count > 0;
+        return $this->countOfChildren() > 0;
     }
 
     /**
@@ -36,8 +35,18 @@ class ExtMenuItem extends MenuItem
      */
     public function hasParent()
     {
-        $count = ExtMenuItem::model()->countByAttributes(array('id' => $this->parent_id, 'menu_id' => $this->menu_id));
+        $count = self::model()->countByAttributes(array('id' => $this->parent_id, 'menu_id' => $this->menu_id));
         return $count > 0;
+    }
+
+    /**
+     * Returns parent of this item
+     * @return self
+     */
+    public function getParent()
+    {
+        $parent = self::model()->findByPk($this->parent_id);
+        return $parent;
     }
 
     /**
@@ -45,46 +54,42 @@ class ExtMenuItem extends MenuItem
      */
     public function countOfChildren()
     {
-        $count = ExtMenuItem::model()->countByAttributes(array('menu_id' => $this->menu_id, 'parent_id' => $this->id));
+        $count = self::model()->countByAttributes(array('menu_id' => $this->menu_id, 'parent_id' => $this->id));
         return $count;
     }
 
     /**
      * Returns nesting level
+     * @param bool $byBranch
      * @return int
      */
-    public function nestingLevel()
+    public function nestingLevel($byBranch = false)
     {
-        $arrBranch = array();
-        $branchStr = $this->branch;
-        if(!empty($branchStr))
+        if($byBranch)
         {
-            $arrBranch = explode(":",$branchStr);
-        }
-
-        return !empty($arrBranch) ? count($arrBranch) - 1 : 1;
-    }
-
-    /**
-     * Get translated name by language ID
-     * @param $lngId
-     * @return string
-     */
-    public function trlName($lngId)
-    {
-        $result = "";
-        $arrTrl = $this->menuItemTrls;
-
-        foreach($arrTrl as $trl)
-        {
-            if($trl->lng_id == $lngId)
+            $arrBranch = array();
+            $branchStr = $this->branch;
+            if(!empty($branchStr))
             {
-                $result = $trl->value;
+                $arrBranch = explode(":",$branchStr);
             }
-        }
 
-        return $result;
+            return !empty($arrBranch) ? count($arrBranch) - 1 : 1;
+        }
+        else
+        {
+            $level = 1;
+            $current = $this;
+            while($current->hasParent())
+            {
+                $current = $current->getParent();
+                $level++;
+            }
+
+            return $level;
+        }
     }
+
 
     /**
      * Deletes all children of item

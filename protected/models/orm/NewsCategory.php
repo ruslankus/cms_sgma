@@ -6,6 +6,7 @@
  * The followings are the available columns in table 'news_category':
  * @property integer $id
  * @property integer $parent_id
+ * @property string $branch
  * @property string $label
  * @property integer $status_id
  * @property integer $priority
@@ -36,10 +37,11 @@ class NewsCategory extends CActiveRecord
 		// will receive user inputs.
 		return array(
 			array('parent_id, status_id, priority, time_created, time_update, last_change_by', 'numerical', 'integerOnly'=>true),
+			array('branch', 'length', 'max'=>256),
 			array('label', 'length', 'max'=>128),
 			// The following rule is used by search().
 			// @todo Please remove those attributes that should not be searched.
-			array('id, parent_id, label, status_id, priority, time_created, time_update, last_change_by', 'safe', 'on'=>'search'),
+			array('id, parent_id, branch, label, status_id, priority, time_created, time_update, last_change_by', 'safe', 'on'=>'search'),
 		);
 	}
 
@@ -64,6 +66,7 @@ class NewsCategory extends CActiveRecord
 		return array(
 			'id' => 'ID',
 			'parent_id' => 'Parent',
+			'branch' => 'Branch',
 			'label' => 'Label',
 			'status_id' => 'Status',
 			'priority' => 'Priority',
@@ -93,6 +96,7 @@ class NewsCategory extends CActiveRecord
 
 		$criteria->compare('id',$this->id);
 		$criteria->compare('parent_id',$this->parent_id);
+		$criteria->compare('branch',$this->branch,true);
 		$criteria->compare('label',$this->label,true);
 		$criteria->compare('status_id',$this->status_id);
 		$criteria->compare('priority',$this->priority);
