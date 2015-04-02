@@ -91,6 +91,35 @@ class ExtNewsCategory extends NewsCategory
 
 
     /**
+     * Groups array by root-categories (to build blocks easier in template)
+     * @param int $parent_id
+     * @param string $order
+     * @return array
+     */
+    public function rootGroups($parent_id = 0, $order = 'priority DESC')
+    {
+        /* @var $array self[] */
+
+        $array = $this->buildObjArrRecursive($parent_id,$order);
+
+        $currentIndex = 0;
+        $result = array();
+
+        foreach($array as $item)
+        {
+            if(!$item->hasParent())
+            {
+                $currentIndex = $item->id;
+            }
+
+            $result[$currentIndex][] = $item;
+        }
+
+        return $result;
+    }
+
+
+    /**
      * Returns nesting level
      * @param bool $byBranch
      * @return int

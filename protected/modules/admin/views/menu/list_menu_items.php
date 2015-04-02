@@ -33,7 +33,7 @@
     <?php endfor; ?>
 </div><!--/pagination-->
 
-<input type="hidden" id="ajax-refresh-link" value="<?php echo Yii::app()->createUrl('/admin/menu/menuitems/',array('id' => $menu->id, 'page' => CPaginator::getInstance()->getCurrentPage(), 'ajax' => 1)); ?>">
+<input type="hidden" id="ajax-refresh-link" value="<?php echo Yii::app()->createUrl('/admin/menu/menuitems/',array('id' => $menu->id, 'page' => CPaginator::getInstance()->getCurrentPage())); ?>">
 <input type="hidden" id="ajax-swap-link" value="<?php echo Yii::app()->createUrl('/admin/menu/ajaxorderitems'); ?>">
 
 </main>

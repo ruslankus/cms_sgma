@@ -1,10 +1,9 @@
 <?php
 /**
- * Class ExtProduct
- * @property ExtProductCategory $category
- * @property ProductTrl $trl
+ * Class ExtImages
+ * @property ImagesTrl $trl
  */
-class ExtProduct extends Product
+class ExtImages extends Images
 {
     /**
      * @param string $className
@@ -14,6 +13,14 @@ class ExtProduct extends Product
     {
         return parent::model($className);
     }
+
+
+
+
+    /**
+     * TODO: Your extended methods here
+     */
+
 
     /**
      * Override, relate with extended models
@@ -36,7 +43,7 @@ class ExtProduct extends Product
 
         //relate with translation
         $lng = Yii::app()->language;
-        $relations['trl'] = array(self::HAS_ONE, 'ProductTrl', 'product_id', 'with' => array('lng' => array('condition' => "lng.prefix='{$lng}'")));
+        $relations['trl'] = array(self::HAS_ONE, 'ImagesTrl', 'image_id', 'with' => array('lng' => array('condition' => "lng.prefix='{$lng}'")));
 
         //return modified relations
         return $relations;
