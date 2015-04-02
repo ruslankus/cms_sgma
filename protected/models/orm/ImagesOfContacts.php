@@ -1,29 +1,25 @@
 <?php
 
 /**
- * This is the model class for table "contacts_trl".
+ * This is the model class for table "images_of_contacts".
  *
- * The followings are the available columns in table 'contacts_trl':
+ * The followings are the available columns in table 'images_of_contacts':
  * @property integer $id
- * @property integer $lng_id
+ * @property integer $image_id
  * @property integer $contacts_id
- * @property string $text
- * @property string $title
- * @property string $meta_description
- * @property string $email
  *
  * The followings are the available model relations:
  * @property Contacts $contacts
- * @property Languages $lng
+ * @property Images $image
  */
-class ContactsTrl extends CActiveRecord
+class ImagesOfContacts extends CActiveRecord
 {
 	/**
 	 * @return string the associated database table name
 	 */
 	public function tableName()
 	{
-		return 'contacts_trl';
+		return 'images_of_contacts';
 	}
 
 	/**
@@ -34,11 +30,10 @@ class ContactsTrl extends CActiveRecord
 		// NOTE: you should only define rules for those attributes that
 		// will receive user inputs.
 		return array(
-			array('lng_id, contacts_id', 'numerical', 'integerOnly'=>true),
-			array('text, title, meta_description, email', 'safe'),
+			array('image_id, contacts_id', 'numerical', 'integerOnly'=>true),
 			// The following rule is used by search().
 			// @todo Please remove those attributes that should not be searched.
-			array('id, lng_id, contacts_id, text, title, meta_description, email', 'safe', 'on'=>'search'),
+			array('id, image_id, contacts_id', 'safe', 'on'=>'search'),
 		);
 	}
 
@@ -51,7 +46,7 @@ class ContactsTrl extends CActiveRecord
 		// class name for the relations automatically generated below.
 		return array(
 			'contacts' => array(self::BELONGS_TO, 'Contacts', 'contacts_id'),
-			'lng' => array(self::BELONGS_TO, 'Languages', 'lng_id'),
+			'image' => array(self::BELONGS_TO, 'Images', 'image_id'),
 		);
 	}
 
@@ -62,12 +57,8 @@ class ContactsTrl extends CActiveRecord
 	{
 		return array(
 			'id' => 'ID',
-			'lng_id' => 'Lng',
+			'image_id' => 'Image',
 			'contacts_id' => 'Contacts',
-			'text' => 'Text',
-			'title' => 'Title',
-			'meta_description' => 'Meta Description',
-			'email' => 'Email',
 		);
 	}
 
@@ -90,12 +81,8 @@ class ContactsTrl extends CActiveRecord
 		$criteria=new CDbCriteria;
 
 		$criteria->compare('id',$this->id);
-		$criteria->compare('lng_id',$this->lng_id);
+		$criteria->compare('image_id',$this->image_id);
 		$criteria->compare('contacts_id',$this->contacts_id);
-		$criteria->compare('text',$this->text,true);
-		$criteria->compare('title',$this->title,true);
-		$criteria->compare('meta_description',$this->meta_description,true);
-		$criteria->compare('email',$this->email,true);
 
 		return new CActiveDataProvider($this, array(
 			'criteria'=>$criteria,
@@ -106,7 +93,7 @@ class ContactsTrl extends CActiveRecord
 	 * Returns the static model of the specified AR class.
 	 * Please note that you should have this exact method in all your CActiveRecord descendants!
 	 * @param string $className active record class name.
-	 * @return ContactsTrl the static model class
+	 * @return ImagesOfContacts the static model class
 	 */
 	public static function model($className=__CLASS__)
 	{

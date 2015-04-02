@@ -13,6 +13,7 @@
  * The followings are the available model relations:
  * @property ContactsFields[] $contactsFields
  * @property ContactsTrl[] $contactsTrls
+ * @property ImagesOfContacts[] $imagesOfContacts
  */
 class Contacts extends CActiveRecord
 {
@@ -52,6 +53,7 @@ class Contacts extends CActiveRecord
 		return array(
 			'contactsFields' => array(self::HAS_MANY, 'ContactsFields', 'contacts_id'),
 			'contactsTrls' => array(self::HAS_MANY, 'ContactsTrl', 'contacts_id'),
+			'imagesOfContacts' => array(self::HAS_MANY, 'ImagesOfContacts', 'contacts_id'),
 		);
 	}
 

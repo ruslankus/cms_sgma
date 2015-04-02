@@ -10,7 +10,7 @@ Target Server Type    : MYSQL
 Target Server Version : 50538
 File Encoding         : 65001
 
-Date: 2015-04-02 13:36:47
+Date: 2015-04-02 14:26:04
 */
 
 SET FOREIGN_KEY_CHECKS=0;
@@ -154,6 +154,7 @@ CREATE TABLE `contacts_trl` (
   `text` text,
   `title` text,
   `meta_description` text,
+  `email` text,
   PRIMARY KEY (`id`),
   KEY `contacts_id` (`contacts_id`),
   KEY `lng_id` (`lng_id`),
@@ -181,6 +182,25 @@ CREATE TABLE `images` (
 
 -- ----------------------------
 -- Records of images
+-- ----------------------------
+
+-- ----------------------------
+-- Table structure for `images_of_contacts`
+-- ----------------------------
+DROP TABLE IF EXISTS `images_of_contacts`;
+CREATE TABLE `images_of_contacts` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `image_id` int(11) DEFAULT NULL,
+  `contacts_id` int(11) DEFAULT NULL,
+  PRIMARY KEY (`id`),
+  KEY `image_id` (`image_id`),
+  KEY `contacts_id` (`contacts_id`),
+  CONSTRAINT `images_of_contacts_ibfk_2` FOREIGN KEY (`contacts_id`) REFERENCES `contacts` (`id`) ON DELETE NO ACTION,
+  CONSTRAINT `images_of_contacts_ibfk_1` FOREIGN KEY (`image_id`) REFERENCES `images` (`id`) ON DELETE NO ACTION
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+-- ----------------------------
+-- Records of images_of_contacts
 -- ----------------------------
 
 -- ----------------------------

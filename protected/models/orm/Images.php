@@ -12,6 +12,7 @@
  * @property integer $size
  *
  * The followings are the available model relations:
+ * @property ImagesOfContacts[] $imagesOfContacts
  * @property ImagesOfPage[] $imagesOfPages
  * @property ImagesTrl[] $imagesTrls
  */
@@ -51,6 +52,7 @@ class Images extends CActiveRecord
 		// NOTE: you may need to adjust the relation name and the related
 		// class name for the relations automatically generated below.
 		return array(
+			'imagesOfContacts' => array(self::HAS_MANY, 'ImagesOfContacts', 'image_id'),
 			'imagesOfPages' => array(self::HAS_MANY, 'ImagesOfPage', 'image_id'),
 			'imagesTrls' => array(self::HAS_MANY, 'ImagesTrl', 'image_id'),
 		);
