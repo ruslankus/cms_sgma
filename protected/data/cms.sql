@@ -10,7 +10,7 @@ Target Server Type    : MYSQL
 Target Server Version : 50538
 File Encoding         : 65001
 
-Date: 2015-04-01 17:24:25
+Date: 2015-04-02 11:25:28
 */
 
 SET FOREIGN_KEY_CHECKS=0;
@@ -242,8 +242,8 @@ CREATE TABLE `menu` (
 -- ----------------------------
 -- Records of menu
 -- ----------------------------
-INSERT INTO `menu` VALUES ('1', 'Main menu', '1', '0', '1427894986', '1', 'main_menu.php');
-INSERT INTO `menu` VALUES ('2', 'Additional Menu', '1', '0', '1427895296', '1', 'other_menu.php');
+INSERT INTO `menu` VALUES ('1', 'Main menu', '1', '0', '1427961062', '1', 'main_menu.php');
+INSERT INTO `menu` VALUES ('2', 'Additional Menu', '1', '0', '1427900323', '1', 'other_menu.php');
 INSERT INTO `menu` VALUES ('4', 'RIght menu', '1', '1427278569', '1427279732', '1', 'main_menu.php');
 
 -- ----------------------------
@@ -274,11 +274,11 @@ CREATE TABLE `menu_item` (
 -- ----------------------------
 -- Records of menu_item
 -- ----------------------------
-INSERT INTO `menu_item` VALUES ('1', '1', '0:1', 'News', '0', '5', '2', null, '1', '0', '1427807496', '1');
-INSERT INTO `menu_item` VALUES ('10', '1', '0:10', 'Products', '0', '3', '1', '5', '1', '0', '1427807496', '1');
-INSERT INTO `menu_item` VALUES ('11', '1', '0:11', 'Some-cat', '0', '4', '1', '8', '1', '0', '1427807496', '1');
-INSERT INTO `menu_item` VALUES ('26', '1', '0:11:26', 'ddd', '11', '2', '1', '8', '1', '1427808477', '1427895024', '1');
-INSERT INTO `menu_item` VALUES ('27', '1', '0:11:27', 'edf', '11', '1', '1', '8', '1', '1427877013', '1427877013', '1');
+INSERT INTO `menu_item` VALUES ('1', '1', '0:1', 'News', '0', '4', '2', null, '1', '0', '1427960931', '1');
+INSERT INTO `menu_item` VALUES ('10', '1', '0:10', 'Products', '0', '3', '1', '8', '1', '0', '1427960931', '1');
+INSERT INTO `menu_item` VALUES ('11', '1', '0:11', 'Some-cat', '0', '5', '1', '8', '1', '0', '1427960983', '1');
+INSERT INTO `menu_item` VALUES ('26', '1', '0:11:26', 'ddd', '11', '1', '1', '8', '1', '1427808477', '1427895024', '1');
+INSERT INTO `menu_item` VALUES ('27', '1', '0:11:27', 'edf', '11', '2', '1', '8', '1', '1427877013', '1427961010', '1');
 INSERT INTO `menu_item` VALUES ('28', '1', '0:11:26:28', 'Test test test', '26', '1', '1', '9', '1', '1427892417', '1427892417', '1');
 INSERT INTO `menu_item` VALUES ('29', '2', '0:29', 'Item 1', '0', '7', '1', '8', '1', '1427895318', '1427895339', '1');
 INSERT INTO `menu_item` VALUES ('30', '2', '0:30', 'Item 2', '0', '6', '1', '8', '1', '1427895332', '1427895339', '1');
@@ -304,14 +304,14 @@ CREATE TABLE `menu_item_trl` (
 -- ----------------------------
 INSERT INTO `menu_item_trl` VALUES ('1', 'News', '1', '1');
 INSERT INTO `menu_item_trl` VALUES ('2', 'Новости', '1', '2');
-INSERT INTO `menu_item_trl` VALUES ('51', 'bbbbbb', '10', '1');
-INSERT INTO `menu_item_trl` VALUES ('52', 'GGG', '10', '2');
-INSERT INTO `menu_item_trl` VALUES ('69', 'GGGG', '11', '1');
-INSERT INTO `menu_item_trl` VALUES ('70', 'Ухаха', '11', '2');
+INSERT INTO `menu_item_trl` VALUES ('51', 'Products', '10', '1');
+INSERT INTO `menu_item_trl` VALUES ('52', 'Продукты', '10', '2');
+INSERT INTO `menu_item_trl` VALUES ('69', 'Some-cat', '11', '1');
+INSERT INTO `menu_item_trl` VALUES ('70', 'Какая-то категория', '11', '2');
 INSERT INTO `menu_item_trl` VALUES ('81', 'Some title', '26', '1');
 INSERT INTO `menu_item_trl` VALUES ('82', 'Какое-то название', '26', '2');
-INSERT INTO `menu_item_trl` VALUES ('83', 'ddd', '27', '1');
-INSERT INTO `menu_item_trl` VALUES ('84', '', '27', '2');
+INSERT INTO `menu_item_trl` VALUES ('83', 'edf', '27', '1');
+INSERT INTO `menu_item_trl` VALUES ('84', 'edf', '27', '2');
 INSERT INTO `menu_item_trl` VALUES ('85', 'Title of page', '28', '1');
 INSERT INTO `menu_item_trl` VALUES ('86', 'Название', '28', '2');
 INSERT INTO `menu_item_trl` VALUES ('87', 'Item 1', '29', '1');
@@ -676,8 +676,8 @@ CREATE TABLE `system_widget_trl` (
 -- ----------------------------
 INSERT INTO `system_widget_trl` VALUES ('3', '', '', '2', '1');
 INSERT INTO `system_widget_trl` VALUES ('4', '', '', '2', '2');
-INSERT INTO `system_widget_trl` VALUES ('5', 'Custom Title', 'Custom Title', '4', '1');
-INSERT INTO `system_widget_trl` VALUES ('6', 'Введенное название', 'Введенное название', '4', '2');
+INSERT INTO `system_widget_trl` VALUES ('5', 'Custom Title', 'Custom html', '4', '1');
+INSERT INTO `system_widget_trl` VALUES ('6', 'Введенное название', 'Введенный текст', '4', '2');
 
 -- ----------------------------
 -- Table structure for `system_widget_type`
@@ -686,18 +686,19 @@ DROP TABLE IF EXISTS `system_widget_type`;
 CREATE TABLE `system_widget_type` (
   `id` int(11) NOT NULL,
   `label` varchar(255) DEFAULT NULL,
+  `widget_class` varchar(255) DEFAULT NULL,
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 -- ----------------------------
 -- Records of system_widget_type
 -- ----------------------------
-INSERT INTO `system_widget_type` VALUES ('1', 'Search Form');
-INSERT INTO `system_widget_type` VALUES ('2', 'Login form');
-INSERT INTO `system_widget_type` VALUES ('3', 'Calendar');
-INSERT INTO `system_widget_type` VALUES ('4', 'Language Bar');
-INSERT INTO `system_widget_type` VALUES ('5', 'Product cart');
-INSERT INTO `system_widget_type` VALUES ('6', 'Custom HTML');
+INSERT INTO `system_widget_type` VALUES ('1', 'Search Form', 'SysSearch');
+INSERT INTO `system_widget_type` VALUES ('2', 'Login form', 'SysLogin');
+INSERT INTO `system_widget_type` VALUES ('3', 'Calendar', 'SysCalendar');
+INSERT INTO `system_widget_type` VALUES ('4', 'Language Bar', 'SysLanguages');
+INSERT INTO `system_widget_type` VALUES ('5', 'Product cart', 'SysCart');
+INSERT INTO `system_widget_type` VALUES ('6', 'Custom HTML', 'SysCustom');
 
 -- ----------------------------
 -- Table structure for `users`
@@ -758,16 +759,13 @@ CREATE TABLE `wid_registration` (
   CONSTRAINT `wid_registration_ibfk_1` FOREIGN KEY (`type_id`) REFERENCES `wid_registration_type` (`id`) ON DELETE NO ACTION ON UPDATE NO ACTION,
   CONSTRAINT `wid_registration_ibfk_2` FOREIGN KEY (`menu_id`) REFERENCES `menu` (`id`) ON DELETE CASCADE ON UPDATE NO ACTION,
   CONSTRAINT `wid_registration_ibfk_3` FOREIGN KEY (`widget_id`) REFERENCES `system_widget` (`id`) ON DELETE CASCADE ON UPDATE NO ACTION
-) ENGINE=InnoDB AUTO_INCREMENT=46 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=53 DEFAULT CHARSET=utf8;
 
 -- ----------------------------
 -- Records of wid_registration
 -- ----------------------------
-INSERT INTO `wid_registration` VALUES ('33', '3', null, '1', '2', '1', '1');
-INSERT INTO `wid_registration` VALUES ('34', '4', null, '1', '2', '2', '1');
-INSERT INTO `wid_registration` VALUES ('37', null, '1', '2', '9', '1', '1');
-INSERT INTO `wid_registration` VALUES ('39', null, '1', '2', '1', '1', '1');
-INSERT INTO `wid_registration` VALUES ('44', null, '2', '2', '1', '2', '1');
+INSERT INTO `wid_registration` VALUES ('48', null, '1', '2', '12', '1', '1');
+INSERT INTO `wid_registration` VALUES ('52', '4', null, '1', '12', '2', '1');
 
 -- ----------------------------
 -- Table structure for `wid_registration_type`
