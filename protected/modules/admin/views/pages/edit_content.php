@@ -9,7 +9,7 @@
 		<div class="content page-content">
 			<div class="header">
 				<span>Some title</span>
-				<a href="edit-page.html">Page Settings</a>
+				<a href="/<?php echo $lngPrefix ?>/admin/pages/pagesetting/<?php echo $page_id ?>">Page Settings</a>
 				<a href="edit-page-content.html" class="active">Content</a>
 			</div><!--/header-->
 			

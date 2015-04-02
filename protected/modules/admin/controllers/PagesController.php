@@ -79,7 +79,7 @@ class PagesController extends ControllerAdmin
         //Debug::d($arrPage);
         
         $this->render('edit_content', array('arrPage' => $arrPage,'model' =>$model,
-         'page_id' => $id, 'siteLng' => $objCurrLng->id ));
+         'page_id' => $id, 'siteLng' => $objCurrLng->id, 'lngPrefix' => $objCurrLng->prefix ));
     }//edit
     
     public function actionDelete(){
@@ -126,6 +126,22 @@ class PagesController extends ControllerAdmin
         }
         
     }// save
+    
+    
+    public function actionPageSetting($id = null){
+        
+        //
+        //$objPage = Page::model()->findByPk($id);
+        
+        $arrPage = ExtPage::model()->getPageWithImage($id);
+        Debug::d($arrPage);
+        
+        
+        $this->render('page_setting',array('page_id' => $id, 'arrPage' => $arrPage));
+        
+        
+        
+    }//pageSetting
     
     
     
