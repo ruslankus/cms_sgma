@@ -64,7 +64,7 @@ Class ExtSystemWidget extends SystemWidget
 
         //relate with translation
         $lng = Yii::app()->language;
-        $relations['trl'] = array(self::HAS_ONE, 'MenuItemTrl', 'menu_item_id', 'with' => array('lng' => array('condition' => "lng.prefix='{$lng}'")));
+        $relations['trl'] = array(self::HAS_ONE, 'SystemWidgetTrl', 'widget_id', 'with' => array('lng' => array('condition' => "lng.prefix='{$lng}'")));
 
         //return modified relations
         return $relations;

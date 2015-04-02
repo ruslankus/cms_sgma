@@ -4,14 +4,6 @@
  */
 class DynamicWidgets
 {
-    //all of these constants correspond to ID's in table 'system_widget_type'
-    const WID_TYPE_SEARCH = 1;
-    const WID_TYPE_LOGIN = 2;
-    const WID_TYPE_CALENDAR = 3;
-    const WID_TYPE_LANGUAGE_BAR = 4;
-    const WID_TYPE_PRODUCT_CART = 5;
-    const WID_TYPE_CUSTOM_HTML = 6;
-
     //all of these constants correspond to ID's in table 'wid_registration_type'
     const REGISTRATION_WIDGET = 1;
     const REGISTRATION_MENU = 2;
@@ -137,35 +129,7 @@ class DynamicWidgets
 
                     if(!empty($widgetInfo))
                     {
-                        $widgetPath = 'application.widgets.system.';
-
-                        switch($widgetInfo->type_id)
-                        {
-                            case self::WID_TYPE_SEARCH:
-                                $widgetPath.='SysSearch';
-                                break;
-
-                            case self::WID_TYPE_CALENDAR:
-                                $widgetPath.='SysCalendar';
-                                break;
-
-                            case self::WID_TYPE_LANGUAGE_BAR:
-                                $widgetPath.='SysLanguages';
-                                break;
-
-                            case self::WID_TYPE_LOGIN:
-                                $widgetPath.='SysLogin';
-                                break;
-
-                            case self::WID_TYPE_CUSTOM_HTML:
-                                $widgetPath.='SysCustom';
-                                break;
-
-                            case self::WID_TYPE_PRODUCT_CART:
-                                $widgetPath.='SysCart';
-                                break;
-                        }
-
+                        $widgetPath = 'application.widgets.system.'.$widgetInfo->type->widget_class;
 
                         try
                         {

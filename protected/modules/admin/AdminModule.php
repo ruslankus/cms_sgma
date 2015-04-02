@@ -52,8 +52,8 @@ class AdminModule extends CWebModule
             'title' => 'Products',
 
             'sub' => array(
-                array('controller' => 'products', 'action' => 'list', 'title' => 'Products'),
                 array('controller' => 'products', 'action' => 'categories', 'title' => 'Categories'),
+                array('controller' => 'products', 'action' => 'list', 'title' => 'Product list'),
             ),
         ),
         array(

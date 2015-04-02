@@ -2,5 +2,5 @@
 <?php /* @var $title string */  ?>
 <?php /* @var $text string */  ?>
 
-<?php echo $title; ?>
-<?php echo $text; ?>
+<p><?php echo $title; ?></p>
+<p><?php echo $text; ?></p>

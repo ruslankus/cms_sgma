@@ -128,7 +128,7 @@ class WidgetsController extends ControllerAdmin
 
                         //multi-language fields
                         $customName = $_POST['WidgetForm']['custom_name'];
-                        $customHtml = $_POST['WidgetForm']['custom_name'];
+                        $customHtml = $_POST['WidgetForm']['custom_html'];
 
                         //update translations
                         foreach($objLanguages as $language)

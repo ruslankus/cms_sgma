@@ -11,7 +11,7 @@
 
 <body>
 DARK LAYOUT
-<?php echo DynamicWidgets::get('GGGGGGG'); ?>
+<?php echo DynamicWidgets::get('One more position'); ?>
 <?php echo DynamicWidgets::get('Top-right'); ?>
 <?php echo $content; ?>
 </body>
