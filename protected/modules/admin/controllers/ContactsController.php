@@ -118,7 +118,6 @@ class ContactsController extends ControllerAdmin
 
         //$objPage = ExtPage::model()->findByPk($id);
         //$arrPage = ExtContacts::model()->getContact($id,$curr_prefix);
-        echo "Lang=".$siteLng;
         $arrPage = ContactsTrl::model()->find(array('condition'=>'contacts_id=:id AND lng_id=:siteLng','params'=>array('id'=>$id,'siteLng'=>$siteLng)));
         //Debug::d($arrPage);
         $this->render('editContact', array('arrPage' => $arrPage, 'model' => $model, 'contact_id' => $id, 'siteLng' => $siteLng, 'prefix' => $prefix ));
@@ -129,6 +128,12 @@ class ContactsController extends ControllerAdmin
     	$objContact = Contacts::model()->findByPk($id);
     	$objContact->delete();
     	$this->redirect(array('index'));
+    }
+
+
+    public function actionContactSettings($id=null)
+    {
+        $this->render('editContactSettings');
     }
 
     /* ----------------------------- ajax section -------------------------------------- */

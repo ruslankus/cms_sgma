@@ -9,7 +9,8 @@
 	<div class="content page-content">
 		<div class="header">
 			<span>Some title</span>
-			<a href="edit-page.html" class="active">Contact Form settings</a>
+			<a href="/<?php echo $prefix;?>/admin/contacts/contactsettings/<?php echo $arrPage->id;?>">Contact settings</a>
+			<a href="#" class="active">Contact Form fields</a>
 		</div><!--/header-->
 		<div class="contact-img">
 		<?php
