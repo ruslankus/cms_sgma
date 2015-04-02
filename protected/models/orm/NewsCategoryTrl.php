@@ -12,6 +12,7 @@
  * @property integer $lng_id
  *
  * The followings are the available model relations:
+ * @property Languages $lng
  * @property NewsCategory $newsCategory
  */
 class NewsCategoryTrl extends CActiveRecord
@@ -50,6 +51,7 @@ class NewsCategoryTrl extends CActiveRecord
 		// NOTE: you may need to adjust the relation name and the related
 		// class name for the relations automatically generated below.
 		return array(
+			'lng' => array(self::BELONGS_TO, 'Languages', 'lng_id'),
 			'newsCategory' => array(self::BELONGS_TO, 'NewsCategory', 'news_category_id'),
 		);
 	}

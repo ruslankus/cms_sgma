@@ -16,6 +16,7 @@
  * @property LabelsTrl[] $labelsTrls
  * @property MenuItemTrl[] $menuItemTrls
  * @property MessagesTrl[] $messagesTrls
+ * @property NewsCategoryTrl[] $newsCategoryTrls
  * @property NewsTrl[] $newsTrls
  * @property PageTrl[] $pageTrls
  * @property ProductCategoryTrl[] $productCategoryTrls
@@ -63,6 +64,7 @@ class Languages extends CActiveRecord
 			'labelsTrls' => array(self::HAS_MANY, 'LabelsTrl', 'lng_id'),
 			'menuItemTrls' => array(self::HAS_MANY, 'MenuItemTrl', 'lng_id'),
 			'messagesTrls' => array(self::HAS_MANY, 'MessagesTrl', 'lng_id'),
+			'newsCategoryTrls' => array(self::HAS_MANY, 'NewsCategoryTrl', 'lng_id'),
 			'newsTrls' => array(self::HAS_MANY, 'NewsTrl', 'lng_id'),
 			'pageTrls' => array(self::HAS_MANY, 'PageTrl', 'lng_id'),
 			'productCategoryTrls' => array(self::HAS_MANY, 'ProductCategoryTrl', 'lng_id'),

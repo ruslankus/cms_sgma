@@ -5,7 +5,7 @@
 
 <main>
     <div class="title-bar">
-        <h1><?php echo ATrl::t()->getLabel('News categories'); ?></h1>
+        <h1><?php echo ATrl::t()->getLabel('Categories'); ?></h1>
         <ul class="actions">
             <li><a href="<?php echo Yii::app()->createUrl('/admin/news/addcat'); ?>" class="action add"></a></li>
         </ul>
