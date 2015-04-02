@@ -153,19 +153,9 @@ Class ExtMenu extends Menu
         {
             $itemArr = $itemObj->attributes;
             $itemArr['nesting_level'] = $itemObj->nestingLevel();
-            $itemArr['name'] = '';
+            $itemArr['name'] = $itemObj->trl->value;
             $itemArr['children_qnt'] = $itemObj->countOfChildren();
             $itemArr['has_children'] = (int)$itemObj->hasChildren();
-
-            //find translation for this item
-            $translations = $itemObj->menuItemTrls;
-            foreach($translations as $translation)
-            {
-                if($translation->lng->prefix == Yii::app()->language)
-                {
-                    $itemArr['name'] = $translation->value;
-                }
-            }
 
             //add to result array
             $result[] = $itemArr;
