@@ -13,7 +13,7 @@
 		</div><!--/header-->
 		<div class="contact-img">
 		<?php
-
+/*
 		
 			if($arrPage->imageLink->image->id)
 			{
@@ -24,8 +24,9 @@
 
 		<?php
 			}
-			
+*/			
 		?>
+
 		</div>
 			<?php $form=$this->beginWidget('CActiveForm', array(
 				'id'=>'save-contact-form-SaveContactForm-form',

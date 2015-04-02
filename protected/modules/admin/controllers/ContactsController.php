@@ -64,6 +64,7 @@ class ContactsController extends ControllerAdmin
                 $contactTrlObj->text=$_POST['SaveContactForm']['text'];
                 $contactTrlObj->title=$_POST['SaveContactForm']['title'];
                 $contactTrlObj->meta_description=$_POST['SaveContactForm']['meta'];
+               /*
                 // save image
 
                 $model->image=CUploadedFile::getInstance($model,'image');
@@ -92,7 +93,7 @@ class ContactsController extends ControllerAdmin
                         $thisImgObj->delete();
                     }
                 }
-
+            */
                 // end save image
                 $contactTrlObj->update(); 
 
