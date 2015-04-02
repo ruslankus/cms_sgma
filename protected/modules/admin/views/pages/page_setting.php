@@ -9,29 +9,43 @@
 				<div class="content page-content">
 					<div class="header">
 						<span>Some title</span>
-						<a href="edit-page.html" class="active">Page Settings</a>
-						<a href="edit-page-content.html">Content</a>
+                                                <?php $prefix = SiteLng::lng()->getCurrLng()->prefix ?>
+						
+						<a href="/<?php echo $prefix  ?>/admin/pages/pagesetting/<?php echo $page_id; ?>" class="active">
+                                                    Page Setting
+                                                </a>
+                                                
+                                                <a href="/<?php echo $prefix  ?>/admin/pages/editcontent/<?php echo $page_id; ?>" >
+                                                    Content
+                                                </a>
 					</div><!--/header-->
 					
 					<div class="inner-content">
 						<div class="form-zone">
 						<!--/ <form enctype="multipart/form-data"> -->
-                        <?php echo CHtml::beginForm(); ?>
+                                                <?php echo CHtml::beginForm('','post',array('enctype'=>'multipart/form-data')); ?>
 							<table>
 								<tr>
 									<td class="label">Template:</td>
 									<td class="value">
 										<select name="template">
-											<option>------------</option>
-											<option>template.php</option>
-											<option>template.php</option>
-											<option>template.php</option>
+                                                                                    <option value="">------------</option>
+                                                                                    <option value="template.php">template.php</option>
+                                                                                    <option value="template.php">template.php</option>
+                                                                                    <option value="template.php">template.php</option>
 										</select>
 									</td>
 								</tr>
 								<tr>
 									<td class="label">Choose image:</td>
-									<td class="value"><input name="file" type="file" id="file-input" data-label="Browse..." /></td>
+									<td class="value">
+                                                                            
+                                                                            <?php echo CHtml::activeFileField($model,'file', array(
+                                                                                'id'=>'file-input','data-label'=>'Browse...'
+                                                                            ))?>
+                                                                            <?php echo Chtml::error($model, 'file')?>
+                                                                           
+                                                                        </td>
 								</tr>
 								<tr>
 									<td class="label"><strong>Caption:</strong></td>
@@ -57,15 +71,15 @@
 							<div class="list">
                             <?php foreach($arrImages as $item):?>
                                 <?php if(!empty($item)):?>
-								<div class="image">
-									<img src="/uploads/images/Koala.jpg" alt="" />
-									<a href="#" class="delete active" data-id="1"></a>
-								</div>
+                                    <div class="image">
+                                        <img src="/uploads/images/<?php echo $item['filename']?>" alt="" />
+                                        <a href="#" class="delete active" data-id="1"></a>
+                                    </div>
                                 <?php else:?>
-                                <div class="image">
-									<img src="images/no-image-upload.png" alt="" />
-									<a href="#" class="delete"></a>
-								</div>                                
+                                    <div class="image">
+                                        <img src="<?php echo $this->assetsPath ?>/images/no-image-upload.png" alt="" />
+                                        <a href="#" class="delete"></a>
+                                    </div>                                
                                 <?php endif;?>
                             <?php endforeach; ?>  						
 							</div><!--/list-->

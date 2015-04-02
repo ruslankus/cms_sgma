@@ -6,11 +6,14 @@
 class AddPageFile extends CFormModel
 {
     public $captions;
+    public $file;
+    public $save_error;
     
     public function rules()
     {
         return array(
             array('captions', 'validateCaptions'),
+            array('file', 'file', 'types'=>'jpg, gif, png','maxSize' => 1048576)
         );
     }
     

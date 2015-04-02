@@ -132,11 +132,37 @@ class PagesController extends ControllerAdmin
         //$objPage = Page::model()->findByPk($id);
         $model = new AddPageFile();
         if(!empty($_POST['AddPageFile'])){
+            //Debug::d($_POST);
             $model->attributes = $_POST['AddPageFile'];
             if($model->validate()){
                 
+                $objFile = CUploadedFile::getInstance($model, 'file');
+                
+               
+                $newFileName = uniqid(). "." . $objFile->extensionName;
+                $path  = Yii::getPathOfAlias('webroot').'/uploads/images/';
+                $path .= $newFileName;
+                
+                if($objFile->saveAs($path)){
+
+                    //Caption
+                   foreach(SiteLng::lng()->getLngs() as $objLng){
+                       $arrCaps[$objLng->id] = $model->captions[$objLng->prefix];
+                   }
+                   
+                   if(ExtImages::model()->savePageFile($newFileName, $id, $arrCaps)){
+                       //success
+                       $this->refresh();
+                   }else{
+                       //
+                       $model->addError('file',"Can't save file in DB");
+                   }
+
+                }
+                               
+              
             }
-        }
+        }//if post
         
         $lngObj = SiteLng::lng()->getCurrLng();
       
@@ -145,19 +171,13 @@ class PagesController extends ControllerAdmin
         $arrImages = $arrPage['images'];
        
         $elCount = count($arrImages);
-        if($elCount < 5){
-          
-            $arrComb = array_pad($arrImages,5,'');
-           
-        }
-        
-        
-        
+        if($elCount < 5){          
+            $arrComb = array_pad($arrImages,5,'');           
+        }        
+        //Debug::d($arrComb);
         $this->render('page_setting',array('page_id' => $id, 'arrPage' => $arrPage,
          'arrImages' => $arrComb, 'model' => $model));
-        
-        
-        
+     
     }//pageSetting
     
     
