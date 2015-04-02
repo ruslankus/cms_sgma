@@ -37,6 +37,24 @@ class ExtStatus extends Status
     }
 
     /**
+     * Prepare array special for add-category form
+     * @param bool $translate
+     * @return array
+     */
+    public function arrayForNewsAndProducts($translate = false)
+    {
+        //ignore statuses which shouldn't be in array
+        $ignore = array(
+            self::SUSPENDED,
+            self::WAITS_FOR_ACTIVATION,
+            self::DELETED
+        );
+
+        //result
+        return $this->arrayForForm($ignore,$translate);
+    }
+
+    /**
      * Returns prepared array for using in Yii forms
      * @param array $ignore
      * @param bool $translate

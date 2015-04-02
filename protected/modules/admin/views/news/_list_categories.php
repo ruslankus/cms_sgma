@@ -11,7 +11,7 @@
                     <div class="row root" data-id="<?php echo $children->id; ?>">
                         <div class="name"><?php echo $children->label; ?></div>
                         <div class="sequen"></div>
-                        <div class="type"><?php echo Trl::t()->getLabel($children->type->label); ?></div>
+                        <div class="type"><?php echo $children->countOfItems(); ?></div>
                         <div class="action">
                             <a href="<?php echo Yii::app()->createUrl('admin/news/editcat',array('id' => $children->id)); ?>" class="edit"><span class="ficoned pencil"></span></a>
                             <a data-message="<?php echo ATrl::t()->getLabel('Are your sure ?'); ?>" data-yes="<?php echo ATrl::t()->getLabel('Delete'); ?>" data-no="<?php echo ATrl::t()->getLabel('Cancel'); ?>" href="<?php echo Yii::app()->createUrl('/admin/news/deletecat',array('id' => $children->id)); ?>" class="delete"><span class="ficoned trash-can"></span></a>

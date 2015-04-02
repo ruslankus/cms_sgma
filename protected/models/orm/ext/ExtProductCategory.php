@@ -118,6 +118,81 @@ class ExtProductCategory extends ProductCategory
     }
 
     /**
+     * Build array which looks like (id => label), special for form-use
+     * @param int $parent_id
+     * @param bool $appendNestingLines
+     * @param bool $add_root
+     * @return array
+     */
+    public function arrayForMenuItemForm($parent_id = 0,$appendNestingLines = true, $add_root = true)
+    {
+        /* @var $all self[] */
+
+        $result = array();
+
+        //get all items
+        $all = $this->buildObjArrRecursive($parent_id);
+
+        //add root category (name as menu name)
+        if($add_root)
+        {
+            $result[0] = $this->label;
+        }
+        //pass through all
+        foreach($all as $item)
+        {
+            //lines which shows how deep is item nesting
+            $nestingLines = "";
+
+            if($appendNestingLines)
+            {
+                //append them
+                for($i=0; $i < $item->nestingLevel(); $i++)
+                {
+                    $nestingLines.="-";
+                }
+            }
+            //create label for each id
+            $result[$item->id] = $nestingLines.$item->label;
+        }
+
+        return $result;
+    }
+
+
+    /**
+     * Updates branch of item (use it after save, don't use if record is new!!!)
+     * @return bool
+     */
+    public function updateBranch()
+    {
+        if(!$this->getIsNewRecord())
+        {
+            if($this->parent_id != 0)
+            {
+                $parent = $this->getParent();
+                $arrBranch = !empty($parent) ? explode(":",$parent->branch) : array(0);
+            }
+            else
+            {
+                $arrBranch = array(0);
+            }
+
+            $arrBranch[] = $this->id;
+            $strBranch = implode(":",$arrBranch);
+            $this->branch = $strBranch;
+            $this->update();
+
+            return true;
+        }
+        else
+        {
+            return false;
+        }
+    }
+
+
+    /**
      * Returns nesting level
      * @param bool $byBranch
      * @return int

@@ -38,10 +38,94 @@ class NewsController extends ControllerAdmin
 
         //all languages
         $objLanguages = SiteLng::lng()->getLngs();
-
         //statuses
-        $arrStatuses = ExtStatus::model()->arrayForMenuForm(true);
+        $arrStatuses = ExtStatus::model()->arrayForNewsAndProducts(true);
+        //parents
+        $arrParentItems = ExtNewsCategory::model()->arrayForMenuItemForm();
+
+        //form
+        $form_mdl = new CategoryForm();
+
+        //ajax validation
+        if(Yii::app()->request->isAjaxRequest)
+        {
+            //if ajax validation
+            if(isset($_POST['ajax']))
+            {
+                if($_POST['ajax'] == 'add-cat-form')
+                {
+                    echo CActiveForm::validate($form_mdl);
+                }
+                Yii::app()->end();
+            }
+        }
+        else
+        {
+            //if have form
+            if($_POST['CategoryForm'])
+            {
+                $form_mdl->attributes = $_POST['CategoryForm'];
+
+                if($form_mdl->validate())
+                {
+                    //use transaction
+                    $con = Yii::app()->db;
+                    $transaction = $con->beginTransaction();
+
+                    try
+                    {
+                        //category
+                        $category = new ExtNewsCategory();
+                        $category->attributes = $form_mdl->attributes;
+                        $category->time_update = time();
+                        $category->time_created = time();
+                        $category->last_change_by = Yii::app()->user->id;
+                        $category->priority = Sort::GetNextPriority('ExtNewsCategory',array('parent_id' => $form_mdl->parent_id));
+                        $category->save();
+
+                        //update branch
+                        $category->updateBranch();
+
+                        //translations
+                        $titles = $_POST['CategoryForm']['titles'];
+                        $keywords = $_POST['CategoryForm']['keywords'];
+                        $descriptions = $_POST['CategoryForm']['descriptions'];
+
+                        foreach($titles as $lngId => $value)
+                        {
+                            $catTrl = new NewsCategoryTrl();
+                            $catTrl -> header = $titles[$lngId];
+                            $catTrl -> meta_description = $keywords[$lngId];
+                            $catTrl -> description = $descriptions[$lngId];
+                            $catTrl -> news_category_id = $category->id;
+                            $catTrl -> lng_id = $lngId;
+                            $catTrl -> save();
+                        }
+
+                        $transaction->commit();
+                    }
+                    catch(Exception $ex)
+                    {
+                        $transaction->rollback();
+                    }
+
+                    //back to list
+                    $this->redirect(Yii::app()->createUrl('/admin/news/categories'));
+                }
+            }
+        }
+
+        $this->render('add_category',array(
+                'languages' => $objLanguages,
+                'parent_items' => $arrParentItems,
+                'statuses' => $arrStatuses,
+                'form_model' => $form_mdl,
+            )
+        );
     }
+
+
+    /*********************************************** I T E M S ********************************************************/
 
     /**
      * List of all news

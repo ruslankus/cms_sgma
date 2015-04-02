@@ -245,7 +245,7 @@ class MenuController extends ControllerAdmin
                         $menuItem->time_updated = time();
                         $menuItem->time_created = time();
                         $menuItem->last_change_by = Yii::app()->user->id;
-                        $menuItem->priority = Sort::GetNextPriority('MenuItem',array('parent_id' => $form_mdl->parent_id));
+                        $menuItem->priority = Sort::GetNextPriority('MenuItem',array('parent_id' => $form_mdl->parent_id, 'menu_id' => $form_mdl->menu_id));
                         $menuItem->save();
 
                         //translations
@@ -357,7 +357,7 @@ class MenuController extends ControllerAdmin
 
                         if($bNewPriority)
                         {
-                            $menuItem->priority = Sort::GetNextPriority('MenuItem',array('parent_id' => $form_mdl->parent_id));
+                            $menuItem->priority = Sort::GetNextPriority('MenuItem',array('parent_id' => $form_mdl->parent_id, 'menu_id' => $form_mdl->menu_id));
                         }
 
                         $menuItem->update();
