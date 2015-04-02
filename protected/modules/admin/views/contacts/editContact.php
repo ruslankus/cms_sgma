@@ -11,6 +11,22 @@
 			<span>Some title</span>
 			<a href="edit-page.html" class="active">Contact Form settings</a>
 		</div><!--/header-->
+		<div class="contact-img">
+		<?php
+
+		
+			if($arrPage->imageLink->image->id)
+			{
+		?>
+			
+				<img height="100" src="/uploads/images/<?php echo $arrPage->imageLink->image->name;?>">
+				<a class="del-image" data-id="<?php echo $arrPage->id;?>" data-prefix="<?php echo $prefix;?>" href="#">Delete Image</a>
+
+		<?php
+			}
+			
+		?>
+		</div>
 			<?php $form=$this->beginWidget('CActiveForm', array(
 				'id'=>'save-contact-form-SaveContactForm-form',
 				'enableAjaxValidation'=>false,
@@ -60,8 +76,7 @@
 						<td class="label">Meta</td>
 						<td class="value">
 							<?php echo $form->textField($model,'meta',array('value'=>$arrPage['meta_description'],'id'=>'meta')); ?>
-							<?php echo $form->error($model,'meta_description'); ?>
-
+							<?php echo $form->error($model,'meta_description');?>
 						</td>
 					</tr>
 				</table>

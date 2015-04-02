@@ -52,26 +52,50 @@ class ContactsController extends ControllerAdmin
         $prefix = Yii::app()->language;
         if(isset($_POST['SaveContactForm']))
         {
+            $siteLng = $_POST['SaveContactForm']['lngId'];
+            $langObj = Languages::model()->findByPk($siteLng);
+            $curr_prefix = $langObj->prefix;
             $model->attributes=$_POST['SaveContactForm'];
+
             if($model->validate())
             {
-                $siteLng = $_POST['SaveContactForm']['lngId'];
-                $langObj = Languages::model()->findByPk($siteLng);
-                $curr_prefix = $langObj->prefix;
-                $criteria = new CDbCriteria;
-                $criteria->condition = "lng_id=':lng_id' AND contacts_id=':contacts_id'";
-                $criteria->params = array(':lang_id'=>$siteLng,':contacts_id'=>$id);
+
                 $contactTrlObj = ContactsTrl::model()->find(array('condition'=>'lng_id=:lng_id AND contacts_id=:contacts_id','params'=>array('lng_id'=>$siteLng,'contacts_id'=>$id)));
                 $contactTrlObj->text=$_POST['SaveContactForm']['text'];
                 $contactTrlObj->title=$_POST['SaveContactForm']['title'];
                 $contactTrlObj->meta_description=$_POST['SaveContactForm']['meta'];
-                $contactTrlObj->update();
+                // save image
+
                 $model->image=CUploadedFile::getInstance($model,'image');
-                echo $model->image->extensionName;
-                $path = "uploads/images/".$model->image;
-                $image_save = $model->image->saveAs($path);
- 
-           
+
+                if($model->image){
+                    $imageObj = new Images();
+                    $imageObj->name = $model->image;
+                    $imageObj->save();
+                    $img_id = $imageObj->id;
+                    $img_name = $img_id.".".$model->image->extensionName;
+                    $path = "uploads/images/".$img_name;
+                    $thisImgObj = Images::model()->findByPk($img_id);
+                    if($model->image->saveAs($path))
+                    {
+                        $thisImgObj->name=$img_name;
+                        $thisImgObj->update();
+
+                        $imageLinkObj = new ContactsLinkImages();
+                        $imageLinkObj->image_id = $img_id;
+                        $imageLinkObj->contacts_id = $contactTrlObj->id;
+                        $imageLinkObj->save();
+                        //$contactTrlObj->image_id = $img_name;
+                    }
+                    else
+                    {
+                        $thisImgObj->delete();
+                    }
+                }
+
+                // end save image
+                $contactTrlObj->update(); 
+
             }
         } 
 
@@ -92,7 +116,9 @@ class ContactsController extends ControllerAdmin
         }
 
         //$objPage = ExtPage::model()->findByPk($id);
-        $arrPage = ExtContacts::model()->getContact($id,$curr_prefix);
+        //$arrPage = ExtContacts::model()->getContact($id,$curr_prefix);
+        echo "Lang=".$siteLng;
+        $arrPage = ContactsTrl::model()->find(array('condition'=>'contacts_id=:id AND lng_id=:siteLng','params'=>array('id'=>$id,'siteLng'=>$siteLng)));
         //Debug::d($arrPage);
         $this->render('editContact', array('arrPage' => $arrPage, 'model' => $model, 'contact_id' => $id, 'siteLng' => $siteLng, 'prefix' => $prefix ));
     }//edit
@@ -118,7 +144,9 @@ class ContactsController extends ControllerAdmin
             $arrJson['title'] = $objPage->title;
             $arrJson['meta'] = $objPage->meta_description;
             $arrJson['text'] = $objPage->text;
-
+            if($arrPage->imageLink->image->id){
+                $arrJson['image']= array('id'=>$arrPage->imageLink->image->id,'src'=>'/uploads/images/'.$arrPage->imageLink->image->name);
+            }
             echo json_encode($arrJson);
             Yii::app()->end();
         }//ajax part
@@ -165,5 +193,25 @@ class ContactsController extends ControllerAdmin
 
 	        Yii::app()->end();
     	}
+    }
+
+    public function actionDelImageAjax($id=null)
+    {
+        $request = Yii::app()->request;
+        $arrJson=array();
+        if($request->isAjaxRequest)
+        {    
+            $objContTrl = ContactsLinkImages::model()->findByAttributes(array('contacts_id' => $id));
+            if($objContTrl->delete()){
+                $arrJson['status']="deleted";
+            }
+            else
+            {
+                $arrJson['status']="error";
+            }
+            echo json_encode($arrJson);
+            Yii::app()->end();
+        }
+
     }
 }
