@@ -10,7 +10,7 @@ Target Server Type    : MYSQL
 Target Server Version : 50538
 File Encoding         : 65001
 
-Date: 2015-04-02 12:44:48
+Date: 2015-04-02 13:36:47
 */
 
 SET FOREIGN_KEY_CHECKS=0;
@@ -163,6 +163,64 @@ CREATE TABLE `contacts_trl` (
 
 -- ----------------------------
 -- Records of contacts_trl
+-- ----------------------------
+
+-- ----------------------------
+-- Table structure for `images`
+-- ----------------------------
+DROP TABLE IF EXISTS `images`;
+CREATE TABLE `images` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `label` varchar(128) DEFAULT NULL,
+  `filename` varchar(1024) DEFAULT NULL,
+  `original_filename` varchar(1024) DEFAULT NULL,
+  `mime_type` varchar(64) DEFAULT NULL,
+  `size` int(11) DEFAULT NULL,
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+-- ----------------------------
+-- Records of images
+-- ----------------------------
+
+-- ----------------------------
+-- Table structure for `images_of_page`
+-- ----------------------------
+DROP TABLE IF EXISTS `images_of_page`;
+CREATE TABLE `images_of_page` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `page_id` int(11) DEFAULT NULL,
+  `image_id` int(11) DEFAULT NULL,
+  PRIMARY KEY (`id`),
+  KEY `page_id` (`page_id`),
+  KEY `image_id` (`image_id`),
+  CONSTRAINT `images_of_page_ibfk_2` FOREIGN KEY (`image_id`) REFERENCES `images` (`id`) ON DELETE CASCADE,
+  CONSTRAINT `images_of_page_ibfk_1` FOREIGN KEY (`page_id`) REFERENCES `page` (`id`) ON DELETE CASCADE
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+-- ----------------------------
+-- Records of images_of_page
+-- ----------------------------
+
+-- ----------------------------
+-- Table structure for `images_trl`
+-- ----------------------------
+DROP TABLE IF EXISTS `images_trl`;
+CREATE TABLE `images_trl` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `image_id` int(11) DEFAULT NULL,
+  `lng_id` int(11) DEFAULT NULL,
+  `caption` varchar(1024) DEFAULT NULL,
+  `description` text,
+  PRIMARY KEY (`id`),
+  KEY `image_id` (`image_id`),
+  KEY `lng_id` (`lng_id`),
+  CONSTRAINT `images_trl_ibfk_2` FOREIGN KEY (`lng_id`) REFERENCES `languages` (`id`) ON DELETE CASCADE ON UPDATE NO ACTION,
+  CONSTRAINT `images_trl_ibfk_1` FOREIGN KEY (`image_id`) REFERENCES `images` (`id`) ON DELETE CASCADE ON UPDATE NO ACTION
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+-- ----------------------------
+-- Records of images_trl
 -- ----------------------------
 
 -- ----------------------------
@@ -609,11 +667,13 @@ CREATE TABLE `settings` (
   `value_name` varchar(255) DEFAULT NULL,
   `setting` varchar(255) DEFAULT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=utf8;
 
 -- ----------------------------
 -- Records of settings
 -- ----------------------------
+INSERT INTO `settings` VALUES ('1', 'active_desktop_theme', 'dark');
+INSERT INTO `settings` VALUES ('2', 'active_mobile_theme', 'light');
 
 -- ----------------------------
 -- Table structure for `status`

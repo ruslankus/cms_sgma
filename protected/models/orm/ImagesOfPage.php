@@ -1,29 +1,25 @@
 <?php
 
 /**
- * This is the model class for table "page".
+ * This is the model class for table "images_of_page".
  *
- * The followings are the available columns in table 'page':
+ * The followings are the available columns in table 'images_of_page':
  * @property integer $id
- * @property string $label
- * @property integer $status_id
- * @property integer $priority
- * @property integer $time_created
- * @property integer $time_update
- * @property integer $last_change_by
+ * @property integer $page_id
+ * @property integer $image_id
  *
  * The followings are the available model relations:
- * @property ImagesOfPage[] $imagesOfPages
- * @property PageTrl[] $pageTrls
+ * @property Images $image
+ * @property Page $page
  */
-class Page extends CActiveRecord
+class ImagesOfPage extends CActiveRecord
 {
 	/**
 	 * @return string the associated database table name
 	 */
 	public function tableName()
 	{
-		return 'page';
+		return 'images_of_page';
 	}
 
 	/**
@@ -34,11 +30,10 @@ class Page extends CActiveRecord
 		// NOTE: you should only define rules for those attributes that
 		// will receive user inputs.
 		return array(
-			array('status_id, priority, time_created, time_update, last_change_by', 'numerical', 'integerOnly'=>true),
-			array('label', 'length', 'max'=>128),
+			array('page_id, image_id', 'numerical', 'integerOnly'=>true),
 			// The following rule is used by search().
 			// @todo Please remove those attributes that should not be searched.
-			array('id, label, status_id, priority, time_created, time_update, last_change_by', 'safe', 'on'=>'search'),
+			array('id, page_id, image_id', 'safe', 'on'=>'search'),
 		);
 	}
 
@@ -50,8 +45,8 @@ class Page extends CActiveRecord
 		// NOTE: you may need to adjust the relation name and the related
 		// class name for the relations automatically generated below.
 		return array(
-			'imagesOfPages' => array(self::HAS_MANY, 'ImagesOfPage', 'page_id'),
-			'pageTrls' => array(self::HAS_MANY, 'PageTrl', 'page_id'),
+			'image' => array(self::BELONGS_TO, 'Images', 'image_id'),
+			'page' => array(self::BELONGS_TO, 'Page', 'page_id'),
 		);
 	}
 
@@ -62,12 +57,8 @@ class Page extends CActiveRecord
 	{
 		return array(
 			'id' => 'ID',
-			'label' => 'Label',
-			'status_id' => 'Status',
-			'priority' => 'Priority',
-			'time_created' => 'Time Created',
-			'time_update' => 'Time Update',
-			'last_change_by' => 'Last Change By',
+			'page_id' => 'Page',
+			'image_id' => 'Image',
 		);
 	}
 
@@ -90,12 +81,8 @@ class Page extends CActiveRecord
 		$criteria=new CDbCriteria;
 
 		$criteria->compare('id',$this->id);
-		$criteria->compare('label',$this->label,true);
-		$criteria->compare('status_id',$this->status_id);
-		$criteria->compare('priority',$this->priority);
-		$criteria->compare('time_created',$this->time_created);
-		$criteria->compare('time_update',$this->time_update);
-		$criteria->compare('last_change_by',$this->last_change_by);
+		$criteria->compare('page_id',$this->page_id);
+		$criteria->compare('image_id',$this->image_id);
 
 		return new CActiveDataProvider($this, array(
 			'criteria'=>$criteria,
@@ -106,7 +93,7 @@ class Page extends CActiveRecord
 	 * Returns the static model of the specified AR class.
 	 * Please note that you should have this exact method in all your CActiveRecord descendants!
 	 * @param string $className active record class name.
-	 * @return Page the static model class
+	 * @return ImagesOfPage the static model class
 	 */
 	public static function model($className=__CLASS__)
 	{

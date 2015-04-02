@@ -12,6 +12,7 @@
  * The followings are the available model relations:
  * @property ContactsFieldsTrl[] $contactsFieldsTrls
  * @property ContactsTrl[] $contactsTrls
+ * @property ImagesTrl[] $imagesTrls
  * @property LabelsTrl[] $labelsTrls
  * @property MenuItemTrl[] $menuItemTrls
  * @property MessagesTrl[] $messagesTrls
@@ -58,6 +59,7 @@ class Languages extends CActiveRecord
 		return array(
 			'contactsFieldsTrls' => array(self::HAS_MANY, 'ContactsFieldsTrl', 'lng_id'),
 			'contactsTrls' => array(self::HAS_MANY, 'ContactsTrl', 'lng_id'),
+			'imagesTrls' => array(self::HAS_MANY, 'ImagesTrl', 'lng_id'),
 			'labelsTrls' => array(self::HAS_MANY, 'LabelsTrl', 'lng_id'),
 			'menuItemTrls' => array(self::HAS_MANY, 'MenuItemTrl', 'lng_id'),
 			'messagesTrls' => array(self::HAS_MANY, 'MessagesTrl', 'lng_id'),

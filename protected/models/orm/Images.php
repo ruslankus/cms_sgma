@@ -5,7 +5,15 @@
  *
  * The followings are the available columns in table 'images':
  * @property integer $id
- * @property string $name
+ * @property string $label
+ * @property string $filename
+ * @property string $original_filename
+ * @property string $mime_type
+ * @property integer $size
+ *
+ * The followings are the available model relations:
+ * @property ImagesOfPage[] $imagesOfPages
+ * @property ImagesTrl[] $imagesTrls
  */
 class Images extends CActiveRecord
 {
@@ -25,12 +33,13 @@ class Images extends CActiveRecord
 		// NOTE: you should only define rules for those attributes that
 		// will receive user inputs.
 		return array(
-			array('id, name', 'required'),
-			array('id', 'numerical', 'integerOnly'=>true),
-			array('name', 'length', 'max'=>255),
+			array('size', 'numerical', 'integerOnly'=>true),
+			array('label', 'length', 'max'=>128),
+			array('filename, original_filename', 'length', 'max'=>1024),
+			array('mime_type', 'length', 'max'=>64),
 			// The following rule is used by search().
 			// @todo Please remove those attributes that should not be searched.
-			array('id, name', 'safe', 'on'=>'search'),
+			array('id, label, filename, original_filename, mime_type, size', 'safe', 'on'=>'search'),
 		);
 	}
 
@@ -42,6 +51,8 @@ class Images extends CActiveRecord
 		// NOTE: you may need to adjust the relation name and the related
 		// class name for the relations automatically generated below.
 		return array(
+			'imagesOfPages' => array(self::HAS_MANY, 'ImagesOfPage', 'image_id'),
+			'imagesTrls' => array(self::HAS_MANY, 'ImagesTrl', 'image_id'),
 		);
 	}
 
@@ -52,7 +63,11 @@ class Images extends CActiveRecord
 	{
 		return array(
 			'id' => 'ID',
-			'name' => 'Name',
+			'label' => 'Label',
+			'filename' => 'Filename',
+			'original_filename' => 'Original Filename',
+			'mime_type' => 'Mime Type',
+			'size' => 'Size',
 		);
 	}
 
@@ -75,7 +90,11 @@ class Images extends CActiveRecord
 		$criteria=new CDbCriteria;
 
 		$criteria->compare('id',$this->id);
-		$criteria->compare('name',$this->name,true);
+		$criteria->compare('label',$this->label,true);
+		$criteria->compare('filename',$this->filename,true);
+		$criteria->compare('original_filename',$this->original_filename,true);
+		$criteria->compare('mime_type',$this->mime_type,true);
+		$criteria->compare('size',$this->size);
 
 		return new CActiveDataProvider($this, array(
 			'criteria'=>$criteria,
