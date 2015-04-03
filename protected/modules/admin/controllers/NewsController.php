@@ -416,15 +416,15 @@ class NewsController extends ControllerAdmin
                         $item -> save();
 
                         //translations
-                        $titles = $_POST['ExtNews']['titles'];
+                        $titles = $_POST['NewsForm']['titles'];
                         foreach($objLanguages as $language)
                         {
                             $itemTrl = new NewsTrl();
                             $itemTrl -> title = $titles[$language->id];
                             $itemTrl -> lng_id = $language->id;
+                            $itemTrl -> news_id = $item->id;
                             $itemTrl -> save();
                         }
-
 
                         $transaction->commit();
 
@@ -450,5 +450,35 @@ class NewsController extends ControllerAdmin
                 'form_model' => $form_mdl,
             )
         );
+    }
+
+
+    /**
+     * Deleting
+     * @param $id
+     * @throws CHttpException
+     */
+    public function actionDelete($id)
+    {
+        //find item of menu
+        $objItem = ExtNews::model()->findByPk($id);
+
+        ///if not found
+        if(empty($objItem))
+        {
+            throw new CHttpException(404);
+        }
+
+        $objItem->delete();
+
+        if(!Yii::app()->request->isAjaxRequest)
+        {
+            //back to listing items
+            $this->redirect(Yii::app()->createUrl('/admin/news/list'));
+        }
+        else
+        {
+            echo "OK";
+        }
     }
 }
