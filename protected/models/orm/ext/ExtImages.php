@@ -100,6 +100,10 @@ class ExtImages extends Images
         $con = $this->dbConnection;
         $transaction = $con->beginTransaction();
         try{
+            // limit for one image
+            $sql_delete = "DELETE FROM images_of_contacts";    
+            $con->createCommand($sql_delete)->execute();;
+            // end limit for one image
             $sql  = "INSERT INTO {$this->tableName()}(`filename`) ";
             $sql .= "VALUES(:filename)";
             

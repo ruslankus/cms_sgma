@@ -146,12 +146,23 @@ class ContactsController extends ControllerAdmin
         $arrImages = $arrPage['images'];
        
         $elCount = count($arrImages);
+        /*
         if($elCount < 5){          
             $arrComb = array_pad($arrImages,5,'');           
         }        
+        */
+
+        // limit for one
+        $arrComb = $arrImages;
+        if($elCount==0){
+            $arrComb[]='';
+        }
+        //$arrComb = $arrImages;
         //Debug::d($arrComb);
+        
         $this->render('contact_setting',array('page_id' => $id, 'arrPage' => $arrPage,
          'arrImages' => $arrComb, 'model' => $model));
+         
     }
 
     public function actionDeleteContactImage()
