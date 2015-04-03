@@ -13,6 +13,7 @@
  * @property string $template_name
  *
  * The followings are the available model relations:
+ * @property Status $status
  * @property MenuItem[] $menuItems
  * @property WidRegistration[] $widRegistrations
  */
@@ -51,6 +52,7 @@ class Menu extends CActiveRecord
 		// NOTE: you may need to adjust the relation name and the related
 		// class name for the relations automatically generated below.
 		return array(
+			'status' => array(self::BELONGS_TO, 'Status', 'status_id'),
 			'menuItems' => array(self::HAS_MANY, 'MenuItem', 'menu_id'),
 			'widRegistrations' => array(self::HAS_MANY, 'WidRegistration', 'menu_id'),
 		);

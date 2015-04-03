@@ -44,18 +44,7 @@ class AdminModule extends CWebModule
                 array('controller' => 'complex' ,'action' => 'list', 'title' => 'Complex pages')
             ),
         ),
-        array(
-            'controller' => 'products',
-            'action' => 'list',
-            'icon' => '',
-            'html_class' => 'products',
-            'title' => 'Products',
 
-            'sub' => array(
-                array('controller' => 'products', 'action' => 'categories', 'title' => 'Categories'),
-                array('controller' => 'products', 'action' => 'list', 'title' => 'Product list'),
-            ),
-        ),
         array(
             'controller' => 'news',
             'action' => 'list',
@@ -68,6 +57,20 @@ class AdminModule extends CWebModule
                 array('controller' => 'news', 'action' => 'list', 'title' => 'News list'),
             ),
         ),
+
+        array(
+            'controller' => 'products',
+            'action' => 'list',
+            'icon' => '',
+            'html_class' => 'products',
+            'title' => 'Products',
+
+            'sub' => array(
+                array('controller' => 'products', 'action' => 'categories', 'title' => 'Categories'),
+                array('controller' => 'products', 'action' => 'list', 'title' => 'Product list'),
+            ),
+        ),
+
         array(
             'controller' => 'settings',
             'action' => 'index',

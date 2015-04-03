@@ -105,7 +105,8 @@ class ControllerAdmin extends CController
 
 
         //publish dir to assets (fonts, css, js, images)
-        $this->assetsPath = Yii::app()->assetManager->publish(Yii::getPathOfAlias('admin.appearance'),false,-1,true);
+//        $this->assetsPath = Yii::app()->assetManager->publish(Yii::getPathOfAlias('admin.appearance'),false,-1,true); //use for debug
+        $this->assetsPath = Yii::app()->assetManager->publish(Yii::getPathOfAlias('admin.appearance')); //use for production
 
         //register css
         Yii::app()->clientScript->registerCssFile($this->assetsPath.'/css/jquery-ui.min.css');

@@ -17,6 +17,7 @@
  * @property integer $last_change_by
  *
  * The followings are the available model relations:
+ * @property Status $status
  * @property MenuItemType $type
  * @property Menu $menu
  * @property MenuItemTrl[] $menuItemTrls
@@ -55,6 +56,7 @@ class MenuItem extends CActiveRecord
 		// NOTE: you may need to adjust the relation name and the related
 		// class name for the relations automatically generated below.
 		return array(
+			'status' => array(self::BELONGS_TO, 'Status', 'status_id'),
 			'type' => array(self::BELONGS_TO, 'MenuItemType', 'type_id'),
 			'menu' => array(self::BELONGS_TO, 'Menu', 'menu_id'),
 			'menuItemTrls' => array(self::HAS_MANY, 'MenuItemTrl', 'menu_item_id'),

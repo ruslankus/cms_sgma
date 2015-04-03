@@ -16,6 +16,7 @@
  *
  * The followings are the available model relations:
  * @property Product[] $products
+ * @property Status $status
  * @property ProductCategoryTrl[] $productCategoryTrls
  */
 class ProductCategory extends CActiveRecord
@@ -54,6 +55,7 @@ class ProductCategory extends CActiveRecord
 		// class name for the relations automatically generated below.
 		return array(
 			'products' => array(self::HAS_MANY, 'Product', 'category_id'),
+			'status' => array(self::BELONGS_TO, 'Status', 'status_id'),
 			'productCategoryTrls' => array(self::HAS_MANY, 'ProductCategoryTrl', 'product_category_id'),
 		);
 	}

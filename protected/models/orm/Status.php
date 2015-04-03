@@ -6,6 +6,16 @@
  * The followings are the available columns in table 'status':
  * @property integer $id
  * @property string $label
+ *
+ * The followings are the available model relations:
+ * @property Images[] $images
+ * @property Menu[] $menus
+ * @property MenuItem[] $menuItems
+ * @property News[] $news
+ * @property NewsCategory[] $newsCategories
+ * @property Page[] $pages
+ * @property Product[] $products
+ * @property ProductCategory[] $productCategories
  */
 class Status extends CActiveRecord
 {
@@ -41,6 +51,14 @@ class Status extends CActiveRecord
 		// NOTE: you may need to adjust the relation name and the related
 		// class name for the relations automatically generated below.
 		return array(
+			'images' => array(self::HAS_MANY, 'Images', 'status_id'),
+			'menus' => array(self::HAS_MANY, 'Menu', 'status_id'),
+			'menuItems' => array(self::HAS_MANY, 'MenuItem', 'status_id'),
+			'news' => array(self::HAS_MANY, 'News', 'status_id'),
+			'newsCategories' => array(self::HAS_MANY, 'NewsCategory', 'status_id'),
+			'pages' => array(self::HAS_MANY, 'Page', 'status_id'),
+			'products' => array(self::HAS_MANY, 'Product', 'status_id'),
+			'productCategories' => array(self::HAS_MANY, 'ProductCategory', 'status_id'),
 		);
 	}
 

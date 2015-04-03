@@ -245,7 +245,7 @@ class NewsController extends ControllerAdmin
     /**
      * Changes order (for draggable items)
      */
-    public function actionAjaxOrderItems()
+    public function actionAjaxOrderCategories()
     {
         $ordersJson = Yii::app()->request->getParam('orders');
         $orders = json_decode($ordersJson,true);
@@ -325,10 +325,75 @@ class NewsController extends ControllerAdmin
     /**
      * List of all news
      * @param int $page
-     * @param int $cat
+     * @param null $cat
      */
-    public function actionList($page = 1, $cat = 0)
+    public function actionList($page = 1, $cat = null)
     {
-        $this->renderText('here will be news list');
+        //include js file for AJAX updating
+        Yii::app()->clientScript->registerScriptFile($this->assetsPath.'/js/vendor.trees.js',CClientScript::POS_END);
+        Yii::app()->clientScript->registerScriptFile($this->assetsPath.'/js/vendor.main-menu.js',CClientScript::POS_END);
+
+        $objects = ExtNews::model()->findAllByAttributes(array('category_id' => (int)$cat),array('order' => 'priority DESC'));
+        $array = CPaginator::getInstance($objects,10,$page);
+
+        if(Yii::app()->request->isAjaxRequest)
+        {
+            $this->renderPartial('_list_items',array('items' => $array));
+        }
+        else
+        {
+            $this->render('list_items',array('items' => $array,'category' => $cat));
+        }
+    }
+
+    public function actionAdd()
+    {
+        //include menu necessary scripts
+        Yii::app()->clientScript->registerCssFile($this->assetsPath.'/css/vendor.add-menu.css');
+        Yii::app()->clientScript->registerCssFile($this->assetsPath.'/css/vendor.add-menu.ext.css');
+        Yii::app()->clientScript->registerScriptFile($this->assetsPath.'/js/vendor.add-menu.js',CClientScript::POS_END);
+        Yii::app()->clientScript->registerScriptFile($this->assetsPath.'/js/menu.edititem.js',CClientScript::POS_END);
+
+        //exclude jquery to avoid conflict between jquery from Yii core
+        Yii::app()->clientScript->scriptMap=array('jquery-1.11.2.min.js' => false);
+
+        //all languages
+        $objLanguages = SiteLng::lng()->getLngs();
+        //statuses
+        $arrStatuses = ExtStatus::model()->arrayForNewsAndProducts(true);
+        //parents
+        $arrCategories = ExtNewsCategory::model()->arrayForMenuItemForm();
+        //form
+        $form_mdl = new NewsForm();
+
+        //ajax validation
+        if(Yii::app()->request->isAjaxRequest)
+        {
+            //if ajax validation
+            if(isset($_POST['ajax']))
+            {
+                if($_POST['ajax'] == 'add-item-form')
+                {
+                    echo CActiveForm::validate($form_mdl);
+                }
+                Yii::app()->end();
+            }
+        }
+        else
+        {
+            if(isset($_POST['NewsForm']))
+            {
+                Debug::out($_POST['NewsForm']);
+            }
+        }
+
+        $this->render('add_item',array(
+                'languages' => $objLanguages,
+                'categories' => $arrCategories,
+                'statuses' => $arrStatuses,
+                'form_model' => $form_mdl,
+            )
+        );
+
     }
 }

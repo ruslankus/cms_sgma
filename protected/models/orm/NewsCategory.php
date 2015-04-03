@@ -16,6 +16,7 @@
  *
  * The followings are the available model relations:
  * @property News[] $news
+ * @property Status $status
  * @property NewsCategoryTrl[] $newsCategoryTrls
  */
 class NewsCategory extends CActiveRecord
@@ -54,6 +55,7 @@ class NewsCategory extends CActiveRecord
 		// class name for the relations automatically generated below.
 		return array(
 			'news' => array(self::HAS_MANY, 'News', 'category_id'),
+			'status' => array(self::BELONGS_TO, 'Status', 'status_id'),
 			'newsCategoryTrls' => array(self::HAS_MANY, 'NewsCategoryTrl', 'news_category_id'),
 		);
 	}

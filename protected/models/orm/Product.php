@@ -16,9 +16,11 @@
  * @property integer $time_created
  * @property integer $time_update
  * @property integer $last_change_by
+ * @property string $branch
  *
  * The followings are the available model relations:
  * @property ProductCategory $category
+ * @property Status $status
  * @property ProductTrl[] $productTrls
  */
 class Product extends CActiveRecord
@@ -41,9 +43,10 @@ class Product extends CActiveRecord
 		return array(
 			array('category_id, status_id, priority, price, discount_price, is_new, stock_qnt, time_created, time_update, last_change_by', 'numerical', 'integerOnly'=>true),
 			array('label', 'length', 'max'=>128),
+			array('branch', 'length', 'max'=>1024),
 			// The following rule is used by search().
 			// @todo Please remove those attributes that should not be searched.
-			array('id, category_id, label, status_id, priority, price, discount_price, is_new, stock_qnt, time_created, time_update, last_change_by', 'safe', 'on'=>'search'),
+			array('id, category_id, label, status_id, priority, price, discount_price, is_new, stock_qnt, time_created, time_update, last_change_by, branch', 'safe', 'on'=>'search'),
 		);
 	}
 
@@ -56,6 +59,7 @@ class Product extends CActiveRecord
 		// class name for the relations automatically generated below.
 		return array(
 			'category' => array(self::BELONGS_TO, 'ProductCategory', 'category_id'),
+			'status' => array(self::BELONGS_TO, 'Status', 'status_id'),
 			'productTrls' => array(self::HAS_MANY, 'ProductTrl', 'product_id'),
 		);
 	}
@@ -78,6 +82,7 @@ class Product extends CActiveRecord
 			'time_created' => 'Time Created',
 			'time_update' => 'Time Update',
 			'last_change_by' => 'Last Change By',
+			'branch' => 'Branch',
 		);
 	}
 
@@ -111,6 +116,7 @@ class Product extends CActiveRecord
 		$criteria->compare('time_created',$this->time_created);
 		$criteria->compare('time_update',$this->time_update);
 		$criteria->compare('last_change_by',$this->last_change_by);
+		$criteria->compare('branch',$this->branch,true);
 
 		return new CActiveDataProvider($this, array(
 			'criteria'=>$criteria,

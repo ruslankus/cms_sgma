@@ -5,10 +5,11 @@
  *
  * The followings are the available columns in table 'news_trl':
  * @property integer $id
- * @property string $header
+ * @property string $title
  * @property string $meta_description
- * @property string $content
- * @property string $small_content
+ * @property string $meta_keywords
+ * @property string $text
+ * @property string $summary
  * @property integer $news_id
  * @property integer $lng_id
  *
@@ -35,12 +36,12 @@ class NewsTrl extends CActiveRecord
 		// will receive user inputs.
 		return array(
 			array('news_id, lng_id', 'numerical', 'integerOnly'=>true),
-			array('header', 'length', 'max'=>512),
-			array('meta_description', 'length', 'max'=>256),
-			array('content, small_content', 'safe'),
+			array('title', 'length', 'max'=>512),
+			array('meta_description, meta_keywords', 'length', 'max'=>256),
+			array('text, summary', 'safe'),
 			// The following rule is used by search().
 			// @todo Please remove those attributes that should not be searched.
-			array('id, header, meta_description, content, small_content, news_id, lng_id', 'safe', 'on'=>'search'),
+			array('id, title, meta_description, meta_keywords, text, summary, news_id, lng_id', 'safe', 'on'=>'search'),
 		);
 	}
 
@@ -64,10 +65,11 @@ class NewsTrl extends CActiveRecord
 	{
 		return array(
 			'id' => 'ID',
-			'header' => 'Header',
+			'title' => 'Title',
 			'meta_description' => 'Meta Description',
-			'content' => 'Content',
-			'small_content' => 'Small Content',
+			'meta_keywords' => 'Meta Keywords',
+			'text' => 'Text',
+			'summary' => 'Summary',
 			'news_id' => 'News',
 			'lng_id' => 'Lng',
 		);
@@ -92,10 +94,11 @@ class NewsTrl extends CActiveRecord
 		$criteria=new CDbCriteria;
 
 		$criteria->compare('id',$this->id);
-		$criteria->compare('header',$this->header,true);
+		$criteria->compare('title',$this->title,true);
 		$criteria->compare('meta_description',$this->meta_description,true);
-		$criteria->compare('content',$this->content,true);
-		$criteria->compare('small_content',$this->small_content,true);
+		$criteria->compare('meta_keywords',$this->meta_keywords,true);
+		$criteria->compare('text',$this->text,true);
+		$criteria->compare('summary',$this->summary,true);
 		$criteria->compare('news_id',$this->news_id);
 		$criteria->compare('lng_id',$this->lng_id);
 

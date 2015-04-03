@@ -1,0 +1,18 @@
+.content.menu-content .inner-content .label { width: 200px; vertical-align: top;}
+.content.menu-content .inner-content .value { width: 560px;}
+.content.menu-content .inner-content input[type="text"] {width: 520px;}
+
+.text-input-in-form
+{
+    width: 520px;
+    height: 100px;
+    padding-left: 3px;
+    padding-right: 3px;
+    background-color: #FFF;
+    border-radius: 3px;
+    border: 1px solid #DDD;
+    color: #968B8B;
+    font-size: 15px;
+    font-family: "Open_sans";
+    resize: none;
+}

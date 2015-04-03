@@ -33,6 +33,6 @@
     </div><!--/pagination-->
 
     <input type="hidden" id="ajax-refresh-link" value="<?php echo Yii::app()->createUrl('admin/news/categories',array('page' => CPaginator::getInstance()->getCurrentPage())); ?>">
-    <input type="hidden" id="ajax-swap-link" value="<?php echo Yii::app()->createUrl('/admin/news/ajaxorderitems'); ?>">
+    <input type="hidden" id="ajax-swap-link" value="<?php echo Yii::app()->createUrl('/admin/news/ajaxordercategories'); ?>">
 
 </main>
