@@ -82,8 +82,10 @@ class ExtPage extends Page
         $sql .= " LIMIT 1";
         $con = $this->dbConnection;
         $arrData = $con->createCommand($sql)->queryRow();
+        // if array is empty - finish
+        if(empty($arrData)){ return false;}
         
-        $sql  = "SELECT t2.*,t3.caption FROM images_of_page t1 ";
+        $sql  = "SELECT t1.id AS link_id, t2.*,t3.caption FROM images_of_page t1 ";
         $sql .= "JOIN images t2 ON t1.image_id = t2.id ";
         $sql .= "JOIN images_trl t3 ON t3.image_id = t2.id ";
         $sql .= "JOIN languages t4 ON t3.lng_id = t4.id " ;

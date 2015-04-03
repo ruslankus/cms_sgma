@@ -52,6 +52,29 @@ $(document).ready(function() {
         $(document).find("#edit").ckeditor() // reattach editor to textarea after ajax load.done; 
         return false;
      });
+     
+     
+     $(document).on("click", ".delete", function()
+	{
+		var link_id = $(this).data('id');
+		if(typeof link_id !== "undefined")
+		{
+			var prefix = $(this).data('prefix');
+			var page_id = $(this).data('page');
+	        $.ajaxSetup({async:false});
+	        var link = "/"+prefix+"/admin/pages/DelImageAjax/"+link_id;
+	        console.log(this);
+	        $.ajax({ type: "post",url:link,data:"page_id="+ page_id}).done(function(data){
+	            obj = jQuery.parseJSON(data);
+					var html = obj.html;
+					$.popup(html);
+					$.popup.show();
+	        });
+	        
+		}
+		
+        return false;
+	});
     
     
     

@@ -3,18 +3,22 @@
 class PagesController extends ControllerAdmin
 {
     
+    public function init(){
+        Yii::app()->clientScript->registerCssFile($this->assetsPath.'/css/vendor.css');    
+    }
+    
     
     public function actionIndex($siteLng = null){
         
         $currLng = Yii::app()->language;
-        
+       
         if(empty($siteLng)){
             $siteLng = Yii::app()->language; 
         }
         
         $objPages = Page::model()->with(array('pageTrls.lng' => array('condition' => "lng.prefix='{$siteLng}'")))->findall();
         
-        //Debug::d($objPages);
+        //Debug::d($currLng);
                 
         $this->render('index',array('objPages' => $objPages, 'currLng' => $currLng));
         
@@ -47,7 +51,9 @@ class PagesController extends ControllerAdmin
        
         }
         
-        $this->render('new_page', array('model' => $model));
+        $prefix = SiteLng::lng()->getCurrLng()->prefix;
+        
+        $this->render('new_page', array('model' => $model,'prefix'=> $prefix));
         
     }//create
     
@@ -67,7 +73,7 @@ class PagesController extends ControllerAdmin
             Yii::app()->end();
         }//ajax part
         
-        Yii::app()->clientScript->registerCssFile($this->assetsPath.'/css/vendor.css');
+        
         Yii::app()->clientScript->registerScriptFile($this->assetsPath.'/ckeditor/ckeditor.js',CClientScript::POS_END);
         Yii::app()->clientScript->registerScriptFile($this->assetsPath.'/ckeditor/adapters/jquery.js',CClientScript::POS_END);
         Yii::app()->clientScript->registerScriptFile($this->assetsPath.'/js/vendor.edit-page-content.js',CClientScript::POS_END);
@@ -128,6 +134,8 @@ class PagesController extends ControllerAdmin
     
     public function actionPageSetting($id = null){
         
+        Yii::app()->clientScript->registerScriptFile($this->assetsPath.'/js/vendor.edit-page-content.js',CClientScript::POS_END);
+        
         //
         //$objPage = Page::model()->findByPk($id);
         $model = new AddPageFile();
@@ -165,20 +173,77 @@ class PagesController extends ControllerAdmin
         }//if post
         
         $lngObj = SiteLng::lng()->getCurrLng();
-      
+        
         $arrPage = ExtPage::model()->getPageWithImage($id, $lngObj->prefix);
         
-        $arrImages = $arrPage['images'];
-       
-        $elCount = count($arrImages);
-        if($elCount < 5){          
-            $arrComb = array_pad($arrImages,5,'');           
-        }        
-        //Debug::d($arrComb);
-        $this->render('page_setting',array('page_id' => $id, 'arrPage' => $arrPage,
-         'arrImages' => $arrComb, 'model' => $model));
+        if(!empty($arrPage)){
+        
+            $arrImages = $arrPage['images'];
+           
+            $elCount = count($arrImages);
+            if($elCount < 5){          
+                $arrComb = array_pad($arrImages,5,'');           
+            }        
+            //Debug::d($arrComb);
+            $this->render('page_setting',array('page_id' => $id, 'arrPage' => $arrPage,
+             'arrImages' => $arrComb, 'model' => $model, 'lngPrefix' => $lngObj->prefix));    
+        
+        }else{
+            $prefix = $lngObj->prefix;
+            $this->redirect("/{$prefix}/admin/pages/index");
+        }
+        
+        
      
     }//pageSetting
+    
+    
+    
+    /**
+     * @param $id - int Image-page links id
+     */
+    public function actionDelImagePage($id = null){
+        //Debug::d($_POST);
+        $request = Yii::app()->request;
+        if($request->isPostRequest){
+            $currLng = SiteLng::lng()->getCurrLng()->prefix;
+            $pageId = $request->getPost('page_id');
+            $objImg = ImagesOfPage::model()->findByPk((int)$id);
+            if(!empty($objImg)){
+                $objImg->delete();
+                $this->redirect("/{$currLng}/admin/pages/pagesetting/{$pageId}");
+            } 
+            
+        }else{
+            //exception
+        }
+        
+        
+    }
+    
+    
+    
+    /*---------------------- AJAX ---------------------- */
+    
+    /**
+     * @param $id - int Image-page links id
+     */
+    public function actionDelImageAjax($id=null)
+    {
+        
+        $request = Yii::app()->request;
+        $currLng = Yii::app()->language;
+        $arrJson=array();
+        if($request->isAjaxRequest)
+        {    
+            $page_id = $request->getPost('page_id');
+            $arrJson['html'] = $this->renderPartial('_deletePageImage',array('page_id' => $page_id, 'link_id' => $id, 'lang_prefix' => $currLng), true);
+            echo json_encode($arrJson);
+            Yii::app()->end();
+        }
+
+    }
+    
     
     
     
