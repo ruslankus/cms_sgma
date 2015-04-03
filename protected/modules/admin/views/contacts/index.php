@@ -7,7 +7,7 @@ $currentPage = $pager->getCurrentPage();
 ?>
 <main>
 	<div class="title-bar">
-		<h1>Contacts</h1>
+		<h1><?php echo ATrl::t()->getLabel('contacts pages')?></h1>
 		<ul class="actions">
 			<li><a href="/<?php echo $currLng?>/admin/contacts/create" class="action add"></a></li>
 			<li><a href="" class="action refresh"></a></li>
@@ -19,8 +19,8 @@ $currentPage = $pager->getCurrentPage();
 		<div class="content list">
 			<div class="list-row title">
 				<div class="cell checkbox"><input type="checkbox" id="checkall_pages"/></div>
-				<div class="cell">Pages name</div>
-				<div class="cell action">Action</div>
+				<div class="cell"><?php echo ATrl::t()->getLabel('pages names')?></div>
+				<div class="cell action"><?php echo ATrl::t()->getLabel('action')?></div>
 			</div><!--/list-row-->
 			
 	        

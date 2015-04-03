@@ -9,9 +9,10 @@
 	
 	<div class="content page-content">
 		<div class="header">
-			<span>Some title</span>
-				<a href="#" class="active">Contact Form images</a>
-				<a href="/<?php echo $prefix;?>/admin/contacts/editcontent/<?php echo $page_id;?>">Contact settings</a>
+
+			<span><?php echo $arrPage['label'];?></span>
+				<a href="#" class="active"><?php echo ATrl::t()->getLabel('contact form images')?></a>
+				<a href="/<?php echo $prefix;?>/admin/contacts/editcontent/<?php echo $page_id;?>"><?php echo ATrl::t()->getLabel('contact settings')?></a>
 		</div><!--/header-->
 		
 		<div class="inner-content">
@@ -42,7 +43,7 @@
                                                                         </td>
 								</tr>
 								<tr>
-									<td class="label"><strong>Caption:</strong></td>
+									<td class="label"><strong><?php echo ATrl::t()->getLabel('caption')?>:</strong></td>
 									<td class="value"></td>
 								</tr>
                                 <?php foreach(SiteLng::lng()->getLngs() as $objLng):?>
@@ -56,12 +57,12 @@
                                 <?php endforeach; ?>
 								
 							</table>
-							<input type="submit" value="Save" />
+							<input type="submit" value="<?php echo ATrl::t()->getLabel('save')?>" />
 					
                         <?php echo CHtml::endForm(); ?>
 						</div><!--/form-zone-->
 						<div class="image-zone">
-							<strong>Preview</strong>
+							<strong><?php echo ATrl::t()->getLabel('preview')?></strong>
 							<div class="list">
                             <?php foreach($arrImages as $item):?>
                                 <?php if(!empty($item)):?>

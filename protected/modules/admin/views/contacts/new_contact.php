@@ -1,6 +1,6 @@
 			<main>
 				<div class="title-bar world">
-					<h1>Add new page</h1>
+					<h1><?php echo ATrl::t()->getLabel('add new contact page')?></h1>
 					<ul class="actions">
 						<li><a href="" class="action undo"></a></li>					
 					</ul>
@@ -37,7 +37,7 @@
 							
 							<table>							
 								<tr>
-									<td class="label">label</td>
+									<td class="label"><?php echo ATrl::t()->getLabel('label')?></td>
 									<td class="value">                                   
                                     <?php echo $form->textField($model,'page_label');?>
                                     <?php echo $form->error($model,'page_label');?>
@@ -45,7 +45,7 @@
 								</tr>
 								<tr>
 									<td class="label">&nbsp;</td>
-									<td class="value"><input name="save" type="submit" value="Save" /></td>
+									<td class="value"><input name="save" type="submit" value="<?php echo ATrl::t()->getLabel('save')?>" /></td>
 								</tr>
 							</table>
                          
