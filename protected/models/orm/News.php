@@ -15,6 +15,7 @@
  * @property string $branch
  *
  * The followings are the available model relations:
+ * @property ImagesOfNews[] $imagesOfNews
  * @property NewsCategory $category
  * @property Status $status
  * @property NewsTrl[] $newsTrls
@@ -54,6 +55,7 @@ class News extends CActiveRecord
 		// NOTE: you may need to adjust the relation name and the related
 		// class name for the relations automatically generated below.
 		return array(
+			'imagesOfNews' => array(self::HAS_MANY, 'ImagesOfNews', 'news_id'),
 			'category' => array(self::BELONGS_TO, 'NewsCategory', 'category_id'),
 			'status' => array(self::BELONGS_TO, 'Status', 'status_id'),
 			'newsTrls' => array(self::HAS_MANY, 'NewsTrl', 'news_id'),

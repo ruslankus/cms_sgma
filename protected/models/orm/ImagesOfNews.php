@@ -1,32 +1,25 @@
 <?php
 
 /**
- * This is the model class for table "images".
+ * This is the model class for table "images_of_news".
  *
- * The followings are the available columns in table 'images':
+ * The followings are the available columns in table 'images_of_news':
  * @property integer $id
- * @property string $label
- * @property string $filename
- * @property string $original_filename
- * @property string $mime_type
- * @property integer $size
- * @property integer $status_id
+ * @property integer $news_id
+ * @property integer $image_id
  *
  * The followings are the available model relations:
- * @property Status $status
- * @property ImagesOfContacts[] $imagesOfContacts
- * @property ImagesOfNews[] $imagesOfNews
- * @property ImagesOfPage[] $imagesOfPages
- * @property ImagesTrl[] $imagesTrls
+ * @property Images $image
+ * @property News $news
  */
-class Images extends CActiveRecord
+class ImagesOfNews extends CActiveRecord
 {
 	/**
 	 * @return string the associated database table name
 	 */
 	public function tableName()
 	{
-		return 'images';
+		return 'images_of_news';
 	}
 
 	/**
@@ -37,13 +30,10 @@ class Images extends CActiveRecord
 		// NOTE: you should only define rules for those attributes that
 		// will receive user inputs.
 		return array(
-			array('size, status_id', 'numerical', 'integerOnly'=>true),
-			array('label', 'length', 'max'=>128),
-			array('filename, original_filename', 'length', 'max'=>1024),
-			array('mime_type', 'length', 'max'=>64),
+			array('news_id, image_id', 'numerical', 'integerOnly'=>true),
 			// The following rule is used by search().
 			// @todo Please remove those attributes that should not be searched.
-			array('id, label, filename, original_filename, mime_type, size, status_id', 'safe', 'on'=>'search'),
+			array('id, news_id, image_id', 'safe', 'on'=>'search'),
 		);
 	}
 
@@ -55,11 +45,8 @@ class Images extends CActiveRecord
 		// NOTE: you may need to adjust the relation name and the related
 		// class name for the relations automatically generated below.
 		return array(
-			'status' => array(self::BELONGS_TO, 'Status', 'status_id'),
-			'imagesOfContacts' => array(self::HAS_MANY, 'ImagesOfContacts', 'image_id'),
-			'imagesOfNews' => array(self::HAS_MANY, 'ImagesOfNews', 'image_id'),
-			'imagesOfPages' => array(self::HAS_MANY, 'ImagesOfPage', 'image_id'),
-			'imagesTrls' => array(self::HAS_MANY, 'ImagesTrl', 'image_id'),
+			'image' => array(self::BELONGS_TO, 'Images', 'image_id'),
+			'news' => array(self::BELONGS_TO, 'News', 'news_id'),
 		);
 	}
 
@@ -70,12 +57,8 @@ class Images extends CActiveRecord
 	{
 		return array(
 			'id' => 'ID',
-			'label' => 'Label',
-			'filename' => 'Filename',
-			'original_filename' => 'Original Filename',
-			'mime_type' => 'Mime Type',
-			'size' => 'Size',
-			'status_id' => 'Status',
+			'news_id' => 'News',
+			'image_id' => 'Image',
 		);
 	}
 
@@ -98,12 +81,8 @@ class Images extends CActiveRecord
 		$criteria=new CDbCriteria;
 
 		$criteria->compare('id',$this->id);
-		$criteria->compare('label',$this->label,true);
-		$criteria->compare('filename',$this->filename,true);
-		$criteria->compare('original_filename',$this->original_filename,true);
-		$criteria->compare('mime_type',$this->mime_type,true);
-		$criteria->compare('size',$this->size);
-		$criteria->compare('status_id',$this->status_id);
+		$criteria->compare('news_id',$this->news_id);
+		$criteria->compare('image_id',$this->image_id);
 
 		return new CActiveDataProvider($this, array(
 			'criteria'=>$criteria,
@@ -114,7 +93,7 @@ class Images extends CActiveRecord
 	 * Returns the static model of the specified AR class.
 	 * Please note that you should have this exact method in all your CActiveRecord descendants!
 	 * @param string $className active record class name.
-	 * @return Images the static model class
+	 * @return ImagesOfNews the static model class
 	 */
 	public static function model($className=__CLASS__)
 	{

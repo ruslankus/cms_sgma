@@ -27,7 +27,7 @@
         </div><!--/tab-line-->
 
         <div class="inner-content">
-            <?php $form=$this->beginWidget('CActiveForm', array('id' =>'add-item-form','enableAjaxValidation'=>true,'htmlOptions'=>array('data-update_url' => Yii::app()->createUrl('/admin/menu/AjaxContentItemsByType')),'clientOptions' => array('validateOnSubmit'=>true))); ?>
+            <?php $form=$this->beginWidget('CActiveForm', array('id' =>'add-item-form','enableAjaxValidation'=>true,'clientOptions' => array('validateOnSubmit'=>true))); ?>
             <div class="tabs">
                 <?php foreach($languages as $index => $language): ?>
                     <table data-tab="<?php echo $language->prefix; ?>" <?php if($index == 0): ?> class="active" <?php endif; ?>>

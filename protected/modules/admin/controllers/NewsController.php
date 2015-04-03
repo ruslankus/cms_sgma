@@ -460,6 +460,130 @@ class NewsController extends ControllerAdmin
 
 
     /**
+     * Edit (not translatable content, labels, images and etc.)
+     * @param $id
+     * @throws CHttpException
+     */
+    public function actionEdit($id)
+    {
+        //include menu necessary scripts
+        Yii::app()->clientScript->registerScriptFile($this->assetsPath.'/js/vendor.edit-page.js',CClientScript::POS_END);
+
+        //exclude jquery to avoid conflict between jquery from Yii core
+        Yii::app()->clientScript->scriptMap=array('jquery-1.11.2.min.js' => false);
+
+        //item
+        $item = ExtNews::model()->findByPk($id);
+
+        if(empty($item))
+        {
+            throw new CHttpException(404);
+        }
+
+        //statuses
+        $arrStatuses = ExtStatus::model()->arrayForNewsAndProducts(true);
+        //parents
+        $arrCategories = ExtNewsCategory::model()->arrayForMenuItemForm(0,true,false);
+        //form
+        $form_mdl = new NewsForm();
+
+
+        //ajax validation
+        if(Yii::app()->request->isAjaxRequest)
+        {
+            //if ajax validation
+            if(isset($_POST['ajax']))
+            {
+                if($_POST['ajax'] == 'edit-item-form')
+                {
+                    echo CActiveForm::validate($form_mdl);
+                }
+                Yii::app()->end();
+            }
+        }
+        else
+        {
+            if(isset($_POST['NewsForm']))
+            {
+                $form_mdl -> attributes = $_POST['NewsForm'];
+                $form_mdl -> image = CUploadedFile::getInstance($form_mdl,'image');
+
+                if($form_mdl->validate())
+                {
+                    //use transaction
+                    $con = Yii::app()->db;
+                    $transaction = $con->beginTransaction();
+
+                    try
+                    {
+                        //update basic params
+                        $item->label = $form_mdl->label;
+                        $item->status_id = $form_mdl->status_id;
+                        $item->category_id = $form_mdl->category_id;
+                        $item->time_updated = time();
+                        $item->last_change_by = Yii::app()->user->id;
+                        $item->update();
+
+                        //if have image
+                        if(!empty($form_mdl->image))
+                        {
+                            //new name for our image
+                            $randomName = uniqid();
+
+                            //if saved
+                            if($form_mdl->image->saveAs('uploads/images/'.$randomName.'.'.$form_mdl->image->extensionName))
+                            {
+                                //add image item to db (to site gallery)
+                                $image = new ExtImages();
+                                $image -> filename = $randomName.'.'.$form_mdl->image->extensionName;
+                                $image -> original_filename = $form_mdl->image->name;
+                                $image -> size = $form_mdl->image->size;
+                                $image -> mime_type = $form_mdl->image->type;
+                                $image -> label = 'Image of "'.$item->label.'"';
+                                $image -> status_id = ExtStatus::VISIBLE;
+                                $image -> save();
+
+                                //relate added image with this news item
+                                $imageOfNews = new ImagesOfNews();
+                                $imageOfNews -> news_id = $item->id;
+                                $imageOfNews -> image_id = $image->id;
+                                $imageOfNews -> save();
+                            }
+                        }
+
+                        //commit changes
+                        $transaction->commit();
+                    }
+                    catch(Exception $ex)
+                    {
+                        $transaction->rollback();
+                    }
+                }
+            }
+        }
+
+        //get all related images of item
+        $images = array(null,null,null,null,null);
+
+        foreach($item->imagesOfNews as $index => $ion)
+        {
+            if($index+1 <= count($images))
+            {
+                $images[$index] = $ion->image;
+            }
+        }
+
+        $this->render('edit_item_settings',array(
+            'categories' => $arrCategories,
+            'statuses' => $arrStatuses,
+            'form_model' => $form_mdl,
+            'item' => $item,
+            'images' => $images
+        ));
+    }
+
+
+    /**
      * Deleting
      * @param $id
      * @throws CHttpException
