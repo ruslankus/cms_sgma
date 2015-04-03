@@ -4,6 +4,7 @@
 <?php /* @var $form_model NewsForm */ ?>
 <?php /* @var $form CActiveForm */ ?>
 <?php /* @var $this NewsController */ ?>
+<?php /* @var $category int */ ?>
 
 <main>
     <div class="title-bar world">
@@ -52,7 +53,7 @@
                 <tr>
                     <td class="label"><?php echo $form->labelEx($form_model,'category_id'); ?></td>
                     <td class="value">
-                        <?php echo $form->dropDownList($form_model,'category_id',$categories,array('class'=>''));?>
+                        <?php echo $form->dropDownList($form_model,'category_id',$categories,array('class'=>'','options' => array($category => array('selected' => true))));?>
                     </td>
                 </tr>
                 <tr>

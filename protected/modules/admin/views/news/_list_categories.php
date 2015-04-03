@@ -9,7 +9,7 @@
             <?php foreach($item as $children): ?>
                 <?php if(!$children->hasParent()): ?>
                     <div class="row root" data-id="<?php echo $children->id; ?>">
-                        <div class="name"><?php echo $children->label; ?></div>
+                        <div class="name"><a href="<?php echo Yii::app()->createUrl('admin/news/list',array('cat' => $children->id)); ?>"><?php echo $children->label; ?></a></div>
                         <div class="sequen"></div>
                         <div class="type"><?php echo $children->countOfItems(); ?></div>
                         <div class="action">
@@ -19,7 +19,7 @@
                     </div><!--/row root-->
                 <?php else: ?>
                     <div class="row" data-id="<?php echo $children->id; ?>" data-parent="<?php echo $children->parent_id; ?>">
-                        <div class="name"><?php echo $children->label; ?></div>
+                        <div class="name"><a href="<?php echo Yii::app()->createUrl('admin/news/list',array('cat' => $children->id)); ?>"><?php echo $children->label; ?></a></div>
                         <div class="sequen">
                             <a href="<?php echo Yii::app()->createUrl('admin/news/move',array('id' => $children->id,'dir' => 'up')); ?>" class="go-up move-item"><span class="ficoned arrow-up"></span></a>
                             <a href="<?php echo Yii::app()->createUrl('admin/news/move',array('id' => $children->id,'dir' => 'down')); ?>" class="go-down move-item"><span class="ficoned arrow-down"></span></a>

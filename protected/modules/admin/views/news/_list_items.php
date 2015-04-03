@@ -1,8 +1,13 @@
 <?php /* @var $items ExtNews[] */ ?>
+<?php /* @var $category int */ ?>
 
 <?php foreach($items as $item): ?>
     <div class="menu-table" data-menu="<?php echo $item->id ?>">
+
+        <?php if($category != 0): ?>
         <div class="cell draggable"><span class="ficoned drag"></span></div>
+        <?php endif; ?>
+
         <div class="cell block">
             <div class="inner-table">
                 <div class="row root" data-id="<?php echo $item->id; ?>">

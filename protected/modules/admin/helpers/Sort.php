@@ -79,8 +79,9 @@ class Sort
      * @param string $className
      * @param array $oldOrder
      * @param array $newOrder
+     * @param string $sortOrder
      */
-    public static function ReorderItems($className,$oldOrder,$newOrder)
+    public static function ReorderItems($className,$oldOrder,$newOrder,$sortOrder = 'priority DESC')
     {
         if(!empty($oldOrder) && !empty($newOrder) && count($oldOrder) == count($newOrder))
         {
@@ -89,7 +90,7 @@ class Sort
             /* @var $item ExtMenuItem | ExtProductCategory | ExtNewsCategory | CActiveRecord */
 
             //get all items by old order's ID's and sort them by priority descending
-            $items = $className::model()->findAllByAttributes(array('id' => $oldOrder),array('order' => 'priority DESC'));
+            $items = $className::model()->findAllByAttributes(array('id' => $oldOrder),array('order' => $sortOrder));
 
             if(!empty($items))
             {

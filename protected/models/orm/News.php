@@ -10,7 +10,7 @@
  * @property integer $status_id
  * @property integer $priority
  * @property integer $time_created
- * @property integer $time_update
+ * @property integer $time_updated
  * @property integer $last_change_by
  * @property string $branch
  *
@@ -37,12 +37,12 @@ class News extends CActiveRecord
 		// NOTE: you should only define rules for those attributes that
 		// will receive user inputs.
 		return array(
-			array('category_id, status_id, priority, time_created, time_update, last_change_by', 'numerical', 'integerOnly'=>true),
+			array('category_id, status_id, priority, time_created, time_updated, last_change_by', 'numerical', 'integerOnly'=>true),
 			array('label', 'length', 'max'=>128),
 			array('branch', 'length', 'max'=>1024),
 			// The following rule is used by search().
 			// @todo Please remove those attributes that should not be searched.
-			array('id, category_id, label, status_id, priority, time_created, time_update, last_change_by, branch', 'safe', 'on'=>'search'),
+			array('id, category_id, label, status_id, priority, time_created, time_updated, last_change_by, branch', 'safe', 'on'=>'search'),
 		);
 	}
 
@@ -72,7 +72,7 @@ class News extends CActiveRecord
 			'status_id' => 'Status',
 			'priority' => 'Priority',
 			'time_created' => 'Time Created',
-			'time_update' => 'Time Update',
+			'time_updated' => 'Time Updated',
 			'last_change_by' => 'Last Change By',
 			'branch' => 'Branch',
 		);
@@ -102,7 +102,7 @@ class News extends CActiveRecord
 		$criteria->compare('status_id',$this->status_id);
 		$criteria->compare('priority',$this->priority);
 		$criteria->compare('time_created',$this->time_created);
-		$criteria->compare('time_update',$this->time_update);
+		$criteria->compare('time_updated',$this->time_updated);
 		$criteria->compare('last_change_by',$this->last_change_by);
 		$criteria->compare('branch',$this->branch,true);
 

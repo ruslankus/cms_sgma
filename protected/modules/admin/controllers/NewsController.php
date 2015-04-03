@@ -346,7 +346,7 @@ class NewsController extends ControllerAdmin
 
         if(Yii::app()->request->isAjaxRequest)
         {
-            $this->renderPartial('_list_items',array('items' => $array));
+            $this->renderPartial('_list_items',array('items' => $array, 'category' => $cat));
         }
         else
         {
@@ -357,7 +357,7 @@ class NewsController extends ControllerAdmin
     /**
      * Adding
      */
-    public function actionAdd()
+    public function actionAdd($cat = 0)
     {
         //include menu necessary scripts
         Yii::app()->clientScript->registerCssFile($this->assetsPath.'/css/vendor.add-menu.css');
@@ -448,6 +448,7 @@ class NewsController extends ControllerAdmin
                 'categories' => $arrCategories,
                 'statuses' => $arrStatuses,
                 'form_model' => $form_mdl,
+                'category' => $cat,
             )
         );
     }
@@ -480,5 +481,20 @@ class NewsController extends ControllerAdmin
         {
             echo "OK";
         }
+    }
+
+    /**
+     * Changes order (for draggable items)
+     */
+    public function actionAjaxOrderItems()
+    {
+        $ordersJson = Yii::app()->request->getParam('orders');
+        $orders = json_decode($ordersJson,true);
+
+        $previous = $orders['old'];
+        $new = $orders['new'];
+
+        Sort::ReorderItems("ExtNews",$previous,$new);
+        echo "OK";
     }
 }
