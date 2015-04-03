@@ -34,22 +34,6 @@
                             <td class="label"><?php echo ATrl::t()->getLabel('Title'); ?> [<?php echo $language->prefix; ?>]:</td>
                             <td class="value"><input type="text" name="CategoryForm[titles][<?php echo $language->id; ?>]" placeholder="<?php echo ATrl::t()->getLabel('Your title'); ?>" value="" /></td>
                         </tr>
-                        <tr>
-                            <td class="label"><?php echo ATrl::t()->getLabel('Keywords'); ?> [<?php echo $language->prefix; ?>]:</td>
-                            <td class="value"><input type="text" name="CategoryForm[meta_keywords][<?php echo $language->id; ?>]" placeholder="<?php echo ATrl::t()->getLabel('Keyword one, keyword two, keyword three'); ?>" value="" /></td>
-                        </tr>
-                        <tr>
-                            <td class="label"><?php echo ATrl::t()->getLabel('Summary'); ?> [<?php echo $language->prefix; ?>]:</td>
-                            <td class="value">
-                                <textarea class="text-input-in-form" name="CategoryForm[summary][<?php echo $language->id; ?>]" placeholder="<?php echo ATrl::t()->getLabel('Summary'); ?>"></textarea>
-                            </td>
-                        </tr>
-                        <tr>
-                            <td class="label"><?php echo ATrl::t()->getLabel('Text'); ?> [<?php echo $language->prefix; ?>]:</td>
-                            <td class="value">
-                                <textarea class="text-input-in-form" name="CategoryForm[text][<?php echo $language->id; ?>]" placeholder="<?php echo ATrl::t()->getLabel('Text'); ?>"></textarea>
-                            </td>
-                        </tr>
                     </table>
                 <?php endforeach; ?>
             </div><!--/tabs-->
