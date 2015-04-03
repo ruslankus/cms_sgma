@@ -9,7 +9,7 @@
 	<div class="content page-content">
 		<div class="header">
 			<span>Some title</span>
-			<a href="/<?php echo $prefix;?>/admin/contacts/contactsettings/<?php echo $arrPage->id;?>">Contact settings</a>
+			<a href="/<?php echo $prefix;?>/admin/contacts/contactsettings/<?php echo $arrPage->id;?>">Contact form images</a>
 			<a href="#" class="active">Contact Form fields</a>
 		</div><!--/header-->
 		<div class="contact-img">
@@ -55,19 +55,17 @@
 			<div class="inner-editor">
 				<table>
 					<tr>
-						<td class="label">image</td>
-						<td class="value">
-							<?php echo $form->fileField($model, 'image'); ?>
-							<?php echo $form->error($model, 'image'); ?>
-						</td>
-					</tr>
-				</table>
-				<table>
-					<tr>
 						<td class="label">Title</td>
 						<td class="value">
 							<?php echo $form->textField($model,'title',array('value'=>$arrPage['title'],'id'=>'title')); ?>
 							<?php echo $form->error($model,'title'); ?>
+						</td>
+					</tr>
+					<tr>
+						<td class="label">Email</td>
+						<td class="value">
+							<?php echo $form->textField($model,'email',array('value'=>$arrPage['email'],'id'=>'email')); ?>
+							<?php echo $form->error($model,'email'); ?>
 						</td>
 					</tr>
 				</table>

@@ -54,6 +54,7 @@ function getLangValues(pageId,lngId,prefix){
    var title = '';
    var text = '';
    var meta = '';
+   var email = '';
    $.ajaxSetup({async:false});
    var link = "/"+prefix+"/admin/contacts/EditContentAjax/"+pageId;
     $.ajax({ type: "post",url:link,data:{lngId:lngId}}).done(function(data){
@@ -70,22 +71,14 @@ function getLangValues(pageId,lngId,prefix){
         {
             meta = obj.meta; 
         }
-
+        if(obj.email)
+        {
+            email = obj.email; 
+        }
         $('#title').val(title);
         $('#edit').val(text);
         $('#meta').val(meta);
-
-        if(obj.image)
-        {
-            $('.contact-img img').attr("src",obj.image.src);
-            $('.del-image').data('id',obj.image.id);
-            $('.contact-img').show();
-        }
-        else
-        {
-            $('.contact-img').hide();
-        }
-
+        $('#email').val(email);
         console.log(obj);
 
     });    

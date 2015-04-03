@@ -64,37 +64,7 @@ class ContactsController extends ControllerAdmin
                 $contactTrlObj->text=$_POST['SaveContactForm']['text'];
                 $contactTrlObj->title=$_POST['SaveContactForm']['title'];
                 $contactTrlObj->meta_description=$_POST['SaveContactForm']['meta'];
-               /*
-                // save image
-
-                $model->image=CUploadedFile::getInstance($model,'image');
-
-                if($model->image){
-                    $imageObj = new Images();
-                    $imageObj->name = $model->image;
-                    $imageObj->save();
-                    $img_id = $imageObj->id;
-                    $img_name = $img_id.".".$model->image->extensionName;
-                    $path = "uploads/images/".$img_name;
-                    $thisImgObj = Images::model()->findByPk($img_id);
-                    if($model->image->saveAs($path))
-                    {
-                        $thisImgObj->name=$img_name;
-                        $thisImgObj->update();
-
-                        $imageLinkObj = new ContactsLinkImages();
-                        $imageLinkObj->image_id = $img_id;
-                        $imageLinkObj->contacts_id = $contactTrlObj->id;
-                        $imageLinkObj->save();
-                        //$contactTrlObj->image_id = $img_name;
-                    }
-                    else
-                    {
-                        $thisImgObj->delete();
-                    }
-                }
-            */
-                // end save image
+                $contactTrlObj->email=$_POST['SaveContactForm']['email'];
                 $contactTrlObj->update(); 
 
             }
@@ -133,7 +103,53 @@ class ContactsController extends ControllerAdmin
 
     public function actionContactSettings($id=null)
     {
-        $this->render('editContactSettings');
+        $model = new AddContactFile();
+        if(!empty($_POST['AddContactFile'])){
+            //Debug::d($_POST);
+            $model->attributes = $_POST['AddContactFile'];
+            if($model->validate()){
+                
+                $objFile = CUploadedFile::getInstance($model, 'file');
+                
+               
+                $newFileName = uniqid(). "." . $objFile->extensionName;
+                $path  = Yii::getPathOfAlias('webroot').'/uploads/images/';
+                $path .= $newFileName;
+                
+                if($objFile->saveAs($path)){
+
+                    //Caption
+                   foreach(SiteLng::lng()->getLngs() as $objLng){
+                       $arrCaps[$objLng->id] = $model->captions[$objLng->prefix];
+                   }
+                   
+                   if(ExtImages::model()->saveContactFile($newFileName, $id, $arrCaps)){
+                       //success
+                       $this->refresh();
+                   }else{
+                       //
+                       $model->addError('file',"Can't save file in DB");
+                   }
+
+                }
+                               
+              
+            }
+        }//if post
+        
+        $lngObj = SiteLng::lng()->getCurrLng();
+      
+        $arrPage = ExtContacts::model()->getContactWithImage($id, $lngObj->prefix);
+        
+        $arrImages = $arrPage['images'];
+       
+        $elCount = count($arrImages);
+        if($elCount < 5){          
+            $arrComb = array_pad($arrImages,5,'');           
+        }        
+        //Debug::d($arrComb);
+        $this->render('contact_setting',array('page_id' => $id, 'arrPage' => $arrPage,
+         'arrImages' => $arrComb, 'model' => $model));
     }
 
     /* ----------------------------- ajax section -------------------------------------- */
@@ -150,9 +166,7 @@ class ContactsController extends ControllerAdmin
             $arrJson['title'] = $objPage->title;
             $arrJson['meta'] = $objPage->meta_description;
             $arrJson['text'] = $objPage->text;
-            if($arrPage->imageLink->image->id){
-                $arrJson['image']= array('id'=>$arrPage->imageLink->image->id,'src'=>'/uploads/images/'.$arrPage->imageLink->image->name);
-            }
+            $arrJson['email'] = $objPage->email;
             echo json_encode($arrJson);
             Yii::app()->end();
         }//ajax part

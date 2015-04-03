@@ -9,16 +9,15 @@ class SaveContactForm extends CFormModel
    public $title;
    public $text;
    public $meta;
-   public $image;
+   public $email;
    /**
 	 * Declares the validation rules.
 	 */
 	public function rules()
 	{
         return array(
-            array('title,text,lngId', 'required'),
-            array('title,text,lngId,meta', 'safe'),      
-            array('image', 'file', 'allowEmpty' => true, 'types'=>'jpg, gif, png'),    
+            array('title,text,lngId,email', 'required'),
+            array('title,text,lngId,meta,email', 'safe'),      
         );
 	}
    

@@ -94,4 +94,49 @@ class ExtImages extends Images
         }
         
     }//savePageFile
+
+    public function saveContactFile($fileName, $page_id ,$arrCapts){
+        
+        $con = $this->dbConnection;
+        $transaction = $con->beginTransaction();
+        try{
+            $sql  = "INSERT INTO {$this->tableName()}(`filename`) ";
+            $sql .= "VALUES(:filename)";
+            
+            $param1[':filename'] = $fileName;
+            $con->createCommand($sql)->execute($param1);
+            $imageId = $con->getLastInsertID('images');
+            //addung relation
+            $sql  = "INSERT INTO images_of_contacts(`contacts_id`, `image_id`) ";
+            $sql .= "VALUES(:page_id, :image_id)";
+            $param2[':page_id'] = $page_id;
+            $param2[':image_id'] = $imageId;
+            $con->createCommand($sql)->execute($param2);
+            //adding tranlation
+            $sql  = "INSERT INTO images_trl(`image_id`, `lng_id`, `caption`) ";
+            $sql .= "VALUES ";
+            $i=0;
+            foreach($arrCapts as $key => $value){
+                if($i == 0){
+                    $sql .= "({$imageId}, {$key}, '{$value}') ";
+                }else{
+                     $sql .= ",({$imageId}, {$key}, '{$value}') ";
+                } 
+                $i++;   
+            }//foreach
+            
+            $con->createCommand($sql)->execute();
+            $transaction->commit();
+            return true; 
+            
+        } catch (Exception $e) {
+            $transaction->rollback();
+            $msg = $e->getMessage();
+            $code = $e->getCode();
+            echo($msg."   ".$code);
+            Debug::d();
+            return false;
+        }
+        
+    }// save contact file
 }
