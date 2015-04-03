@@ -136,7 +136,9 @@ class ContactsController extends ControllerAdmin
               
             }
         }//if post
-        
+
+        Yii::app()->clientScript->registerScriptFile($this->assetsPath.'/js/vendor.delete-contact-image.js',CClientScript::POS_END);      
+
         $lngObj = SiteLng::lng()->getCurrLng();
       
         $arrPage = ExtContacts::model()->getContactWithImage($id, $lngObj->prefix);
@@ -150,6 +152,17 @@ class ContactsController extends ControllerAdmin
         //Debug::d($arrComb);
         $this->render('contact_setting',array('page_id' => $id, 'arrPage' => $arrPage,
          'arrImages' => $arrComb, 'model' => $model));
+    }
+
+    public function actionDeleteContactImage()
+    {
+        $request = Yii::app()->request;
+        $image_id = $request->getPost('image_id');
+        $contact_id = $request->getPost('contact_id');        
+        $model = ImagesOfContacts::model()->find(array('condition'=>'image_id=:image_id AND contacts_id=:contacts_id','params'=>array('image_id'=>$image_id,'contacts_id'=>$contact_id)));
+     
+        $model->delete();
+        $this->redirect(array('ContactSettings', 'id'=>$contact_id));
     }
 
     /* ----------------------------- ajax section -------------------------------------- */
@@ -218,17 +231,12 @@ class ContactsController extends ControllerAdmin
     public function actionDelImageAjax($id=null)
     {
         $request = Yii::app()->request;
+        $currLng = Yii::app()->language;
         $arrJson=array();
         if($request->isAjaxRequest)
         {    
-            $objContTrl = ContactsLinkImages::model()->findByAttributes(array('contacts_id' => $id));
-            if($objContTrl->delete()){
-                $arrJson['status']="deleted";
-            }
-            else
-            {
-                $arrJson['status']="error";
-            }
+            $contact_id = $request->getPost('contact_id');
+            $arrJson['html'] = $this->renderPartial('_deleteContactImage',array('image_id' => $id, 'contact_id' => $contact_id, 'lang_prefix' => $currLng), true);
             echo json_encode($arrJson);
             Yii::app()->end();
         }

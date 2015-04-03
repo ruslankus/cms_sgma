@@ -67,7 +67,7 @@
                                 <?php if(!empty($item)):?>
                                     <div class="image">
                                         <img src="/uploads/images/<?php echo $item['filename']?>" alt="" />
-                                        <a href="#" class="delete active" data-id="1"></a>
+                                        <a href="#" class="delete active" data-id="<?php echo $item['id']; ?>" data-contact_id="<?php echo $page_id; ?>" data-prefix="<?php echo $prefix; ?>"></a>
                                     </div>
                                 <?php else:?>
                                     <div class="image">

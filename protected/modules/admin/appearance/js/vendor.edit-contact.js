@@ -24,7 +24,7 @@ $(document).ready(function() {
 
     $(document).on("click", "#save-content", function()
 	{
-		$console.log(this)
+		$console.log(this);
         return false;
 	});
     
