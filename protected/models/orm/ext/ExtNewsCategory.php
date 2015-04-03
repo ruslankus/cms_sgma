@@ -252,6 +252,41 @@ class ExtNewsCategory extends NewsCategory
     }
 
     /**
+     * Returns bread-crumbs array
+     * @param bool $translatable
+     * @param bool $ignoreZero
+     * @param string $titleForZero
+     * @return array
+     */
+    public function breadCrumbs($translatable = false, $ignoreZero = true, $titleForZero = 'Root')
+    {
+        /* @var $category self */
+
+        $crumbs = array();
+        $branch = $this->branch;
+        $arrBranch = explode(":",$branch);
+
+        foreach($arrBranch as $id)
+        {
+            $category = self::model()->findByPk($id);
+
+            if(!empty($category))
+            {
+                $crumbs[$id] = $translatable ? $category->trl->header : $category->label;
+            }
+            else
+            {
+                if($id == 0 && !$ignoreZero)
+                {
+                    $crumbs[$id] = $titleForZero;
+                }
+            }
+        }
+
+        return $crumbs;
+    }
+
+    /**
      * Returns trl or creates it if not found
      * @param $lngId
      * @return NewsCategoryTrl

@@ -332,10 +332,15 @@ class NewsController extends ControllerAdmin
         //include js file for AJAX updating
         Yii::app()->clientScript->registerScriptFile($this->assetsPath.'/js/vendor.trees.js',CClientScript::POS_END);
         Yii::app()->clientScript->registerScriptFile($this->assetsPath.'/js/vendor.main-menu.js',CClientScript::POS_END);
+        Yii::app()->clientScript->registerCssFile($this->assetsPath.'/css/vendor.news.ext.css');
 
-        if($cat !== 0)
+        $category = ExtNewsCategory::model()->findByPk($cat);
+        $breadCrumbs = array();
+
+        if(!empty($category))
         {
             $objects = ExtNews::model()->findAllByAttributes(array('category_id' => (int)$cat),array('order' => 'priority DESC'));
+            $breadCrumbs = $category->breadCrumbs(false);
         }
         else
         {
@@ -350,7 +355,7 @@ class NewsController extends ControllerAdmin
         }
         else
         {
-            $this->render('list_items',array('items' => $array,'category' => $cat));
+            $this->render('list_items',array('items' => $array,'category' => $cat, 'breadcrumbs' => $breadCrumbs));
         }
     }
 

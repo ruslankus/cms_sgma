@@ -1,17 +1,28 @@
 <?php /* @var $items ExtNews[] */ ?>
 <?php /* @var $this NewsController */ ?>
 <?php /* @var $category int */ ?>
+<?php /* @var $breadcrumbs array */ ?>
 
-<style>
-    .inner-table > .row > div { padding: 10px;}
-</style>
 
 <?php $params = array(); ?>
 <?php if($category != 0): ?> <?php $params['cat'] = $category; ?> <?php endif; ?>
 
 <main>
     <div class="title-bar">
-        <h1><?php echo ATrl::t()->getLabel('News'); ?></h1>
+
+        <?php if(!empty($breadcrumbs)): ?>
+        <h1 class="breadcrumbs">
+            <a href="<?php echo Yii::app()->createUrl('admin/news/categories') ?>"><?php echo ATrl::t()->getLabel('Categories'); ?></a>
+            <?php foreach($breadcrumbs as $id => $title): ?>
+                > <a href="<?php echo Yii::app()->createUrl('admin/news/list',array('cat' => $id)) ?>"><?php echo $title; ?></a>
+            <?php endforeach; ?>
+        </h1>
+        <?php else: ?>
+            <h1 class="breadcrumbs">
+                <?php echo ATrl::t()->getLabel('All items'); ?>
+            </h1>
+        <?php endif; ?>
+
         <ul class="actions">
             <li><a href="<?php echo Yii::app()->createUrl('/admin/news/add',$params); ?>" class="action add"></a></li>
         </ul>

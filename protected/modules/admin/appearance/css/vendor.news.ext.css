@@ -1,0 +1,9 @@
+.inner-table > .row > div
+{
+    padding: 10px;
+}
+
+.breadcrumbs a
+{
+    color: inherit; text-decoration: none;
+}
