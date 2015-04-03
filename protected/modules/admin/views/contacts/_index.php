@@ -7,8 +7,8 @@ $currentPage = $pager->getCurrentPage();
 <div class="content list">
 	<div class="list-row title">
 		<div class="cell checkbox"><input type="checkbox" id="checkall_pages"/></div>
-		<div class="cell">Pages name</div>
-		<div class="cell action">Action</div>
+		<div class="cell"><?php echo ATrl::t()->getLabel('pages names')?></div>
+		<div class="cell action"><?php echo ATrl::t()->getLabel('action')?></div>
 	</div><!--/list-row-->
 	
     

@@ -1,6 +1,6 @@
 <main>
 	<div class="title-bar world">
-		<h1>Edit contact content</h1>
+		<h1><?php echo ATrl::t()->getLabel('edit contact content')?></h1>
 		<ul class="actions">
 			<li><a href="" class="action undo"></a></li>
 		</ul>
@@ -8,9 +8,9 @@
 	
 	<div class="content page-content">
 		<div class="header">
-			<span>Some title</span>
-			<a href="/<?php echo $prefix;?>/admin/contacts/contactsettings/<?php echo $arrPage->contacts->id;?>">Contact form images</a>
-			<a href="#" class="active">Contact Form fields</a>
+			<span><?php echo $arrPage['title'];?></span>
+			<a href="/<?php echo $prefix;?>/admin/contacts/contactsettings/<?php echo $arrPage->contacts->id;?>"><?php echo ATrl::t()->getLabel('contact form images')?></a>
+			<a href="#" class="active"><?php echo ATrl::t()->getLabel('contact settings')?></a>
 		</div><!--/header-->
 		<div class="contact-img">
 		<?php
@@ -48,7 +48,7 @@
 			      CHtml::listData(SiteLng::lng()->getLngs(),'id','name'),array('id'=>'styled-language-editor', 'class'=>'float-left', 'data-prefix' => $prefix, 'data-page'=>$contact_id,'options' => array($selected=>array('selected'=>true)))
 			    );
 			?>
-				<span>Don't forget to save content before choosing another language.</span>
+				<span><?php echo ATrl::t()->getLabel('save before switch lang')?></span>
 			</div><!--/inner-top-->
 
 
