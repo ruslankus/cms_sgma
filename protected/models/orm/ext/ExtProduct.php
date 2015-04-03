@@ -15,6 +15,36 @@ class ExtProduct extends Product
         return parent::model($className);
     }
 
+
+    /**
+     * Returns trl or creates it if not found
+     * @param $lngId
+     * @return ProductTrl
+     */
+    public function getOrCreateTrl($lngId)
+    {
+        $all = $this->productTrls;
+
+        if(!empty($all))
+        {
+            foreach($all as $trl)
+            {
+                if($trl->lng_id == $lngId)
+                {
+                    return $trl;
+                }
+            }
+        }
+
+        $trl = new ProductTrl();
+        $trl -> product_id = $this;
+        $trl -> lng_id = $lngId;
+
+        return $trl;
+    }
+
+
+
     /**
      * Override, relate with extended models
      * @return array relational rules.

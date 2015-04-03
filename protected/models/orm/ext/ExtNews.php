@@ -15,6 +15,35 @@ class ExtNews extends News
         return parent::model($className);
     }
 
+
+    /**
+     * Returns trl or creates it if not found
+     * @param $lngId
+     * @return NewsTrl
+     */
+    public function getOrCreateTrl($lngId)
+    {
+        $all = $this->newsTrls;
+
+        if(!empty($all))
+        {
+            foreach($all as $trl)
+            {
+                if($trl->lng_id == $lngId)
+                {
+                    return $trl;
+                }
+            }
+        }
+
+        $trl = new NewsTrl();
+        $trl -> news_id = $this;
+        $trl -> lng_id = $lngId;
+
+        return $trl;
+    }
+
+
     /**
      * Override, relate with extended models
      * @return array relational rules.

@@ -146,10 +146,11 @@ class ExtProductCategory extends ProductCategory
      * Build array which looks like (id => label), special for form-use
      * @param int $parent_id
      * @param bool $appendNestingLines
-     * @param bool $add_root
+     * @param bool $addRoot
+     * @param string $rootTitle
      * @return array
      */
-    public function arrayForMenuItemForm($parent_id = 0,$appendNestingLines = true, $add_root = true)
+    public function arrayForMenuItemForm($parent_id = 0,$appendNestingLines = true, $addRoot = true, $rootTitle = 'Root')
     {
         /* @var $all self[] */
 
@@ -159,9 +160,9 @@ class ExtProductCategory extends ProductCategory
         $all = $this->buildObjArrRecursive($parent_id);
 
         //add root category (name as menu name)
-        if($add_root)
+        if($addRoot)
         {
-            $result[0] = $this->label;
+            $result[0] = $rootTitle;
         }
         //pass through all
         foreach($all as $item)

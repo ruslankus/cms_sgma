@@ -325,16 +325,24 @@ class NewsController extends ControllerAdmin
     /**
      * List of all news
      * @param int $page
-     * @param null $cat
+     * @param int $cat
      */
-    public function actionList($page = 1, $cat = null)
+    public function actionList($page = 1, $cat = 0)
     {
         //include js file for AJAX updating
         Yii::app()->clientScript->registerScriptFile($this->assetsPath.'/js/vendor.trees.js',CClientScript::POS_END);
         Yii::app()->clientScript->registerScriptFile($this->assetsPath.'/js/vendor.main-menu.js',CClientScript::POS_END);
 
-        $objects = ExtNews::model()->findAllByAttributes(array('category_id' => (int)$cat),array('order' => 'priority DESC'));
-        $array = CPaginator::getInstance($objects,10,$page);
+        if($cat !== 0)
+        {
+            $objects = ExtNews::model()->findAllByAttributes(array('category_id' => (int)$cat),array('order' => 'priority DESC'));
+        }
+        else
+        {
+            $objects = ExtNews::model()->findAll(array('order' => 'priority DESC'));
+        }
+
+        $array = CPaginator::getInstance($objects,10,$page)->getPreparedArray();
 
         if(Yii::app()->request->isAjaxRequest)
         {
@@ -346,6 +354,9 @@ class NewsController extends ControllerAdmin
         }
     }
 
+    /**
+     * Adding
+     */
     public function actionAdd()
     {
         //include menu necessary scripts
@@ -362,7 +373,7 @@ class NewsController extends ControllerAdmin
         //statuses
         $arrStatuses = ExtStatus::model()->arrayForNewsAndProducts(true);
         //parents
-        $arrCategories = ExtNewsCategory::model()->arrayForMenuItemForm();
+        $arrCategories = ExtNewsCategory::model()->arrayForMenuItemForm(0,true,false);
         //form
         $form_mdl = new NewsForm();
 
@@ -383,7 +394,52 @@ class NewsController extends ControllerAdmin
         {
             if(isset($_POST['NewsForm']))
             {
-                Debug::out($_POST['NewsForm']);
+                $form_mdl->attributes = $_POST['NewsForm'];
+
+                $category = ExtNewsCategory::model()->findByPk((int)$form_mdl->category_id);
+
+                if($form_mdl->validate())
+                {
+                    //use transaction
+                    $con = Yii::app()->db;
+                    $transaction = $con->beginTransaction();
+
+                    try
+                    {
+                        $item = new ExtNews();
+                        $item -> attributes = $form_mdl->attributes;
+                        $item -> time_update = time();
+                        $item -> time_created = time();
+                        $item -> branch = !empty($category) ? $category->branch : '0';
+                        $item -> priority = Sort::GetNextPriority('News',array('category_id' => $form_mdl->category_id));
+                        $item -> last_change_by = Yii::app()->user->id;
+                        $item -> save();
+
+                        //translations
+                        $titles = $_POST['ExtNews']['titles'];
+                        foreach($objLanguages as $language)
+                        {
+                            $itemTrl = new NewsTrl();
+                            $itemTrl -> title = $titles[$language->id];
+                            $itemTrl -> lng_id = $language->id;
+                            $itemTrl -> save();
+                        }
+
+
+                        $transaction->commit();
+
+                    }
+                    catch(Exception $ex)
+                    {
+                        $transaction->rollback();
+                    }
+
+                    $params = array();
+                    $params['cat'] = !empty($category) ? $category->id : 0;
+
+                    //back to list
+                    $this->redirect(Yii::app()->createUrl('/admin/news/list',$params));
+                }
             }
         }
 
@@ -394,6 +450,5 @@ class NewsController extends ControllerAdmin
                 'form_model' => $form_mdl,
             )
         );
-
     }
 }
