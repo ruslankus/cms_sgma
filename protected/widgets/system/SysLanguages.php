@@ -34,8 +34,13 @@ class SysLanguages extends CWidget
 
         foreach($languages as $index => $language)
         {
+            $url = Yii::app()->request->url;
+            $urlArray = explode('/',$url);
+            $urlArray[1] = $language->prefix;
+            $url = implode('/',$urlArray);
+
             $arrayLanguages[$index] = $language->attributes;
-            $arrayLanguages[$index]['url'] = "#"; //TODO: form url for language switching
+            $arrayLanguages[$index]['url'] = $url;
         }
 
         $template = $this->widgetInfo->template_name;

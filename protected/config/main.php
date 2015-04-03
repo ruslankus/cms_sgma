@@ -59,6 +59,7 @@ return array(
                  * Routes admin modules
                  */
                 '<language:\w{2}>/admin' => 'admin/main/index',
+                'admin/' => 'admin/main/index',
 
                 /**
                  * Routes for other modules
@@ -68,9 +69,6 @@ return array(
                 '<language:\w{2}>/<module:\w+>/<controller:\w+>/<id:\d+>'=>'<module>/<controller>/view',
                 '<language:\w{2}>/<module:\w+>/<controller:\w+>/<action:\w+>/<id:\d+>/*'=>'<module>/<controller>/<action>',
                 '<language:\w{2}>/<module:\w+>/<controller:\w+>/<action:\w+>/*'=>'<module>/<controller>/<action>',
-                '<module:\w+>/' => '<module>/main/index',
-
-                'admin/' => 'admin/main/index',
 
 
                 /**
@@ -94,7 +92,7 @@ return array(
 			'errorAction'=>'site/error',
 		),
 
-        
+        /*
 		'log'=>array(
 			'class'=>'CLogRouter',
 			'routes'=>array(
@@ -120,6 +118,7 @@ return array(
 				
 			),
 		),
+        */
         
 
 	),
