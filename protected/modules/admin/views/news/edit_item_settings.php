@@ -4,7 +4,7 @@
 <?php /* @var $form CActiveForm */ ?>
 <?php /* @var $this NewsController */ ?>
 <?php /* @var $item ExtNews */ ?>
-<?php /* @var $images ExtImages[] */ ?>
+<?php /* @var $images ExtImagesOfNews[] */ ?>
 
 <main>
     <div class="title-bar world">
@@ -59,11 +59,11 @@
                 <strong><?php echo ATrl::t()->getLabel('Images'); ?></strong>
                 <div class="list">
 
-                    <?php foreach($images as $image): ?>
-                        <?php if(!empty($image)): ?>
+                    <?php foreach($images as $ion): ?>
+                        <?php if(!empty($ion)): ?>
                             <div class="image">
-                                <img src="/uploads/images/<?php echo $image->filename; ?>" alt="" />
-                                <a href="#" class="delete active" data-id="1"></a>
+                                <img src="<?php echo $ion->image->getUrl(); ?>" alt="" />
+                                <a href="<?php echo Yii::app()->createUrl('admin/news/deleteimage',array('id' => $ion->id)) ?>" class="delete active" data-id="1"></a>
                             </div>
                         <?php else: ?>
                             <div class="image">

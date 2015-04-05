@@ -413,7 +413,7 @@ class NewsController extends ControllerAdmin
                     {
                         $item = new ExtNews();
                         $item -> attributes = $form_mdl->attributes;
-                        $item -> time_update = time();
+                        $item -> time_updated = time();
                         $item -> time_created = time();
                         $item -> branch = !empty($category) ? $category->branch : '0';
                         $item -> priority = Sort::GetNextPriority('News',array('category_id' => $form_mdl->category_id));
@@ -569,7 +569,7 @@ class NewsController extends ControllerAdmin
         {
             if($index+1 <= count($images))
             {
-                $images[$index] = $ion->image;
+                $images[$index] = $ion;
             }
         }
 
@@ -580,6 +580,16 @@ class NewsController extends ControllerAdmin
             'item' => $item,
             'images' => $images
         ));
+    }
+
+    /**
+     * Deletes image
+     * @param $id
+     */
+    public function actionDeleteImage($id)
+    {
+        ImagesOfNews::model()->deleteByPk((int)$id);
+        $this->redirect(Yii::app()->request->urlReferrer);
     }
 
 

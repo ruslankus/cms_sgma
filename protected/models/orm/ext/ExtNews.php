@@ -3,6 +3,7 @@
  * Class ExtNews
  * @property ExtNewsCategory $category
  * @property NewsTrl $trl
+ * @property ExtImagesOfNews[] $imagesOfNews
  */
 class ExtNews extends News
 {
