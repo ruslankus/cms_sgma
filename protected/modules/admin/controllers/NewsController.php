@@ -466,9 +466,6 @@ class NewsController extends ControllerAdmin
      */
     public function actionEdit($id)
     {
-        //include menu necessary scripts
-        Yii::app()->clientScript->registerScriptFile($this->assetsPath.'/js/vendor.edit-page.js',CClientScript::POS_END);
-
         //exclude jquery to avoid conflict between jquery from Yii core
         Yii::app()->clientScript->scriptMap=array('jquery-1.11.2.min.js' => false);
 
@@ -580,6 +577,97 @@ class NewsController extends ControllerAdmin
             'item' => $item,
             'images' => $images
         ));
+    }
+
+
+    /**
+     * Edit translatable part of content
+     * @param $id
+     * @param null $lng
+     * @throws CHttpException
+     */
+    public function actionEditItemTrl($id,$lng = null)
+    {
+        /* @var $item ExtNews */
+
+        //include menu necessary css and js
+        Yii::app()->clientScript->registerCssFile($this->assetsPath.'/css/vendor.edit-page-content.css');
+        Yii::app()->clientScript->registerScriptFile($this->assetsPath.'/js/vendor.edit-news-content.js',CClientScript::POS_END);
+
+        //fin news item by PK
+        $item = ExtNews::model()->findByPk($id);
+
+        //if item not found - 404
+        if(empty($item))
+        {
+            throw new CHttpException(404);
+        }
+
+        //get all site languages
+        $objLanguages = SiteLng::lng()->getLngs();
+
+        //if languages not found
+        if(count($objLanguages) == 0)
+        {
+            //redirect to editing of not translatable part
+            $this->redirect(Yii::app()->createUrl('admin/news/edit',array('id' => $id)));
+        }
+
+        //if should update (etc. by AJAX)
+        if(isset($_POST['NewsFormTrl']))
+        {
+            //foreach every language id
+            foreach($_POST['NewsFormTrl'] as $lngId => $fields)
+            {
+                $lng = $lngId; //set current language id
+                $trl = $item->getOrCreateTrl($lngId); // get TRL object (or create in not found in DB)
+
+                //set values
+                $trl->title = $fields['title'];
+                $trl->summary = $fields['summary'];
+                $trl->text = $fields['text'];
+
+                //if record just created
+                if($trl->isNewRecord)
+                {
+                    //save
+                    $trl->save();
+                }
+                //if record has ben already in DB
+                else
+                {
+                    //update
+                    $trl->update();
+                }
+            }
+        }
+
+        //current language (if set - find it by PK, if not set - get first from array)
+        $objCurrentLng = $lng != null ? Languages::model()->findByPk((int)$lng) : $objLanguages[0];
+
+        //translation of item for this language
+        $trl = $item->getOrCreateTrl($objCurrentLng->id);
+
+        //render partial block (for AJAX requests)
+        if(Yii::app()->request->isAjaxRequest)
+        {
+            $this->renderPartial('_edit_item_content',array(
+                'item' => $item,
+                'languages' => $objLanguages,
+                'currentLng' => $objCurrentLng,
+                'itemTrl' => $trl,
+            ));
+        }
+        //render simple
+        else
+        {
+            $this->render('edit_item_content',array(
+                'item' => $item,
+                'languages' => $objLanguages,
+                'currentLng' => $objCurrentLng,
+                'itemTrl' => $trl,
+            ));
+        }
     }
 
     /**
