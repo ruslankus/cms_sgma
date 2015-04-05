@@ -5,8 +5,8 @@
  */
 class ExtImages extends Images
 {
-    const IMG_UPLOAD_DIR = "uploads/images";
-    const IMG_CACHED_DIR = "uploads/images/cached";
+    const UPLOAD_DIR = "uploads/images";
+    const CACHED_DIR = "uploads/images/cached";
 
     /**
      * @param string $className
@@ -17,14 +17,32 @@ class ExtImages extends Images
         return parent::model($className);
     }
 
-
     /**
      * Returns URL to uploaded file
+     * @param $filename
+     * @return string
+     */
+    public function getUrlOf($filename)
+    {
+        return Yii::app()->request->baseUrl.'/'.self::UPLOAD_DIR.'/'.$filename;
+    }
+
+    /**
+     * Returns URL to uploaded file of this image
      * @return string
      */
     public function getUrl()
     {
-        return Yii::app()->request->baseUrl.'/'.self::IMG_UPLOAD_DIR.'/'.$this->filename;
+        return $this->getUrlOf($this->filename);
+    }
+
+    /**
+     * Returns local path
+     * @return string
+     */
+    public function getPath()
+    {
+        return Yii::app()->basePath.DS.self::UPLOAD_DIR.DS.$this->filename;
     }
 
     /**
