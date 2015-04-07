@@ -132,6 +132,11 @@ class NewsController extends ControllerAdmin
     }
 
 
+    /**
+     * Editing category
+     * @param $id
+     * @throws CHttpException
+     */
     public function actionEditCat($id)
     {
 

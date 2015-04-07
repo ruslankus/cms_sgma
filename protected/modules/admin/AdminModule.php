@@ -70,18 +70,12 @@ class AdminModule extends CWebModule
                 array('controller' => 'products', 'action' => 'list', 'title' => 'Product list'),
             ),
         ),
-
         array(
             'controller' => 'settings',
-            'action' => 'index',
+            'action' => 'registration',
             'icon' => '',
             'html_class' => 'settings',
             'title' => 'Settings',
-
-            'sub' => array(
-                array('controller' => 'settings', 'action' => 'index', 'title' => 'General'),
-                array('controller' => 'positions', 'action' => 'registration', 'title' => 'Widget positions'),
-            ),
         ),
         array(
             'controller' => 'translation',
