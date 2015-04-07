@@ -29,7 +29,7 @@
         <h1><?php echo ATrl::t()->getLabel('Categories'); ?></h1>
         <ul class="actions">
             <li><a href="<?php echo Yii::app()->request->urlReferrer; ?>" class="action undo"></a></li>
-            <li><a data-message="<?php echo ATrl::t()->getLabel('Are your sure ?'); ?>" data-yes="<?php echo ATrl::t()->getLabel('Delete'); ?>" data-no="<?php echo ATrl::t()->getLabel('Cancel'); ?>" href="<?php echo Yii::app()->createUrl('/admin/news/deletecat',array('id'=>$category->id)); ?>" class="action del"></a></li>
+            <li><a data-message="<?php echo ATrl::t()->getLabel('Are your sure ?'); ?>" data-yes="<?php echo ATrl::t()->getLabel('Delete'); ?>" data-no="<?php echo ATrl::t()->getLabel('Cancel'); ?>" href="<?php echo Yii::app()->createUrl('/admin/products/deletecat',array('id'=>$category->id)); ?>" class="action del"></a></li>
         </ul>
     </div><!--/title-bar-->
 

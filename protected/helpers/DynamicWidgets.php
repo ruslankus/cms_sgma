@@ -33,7 +33,7 @@ class DynamicWidgets
     {
         $theme = Yii::app()->themeManager->getTheme($themeName);
         $path = !empty($theme) ? $theme->getBasePath() : Yii::app()->getBasePath();
-        $themeConfigFile = $path.'/config/theme.ini';
+        $themeConfigFile = $path.DS.'theme.ini';
         $arrThemeConfig = file_exists($themeConfigFile) ? parse_ini_file($themeConfigFile,true) : array();
         $arrWidgetPositions = !empty($arrThemeConfig['widget_positions']) ? $arrThemeConfig['widget_positions'] : array();
         return $arrWidgetPositions;
