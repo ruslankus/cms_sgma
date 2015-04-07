@@ -138,10 +138,11 @@ class DynamicWidgets
                         }
                         catch(Exception $ex)
                         {
-                            //Get error message if can't find widget's template
+                            //Get error message if can't find widget's template (or widget class is incorrect)
                             $widgetContent = $ex->getMessage();
                         }
 
+                        //push all contents to array
                         $this->widgets[$title].= $widgetContent;
                         $this->widgetsArr[$title][] = $widgetContent;
                         $this->objWidgetsArr[$number]['objects'][] = $widgetInfo;
