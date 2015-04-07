@@ -15,7 +15,9 @@ class ExtSettings extends Settings
     
     public function getSettings(){
         
-        $sql = "SELECT * FROM ".$this->tableName();
+        $sql  = "SELECT * FROM ".$this->tableName();
+        $sql .= " WHERE `editable`=1";
+        
         $con = $this->dbConnection;
         $data=$con->createCommand($sql)->queryAll();
 
