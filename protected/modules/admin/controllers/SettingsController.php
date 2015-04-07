@@ -14,6 +14,7 @@ class SettingsController extends ControllerAdmin
     
     
     public function actionEdit(){
+        Yii::app()->clientScript->registerCssFile($this->assetsPath.'/css/vendor.edit-widgets.css');
         $request = Yii::app()->request;
         
         if(isset($_POST['save'])){
@@ -32,9 +33,10 @@ class SettingsController extends ControllerAdmin
         
        }
         
+        $lngPrefix = SiteLng::lng()->getCurrLng()->prefix;
         $arrData = ExtSettings::model()->getSettings();
         
-        $this->render('edit',array('arrData' => $arrData));
+        $this->render('edit',array('arrData' => $arrData, 'prefix' => $lngPrefix));
     }
 
 
