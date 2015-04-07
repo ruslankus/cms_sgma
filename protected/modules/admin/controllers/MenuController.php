@@ -445,7 +445,7 @@ class MenuController extends ControllerAdmin
                     break;
 
                 case ExtMenuItemType::TYPE_CONTACT_FORM:
-                    $objItems = array();
+                    $objItems = ExtContacts::model()->findAll();
                     break;
 
                 case ExtMenuItemType::TYPE_COMPLEX_PAGE:
