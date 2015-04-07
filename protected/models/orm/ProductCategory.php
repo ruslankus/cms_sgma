@@ -6,6 +6,7 @@
  * The followings are the available columns in table 'product_category':
  * @property integer $id
  * @property integer $parent_id
+ * @property string $template_name
  * @property string $branch
  * @property string $label
  * @property integer $status_id
@@ -38,11 +39,12 @@ class ProductCategory extends CActiveRecord
 		// will receive user inputs.
 		return array(
 			array('parent_id, status_id, priority, time_created, time_updated, last_change_by', 'numerical', 'integerOnly'=>true),
+			array('template_name', 'length', 'max'=>512),
 			array('branch', 'length', 'max'=>256),
 			array('label', 'length', 'max'=>128),
 			// The following rule is used by search().
 			// @todo Please remove those attributes that should not be searched.
-			array('id, parent_id, branch, label, status_id, priority, time_created, time_updated, last_change_by', 'safe', 'on'=>'search'),
+			array('id, parent_id, template_name, branch, label, status_id, priority, time_created, time_updated, last_change_by', 'safe', 'on'=>'search'),
 		);
 	}
 
@@ -68,6 +70,7 @@ class ProductCategory extends CActiveRecord
 		return array(
 			'id' => 'ID',
 			'parent_id' => 'Parent',
+			'template_name' => 'Template Name',
 			'branch' => 'Branch',
 			'label' => 'Label',
 			'status_id' => 'Status',
@@ -98,6 +101,7 @@ class ProductCategory extends CActiveRecord
 
 		$criteria->compare('id',$this->id);
 		$criteria->compare('parent_id',$this->parent_id);
+		$criteria->compare('template_name',$this->template_name,true);
 		$criteria->compare('branch',$this->branch,true);
 		$criteria->compare('label',$this->label,true);
 		$criteria->compare('status_id',$this->status_id);

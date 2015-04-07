@@ -9,20 +9,7 @@ class ThemeHelper
      */
     public static function getTemplatesForMenu($selectedTheme)
     {
-        $themeManager = Yii::app()->themeManager;
-        $dir = $themeManager->basePath.DS.$selectedTheme.DS.'views'.DS.'menus';
-        $files = scandir($dir);
-        $templates = array();
-
-        foreach($files as $fileName)
-        {
-            if($fileName != ".." && $fileName != ".")
-            {
-                $templates[$fileName] = $fileName;
-            }
-        }
-
-        return $templates;
+        return self::getTemplatesFor($selectedTheme,'menus');
     }
 
 
@@ -33,20 +20,7 @@ class ThemeHelper
      */
     public static function getTemplatesForWidgets($selectedTheme)
     {
-        $themeManager = Yii::app()->themeManager;
-        $dir = $themeManager->basePath.DS.$selectedTheme.DS.'views'.DS.'widgets';
-        $files = scandir($dir);
-        $templates = array();
-
-        foreach($files as $fileName)
-        {
-            if($fileName != ".." && $fileName != ".")
-            {
-                $templates[$fileName] = $fileName;
-            }
-        }
-
-        return $templates;
+        return self::getTemplatesFor($selectedTheme,'widgets');
     }
 
 
@@ -57,8 +31,19 @@ class ThemeHelper
      */
     public static function getTemplatesForPages($selectedTheme)
     {
+        return self::getTemplatesFor($selectedTheme,'pages');
+    }
+
+    /**
+     * Returns all templates in specified dir for concrete theme
+     * @param $selectedTheme
+     * @param $dir
+     * @return array
+     */
+    public static function getTemplatesFor($selectedTheme,$dir)
+    {
         $themeManager = Yii::app()->themeManager;
-        $dir = $themeManager->basePath.DS.$selectedTheme.DS.'views'.DS.'pages';
+        $dir = $themeManager->basePath.DS.$selectedTheme.DS.'views'.DS.$dir;
         $files = scandir($dir);
         $templates = array();
 

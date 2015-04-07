@@ -4,6 +4,7 @@
 <?php /* @var $form_model CategoryForm */ ?>
 <?php /* @var $form CActiveForm */ ?>
 <?php /* @var $this NewsController */ ?>
+<?php /* @var $templates Array */ ?>
 
 <style>
     .text-input-in-form
@@ -83,6 +84,12 @@
                         </td>
                     </tr>
                     <tr>
+                        <td class="label"><?php echo $form->labelEx($form_model,'template_name'); ?></td>
+                        <td class="value">
+                            <?php echo $form->dropDownList($form_model,'template_name',$templates,array('class'=>''));?>
+                        </td>
+                    </tr>
+                    <tr>
                         <td class="label">&nbsp;</td>
                         <td class="value">
                             <?php echo CHtml::submitButton(ATrl::t()->getLabel('Save'),array()); ?>
@@ -94,6 +101,7 @@
                             <?php echo $form->error($form_model,'label',array('class'=>'float-right errorMessage')); ?>
                             <?php echo $form->error($form_model,'status_id',array('class'=>'float-right errorMessage')); ?>
                             <?php echo $form->error($form_model,'parent_id',array('class'=>'float-right errorMessage')); ?>
+                            <?php echo $form->error($form_model,'template_name',array('class'=>'float-right errorMessage')); ?>
                         </td>
                     </tr>
                 </table>

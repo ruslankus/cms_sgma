@@ -5,6 +5,8 @@
 <?php /* @var $this NewsController */ ?>
 <?php /* @var $item ExtNews */ ?>
 <?php /* @var $images ExtImagesOfNews[] */ ?>
+<?php /* @var $templates array */ ?>
+
 
 <main>
     <div class="title-bar world">
@@ -42,12 +44,17 @@
                             <td class="value"><?php echo $form->dropDownList($form_model,'category_id',$categories,array('options'=>array($item->category_id => array('selected' => true))));?></td>
                         </tr>
                         <tr>
+                            <td class="label"><?php echo $form->labelEx($form_model,'template_name'); ?></td>
+                            <td class="value"><?php echo $form->dropDownList($form_model,'template_name',$templates,array('options'=>array($item->status_id => array('selected' => true))));?></td>
+                        </tr>
+                        <tr>
                             <td class="label">&nbsp;</td>
                             <td class="value">
                                 <?php echo $form->error($form_model,'label',array('class'=>'float-right errorMessage')); ?>
                                 <?php echo $form->error($form_model,'status_id',array('class'=>'float-right errorMessage')); ?>
                                 <?php echo $form->error($form_model,'category_id',array('class'=>'float-right errorMessage')); ?>
                                 <?php echo $form->error($form_model,'image',array('class'=>'float-right errorMessage')); ?>
+                                <?php echo $form->error($form_model,'template_name',array('class'=>'float-right errorMessage')); ?>
                             </td>
                         </tr>
                     </table>

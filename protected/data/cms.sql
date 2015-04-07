@@ -10,7 +10,7 @@ Target Server Type    : MYSQL
 Target Server Version : 50538
 File Encoding         : 65001
 
-Date: 2015-04-03 18:24:10
+Date: 2015-04-07 11:35:17
 */
 
 SET FOREIGN_KEY_CHECKS=0;
@@ -181,7 +181,7 @@ CREATE TABLE `images` (
   PRIMARY KEY (`id`),
   KEY `status_id` (`status_id`),
   CONSTRAINT `images_ibfk_1` FOREIGN KEY (`status_id`) REFERENCES `status` (`id`) ON DELETE NO ACTION ON UPDATE NO ACTION
-) ENGINE=InnoDB AUTO_INCREMENT=6 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=8 DEFAULT CHARSET=utf8;
 
 -- ----------------------------
 -- Records of images
@@ -189,6 +189,8 @@ CREATE TABLE `images` (
 INSERT INTO `images` VALUES ('3', 'Image of \"Test\"', '551eac802b878.jpg', 'Hydrangeas.jpg', 'image/jpeg', '595284', '1');
 INSERT INTO `images` VALUES ('4', 'Image of \"Test\"', '551eaf2158930.jpg', 'Jellyfish.jpg', 'image/jpeg', '775702', '1');
 INSERT INTO `images` VALUES ('5', 'Image of \"Test\"', '551eaf4a05286.jpg', 'Koala.jpg', 'image/jpeg', '780831', '1');
+INSERT INTO `images` VALUES ('6', 'Image of \"Test\"', '55238a6f9909c.jpg', 'Penguins.jpg', 'image/jpeg', '777835', '1');
+INSERT INTO `images` VALUES ('7', 'Image of \"Test\"', '552395de7927b.jpg', 'Koala.jpg', 'image/jpeg', '780831', '1');
 
 -- ----------------------------
 -- Table structure for `images_of_contacts`
@@ -220,16 +222,15 @@ CREATE TABLE `images_of_news` (
   PRIMARY KEY (`id`),
   KEY `news_id` (`news_id`),
   KEY `image_id` (`image_id`),
-  CONSTRAINT `images_of_news_ibfk_2` FOREIGN KEY (`image_id`) REFERENCES `images` (`id`) ON DELETE CASCADE ON UPDATE NO ACTION,
-  CONSTRAINT `images_of_news_ibfk_1` FOREIGN KEY (`news_id`) REFERENCES `news` (`id`) ON DELETE CASCADE ON UPDATE NO ACTION
-) ENGINE=InnoDB AUTO_INCREMENT=6 DEFAULT CHARSET=utf8;
+  CONSTRAINT `images_of_news_ibfk_1` FOREIGN KEY (`news_id`) REFERENCES `news` (`id`) ON DELETE CASCADE ON UPDATE NO ACTION,
+  CONSTRAINT `images_of_news_ibfk_2` FOREIGN KEY (`image_id`) REFERENCES `images` (`id`) ON DELETE CASCADE ON UPDATE NO ACTION
+) ENGINE=InnoDB AUTO_INCREMENT=8 DEFAULT CHARSET=utf8;
 
 -- ----------------------------
 -- Records of images_of_news
 -- ----------------------------
 INSERT INTO `images_of_news` VALUES ('3', '25', '3');
-INSERT INTO `images_of_news` VALUES ('4', '25', '4');
-INSERT INTO `images_of_news` VALUES ('5', '25', '5');
+INSERT INTO `images_of_news` VALUES ('7', '25', '7');
 
 -- ----------------------------
 -- Table structure for `images_of_page`
@@ -319,7 +320,7 @@ CREATE TABLE `languages` (
   `prefix` varchar(16) DEFAULT NULL,
   `icon` varchar(128) DEFAULT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=4 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=utf8;
 
 -- ----------------------------
 -- Records of languages
@@ -371,10 +372,10 @@ CREATE TABLE `menu_item` (
   KEY `type_id` (`type_id`),
   KEY `content_item_id` (`content_item_id`),
   KEY `status_id` (`status_id`),
-  CONSTRAINT `menu_item_ibfk_3` FOREIGN KEY (`status_id`) REFERENCES `status` (`id`) ON DELETE NO ACTION ON UPDATE NO ACTION,
   CONSTRAINT `menu_item_ibfk_1` FOREIGN KEY (`type_id`) REFERENCES `menu_item_type` (`id`) ON DELETE NO ACTION ON UPDATE NO ACTION,
-  CONSTRAINT `menu_item_ibfk_2` FOREIGN KEY (`menu_id`) REFERENCES `menu` (`id`) ON DELETE CASCADE ON UPDATE NO ACTION
-) ENGINE=InnoDB AUTO_INCREMENT=36 DEFAULT CHARSET=utf8;
+  CONSTRAINT `menu_item_ibfk_2` FOREIGN KEY (`menu_id`) REFERENCES `menu` (`id`) ON DELETE CASCADE ON UPDATE NO ACTION,
+  CONSTRAINT `menu_item_ibfk_3` FOREIGN KEY (`status_id`) REFERENCES `status` (`id`) ON DELETE NO ACTION ON UPDATE NO ACTION
+) ENGINE=InnoDB AUTO_INCREMENT=35 DEFAULT CHARSET=utf8;
 
 -- ----------------------------
 -- Records of menu_item
@@ -398,7 +399,7 @@ CREATE TABLE `menu_item_trl` (
   KEY `menu_item_trl_ibfk_2` (`lng_id`),
   CONSTRAINT `menu_item_trl_ibfk_1` FOREIGN KEY (`lng_id`) REFERENCES `languages` (`id`) ON DELETE CASCADE ON UPDATE NO ACTION,
   CONSTRAINT `menu_item_trl_ibfk_2` FOREIGN KEY (`menu_item_id`) REFERENCES `menu_item` (`id`) ON DELETE CASCADE ON UPDATE NO ACTION
-) ENGINE=InnoDB AUTO_INCREMENT=101 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=99 DEFAULT CHARSET=utf8;
 
 -- ----------------------------
 -- Records of menu_item_trl
@@ -476,25 +477,26 @@ DROP TABLE IF EXISTS `news`;
 CREATE TABLE `news` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
   `category_id` int(11) DEFAULT NULL,
+  `branch` varchar(1024) DEFAULT NULL,
   `label` varchar(128) DEFAULT NULL,
+  `template_name` varchar(512) DEFAULT NULL,
   `status_id` int(11) DEFAULT NULL,
   `priority` int(11) DEFAULT NULL,
   `time_created` int(11) DEFAULT NULL,
   `time_updated` int(11) DEFAULT NULL,
   `last_change_by` int(11) DEFAULT NULL,
-  `branch` varchar(1024) DEFAULT NULL,
   PRIMARY KEY (`id`),
   KEY `category_id` (`category_id`),
   KEY `status_id` (`status_id`),
   CONSTRAINT `news_ibfk_1` FOREIGN KEY (`category_id`) REFERENCES `news_category` (`id`) ON DELETE CASCADE ON UPDATE NO ACTION,
   CONSTRAINT `news_ibfk_2` FOREIGN KEY (`status_id`) REFERENCES `status` (`id`) ON DELETE NO ACTION ON UPDATE NO ACTION
-) ENGINE=InnoDB AUTO_INCREMENT=28 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=26 DEFAULT CHARSET=utf8;
 
 -- ----------------------------
 -- Records of news
 -- ----------------------------
-INSERT INTO `news` VALUES ('24', '7', 'sdfsd', '1', '2', '1428062683', '1428063778', '1', '0:7');
-INSERT INTO `news` VALUES ('25', '7', 'Test', '1', '3', '1428062690', '1428074465', '1', '0:7');
+INSERT INTO `news` VALUES ('24', '7', '0:7', 'Item 2', null, '1', '2', '1428062683', '1428395553', '1');
+INSERT INTO `news` VALUES ('25', '7', '0:7', 'Item 1', null, '1', '3', '1428062690', '1428395553', '1');
 
 -- ----------------------------
 -- Table structure for `news_category`
@@ -503,6 +505,7 @@ DROP TABLE IF EXISTS `news_category`;
 CREATE TABLE `news_category` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
   `parent_id` int(11) DEFAULT NULL,
+  `template_name` varchar(512) DEFAULT NULL,
   `branch` varchar(256) DEFAULT NULL,
   `label` varchar(128) DEFAULT NULL,
   `status_id` int(11) DEFAULT NULL,
@@ -513,15 +516,16 @@ CREATE TABLE `news_category` (
   PRIMARY KEY (`id`),
   KEY `status_id` (`status_id`),
   CONSTRAINT `news_category_ibfk_1` FOREIGN KEY (`status_id`) REFERENCES `status` (`id`) ON DELETE NO ACTION ON UPDATE NO ACTION
-) ENGINE=InnoDB AUTO_INCREMENT=10 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=11 DEFAULT CHARSET=utf8;
 
 -- ----------------------------
 -- Records of news_category
 -- ----------------------------
-INSERT INTO `news_category` VALUES ('6', '0', '0:6', 'Politics', '1', '1', '1427986066', '1428048854', '1');
-INSERT INTO `news_category` VALUES ('7', '0', '0:7', 'Science', '1', '2', '1427986253', '1428048854', '1');
-INSERT INTO `news_category` VALUES ('8', '7', '0:7:8', 'Space', '1', '2', '1427986560', '1427986560', '1');
-INSERT INTO `news_category` VALUES ('9', '7', '0:7:9', 'Technologies', '1', '1', '1427986638', '1427986638', '1');
+INSERT INTO `news_category` VALUES ('6', '0', 'main_category.php', '0:6', 'Politics', '1', '4', '1428394939', '1428394939', '1');
+INSERT INTO `news_category` VALUES ('7', '0', 'main_category.php', '0:7', 'Science', '1', '5', '1428394965', '1428394965', '1');
+INSERT INTO `news_category` VALUES ('8', '7', 'main_category.php', '0:7:8', 'Space', '1', '5', '1428394944', '1428394944', '1');
+INSERT INTO `news_category` VALUES ('9', '7', 'main_category.php', '0:7:9', 'Technologies', '1', '4', '1428394932', '1428394932', '1');
+INSERT INTO `news_category` VALUES ('10', '6', 'main_category.php', '0:6:10', 'Geopolitics', '1', '2', '1428394909', '1428394909', '1');
 
 -- ----------------------------
 -- Table structure for `news_category_trl`
@@ -539,7 +543,7 @@ CREATE TABLE `news_category_trl` (
   KEY `lng_id` (`lng_id`),
   CONSTRAINT `news_category_trl_ibfk_1` FOREIGN KEY (`news_category_id`) REFERENCES `news_category` (`id`) ON DELETE CASCADE ON UPDATE NO ACTION,
   CONSTRAINT `news_category_trl_ibfk_2` FOREIGN KEY (`lng_id`) REFERENCES `languages` (`id`) ON DELETE CASCADE ON UPDATE NO ACTION
-) ENGINE=InnoDB AUTO_INCREMENT=19 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=21 DEFAULT CHARSET=utf8;
 
 -- ----------------------------
 -- Records of news_category_trl
@@ -552,6 +556,8 @@ INSERT INTO `news_category_trl` VALUES ('15', 'Space', 'Sapce, astronauts', 'All
 INSERT INTO `news_category_trl` VALUES ('16', 'Космос', 'Космос, астронавты', 'Все о космосе', '8', '2');
 INSERT INTO `news_category_trl` VALUES ('17', 'Technologies', 'Technologies, IT', 'All about technologies', '9', '1');
 INSERT INTO `news_category_trl` VALUES ('18', 'Технологии', 'Технологии, ИТ', 'Все  новости о технологиях', '9', '2');
+INSERT INTO `news_category_trl` VALUES ('19', 'Geopolitics', 'geo, world, politics', 'All about geopolitics', '10', '1');
+INSERT INTO `news_category_trl` VALUES ('20', 'Геополитика', 'мир, политика', 'Все новости мира геополитики', '10', '2');
 
 -- ----------------------------
 -- Table structure for `news_trl`
@@ -571,15 +577,15 @@ CREATE TABLE `news_trl` (
   KEY `lng_id` (`lng_id`),
   CONSTRAINT `news_trl_ibfk_1` FOREIGN KEY (`lng_id`) REFERENCES `languages` (`id`) ON DELETE CASCADE ON UPDATE NO ACTION,
   CONSTRAINT `news_trl_ibfk_2` FOREIGN KEY (`news_id`) REFERENCES `news` (`id`) ON DELETE CASCADE ON UPDATE NO ACTION
-) ENGINE=InnoDB AUTO_INCREMENT=37 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=33 DEFAULT CHARSET=utf8;
 
 -- ----------------------------
 -- Records of news_trl
 -- ----------------------------
 INSERT INTO `news_trl` VALUES ('29', 'sdf', null, null, null, null, '24', '1');
 INSERT INTO `news_trl` VALUES ('30', 'sdfsfd', null, null, null, null, '24', '2');
-INSERT INTO `news_trl` VALUES ('31', 'sdf', null, null, null, null, '25', '1');
-INSERT INTO `news_trl` VALUES ('32', 'dddd', null, null, null, null, '25', '2');
+INSERT INTO `news_trl` VALUES ('31', 'Some title', null, null, 'Some text', 'Some summary', '25', '1');
+INSERT INTO `news_trl` VALUES ('32', 'Название', null, null, 'Текст', 'Общее', '25', '2');
 
 -- ----------------------------
 -- Table structure for `page`
@@ -637,7 +643,9 @@ DROP TABLE IF EXISTS `product`;
 CREATE TABLE `product` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
   `category_id` int(11) DEFAULT NULL,
+  `branch` varchar(1024) DEFAULT NULL,
   `label` varchar(128) DEFAULT NULL,
+  `template_name` varchar(512) DEFAULT NULL,
   `status_id` int(11) DEFAULT NULL,
   `priority` int(11) DEFAULT NULL,
   `price` int(11) DEFAULT NULL,
@@ -647,7 +655,6 @@ CREATE TABLE `product` (
   `time_created` int(11) DEFAULT NULL,
   `time_updated` int(11) DEFAULT NULL,
   `last_change_by` int(11) DEFAULT NULL,
-  `branch` varchar(1024) DEFAULT NULL,
   PRIMARY KEY (`id`),
   KEY `category_id` (`category_id`),
   KEY `status_id` (`status_id`),
@@ -666,6 +673,7 @@ DROP TABLE IF EXISTS `product_category`;
 CREATE TABLE `product_category` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
   `parent_id` int(11) DEFAULT NULL,
+  `template_name` varchar(512) DEFAULT NULL,
   `branch` varchar(256) DEFAULT NULL,
   `label` varchar(128) DEFAULT NULL,
   `status_id` int(11) DEFAULT NULL,
@@ -888,7 +896,7 @@ CREATE TABLE `wid_registration` (
   CONSTRAINT `wid_registration_ibfk_1` FOREIGN KEY (`type_id`) REFERENCES `wid_registration_type` (`id`) ON DELETE NO ACTION ON UPDATE NO ACTION,
   CONSTRAINT `wid_registration_ibfk_2` FOREIGN KEY (`menu_id`) REFERENCES `menu` (`id`) ON DELETE CASCADE ON UPDATE NO ACTION,
   CONSTRAINT `wid_registration_ibfk_3` FOREIGN KEY (`widget_id`) REFERENCES `system_widget` (`id`) ON DELETE CASCADE ON UPDATE NO ACTION
-) ENGINE=InnoDB AUTO_INCREMENT=67 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=55 DEFAULT CHARSET=utf8;
 
 -- ----------------------------
 -- Records of wid_registration

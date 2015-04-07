@@ -45,6 +45,9 @@ class NewsController extends ControllerAdmin
         $arrStatuses = ExtStatus::model()->arrayForNewsAndProducts(true);
         //parents
         $arrParentItems = ExtNewsCategory::model()->arrayForMenuItemForm();
+        //templates
+        $theme = 'dark'; //TODO: get theme from db
+        $arrTemplates = ThemeHelper::getTemplatesFor($theme,'news'.DS.'category');
 
         //form
         $form_mdl = new CategoryForm();
@@ -123,6 +126,7 @@ class NewsController extends ControllerAdmin
                 'parent_items' => $arrParentItems,
                 'statuses' => $arrStatuses,
                 'form_model' => $form_mdl,
+                'templates' => $arrTemplates
             )
         );
     }
@@ -151,6 +155,9 @@ class NewsController extends ControllerAdmin
         $arrStatuses = ExtStatus::model()->arrayForNewsAndProducts(true);
         //parents
         $arrParentItems = ExtNewsCategory::model()->arrayForMenuItemForm();
+        //templates
+        $theme = 'dark'; //TODO: get theme from db
+        $arrTemplates = ThemeHelper::getTemplatesFor($theme,'news'.DS.'category');
 
         //form
         $form_mdl = new CategoryForm();
@@ -237,6 +244,7 @@ class NewsController extends ControllerAdmin
                 'statuses' => $arrStatuses,
                 'form_model' => $form_mdl,
                 'category' => $category,
+                'templates' => $arrTemplates
             )
         );
     }
@@ -379,6 +387,9 @@ class NewsController extends ControllerAdmin
         $arrStatuses = ExtStatus::model()->arrayForNewsAndProducts(true);
         //parents
         $arrCategories = ExtNewsCategory::model()->arrayForMenuItemForm(0,true,false);
+        //templates
+        $theme = 'dark'; //TODO: get theme from db
+        $arrTemplates = ThemeHelper::getTemplatesFor($theme,'news'.DS.'item');
         //form
         $form_mdl = new NewsForm();
 
@@ -454,6 +465,7 @@ class NewsController extends ControllerAdmin
                 'statuses' => $arrStatuses,
                 'form_model' => $form_mdl,
                 'category' => $cat,
+                'templates' => $arrTemplates,
             )
         );
     }
@@ -481,6 +493,9 @@ class NewsController extends ControllerAdmin
         $arrStatuses = ExtStatus::model()->arrayForNewsAndProducts(true);
         //parents
         $arrCategories = ExtNewsCategory::model()->arrayForMenuItemForm(0,true,false);
+        //templates
+        $theme = 'dark'; //TODO: get theme from db
+        $arrTemplates = ThemeHelper::getTemplatesFor($theme,'news'.DS.'item');
         //form
         $form_mdl = new NewsForm();
 
@@ -575,7 +590,8 @@ class NewsController extends ControllerAdmin
             'statuses' => $arrStatuses,
             'form_model' => $form_mdl,
             'item' => $item,
-            'images' => $images
+            'images' => $images,
+            'templates' => $arrTemplates
         ));
     }
 
