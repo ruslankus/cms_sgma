@@ -47,7 +47,7 @@ class AdminModule extends CWebModule
 
         array(
             'controller' => 'news',
-            'action' => 'list',
+            'action' => 'categories',
             'icon' => '',
             'html_class' => 'products',
             'title' => 'News',
@@ -60,7 +60,7 @@ class AdminModule extends CWebModule
 
         array(
             'controller' => 'products',
-            'action' => 'list',
+            'action' => 'categories',
             'icon' => '',
             'html_class' => 'products',
             'title' => 'Products',
