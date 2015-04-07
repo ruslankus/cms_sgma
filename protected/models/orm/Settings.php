@@ -7,6 +7,7 @@
  * @property integer $id
  * @property string $value_name
  * @property string $setting
+ * @property integer $editable
  */
 class Settings extends CActiveRecord
 {
@@ -26,10 +27,11 @@ class Settings extends CActiveRecord
 		// NOTE: you should only define rules for those attributes that
 		// will receive user inputs.
 		return array(
+			array('editable', 'numerical', 'integerOnly'=>true),
 			array('value_name, setting', 'length', 'max'=>255),
 			// The following rule is used by search().
 			// @todo Please remove those attributes that should not be searched.
-			array('id, value_name, setting', 'safe', 'on'=>'search'),
+			array('id, value_name, setting, editable', 'safe', 'on'=>'search'),
 		);
 	}
 
@@ -53,6 +55,7 @@ class Settings extends CActiveRecord
 			'id' => 'ID',
 			'value_name' => 'Value Name',
 			'setting' => 'Setting',
+			'editable' => 'Editable',
 		);
 	}
 
@@ -77,6 +80,7 @@ class Settings extends CActiveRecord
 		$criteria->compare('id',$this->id);
 		$criteria->compare('value_name',$this->value_name,true);
 		$criteria->compare('setting',$this->setting,true);
+		$criteria->compare('editable',$this->editable);
 
 		return new CActiveDataProvider($this, array(
 			'criteria'=>$criteria,

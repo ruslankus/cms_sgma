@@ -10,7 +10,7 @@ Target Server Type    : MYSQL
 Target Server Version : 50538
 File Encoding         : 65001
 
-Date: 2015-04-07 11:35:17
+Date: 2015-04-07 12:55:42
 */
 
 SET FOREIGN_KEY_CHECKS=0;
@@ -744,14 +744,15 @@ CREATE TABLE `settings` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
   `value_name` varchar(255) DEFAULT NULL,
   `setting` varchar(255) DEFAULT NULL,
+  `editable` int(11) DEFAULT NULL,
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=utf8;
 
 -- ----------------------------
 -- Records of settings
 -- ----------------------------
-INSERT INTO `settings` VALUES ('1', 'active_desktop_theme', 'dark');
-INSERT INTO `settings` VALUES ('2', 'active_mobile_theme', 'light');
+INSERT INTO `settings` VALUES ('1', 'active_desktop_theme', 'dark', '0');
+INSERT INTO `settings` VALUES ('2', 'active_mobile_theme', 'light', '0');
 
 -- ----------------------------
 -- Table structure for `status`
@@ -896,7 +897,7 @@ CREATE TABLE `wid_registration` (
   CONSTRAINT `wid_registration_ibfk_1` FOREIGN KEY (`type_id`) REFERENCES `wid_registration_type` (`id`) ON DELETE NO ACTION ON UPDATE NO ACTION,
   CONSTRAINT `wid_registration_ibfk_2` FOREIGN KEY (`menu_id`) REFERENCES `menu` (`id`) ON DELETE CASCADE ON UPDATE NO ACTION,
   CONSTRAINT `wid_registration_ibfk_3` FOREIGN KEY (`widget_id`) REFERENCES `system_widget` (`id`) ON DELETE CASCADE ON UPDATE NO ACTION
-) ENGINE=InnoDB AUTO_INCREMENT=55 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=56 DEFAULT CHARSET=utf8;
 
 -- ----------------------------
 -- Records of wid_registration
