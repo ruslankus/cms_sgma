@@ -1,30 +1,31 @@
 <?php
 
 /**
- * This is the model class for table "product_trl".
+ * This is the model class for table "product_field_values".
  *
- * The followings are the available columns in table 'product_trl':
+ * The followings are the available columns in table 'product_field_values':
  * @property integer $id
- * @property string $title
- * @property string $meta_description
- * @property string $meta_keywords
- * @property string $text
- * @property string $summary
  * @property integer $product_id
- * @property integer $lng_id
+ * @property integer $field_id
+ * @property integer $numeric_value
+ * @property integer $selected_option_id
+ * @property string $text_value
+ * @property integer $time_value
  *
  * The followings are the available model relations:
- * @property Languages $lng
+ * @property ImagesOfProductFieldsValues[] $imagesOfProductFieldsValues
+ * @property ProductFields $field
  * @property Product $product
+ * @property ProductFieldValuesTrl[] $productFieldValuesTrls
  */
-class ProductTrl extends CActiveRecord
+class ProductFieldValues extends CActiveRecord
 {
 	/**
 	 * @return string the associated database table name
 	 */
 	public function tableName()
 	{
-		return 'product_trl';
+		return 'product_field_values';
 	}
 
 	/**
@@ -35,13 +36,11 @@ class ProductTrl extends CActiveRecord
 		// NOTE: you should only define rules for those attributes that
 		// will receive user inputs.
 		return array(
-			array('product_id, lng_id', 'numerical', 'integerOnly'=>true),
-			array('title', 'length', 'max'=>512),
-			array('meta_description, meta_keywords', 'length', 'max'=>256),
-			array('text, summary', 'safe'),
+			array('product_id, field_id, numeric_value, selected_option_id, time_value', 'numerical', 'integerOnly'=>true),
+			array('text_value', 'safe'),
 			// The following rule is used by search().
 			// @todo Please remove those attributes that should not be searched.
-			array('id, title, meta_description, meta_keywords, text, summary, product_id, lng_id', 'safe', 'on'=>'search'),
+			array('id, product_id, field_id, numeric_value, selected_option_id, text_value, time_value', 'safe', 'on'=>'search'),
 		);
 	}
 
@@ -53,8 +52,10 @@ class ProductTrl extends CActiveRecord
 		// NOTE: you may need to adjust the relation name and the related
 		// class name for the relations automatically generated below.
 		return array(
-			'lng' => array(self::BELONGS_TO, 'Languages', 'lng_id'),
+			'imagesOfProductFieldsValues' => array(self::HAS_MANY, 'ImagesOfProductFieldsValues', 'field_value_id'),
+			'field' => array(self::BELONGS_TO, 'ProductFields', 'field_id'),
 			'product' => array(self::BELONGS_TO, 'Product', 'product_id'),
+			'productFieldValuesTrls' => array(self::HAS_MANY, 'ProductFieldValuesTrl', 'field_value_id'),
 		);
 	}
 
@@ -65,13 +66,12 @@ class ProductTrl extends CActiveRecord
 	{
 		return array(
 			'id' => 'ID',
-			'title' => 'Title',
-			'meta_description' => 'Meta Description',
-			'meta_keywords' => 'Meta Keywords',
-			'text' => 'Text',
-			'summary' => 'Summary',
 			'product_id' => 'Product',
-			'lng_id' => 'Lng',
+			'field_id' => 'Field',
+			'numeric_value' => 'Numeric Value',
+			'selected_option_id' => 'Selected Option',
+			'text_value' => 'Text Value',
+			'time_value' => 'Time Value',
 		);
 	}
 
@@ -94,13 +94,12 @@ class ProductTrl extends CActiveRecord
 		$criteria=new CDbCriteria;
 
 		$criteria->compare('id',$this->id);
-		$criteria->compare('title',$this->title,true);
-		$criteria->compare('meta_description',$this->meta_description,true);
-		$criteria->compare('meta_keywords',$this->meta_keywords,true);
-		$criteria->compare('text',$this->text,true);
-		$criteria->compare('summary',$this->summary,true);
 		$criteria->compare('product_id',$this->product_id);
-		$criteria->compare('lng_id',$this->lng_id);
+		$criteria->compare('field_id',$this->field_id);
+		$criteria->compare('numeric_value',$this->numeric_value);
+		$criteria->compare('selected_option_id',$this->selected_option_id);
+		$criteria->compare('text_value',$this->text_value,true);
+		$criteria->compare('time_value',$this->time_value);
 
 		return new CActiveDataProvider($this, array(
 			'criteria'=>$criteria,
@@ -111,7 +110,7 @@ class ProductTrl extends CActiveRecord
 	 * Returns the static model of the specified AR class.
 	 * Please note that you should have this exact method in all your CActiveRecord descendants!
 	 * @param string $className active record class name.
-	 * @return ProductTrl the static model class
+	 * @return ProductFieldValues the static model class
 	 */
 	public static function model($className=__CLASS__)
 	{

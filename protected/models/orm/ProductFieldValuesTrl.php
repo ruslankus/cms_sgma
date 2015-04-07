@@ -1,30 +1,26 @@
 <?php
 
 /**
- * This is the model class for table "product_trl".
+ * This is the model class for table "product_field_values_trl".
  *
- * The followings are the available columns in table 'product_trl':
+ * The followings are the available columns in table 'product_field_values_trl':
  * @property integer $id
- * @property string $title
- * @property string $meta_description
- * @property string $meta_keywords
- * @property string $text
- * @property string $summary
- * @property integer $product_id
  * @property integer $lng_id
+ * @property integer $field_value_id
+ * @property string $tranlsatable_text
  *
  * The followings are the available model relations:
+ * @property ProductFieldValues $fieldValue
  * @property Languages $lng
- * @property Product $product
  */
-class ProductTrl extends CActiveRecord
+class ProductFieldValuesTrl extends CActiveRecord
 {
 	/**
 	 * @return string the associated database table name
 	 */
 	public function tableName()
 	{
-		return 'product_trl';
+		return 'product_field_values_trl';
 	}
 
 	/**
@@ -35,13 +31,11 @@ class ProductTrl extends CActiveRecord
 		// NOTE: you should only define rules for those attributes that
 		// will receive user inputs.
 		return array(
-			array('product_id, lng_id', 'numerical', 'integerOnly'=>true),
-			array('title', 'length', 'max'=>512),
-			array('meta_description, meta_keywords', 'length', 'max'=>256),
-			array('text, summary', 'safe'),
+			array('lng_id, field_value_id', 'numerical', 'integerOnly'=>true),
+			array('tranlsatable_text', 'safe'),
 			// The following rule is used by search().
 			// @todo Please remove those attributes that should not be searched.
-			array('id, title, meta_description, meta_keywords, text, summary, product_id, lng_id', 'safe', 'on'=>'search'),
+			array('id, lng_id, field_value_id, tranlsatable_text', 'safe', 'on'=>'search'),
 		);
 	}
 
@@ -53,8 +47,8 @@ class ProductTrl extends CActiveRecord
 		// NOTE: you may need to adjust the relation name and the related
 		// class name for the relations automatically generated below.
 		return array(
+			'fieldValue' => array(self::BELONGS_TO, 'ProductFieldValues', 'field_value_id'),
 			'lng' => array(self::BELONGS_TO, 'Languages', 'lng_id'),
-			'product' => array(self::BELONGS_TO, 'Product', 'product_id'),
 		);
 	}
 
@@ -65,13 +59,9 @@ class ProductTrl extends CActiveRecord
 	{
 		return array(
 			'id' => 'ID',
-			'title' => 'Title',
-			'meta_description' => 'Meta Description',
-			'meta_keywords' => 'Meta Keywords',
-			'text' => 'Text',
-			'summary' => 'Summary',
-			'product_id' => 'Product',
 			'lng_id' => 'Lng',
+			'field_value_id' => 'Field Value',
+			'tranlsatable_text' => 'Tranlsatable Text',
 		);
 	}
 
@@ -94,13 +84,9 @@ class ProductTrl extends CActiveRecord
 		$criteria=new CDbCriteria;
 
 		$criteria->compare('id',$this->id);
-		$criteria->compare('title',$this->title,true);
-		$criteria->compare('meta_description',$this->meta_description,true);
-		$criteria->compare('meta_keywords',$this->meta_keywords,true);
-		$criteria->compare('text',$this->text,true);
-		$criteria->compare('summary',$this->summary,true);
-		$criteria->compare('product_id',$this->product_id);
 		$criteria->compare('lng_id',$this->lng_id);
+		$criteria->compare('field_value_id',$this->field_value_id);
+		$criteria->compare('tranlsatable_text',$this->tranlsatable_text,true);
 
 		return new CActiveDataProvider($this, array(
 			'criteria'=>$criteria,
@@ -111,7 +97,7 @@ class ProductTrl extends CActiveRecord
 	 * Returns the static model of the specified AR class.
 	 * Please note that you should have this exact method in all your CActiveRecord descendants!
 	 * @param string $className active record class name.
-	 * @return ProductTrl the static model class
+	 * @return ProductFieldValuesTrl the static model class
 	 */
 	public static function model($className=__CLASS__)
 	{

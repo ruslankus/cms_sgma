@@ -329,4 +329,43 @@ class ProductsController extends ControllerAdmin
             echo "OK";
         }
     }
+
+    /*********************************************** I T E M S ********************************************************/
+
+    /**
+     * List of all news
+     * @param int $page
+     * @param int $cat
+     */
+    public function actionList($page = 1, $cat = 0)
+    {
+        //include js file for AJAX updating
+        Yii::app()->clientScript->registerScriptFile($this->assetsPath.'/js/vendor.trees.js',CClientScript::POS_END);
+        Yii::app()->clientScript->registerScriptFile($this->assetsPath.'/js/vendor.main-menu.js',CClientScript::POS_END);
+        Yii::app()->clientScript->registerCssFile($this->assetsPath.'/css/vendor.news.ext.css');
+
+        $category = ExtProductCategory::model()->findByPk($cat);
+        $breadCrumbs = array();
+
+        if(!empty($category))
+        {
+            $objects = ExtProduct::model()->findAllByAttributes(array('category_id' => (int)$cat),array('order' => 'priority DESC'));
+            $breadCrumbs = $category->breadCrumbs(false);
+        }
+        else
+        {
+            $objects = ExtProduct::model()->findAll(array('order' => 'priority DESC'));
+        }
+
+        $array = CPaginator::getInstance($objects,10,$page)->getPreparedArray();
+
+        if(Yii::app()->request->isAjaxRequest)
+        {
+            $this->renderPartial('_list_items',array('items' => $array, 'category' => $cat));
+        }
+        else
+        {
+            $this->render('list_items',array('items' => $array,'category' => $cat, 'breadcrumbs' => $breadCrumbs));
+        }
+    }
 }

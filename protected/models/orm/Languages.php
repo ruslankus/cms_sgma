@@ -20,6 +20,8 @@
  * @property NewsTrl[] $newsTrls
  * @property PageTrl[] $pageTrls
  * @property ProductCategoryTrl[] $productCategoryTrls
+ * @property ProductFieldGroupsTrl[] $productFieldGroupsTrls
+ * @property ProductFieldValuesTrl[] $productFieldValuesTrls
  * @property ProductTrl[] $productTrls
  * @property SystemWidgetTrl[] $systemWidgetTrls
  */
@@ -68,6 +70,8 @@ class Languages extends CActiveRecord
 			'newsTrls' => array(self::HAS_MANY, 'NewsTrl', 'lng_id'),
 			'pageTrls' => array(self::HAS_MANY, 'PageTrl', 'lng_id'),
 			'productCategoryTrls' => array(self::HAS_MANY, 'ProductCategoryTrl', 'lng_id'),
+			'productFieldGroupsTrls' => array(self::HAS_MANY, 'ProductFieldGroupsTrl', 'lng_id'),
+			'productFieldValuesTrls' => array(self::HAS_MANY, 'ProductFieldValuesTrl', 'lng_id'),
 			'productTrls' => array(self::HAS_MANY, 'ProductTrl', 'lng_id'),
 			'systemWidgetTrls' => array(self::HAS_MANY, 'SystemWidgetTrl', 'lng_id'),
 		);
