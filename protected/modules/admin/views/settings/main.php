@@ -26,7 +26,7 @@
 				<?php endforeach;?>
 				<input type="submit" value="Save" name="save" class="save float-left action-save" style="margin-right: 5px;"/>
 
-				<input type="submit" value="Reset" name="save" class="save float-left action-reset" />
+				<input type="submit" value="Reset" name="save" data-prefix="<?php echo $prefix;?>" class="save float-left action-reset" />
 		
 				<div class="errorMessage float-left"><?php echo ATrl::t()->getLabel('Widget position will reset!'); ?></div>
 

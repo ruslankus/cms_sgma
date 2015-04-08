@@ -7,11 +7,7 @@ class SettingsController extends ControllerAdmin
     {
         Yii::app()->clientScript->registerCssFile($this->assetsPath.'/css/vendor.edit-widgets.css');
         Yii::app()->clientScript->registerScriptFile($this->assetsPath.'/js/vendor.switch-themes.js',CClientScript::POS_END);
-        /*
-        $arrData = ExtSettings::model()->getSettings();
-        
-        $this->render('main',array('arrData' => $arrData));
-      */
+        $lang_prefix = Yii::app()->language;
         $objSet = Settings::model()->findByAttributes(array('value_name' => 'active_desktop_theme')); 
         if($_POST['save'])
         {
@@ -38,7 +34,7 @@ class SettingsController extends ControllerAdmin
                 $arrData[] = $ini_array;
             }
         endforeach;
-        $this->render('main',array('arrData' => $arrData));
+        $this->render('main',array('arrData' => $arrData, 'prefix'=>$lang_prefix));
     }
     
     /*
@@ -46,8 +42,23 @@ class SettingsController extends ControllerAdmin
     */
         public function actionAjaxResetPositionsConfirm()
         {
-            $request = Yii::app()->request->isAjaxRequest);
+            $lang_prefix = Yii::app()->language;
+            $resArr=array();
+            $resArr['html'] = $this->renderPartial('_reset-wid-positions',array('prefix'=>$lang_prefix),true);
+            echo json_encode($resArr);
+        }
 
+        public function actionAjaxResetPositions()
+        {
+            $resArr=array();
+            $resArr['error'] = 1;  
+            $del = WidRegistration::model()->deleteAll();
+            if($del)
+            {
+                $resArr['error'] = 0;    
+            }
+            
+            echo json_encode($resArr);   
         }
 
     /*
