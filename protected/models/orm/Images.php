@@ -17,6 +17,8 @@
  * @property ImagesOfContacts[] $imagesOfContacts
  * @property ImagesOfNews[] $imagesOfNews
  * @property ImagesOfPage[] $imagesOfPages
+ * @property ImagesOfProduct[] $imagesOfProducts
+ * @property ImagesOfProductFieldsValues[] $imagesOfProductFieldsValues
  * @property ImagesTrl[] $imagesTrls
  */
 class Images extends CActiveRecord
@@ -59,6 +61,8 @@ class Images extends CActiveRecord
 			'imagesOfContacts' => array(self::HAS_MANY, 'ImagesOfContacts', 'image_id'),
 			'imagesOfNews' => array(self::HAS_MANY, 'ImagesOfNews', 'image_id'),
 			'imagesOfPages' => array(self::HAS_MANY, 'ImagesOfPage', 'image_id'),
+			'imagesOfProducts' => array(self::HAS_MANY, 'ImagesOfProduct', 'image_id'),
+			'imagesOfProductFieldsValues' => array(self::HAS_MANY, 'ImagesOfProductFieldsValues', 'image_id'),
 			'imagesTrls' => array(self::HAS_MANY, 'ImagesTrl', 'image_id'),
 		);
 	}

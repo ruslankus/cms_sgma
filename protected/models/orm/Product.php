@@ -20,6 +20,7 @@
  * @property integer $last_change_by
  *
  * The followings are the available model relations:
+ * @property ImagesOfProduct[] $imagesOfProducts
  * @property ProductCategory $category
  * @property Status $status
  * @property ProductFieldGroupsActive[] $productFieldGroupsActives
@@ -62,6 +63,7 @@ class Product extends CActiveRecord
 		// NOTE: you may need to adjust the relation name and the related
 		// class name for the relations automatically generated below.
 		return array(
+			'imagesOfProducts' => array(self::HAS_MANY, 'ImagesOfProduct', 'product_id'),
 			'category' => array(self::BELONGS_TO, 'ProductCategory', 'category_id'),
 			'status' => array(self::BELONGS_TO, 'Status', 'status_id'),
 			'productFieldGroupsActives' => array(self::HAS_MANY, 'ProductFieldGroupsActive', 'product_id'),
