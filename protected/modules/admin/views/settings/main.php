@@ -28,7 +28,11 @@
 
 				<input type="submit" value="Reset" name="save" data-prefix="<?php echo $prefix;?>" class="save float-left action-reset" />
 		
-				<div class="errorMessage float-left"><?php echo ATrl::t()->getLabel('Widget position will reset!'); ?></div>
+					<?php if(Yii::app()->user->hasFlash('reset')):?>
+						<div class="errorMessage float-left">
+					      <?php echo Yii::app()->user->getFlash('reset'); ?>
+					    </div>
+					<?php endif; ?>
 
 			</form>
 		</div><!--/inner-content-->

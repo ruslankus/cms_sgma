@@ -12,7 +12,7 @@ $(document).ready(function() {
 	    });
 	    return false;
 	});
-
+    /*
 	$(document).on("click", ".reset-confirm",function(e)
 	{
 		var prefix = $(this).data('prefix');
@@ -30,5 +30,6 @@ $(document).ready(function() {
 	    }); 
 		
 	});
+	*/
     
 });

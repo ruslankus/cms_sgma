@@ -9,6 +9,16 @@ class SettingsController extends ControllerAdmin
         Yii::app()->clientScript->registerScriptFile($this->assetsPath.'/js/vendor.switch-themes.js',CClientScript::POS_END);
         $lang_prefix = Yii::app()->language;
         $objSet = Settings::model()->findByAttributes(array('value_name' => 'active_desktop_theme')); 
+        $reset = 0;
+
+        if($_POST['reset'])
+        {
+
+            $del = WidRegistration::model()->deleteAll();
+
+            Yii::app()->user->setFlash('reset', ATrl::t()->getLabel('Widgets reset reset!'));
+
+        }
         if($_POST['save'])
         {
             if($objSet->setting != $_POST['radio']) // if no change theme
@@ -46,19 +56,6 @@ class SettingsController extends ControllerAdmin
             $resArr=array();
             $resArr['html'] = $this->renderPartial('_reset-wid-positions',array('prefix'=>$lang_prefix),true);
             echo json_encode($resArr);
-        }
-
-        public function actionAjaxResetPositions()
-        {
-            $resArr=array();
-            $resArr['error'] = 1;  
-            $del = WidRegistration::model()->deleteAll();
-            if($del)
-            {
-                $resArr['error'] = 0;    
-            }
-            
-            echo json_encode($resArr);   
         }
 
     /*
