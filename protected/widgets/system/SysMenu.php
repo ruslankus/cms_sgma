@@ -13,6 +13,14 @@ class SysMenu extends CWidget
     public $menu;
     public $themeName;
 
+    public $controllerMatches = array(
+        ExtMenuItemType::TYPE_SINGLE_PAGE => 'pages',
+        ExtMenuItemType::TYPE_NEWS_CATALOG => 'news',
+        ExtMenuItemType::TYPE_PRODUCTS_CATALOG => 'products',
+        ExtMenuItemType::TYPE_CONTACT_FORM => 'contacts',
+        ExtMenuItemType::TYPE_COMPLEX_PAGE => 'custom'
+    );
+
     /**
      * Override of getting view dir for widget
      * @param bool $checkTheme
@@ -42,15 +50,7 @@ class SysMenu extends CWidget
      */
     private function getUrlByType($type_id,$content_item_id,$default_action = 'show')
     {
-        $controllers = array(
-            ExtMenuItemType::TYPE_SINGLE_PAGE => 'pages',
-            ExtMenuItemType::TYPE_NEWS_CATALOG => 'news',
-            ExtMenuItemType::TYPE_PRODUCTS_CATALOG => 'products',
-            ExtMenuItemType::TYPE_CONTACT_FORM => 'contacts',
-            ExtMenuItemType::TYPE_COMPLEX_PAGE => 'custom'
-        );
-
-        $url = Yii::app()->createUrl($controllers[$type_id].'/'.$default_action,array('id' => $content_item_id));
+        $url = Yii::app()->createUrl($this->controllerMatches[$type_id].'/'.$default_action,array('id' => $content_item_id));
 
         return $url;
     }
@@ -112,7 +112,7 @@ class SysMenu extends CWidget
             {
                 $items_inline[$index] = $item;
                 $items_inline[$index]['url'] = $this->getUrlByType($item['type_id'],$item['content_item_id']);
-                $items_inline[$index]['active'] = $this->controllerOfType($item['type_id']) == Yii::app()->controller->id ? 1 : 0;
+                $items_inline[$index]['active'] = $this->controllerMatches[$item['type_id']] == Yii::app()->controller->id ? 1 : 0;
             }
 
             $items_nested = $this->makeNested($items_inline);
