@@ -10,7 +10,7 @@ Target Server Type    : MYSQL
 Target Server Version : 50538
 File Encoding         : 65001
 
-Date: 2015-04-08 13:53:55
+Date: 2015-04-08 14:33:20
 */
 
 SET FOREIGN_KEY_CHECKS=0;
@@ -813,7 +813,7 @@ CREATE TABLE `product_field_groups` (
   `time_created` int(11) DEFAULT NULL,
   `last_change_by` int(11) DEFAULT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=utf8;
 
 -- ----------------------------
 -- Records of product_field_groups
@@ -1004,7 +1004,7 @@ CREATE TABLE `settings` (
   `setting` varchar(255) DEFAULT NULL,
   `editable` int(11) DEFAULT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=5 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=10 DEFAULT CHARSET=utf8;
 
 -- ----------------------------
 -- Records of settings
@@ -1013,6 +1013,11 @@ INSERT INTO `settings` VALUES ('1', 'active_desktop_theme', 'dark', '0');
 INSERT INTO `settings` VALUES ('2', 'active_mobile_theme', 'light', '0');
 INSERT INTO `settings` VALUES ('3', 'email', null, '1');
 INSERT INTO `settings` VALUES ('4', 'home_page_item_id', null, '0');
+INSERT INTO `settings` VALUES ('5', 'smtp_host', 'mail.yourdomain.com', '1');
+INSERT INTO `settings` VALUES ('6', 'smtp_port', '26', '1');
+INSERT INTO `settings` VALUES ('7', 'smtp_username', 'yourname@yourdomain\"', '1');
+INSERT INTO `settings` VALUES ('8', 'smtp_password', 'yourpassword', '1');
+INSERT INTO `settings` VALUES ('9', 'smtp_enable', '1', '0');
 
 -- ----------------------------
 -- Table structure for `status`
