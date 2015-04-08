@@ -10,7 +10,7 @@ Target Server Type    : MYSQL
 Target Server Version : 50538
 File Encoding         : 65001
 
-Date: 2015-04-08 13:06:32
+Date: 2015-04-08 13:53:55
 */
 
 SET FOREIGN_KEY_CHECKS=0;
@@ -373,6 +373,26 @@ INSERT INTO `languages` VALUES ('1', 'english', 'en', null, '1');
 INSERT INTO `languages` VALUES ('2', 'русский', 'ru', null, '0');
 
 -- ----------------------------
+-- Table structure for `marks`
+-- ----------------------------
+DROP TABLE IF EXISTS `marks`;
+CREATE TABLE `marks` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `mark_value` int(11) DEFAULT NULL,
+  `mark_name` varchar(128) DEFAULT NULL,
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB AUTO_INCREMENT=6 DEFAULT CHARSET=utf8;
+
+-- ----------------------------
+-- Records of marks
+-- ----------------------------
+INSERT INTO `marks` VALUES ('1', '1', 'a');
+INSERT INTO `marks` VALUES ('2', '2', 'b');
+INSERT INTO `marks` VALUES ('3', '3', 'c');
+INSERT INTO `marks` VALUES ('4', '4', 'd');
+INSERT INTO `marks` VALUES ('5', '5', 'e');
+
+-- ----------------------------
 -- Table structure for `menu`
 -- ----------------------------
 DROP TABLE IF EXISTS `menu`;
@@ -704,11 +724,13 @@ CREATE TABLE `product` (
   KEY `status_id` (`status_id`),
   CONSTRAINT `product_ibfk_1` FOREIGN KEY (`category_id`) REFERENCES `product_category` (`id`) ON DELETE CASCADE ON UPDATE NO ACTION,
   CONSTRAINT `product_ibfk_2` FOREIGN KEY (`status_id`) REFERENCES `status` (`id`) ON DELETE NO ACTION ON UPDATE NO ACTION
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=utf8;
 
 -- ----------------------------
 -- Records of product
 -- ----------------------------
+INSERT INTO `product` VALUES ('1', '1', '0:1', 'hotel 1', 'product.php', '1', '1', '5000', '4000', '1', '50', '0', '0', '1');
+INSERT INTO `product` VALUES ('2', '1', '0:2', 'hotel 2', 'product.php', '1', '2', '6500', '5000', '0', '60', '0', '0', '1');
 
 -- ----------------------------
 -- Table structure for `product_category`
@@ -941,6 +963,36 @@ CREATE TABLE `product_trl` (
 -- ----------------------------
 -- Records of product_trl
 -- ----------------------------
+
+-- ----------------------------
+-- Table structure for `rating`
+-- ----------------------------
+DROP TABLE IF EXISTS `rating`;
+CREATE TABLE `rating` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `mark_id` int(11) DEFAULT NULL,
+  `product_id` int(11) DEFAULT NULL,
+  `qnt` int(11) DEFAULT NULL,
+  PRIMARY KEY (`id`),
+  KEY `mark_id` (`mark_id`),
+  KEY `product_id` (`product_id`),
+  CONSTRAINT `rating_ibfk_2` FOREIGN KEY (`product_id`) REFERENCES `product` (`id`) ON DELETE CASCADE ON UPDATE NO ACTION,
+  CONSTRAINT `rating_ibfk_1` FOREIGN KEY (`mark_id`) REFERENCES `marks` (`id`) ON DELETE CASCADE ON UPDATE NO ACTION
+) ENGINE=InnoDB AUTO_INCREMENT=11 DEFAULT CHARSET=utf8;
+
+-- ----------------------------
+-- Records of rating
+-- ----------------------------
+INSERT INTO `rating` VALUES ('1', '1', '1', '10');
+INSERT INTO `rating` VALUES ('2', '2', '1', '5');
+INSERT INTO `rating` VALUES ('3', '3', '1', '50');
+INSERT INTO `rating` VALUES ('4', '4', '1', '80');
+INSERT INTO `rating` VALUES ('5', '5', '1', '30');
+INSERT INTO `rating` VALUES ('6', '1', '2', '10');
+INSERT INTO `rating` VALUES ('7', '2', '2', '15');
+INSERT INTO `rating` VALUES ('8', '3', '2', '30');
+INSERT INTO `rating` VALUES ('9', '4', '2', '65');
+INSERT INTO `rating` VALUES ('10', '5', '2', '12');
 
 -- ----------------------------
 -- Table structure for `settings`
