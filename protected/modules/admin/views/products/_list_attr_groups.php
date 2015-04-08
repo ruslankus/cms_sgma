@@ -1,4 +1,4 @@
-<?php /* @var $items ExtProductFieldGroups */ ?>
+<?php /* @var $items ExtProductFieldGroups[] */ ?>
 
 <?php foreach($items as $item): ?>
     <div class="menu-table" data-menu="<?php echo $item->id ?>">

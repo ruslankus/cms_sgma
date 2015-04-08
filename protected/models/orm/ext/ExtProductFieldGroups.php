@@ -3,6 +3,7 @@
  * Class ExtProductFieldGroups
  * @property ExtProductFieldGroupsActive[] $productFieldGroupsActives
  * @property ExtProductFields[] $productFields
+ * @property ProductTrl $trl
  */
 class ExtProductFieldGroups extends ProductFieldGroups
 {
@@ -45,6 +46,30 @@ class ExtProductFieldGroups extends ProductFieldGroups
 
 
     /**
+     * Build array which looks like (id => label), special for form-use
+     * @return array
+     */
+    public function arrayForMenuItemForm()
+    {
+        /* @var $all self[] */
+
+        $result = array();
+
+        //get all items
+        $all = $this->findAll(array('order' => 'priority DESC'));
+
+        //pass through all
+        foreach($all as $item)
+        {
+            //create label for each id
+            $result[$item->id] = $item->label;
+        }
+
+        return $result;
+    }
+
+
+    /**
      * Override, relate with extended models
      * @return array relational rules.
      */
@@ -62,6 +87,10 @@ class ExtProductFieldGroups extends ProductFieldGroups
                 $relations[$name][1] = 'Ext'.$relation[1];
             }
         }
+
+        //relate with translation
+        $lng = Yii::app()->language;
+        $relations['trl'] = array(self::HAS_ONE, 'ProductFieldGroupsTrl', 'group_id', 'with' => array('lng' => array('condition' => "lng.prefix='{$lng}'")));
 
         //return modified relations
         return $relations;

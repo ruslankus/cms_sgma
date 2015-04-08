@@ -14,8 +14,8 @@
 
     <div class="content">
         <div class="tab-line">
-            <span class="active"><a href="#">Groups</a></span>
-            <span><a href="#">Fields</a></span>
+            <span class="active"><a href="<?php echo Yii::app()->createUrl('admin/products/attrgroups'); ?>"><?php echo ATrl::t()->getLabel('Groups'); ?></a></span>
+            <span><a href="<?php echo Yii::app()->createUrl('admin/products/fields'); ?>"><?php echo ATrl::t()->getLabel('Fields'); ?></a></span>
         </div><!--/tab-line-->
     </div>
 

@@ -23,6 +23,25 @@ class ExtProductFieldTypes extends ProductFieldTypes
         return parent::model($className);
     }
 
+    /**
+     * Prepare array special for menu-item form
+     * @param bool $translate
+     * @return array
+     */
+    public function arrayForMenuItemForm($translate = false)
+    {
+        /* @var $all ExtMenuItemType[] */
+
+        $result = array();
+        $all = self::model()->findAll();
+
+        foreach($all as $type)
+        {
+            $result[$type->id] = $translate ? ATrl::t()->getLabel($type->label) : $type->label;
+        }
+
+        return $result;
+    }
 
     /**
      * Override, relate with extended models

@@ -10,7 +10,7 @@ Target Server Type    : MYSQL
 Target Server Version : 50538
 File Encoding         : 65001
 
-Date: 2015-04-08 14:33:20
+Date: 2015-04-08 17:26:35
 */
 
 SET FOREIGN_KEY_CHECKS=0;
@@ -370,7 +370,7 @@ CREATE TABLE `languages` (
 -- Records of languages
 -- ----------------------------
 INSERT INTO `languages` VALUES ('1', 'english', 'en', null, '1');
-INSERT INTO `languages` VALUES ('2', 'русский', 'ru', null, '0');
+INSERT INTO `languages` VALUES ('2', 'русский', 'ru', null, '1');
 
 -- ----------------------------
 -- Table structure for `marks`
@@ -790,6 +790,10 @@ CREATE TABLE `product_fields` (
   `field_name` varchar(256) DEFAULT NULL,
   `type_id` int(11) DEFAULT NULL,
   `group_id` int(11) DEFAULT NULL,
+  `priority` int(11) DEFAULT NULL,
+  `time_created` int(11) DEFAULT NULL,
+  `time_updated` int(11) DEFAULT NULL,
+  `last_change_by` int(11) DEFAULT NULL,
   PRIMARY KEY (`id`),
   KEY `group_id` (`group_id`),
   KEY `product_fields_ibfk_2` (`type_id`),
@@ -813,11 +817,18 @@ CREATE TABLE `product_field_groups` (
   `time_created` int(11) DEFAULT NULL,
   `last_change_by` int(11) DEFAULT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=22 DEFAULT CHARSET=utf8;
 
 -- ----------------------------
 -- Records of product_field_groups
 -- ----------------------------
+INSERT INTO `product_field_groups` VALUES ('15', 'Description', '7', '1428500921', '1428500592', '1');
+INSERT INTO `product_field_groups` VALUES ('16', 'Prices', '6', '1428500921', '1428500636', '1');
+INSERT INTO `product_field_groups` VALUES ('17', 'Medicine', '5', '1428500921', '1428500677', '1');
+INSERT INTO `product_field_groups` VALUES ('18', 'Food', '4', '1428500921', '1428500761', '1');
+INSERT INTO `product_field_groups` VALUES ('19', 'The room fund', '3', '1428500921', '1428500806', '1');
+INSERT INTO `product_field_groups` VALUES ('20', 'Services', '2', '1428500921', '1428500828', '1');
+INSERT INTO `product_field_groups` VALUES ('21', 'How to get', '1', '1428500921', '1428500858', '1');
 
 -- ----------------------------
 -- Table structure for `product_field_groups_active`
@@ -853,11 +864,25 @@ CREATE TABLE `product_field_groups_trl` (
   KEY `lng_id` (`lng_id`),
   CONSTRAINT `product_field_groups_trl_ibfk_1` FOREIGN KEY (`group_id`) REFERENCES `product_field_groups` (`id`) ON DELETE CASCADE ON UPDATE NO ACTION,
   CONSTRAINT `product_field_groups_trl_ibfk_2` FOREIGN KEY (`lng_id`) REFERENCES `languages` (`id`) ON DELETE CASCADE ON UPDATE NO ACTION
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=33 DEFAULT CHARSET=utf8;
 
 -- ----------------------------
 -- Records of product_field_groups_trl
 -- ----------------------------
+INSERT INTO `product_field_groups_trl` VALUES ('19', '1', '15', 'Description', '');
+INSERT INTO `product_field_groups_trl` VALUES ('20', '2', '15', 'Описание', '');
+INSERT INTO `product_field_groups_trl` VALUES ('21', '1', '16', 'Prices', '');
+INSERT INTO `product_field_groups_trl` VALUES ('22', '2', '16', 'Цены', '');
+INSERT INTO `product_field_groups_trl` VALUES ('23', '1', '17', 'Medicine', '');
+INSERT INTO `product_field_groups_trl` VALUES ('24', '2', '17', 'Лечение', '');
+INSERT INTO `product_field_groups_trl` VALUES ('25', '1', '18', 'Food', '');
+INSERT INTO `product_field_groups_trl` VALUES ('26', '2', '18', 'Питание', '');
+INSERT INTO `product_field_groups_trl` VALUES ('27', '1', '19', 'The room fund', '');
+INSERT INTO `product_field_groups_trl` VALUES ('28', '2', '19', 'Номерной фонд', '');
+INSERT INTO `product_field_groups_trl` VALUES ('29', '1', '20', 'Services', '');
+INSERT INTO `product_field_groups_trl` VALUES ('30', '2', '20', 'Услуги', '');
+INSERT INTO `product_field_groups_trl` VALUES ('31', '1', '21', 'How to get', '');
+INSERT INTO `product_field_groups_trl` VALUES ('32', '2', '21', 'Как добраться', '');
 
 -- ----------------------------
 -- Table structure for `product_field_select_options`
@@ -1162,7 +1187,7 @@ CREATE TABLE `wid_registration` (
   CONSTRAINT `wid_registration_ibfk_1` FOREIGN KEY (`type_id`) REFERENCES `wid_registration_type` (`id`) ON DELETE NO ACTION ON UPDATE NO ACTION,
   CONSTRAINT `wid_registration_ibfk_2` FOREIGN KEY (`menu_id`) REFERENCES `menu` (`id`) ON DELETE CASCADE ON UPDATE NO ACTION,
   CONSTRAINT `wid_registration_ibfk_3` FOREIGN KEY (`widget_id`) REFERENCES `system_widget` (`id`) ON DELETE CASCADE ON UPDATE NO ACTION
-) ENGINE=InnoDB AUTO_INCREMENT=55 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=57 DEFAULT CHARSET=utf8;
 
 -- ----------------------------
 -- Records of wid_registration

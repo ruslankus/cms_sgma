@@ -608,4 +608,86 @@ class ProductsController extends ControllerAdmin
 
         echo "OK";
     }
+
+    /******************************** A T T R I B U T E S : F I E L D S ***********************************************/
+
+
+    /**
+     * List all fields of specified group
+     * @param int $page
+     * @param $group
+     */
+    public function actionFields($page = 1, $group = 0)
+    {
+        //include js file for AJAX updating
+        Yii::app()->clientScript->registerScriptFile($this->assetsPath.'/js/vendor.trees.js',CClientScript::POS_END);
+        Yii::app()->clientScript->registerScriptFile($this->assetsPath.'/js/vendor.main-menu.js',CClientScript::POS_END);
+        Yii::app()->clientScript->registerCssFile($this->assetsPath.'/css/vendor.news.ext.css');
+
+        $fieldGroup = ExtProductFieldGroups::model()->findByPk($group);
+
+        if(!empty($fieldGroup))
+        {
+            $fields = ExtProductFields::model()->findAllByAttributes(array('group_id' => $group),array('order' => 'priority DESC'));
+        }
+        else
+        {
+            $fields = ExtProductFields::model()->findAll(array('order' => 'priority DESC'));
+        }
+
+        $items = CPaginator::getInstance($fields,10,$page)->getPreparedArray();
+
+        if(Yii::app()->request->isAjaxRequest)
+        {
+            $this->renderPartial('_list_attr_fields',array('items' => $items, 'group' => $group));
+        }
+        else
+        {
+            $this->render('list_attr_fields',array('items' => $items, 'group' => $group));
+        }
+    }
+
+    /**
+     * @param int $group
+     */
+    public function actionAddField($group = 0)
+    {
+        //include menu necessary scripts
+        Yii::app()->clientScript->registerScriptFile($this->assetsPath.'/js/vendor.add-menu.js',CClientScript::POS_END);
+        Yii::app()->clientScript->registerScriptFile($this->assetsPath.'/js/menu.edititem.js',CClientScript::POS_END);
+
+        //exclude jquery to avoid conflict between jquery from Yii core
+        Yii::app()->clientScript->scriptMap=array('jquery-1.11.2.min.js' => false);
+
+        //all languages
+        $objLanguages = SiteLng::lng()->getLngs();
+        //statuses
+        $arrTypes = ExtMenuItemType::model()->arrayForMenuItemForm(true);
+        //parents
+        $arrGroupItems = ExtProductFieldGroups::model()->arrayForMenuItemForm();
+
+        //form
+        $form_mdl = new AttrFieldForm();
+
+        //ajax validation
+        if(Yii::app()->request->isAjaxRequest)
+        {
+            //if ajax validation
+            if(isset($_POST['ajax']))
+            {
+                if($_POST['ajax'] == 'add-field-form')
+                {
+                    echo CActiveForm::validate($form_mdl);
+                }
+                Yii::app()->end();
+            }
+        }
+        else
+        {
+            //TODO: processing post request
+        }
+
+        $this->render('add_field',array());
+    }
+
 }
