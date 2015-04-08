@@ -14,7 +14,7 @@
 					</div><!--/header-->
 					
 					<div class="tab-line">
-						<span><a href="edit-widgets-templates.html">Templates</a></span>
+						<span><a href="/<?php echo $prefix ?>/admin/settings/index">Templates</a></span>
 						<span><a href="/<?php echo $prefix ?>/admin/settings/registration">Positions</a></span>
 						<span class="active"><a href="edit-widgets-general.html">General settings</a></span>
 					</div><!--/tab-line-->

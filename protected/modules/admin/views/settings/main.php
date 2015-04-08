@@ -20,16 +20,14 @@
 
 
 		<div class="inner-content">
-			<form>
+			<form method="post">
 				<?php foreach ($arrData as $item): ?>
-					<div class="template"><label for="a1"><?php echo $item['name'];?></label> <input type="radio" name="raio" id="<?php echo $item['name'];?>" /></div>
+					<div class="template"><label for="a1"><?php echo $item['name'];?></label> <input type="radio" name="radio" value="<?php echo $item['folder_name'];?>" <?php if($item['active']) echo "checked";?>/></div>
 				<?php endforeach;?>
-				<input type="submit" value="Save" class="save float-left" />
-				<?php
-				/*
-				<div class="errorMessage float-left">Somthing wrong.</div>
-				*/
-				?>
+				<input type="submit" value="Save" name="save" class="save float-left" />
+		
+				<div class="errorMessage float-left"><?php echo ATrl::t()->getLabel('Widget position will reset!'); ?></div>
+
 			</form>
 		</div><!--/inner-content-->
 		

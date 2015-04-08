@@ -11,14 +11,30 @@ class SettingsController extends ControllerAdmin
         
         $this->render('main',array('arrData' => $arrData));
       */
+        $objSet = Settings::model()->findByAttributes(array('value_name' => 'active_desktop_theme')); 
+        if($_POST['save'])
+        {
+            if($objSet->setting != $_POST['radio']) // if no change theme
+            {
+                $objSet->setting = $_POST['radio'];
+                $objSet->update();
+            }
+        }
+        $active_theme = $objSet->setting;
         $dir = "themes";
-       // $themes = scandir($dir);
         $themes = glob("themes/*", GLOB_ONLYDIR);
         $arrData=array();
         foreach($themes as $item):
             if(file_exists($item."/theme.ini"))
             {
-                $arrData[]['name'] = str_replace("themes/", "", $item);
+                $folder_name = str_replace("themes/", "", $item);
+                $ini_array = parse_ini_file($item."/theme.ini");
+                $ini_array['folder_name'] = $folder_name;
+                if($folder_name == $active_theme)
+                {
+                    $ini_array['active'] = 1;
+                }
+                $arrData[] = $ini_array;
             }
         endforeach;
         $this->render('main',array('arrData' => $arrData));
