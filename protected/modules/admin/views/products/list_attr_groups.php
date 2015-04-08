@@ -1,7 +1,24 @@
 <?php /* @var $items ExtProductFieldGroups */ ?>
 <?php /* @var $this ProductsController */ ?>
 
+<style>
+    .content > .tab-line
+    {
+        margin: 0;
+        margin-bottom: 10px;
+        margin-top: 10px;
+    }
+</style>
+
 <main>
+
+    <div class="content">
+        <div class="tab-line">
+            <span class="active"><a href="#">Groups</a></span>
+            <span><a href="#">Fields</a></span>
+        </div><!--/tab-line-->
+    </div>
+
     <div class="title-bar">
         <h1><?php echo ATrl::t()->getLabel('Attribute groups'); ?></h1>
         <ul class="actions">
@@ -29,7 +46,7 @@
         <?php endfor; ?>
     </div><!--/pagination-->
 
-    <input type="hidden" id="ajax-refresh-link" value="<?php echo Yii::app()->createUrl('admin/products/atrgroups',array('page' => CPaginator::getInstance()->getCurrentPage())); ?>">
+    <input type="hidden" id="ajax-refresh-link" value="<?php echo Yii::app()->createUrl('admin/products/attrgroups',array('page' => CPaginator::getInstance()->getCurrentPage())); ?>">
     <input type="hidden" id="ajax-swap-link" value="<?php echo Yii::app()->createUrl('/admin/products/ajaxorderattrgroups'); ?>">
 
 </main>
