@@ -21,7 +21,7 @@ class SiteLng
     
      private function __construct() {
 
-        $this->_objLngs = Languages::model()->findAllByAttributes(array('active' => 1));
+        $this->_objLngs = Languages::model()->findAll();
         $prefix = Yii::app()->language;
         foreach($this->_objLngs as $lng){
             if($lng->prefix == $prefix){
