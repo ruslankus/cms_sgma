@@ -460,9 +460,13 @@ class ProductsController extends ControllerAdmin
                         $group->save();
 
                         //translations
-                        foreach($_POST['AttrGroupForm']['titles'] as $lngId => $title)
+                        foreach($_POST['AttrGroupForm']['names'] as $lngId => $name)
                         {
+                            $groupTrl = new ProductFieldGroupsTrl();
+                            $groupTrl -> name = $name;
+                            $groupTrl -> $_POST['AttrGroupForm']['descriptions'][$lngId];
 
+                            //$groupTrl ->
                         }
 
                         $transaction->commit();

@@ -27,6 +27,10 @@ class SiteLng
             if($lng->prefix == $prefix){
                 $this->_currLngObj = $lng;
             }
+            
+            if($lng->active == 1){
+                $this->_arrLng[] = $lng; 
+            }
         }
         //$this->_arrMessages = FormMessages::model()->getLabels();
     }
@@ -36,6 +40,11 @@ class SiteLng
      */
     public function getLngs(){
         return $this->_objLngs;
+    }
+    
+    
+    public function getActLngs(){
+        return $this->_arrLng;
     }
     
     public function getCurrLng(){
