@@ -13,10 +13,12 @@ class ExtSettings extends Settings
 		return parent::model($className);
 	}
     
-    public function getSettings(){
+    public function getSettings($all = false){
         
         $sql  = "SELECT * FROM ".$this->tableName();
-        $sql .= " WHERE `editable`=1";
+        if(!$all){
+            $sql .= " WHERE `editable`=1";
+        }
         
         $con = $this->dbConnection;
         $data=$con->createCommand($sql)->queryAll();

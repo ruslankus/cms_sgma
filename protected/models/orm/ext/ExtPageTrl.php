@@ -50,8 +50,8 @@ class ExtPageTrl extends PageTrl
             $transaction->rollback();
             $msg = $e->getMessage();
             $code = $e->getCode();
-            echo($msg."   ".$code);
-            Debug::d();
+           // echo($msg."   ".$code);
+           // Debug::d();
             return false;
         }
         

@@ -18,7 +18,7 @@ class PagesController extends Controller
         
         
         
-        $this->render('page',array('content' => $content, 'images' => $arrImg));
+        $this->render('page',array('content' => $content, 'images' => $arrImg, 'imgs' => $arrPage['images']));
    
     }//action show
     
