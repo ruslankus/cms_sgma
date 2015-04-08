@@ -8,6 +8,7 @@
  * @property string $name
  * @property string $prefix
  * @property string $icon
+ * @property integer $active
  *
  * The followings are the available model relations:
  * @property ContactsFieldsTrl[] $contactsFieldsTrls
@@ -43,12 +44,13 @@ class Languages extends CActiveRecord
 		// NOTE: you should only define rules for those attributes that
 		// will receive user inputs.
 		return array(
+			array('active', 'numerical', 'integerOnly'=>true),
 			array('name', 'length', 'max'=>64),
 			array('prefix', 'length', 'max'=>16),
 			array('icon', 'length', 'max'=>128),
 			// The following rule is used by search().
 			// @todo Please remove those attributes that should not be searched.
-			array('id, name, prefix, icon', 'safe', 'on'=>'search'),
+			array('id, name, prefix, icon, active', 'safe', 'on'=>'search'),
 		);
 	}
 
@@ -87,6 +89,7 @@ class Languages extends CActiveRecord
 			'name' => 'Name',
 			'prefix' => 'Prefix',
 			'icon' => 'Icon',
+			'active' => 'Active',
 		);
 	}
 
@@ -112,6 +115,7 @@ class Languages extends CActiveRecord
 		$criteria->compare('name',$this->name,true);
 		$criteria->compare('prefix',$this->prefix,true);
 		$criteria->compare('icon',$this->icon,true);
+		$criteria->compare('active',$this->active);
 
 		return new CActiveDataProvider($this, array(
 			'criteria'=>$criteria,

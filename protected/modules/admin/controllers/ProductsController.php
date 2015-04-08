@@ -439,7 +439,7 @@ class ProductsController extends ControllerAdmin
             //if have form
             if($_POST['AttrGroupForm'])
             {
-                $form_mdl->attributes = $_POST['MenuItemForm'];
+                $form_mdl->attributes = $_POST['AttrGroupForm'];
 
                 if($form_mdl->validate())
                 {
@@ -453,16 +453,16 @@ class ProductsController extends ControllerAdmin
                     {
                         //menu item
                         $group = new ExtProductFieldGroups();
-                        $group -> 
+                        $group -> time_updated = time();
+                        $group -> time_created = time();
+                        $group ->last_change_by = Yii::app()->id;
+                        $group->priority = Sort::GetNextPriority("ProductFieldGroups");
+                        $group->save();
 
                         //translations
-                        foreach($_POST['MenuItemForm']['titles'] as $lngId => $title)
+                        foreach($_POST['AttrGroupForm']['titles'] as $lngId => $title)
                         {
-                            $menuItemTrl = new MenuItemTrl();
-                            $menuItemTrl->menu_item_id = $menuItem -> id;
-                            $menuItemTrl->lng_id = $lngId;
-                            $menuItemTrl->value = $title;
-                            $menuItemTrl->save();
+
                         }
 
                         $transaction->commit();
@@ -473,7 +473,7 @@ class ProductsController extends ControllerAdmin
                     }
 
                     //back to list
-                    $this->redirect(Yii::app()->createUrl('/admin/menu/menuitems',array('id' => $objMenu->id)));
+                    $this->redirect(Yii::app()->createUrl('/admin/products/atrgroups'));
                 }
             }
         }
