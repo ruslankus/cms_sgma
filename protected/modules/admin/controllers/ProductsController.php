@@ -396,4 +396,23 @@ class ProductsController extends ControllerAdmin
         }
         
     }
+
+    /**
+     * Delete attr group
+     * @param $id
+     */
+    public function actionDelAttrGroup($id)
+    {
+        ExtProductFieldGroups::model()->deleteByPk($id);
+
+        if(Yii::app()->request->isAjaxRequest)
+        {
+            echo "OK";
+            Yii::app()->end();
+        }
+        else
+        {
+            $this->redirect(Yii::app()->createUrl('admin/products/atrgroups'));
+        }
+    }
 }
