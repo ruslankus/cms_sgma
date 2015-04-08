@@ -17,6 +17,34 @@ class ExtProductFieldGroups extends ProductFieldGroups
 
 
     /**
+     * Returns trl or creates it if not found
+     * @param $lngId
+     * @return ProductFieldGroupsTrl
+     */
+    public function getOrCreateTrl($lngId)
+    {
+        $all = $this->productFieldGroupsTrls;
+
+        if(!empty($all))
+        {
+            foreach($all as $trl)
+            {
+                if($trl->lng_id == $lngId)
+                {
+                    return $trl;
+                }
+            }
+        }
+
+        $trl = new ProductFieldGroupsTrl();
+        $trl -> group_id = $this;
+        $trl -> lng_id = $lngId;
+
+        return $trl;
+    }
+
+
+    /**
      * Override, relate with extended models
      * @return array relational rules.
      */

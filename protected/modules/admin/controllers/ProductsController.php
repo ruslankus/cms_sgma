@@ -370,13 +370,13 @@ class ProductsController extends ControllerAdmin
     }
 
 
-    /***************************************** A T T R I B U T E S ******************************************************/
+    /******************************** A T T R I B U T E S : G R O U P S ***********************************************/
 
     /**
      * List all groups
      * @param int $page
      */
-    public function actionAtrGroups($page = 1)
+    public function actionAttrGroups($page = 1)
     {
         //include js file for AJAX updating
         Yii::app()->clientScript->registerScriptFile($this->assetsPath.'/js/vendor.trees.js',CClientScript::POS_END);
@@ -412,15 +412,27 @@ class ProductsController extends ControllerAdmin
         }
         else
         {
-            $this->redirect(Yii::app()->createUrl('admin/products/atrgroups'));
+            $this->redirect(Yii::app()->createUrl('admin/products/attrgroups'));
         }
     }
 
+    /**
+     * Add attribute group
+     */
     public function actionAddAttrGroup()
     {
+
+        //include menu necessary scripts
+        Yii::app()->clientScript->registerCssFile($this->assetsPath.'/css/vendor.add-menu.css');
+        Yii::app()->clientScript->registerScriptFile($this->assetsPath.'/js/vendor.add-menu.js',CClientScript::POS_END);
+        Yii::app()->clientScript->registerScriptFile($this->assetsPath.'/js/menu.edititem.js',CClientScript::POS_END);
+
+        //exclude jquery to avoid conflict between jquery from Yii core
+        Yii::app()->clientScript->scriptMap=array('jquery-1.11.2.min.js' => false);
+
         //form
         $form_mdl = new AttrGroupForm();
-
+        $languages = SiteLng::lng()->getLngs();
 
         if(Yii::app()->request->isAjaxRequest)
         {
@@ -437,7 +449,7 @@ class ProductsController extends ControllerAdmin
         else
         {
             //if have form
-            if($_POST['AttrGroupForm'])
+            if(isset($_POST['AttrGroupForm']))
             {
                 $form_mdl->attributes = $_POST['AttrGroupForm'];
 
@@ -453,9 +465,10 @@ class ProductsController extends ControllerAdmin
                     {
                         //menu item
                         $group = new ExtProductFieldGroups();
+                        $group -> label = $form_mdl->label;
                         $group -> time_updated = time();
                         $group -> time_created = time();
-                        $group ->last_change_by = Yii::app()->id;
+                        $group ->last_change_by = Yii::app()->user->id;
                         $group->priority = Sort::GetNextPriority("ProductFieldGroups");
                         $group->save();
 
@@ -464,9 +477,10 @@ class ProductsController extends ControllerAdmin
                         {
                             $groupTrl = new ProductFieldGroupsTrl();
                             $groupTrl -> name = $name;
-                            $groupTrl -> $_POST['AttrGroupForm']['descriptions'][$lngId];
-
-                            //$groupTrl ->
+                            $groupTrl -> description = $_POST['AttrGroupForm']['descriptions'][$lngId];
+                            $groupTrl -> lng_id = $lngId;
+                            $groupTrl -> group_id = $group->id;
+                            $groupTrl -> save();
                         }
 
                         $transaction->commit();
@@ -477,9 +491,121 @@ class ProductsController extends ControllerAdmin
                     }
 
                     //back to list
-                    $this->redirect(Yii::app()->createUrl('/admin/products/atrgroups'));
+                    $this->redirect(Yii::app()->createUrl('/admin/products/attrgroups'));
                 }
             }
         }
+
+        $this->render('add_attribute_group',array('form_mdl' => $form_mdl, 'languages' => $languages));
+    }
+
+    /**
+     * Editing group of attributes
+     * @param $id
+     * @throws CHttpException
+     */
+    public function actionEditAttrGroup($id)
+    {
+        //include menu necessary scripts
+        Yii::app()->clientScript->registerCssFile($this->assetsPath.'/css/vendor.add-menu.css');
+        Yii::app()->clientScript->registerScriptFile($this->assetsPath.'/js/vendor.add-menu.js',CClientScript::POS_END);
+        Yii::app()->clientScript->registerScriptFile($this->assetsPath.'/js/menu.edititem.js',CClientScript::POS_END);
+
+        //exclude jquery to avoid conflict between jquery from Yii core
+        Yii::app()->clientScript->scriptMap=array('jquery-1.11.2.min.js' => false);
+
+        //form
+        $form_mdl = new AttrGroupForm();
+        $languages = SiteLng::lng()->getLngs();
+        $group = ExtProductFieldGroups::model()->findByPk($id);
+
+        if(empty($group))
+        {
+            throw new CHttpException(404);
+        }
+
+        if(Yii::app()->request->isAjaxRequest)
+        {
+            //if ajax validation
+            if(isset($_POST['ajax']))
+            {
+                if($_POST['ajax'] == 'add-group-form')
+                {
+                    echo CActiveForm::validate($form_mdl);
+                }
+                Yii::app()->end();
+            }
+        }
+        else
+        {
+            //if have form
+            if(isset($_POST['AttrGroupForm']))
+            {
+                $form_mdl->attributes = $_POST['AttrGroupForm'];
+
+                if($form_mdl->validate())
+                {
+                    /* @var $parent ExtMenuItem */
+
+                    //use transaction
+                    $con = Yii::app()->db;
+                    $transaction = $con->beginTransaction();
+
+                    try
+                    {
+                        $group -> label = $form_mdl->label;
+                        $group -> time_updated = time();
+                        $group -> time_created = time();
+                        $group ->last_change_by = Yii::app()->user->id;
+                        $group->priority = Sort::GetNextPriority("ProductFieldGroups");
+                        $group->save();
+
+                        //translations
+                        foreach($_POST['AttrGroupForm']['names'] as $lngId => $name)
+                        {
+                            $groupTrl = $group->getOrCreateTrl($lngId);
+                            $groupTrl -> name = $name;
+                            $groupTrl -> description = $_POST['AttrGroupForm']['descriptions'][$lngId];
+
+                            if($groupTrl->isNewRecord)
+                            {
+                                $groupTrl -> save();
+                            }
+                            else
+                            {
+                                $groupTrl->update();
+                            }
+                        }
+
+                        $transaction->commit();
+                    }
+                    catch(Exception $ex)
+                    {
+                        $transaction->rollback();
+                    }
+
+                    //back to list
+                    $this->redirect(Yii::app()->createUrl('/admin/products/attrgroups'));
+                }
+            }
+        }
+
+        $this->render('edit_attribute_group',array('form_mdl' => $form_mdl, 'languages' => $languages, 'group' => $group));
+    }
+
+    /**
+     * Ordering with drg-n-drop
+     */
+    public function actionAjaxOrderAttrGroups()
+    {
+        $ordersJson = Yii::app()->request->getParam('orders');
+        $orders = json_decode($ordersJson,true);
+
+        $previous = $orders['old'];
+        $new = $orders['new'];
+
+        Sort::ReorderItems("ProductFieldGroups",$previous,$new);
+
+        echo "OK";
     }
 }
