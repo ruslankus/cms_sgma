@@ -6,6 +6,7 @@ class SettingsController extends ControllerAdmin
     public function actionIndex()
     {
         Yii::app()->clientScript->registerCssFile($this->assetsPath.'/css/vendor.edit-widgets.css');
+        Yii::app()->clientScript->registerScriptFile($this->assetsPath.'/js/vendor.switch-themes.js',CClientScript::POS_END);
         /*
         $arrData = ExtSettings::model()->getSettings();
         
@@ -40,8 +41,18 @@ class SettingsController extends ControllerAdmin
         $this->render('main',array('arrData' => $arrData));
     }
     
-    
-    
+    /*
+        ajax reset widget position
+    */
+        public function actionAjaxResetPositionsConfirm()
+        {
+            $request = Yii::app()->request->isAjaxRequest);
+
+        }
+
+    /*
+        End ajax reset widget position
+    */    
     public function actionEdit(){
         Yii::app()->clientScript->registerCssFile($this->assetsPath.'/css/vendor.edit-widgets.css');
         $request = Yii::app()->request;

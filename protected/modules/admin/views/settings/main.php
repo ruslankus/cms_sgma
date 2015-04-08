@@ -24,7 +24,9 @@
 				<?php foreach ($arrData as $item): ?>
 					<div class="template"><label for="a1"><?php echo $item['name'];?></label> <input type="radio" name="radio" value="<?php echo $item['folder_name'];?>" <?php if($item['active']) echo "checked";?>/></div>
 				<?php endforeach;?>
-				<input type="submit" value="Save" name="save" class="save float-left" />
+				<input type="submit" value="Save" name="save" class="save float-left action-save" style="margin-right: 5px;"/>
+
+				<input type="submit" value="Reset" name="save" class="save float-left action-reset" />
 		
 				<div class="errorMessage float-left"><?php echo ATrl::t()->getLabel('Widget position will reset!'); ?></div>
 
