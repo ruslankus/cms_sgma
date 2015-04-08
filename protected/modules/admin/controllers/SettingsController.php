@@ -5,10 +5,23 @@ class SettingsController extends ControllerAdmin
  
     public function actionIndex()
     {
+        Yii::app()->clientScript->registerCssFile($this->assetsPath.'/css/vendor.edit-widgets.css');
+        /*
         $arrData = ExtSettings::model()->getSettings();
         
         $this->render('main',array('arrData' => $arrData));
-      
+      */
+        $dir = "themes";
+       // $themes = scandir($dir);
+        $themes = glob("themes/*", GLOB_ONLYDIR);
+        $arrData=array();
+        foreach($themes as $item):
+            if(file_exists($item."/theme.ini"))
+            {
+                $arrData[]['name'] = str_replace("themes/", "", $item);
+            }
+        endforeach;
+        $this->render('main',array('arrData' => $arrData));
     }
     
     

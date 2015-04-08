@@ -20,18 +20,17 @@
 					</div><!--/tab-line-->
 					
 					<div class="inner-content">
-                    <?php foreach($arrData as $key => $value ): ?>
-						<div class="gen-item">
-							<span><?php echo $key; ?></span>
-							
-							<input type="submit" value="Save" class="save float-right"/>
-							<input type="text" name="value" value="<?php echo $value?>" />
-                            <input type="hidden" name="setting" value="<?php echo $key; ?>" />
-						</div><!--/gen-item-->
-                     <?php endforeach; ?>  
-                      
-					
-					
+						<form method="post">
+	                    <?php foreach($arrData as $key => $value ): ?>
+							<div class="gen-item">
+								<span><?php echo $key; ?></span>
+								
+								<input type="submit" value="Save" name="save" class="save float-right"/>
+								<input type="text" name="value" value="<?php echo $value?>" />
+	                            <input type="hidden" name="setting" value="<?php echo $key; ?>" />
+							</div><!--/gen-item-->
+	                     <?php endforeach; ?>  
+	                     </form>
 					</div><!--/inner-content-->
 					
 				</div><!--/content menu-->
