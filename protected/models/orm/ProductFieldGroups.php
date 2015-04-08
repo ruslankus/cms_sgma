@@ -6,6 +6,7 @@
  * The followings are the available columns in table 'product_field_groups':
  * @property integer $id
  * @property string $label
+ * @property integer $priority
  *
  * The followings are the available model relations:
  * @property ProductFieldGroupsActive[] $productFieldGroupsActives
@@ -30,10 +31,11 @@ class ProductFieldGroups extends CActiveRecord
 		// NOTE: you should only define rules for those attributes that
 		// will receive user inputs.
 		return array(
+			array('priority', 'numerical', 'integerOnly'=>true),
 			array('label', 'length', 'max'=>256),
 			// The following rule is used by search().
 			// @todo Please remove those attributes that should not be searched.
-			array('id, label', 'safe', 'on'=>'search'),
+			array('id, label, priority', 'safe', 'on'=>'search'),
 		);
 	}
 
@@ -59,6 +61,7 @@ class ProductFieldGroups extends CActiveRecord
 		return array(
 			'id' => 'ID',
 			'label' => 'Label',
+			'priority' => 'Priority',
 		);
 	}
 
@@ -82,6 +85,7 @@ class ProductFieldGroups extends CActiveRecord
 
 		$criteria->compare('id',$this->id);
 		$criteria->compare('label',$this->label,true);
+		$criteria->compare('priority',$this->priority);
 
 		return new CActiveDataProvider($this, array(
 			'criteria'=>$criteria,

@@ -368,4 +368,32 @@ class ProductsController extends ControllerAdmin
             $this->render('list_items',array('items' => $array,'category' => $cat, 'breadcrumbs' => $breadCrumbs));
         }
     }
+
+
+    /***************************************** A T T R I B U T E S ******************************************************/
+
+    /**
+     * List all groups
+     * @param int $page
+     */
+    public function actionAtrGroups($page = 1)
+    {
+        //include js file for AJAX updating
+        Yii::app()->clientScript->registerScriptFile($this->assetsPath.'/js/vendor.trees.js',CClientScript::POS_END);
+        Yii::app()->clientScript->registerScriptFile($this->assetsPath.'/js/vendor.main-menu.js',CClientScript::POS_END);
+        Yii::app()->clientScript->registerCssFile($this->assetsPath.'/css/vendor.news.ext.css');
+
+        $groups = ExtProductFieldGroups::model()->findAll(array('order' => 'priority DESC'));
+        $items = CPaginator::getInstance($groups,10,$page)->getPreparedArray();
+
+        if(Yii::app()->request->isAjaxRequest)
+        {
+            $this->render('_list_attr_groups',array('items' => $items));
+        }
+        else
+        {
+            $this->render('list_attr_groups',array('items' => $items));
+        }
+        
+    }
 }

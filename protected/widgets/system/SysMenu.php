@@ -42,23 +42,7 @@ class SysMenu extends CWidget
      */
     private function getUrlByType($type_id,$content_item_id,$default_action = 'show')
     {
-
-        $controller = $this->controllerOfType($type_id);
-        $url = Yii::app()->createUrl($controller.'/'.$default_action,array('id' => $content_item_id));
-
-        return $url;
-    }
-
-
-    /**
-     * Returns controller name for every link type
-     * @param $type_id
-     * @param string $default
-     * @return string
-     */
-    private function controllerOfType($type_id,$default = 'main')
-    {
-        $matches = array(
+        $controllers = array(
             ExtMenuItemType::TYPE_SINGLE_PAGE => 'pages',
             ExtMenuItemType::TYPE_NEWS_CATALOG => 'news',
             ExtMenuItemType::TYPE_PRODUCTS_CATALOG => 'products',
@@ -66,7 +50,9 @@ class SysMenu extends CWidget
             ExtMenuItemType::TYPE_COMPLEX_PAGE => 'custom'
         );
 
-        return array_key_exists($type_id,$matches) ? $matches[$type_id] : $default;
+        $url = Yii::app()->createUrl($controllers[$type_id].'/'.$default_action,array('id' => $content_item_id));
+
+        return $url;
     }
 
 
