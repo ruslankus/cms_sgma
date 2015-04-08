@@ -5,7 +5,7 @@
     <div class="title-bar">
         <h1><?php echo ATrl::t()->getLabel('Attribute groups'); ?></h1>
         <ul class="actions">
-            <li><a href="<?php echo Yii::app()->createUrl('/admin/products/addcat'); ?>" class="action add"></a></li>
+            <li><a href="<?php echo Yii::app()->createUrl('/admin/products/addattrgroup'); ?>" class="action add"></a></li>
         </ul>
     </div><!--/title-bar-->
 

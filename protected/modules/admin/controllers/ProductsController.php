@@ -388,7 +388,7 @@ class ProductsController extends ControllerAdmin
 
         if(Yii::app()->request->isAjaxRequest)
         {
-            $this->render('_list_attr_groups',array('items' => $items));
+            $this->renderPartial('_list_attr_groups',array('items' => $items));
         }
         else
         {
@@ -413,6 +413,69 @@ class ProductsController extends ControllerAdmin
         else
         {
             $this->redirect(Yii::app()->createUrl('admin/products/atrgroups'));
+        }
+    }
+
+    public function actionAddAttrGroup()
+    {
+        //form
+        $form_mdl = new AttrGroupForm();
+
+
+        if(Yii::app()->request->isAjaxRequest)
+        {
+            //if ajax validation
+            if(isset($_POST['ajax']))
+            {
+                if($_POST['ajax'] == 'add-group-form')
+                {
+                    echo CActiveForm::validate($form_mdl);
+                }
+                Yii::app()->end();
+            }
+        }
+        else
+        {
+            //if have form
+            if($_POST['AttrGroupForm'])
+            {
+                $form_mdl->attributes = $_POST['MenuItemForm'];
+
+                if($form_mdl->validate())
+                {
+                    /* @var $parent ExtMenuItem */
+
+                    //use transaction
+                    $con = Yii::app()->db;
+                    $transaction = $con->beginTransaction();
+
+                    try
+                    {
+                        //menu item
+                        $group = new ExtProductFieldGroups();
+                        $group -> 
+
+                        //translations
+                        foreach($_POST['MenuItemForm']['titles'] as $lngId => $title)
+                        {
+                            $menuItemTrl = new MenuItemTrl();
+                            $menuItemTrl->menu_item_id = $menuItem -> id;
+                            $menuItemTrl->lng_id = $lngId;
+                            $menuItemTrl->value = $title;
+                            $menuItemTrl->save();
+                        }
+
+                        $transaction->commit();
+                    }
+                    catch(Exception $ex)
+                    {
+                        $transaction->rollback();
+                    }
+
+                    //back to list
+                    $this->redirect(Yii::app()->createUrl('/admin/menu/menuitems',array('id' => $objMenu->id)));
+                }
+            }
         }
     }
 }

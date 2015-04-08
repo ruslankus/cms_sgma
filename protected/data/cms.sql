@@ -10,7 +10,7 @@ Target Server Type    : MYSQL
 Target Server Version : 50538
 File Encoding         : 65001
 
-Date: 2015-04-08 12:38:16
+Date: 2015-04-08 13:06:32
 */
 
 SET FOREIGN_KEY_CHECKS=0;
@@ -362,14 +362,15 @@ CREATE TABLE `languages` (
   `name` varchar(64) DEFAULT NULL,
   `prefix` varchar(16) DEFAULT NULL,
   `icon` varchar(128) DEFAULT NULL,
+  `active` tinyint(4) DEFAULT '0',
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=utf8;
 
 -- ----------------------------
 -- Records of languages
 -- ----------------------------
-INSERT INTO `languages` VALUES ('1', 'english', 'en', null);
-INSERT INTO `languages` VALUES ('2', 'русский', 'ru', null);
+INSERT INTO `languages` VALUES ('1', 'english', 'en', null, '1');
+INSERT INTO `languages` VALUES ('2', 'русский', 'ru', null, '0');
 
 -- ----------------------------
 -- Table structure for `menu`
@@ -786,13 +787,15 @@ CREATE TABLE `product_field_groups` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
   `label` varchar(256) DEFAULT NULL,
   `priority` int(11) DEFAULT NULL,
+  `time_updated` int(11) DEFAULT NULL,
+  `time_created` int(11) DEFAULT NULL,
+  `last_change_by` int(11) DEFAULT NULL,
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8;
 
 -- ----------------------------
 -- Records of product_field_groups
 -- ----------------------------
-INSERT INTO `product_field_groups` VALUES ('1', 'group', '1');
 
 -- ----------------------------
 -- Table structure for `product_field_groups_active`

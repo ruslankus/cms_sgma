@@ -7,6 +7,9 @@
  * @property integer $id
  * @property string $label
  * @property integer $priority
+ * @property integer $time_updated
+ * @property integer $time_created
+ * @property integer $last_change_by
  *
  * The followings are the available model relations:
  * @property ProductFieldGroupsActive[] $productFieldGroupsActives
@@ -31,11 +34,11 @@ class ProductFieldGroups extends CActiveRecord
 		// NOTE: you should only define rules for those attributes that
 		// will receive user inputs.
 		return array(
-			array('priority', 'numerical', 'integerOnly'=>true),
+			array('priority, time_updated, time_created, last_change_by', 'numerical', 'integerOnly'=>true),
 			array('label', 'length', 'max'=>256),
 			// The following rule is used by search().
 			// @todo Please remove those attributes that should not be searched.
-			array('id, label, priority', 'safe', 'on'=>'search'),
+			array('id, label, priority, time_updated, time_created, last_change_by', 'safe', 'on'=>'search'),
 		);
 	}
 
@@ -62,6 +65,9 @@ class ProductFieldGroups extends CActiveRecord
 			'id' => 'ID',
 			'label' => 'Label',
 			'priority' => 'Priority',
+			'time_updated' => 'Time Updated',
+			'time_created' => 'Time Created',
+			'last_change_by' => 'Last Change By',
 		);
 	}
 
@@ -86,6 +92,9 @@ class ProductFieldGroups extends CActiveRecord
 		$criteria->compare('id',$this->id);
 		$criteria->compare('label',$this->label,true);
 		$criteria->compare('priority',$this->priority);
+		$criteria->compare('time_updated',$this->time_updated);
+		$criteria->compare('time_created',$this->time_created);
+		$criteria->compare('last_change_by',$this->last_change_by);
 
 		return new CActiveDataProvider($this, array(
 			'criteria'=>$criteria,
