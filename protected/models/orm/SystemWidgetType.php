@@ -7,6 +7,7 @@
  * @property integer $id
  * @property string $label
  * @property string $widget_class
+ * @property string $default_template
  *
  * The followings are the available model relations:
  * @property SystemWidget[] $systemWidgets
@@ -31,10 +32,10 @@ class SystemWidgetType extends CActiveRecord
 		return array(
 			array('id', 'required'),
 			array('id', 'numerical', 'integerOnly'=>true),
-			array('label, widget_class', 'length', 'max'=>255),
+			array('label, widget_class, default_template', 'length', 'max'=>255),
 			// The following rule is used by search().
 			// @todo Please remove those attributes that should not be searched.
-			array('id, label, widget_class', 'safe', 'on'=>'search'),
+			array('id, label, widget_class, default_template', 'safe', 'on'=>'search'),
 		);
 	}
 
@@ -59,6 +60,7 @@ class SystemWidgetType extends CActiveRecord
 			'id' => 'ID',
 			'label' => 'Label',
 			'widget_class' => 'Widget Class',
+			'default_template' => 'Default Template',
 		);
 	}
 
@@ -83,6 +85,7 @@ class SystemWidgetType extends CActiveRecord
 		$criteria->compare('id',$this->id);
 		$criteria->compare('label',$this->label,true);
 		$criteria->compare('widget_class',$this->widget_class,true);
+		$criteria->compare('default_template',$this->default_template,true);
 
 		return new CActiveDataProvider($this, array(
 			'criteria'=>$criteria,

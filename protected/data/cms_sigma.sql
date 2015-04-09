@@ -10,7 +10,7 @@ Target Server Type    : MYSQL
 Target Server Version : 50538
 File Encoding         : 65001
 
-Date: 2015-04-09 15:53:23
+Date: 2015-04-09 16:04:58
 */
 
 SET FOREIGN_KEY_CHECKS=0;
@@ -1207,19 +1207,20 @@ CREATE TABLE `system_widget_type` (
   `id` int(11) NOT NULL,
   `label` varchar(255) DEFAULT NULL,
   `widget_class` varchar(255) DEFAULT NULL,
+  `default_template` varchar(255) DEFAULT NULL,
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 -- ----------------------------
 -- Records of system_widget_type
 -- ----------------------------
-INSERT INTO `system_widget_type` VALUES ('1', 'Search Form', 'SysSearch');
-INSERT INTO `system_widget_type` VALUES ('2', 'Login form', 'SysLogin');
-INSERT INTO `system_widget_type` VALUES ('3', 'Calendar', 'SysCalendar');
-INSERT INTO `system_widget_type` VALUES ('4', 'Language Bar', 'SysLanguages');
-INSERT INTO `system_widget_type` VALUES ('5', 'Product cart', 'SysCart');
-INSERT INTO `system_widget_type` VALUES ('6', 'Custom HTML', 'SysCustom');
-INSERT INTO `system_widget_type` VALUES ('7', 'Banner', 'SysBanner');
+INSERT INTO `system_widget_type` VALUES ('1', 'Search Form', 'SysSearch', 'default.php');
+INSERT INTO `system_widget_type` VALUES ('2', 'Login form', 'SysLogin', 'default.php');
+INSERT INTO `system_widget_type` VALUES ('3', 'Calendar', 'SysCalendar', 'default.php');
+INSERT INTO `system_widget_type` VALUES ('4', 'Language Bar', 'SysLanguages', 'default.php');
+INSERT INTO `system_widget_type` VALUES ('5', 'Product cart', 'SysCart', 'default.php');
+INSERT INTO `system_widget_type` VALUES ('6', 'Custom HTML', 'SysCustom', 'default.php');
+INSERT INTO `system_widget_type` VALUES ('7', 'Banner', 'SysBanner', 'default.php');
 
 -- ----------------------------
 -- Table structure for `users`
