@@ -10,7 +10,7 @@ Target Server Type    : MYSQL
 Target Server Version : 50538
 File Encoding         : 65001
 
-Date: 2015-04-09 16:04:58
+Date: 2015-04-09 16:19:36
 */
 
 SET FOREIGN_KEY_CHECKS=0;
@@ -94,7 +94,7 @@ INSERT INTO `available` VALUES ('12', '6', '2');
 DROP TABLE IF EXISTS `contacts_block`;
 CREATE TABLE `contacts_block` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
-  `group_id` int(11) DEFAULT NULL,
+  `page_id` int(11) DEFAULT NULL,
   `label` varchar(128) DEFAULT NULL,
   `template_name` varchar(256) DEFAULT NULL,
   `map_url` varchar(1024) DEFAULT NULL,
@@ -104,8 +104,8 @@ CREATE TABLE `contacts_block` (
   `time_created` int(11) DEFAULT NULL,
   `last_change_by` int(11) DEFAULT NULL,
   PRIMARY KEY (`id`),
-  KEY `group_id` (`group_id`),
-  CONSTRAINT `contacts_block_ibfk_1` FOREIGN KEY (`group_id`) REFERENCES `contacts_page` (`id`) ON DELETE CASCADE ON UPDATE NO ACTION
+  KEY `page_id` (`page_id`),
+  CONSTRAINT `contacts_block_ibfk_1` FOREIGN KEY (`page_id`) REFERENCES `contacts_page` (`id`) ON DELETE CASCADE ON UPDATE NO ACTION
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 -- ----------------------------

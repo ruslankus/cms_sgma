@@ -5,7 +5,7 @@
  *
  * The followings are the available columns in table 'contacts_block':
  * @property integer $id
- * @property integer $group_id
+ * @property integer $page_id
  * @property string $label
  * @property string $template_name
  * @property string $map_url
@@ -16,9 +16,9 @@
  * @property integer $last_change_by
  *
  * The followings are the available model relations:
- * @property ContactsPage $group
+ * @property ContactsPage $page
+ * @property ContactsBlockTrl[] $contactsBlockTrls
  * @property ContactsFields[] $contactsFields
- * @property ContactsTrl[] $contactsTrls
  * @property ImagesOfContacts[] $imagesOfContacts
  */
 class ContactsBlock extends CActiveRecord
@@ -39,14 +39,14 @@ class ContactsBlock extends CActiveRecord
 		// NOTE: you should only define rules for those attributes that
 		// will receive user inputs.
 		return array(
-			array('group_id, priprity, time_updated, time_created, last_change_by', 'numerical', 'integerOnly'=>true),
+			array('page_id, priprity, time_updated, time_created, last_change_by', 'numerical', 'integerOnly'=>true),
 			array('label', 'length', 'max'=>128),
 			array('template_name', 'length', 'max'=>256),
 			array('map_url', 'length', 'max'=>1024),
 			array('map_code', 'safe'),
 			// The following rule is used by search().
 			// @todo Please remove those attributes that should not be searched.
-			array('id, group_id, label, template_name, map_url, map_code, priprity, time_updated, time_created, last_change_by', 'safe', 'on'=>'search'),
+			array('id, page_id, label, template_name, map_url, map_code, priprity, time_updated, time_created, last_change_by', 'safe', 'on'=>'search'),
 		);
 	}
 
@@ -58,9 +58,9 @@ class ContactsBlock extends CActiveRecord
 		// NOTE: you may need to adjust the relation name and the related
 		// class name for the relations automatically generated below.
 		return array(
-			'group' => array(self::BELONGS_TO, 'ContactsPage', 'group_id'),
+			'page' => array(self::BELONGS_TO, 'ContactsPage', 'page_id'),
+			'contactsBlockTrls' => array(self::HAS_MANY, 'ContactsBlockTrl', 'contacts_id'),
 			'contactsFields' => array(self::HAS_MANY, 'ContactsFields', 'contacts_id'),
-			'contactsTrls' => array(self::HAS_MANY, 'ContactsTrl', 'contacts_id'),
 			'imagesOfContacts' => array(self::HAS_MANY, 'ImagesOfContacts', 'contacts_id'),
 		);
 	}
@@ -72,7 +72,7 @@ class ContactsBlock extends CActiveRecord
 	{
 		return array(
 			'id' => 'ID',
-			'group_id' => 'Group',
+			'page_id' => 'Page',
 			'label' => 'Label',
 			'template_name' => 'Template Name',
 			'map_url' => 'Map Url',
@@ -103,7 +103,7 @@ class ContactsBlock extends CActiveRecord
 		$criteria=new CDbCriteria;
 
 		$criteria->compare('id',$this->id);
-		$criteria->compare('group_id',$this->group_id);
+		$criteria->compare('page_id',$this->page_id);
 		$criteria->compare('label',$this->label,true);
 		$criteria->compare('template_name',$this->template_name,true);
 		$criteria->compare('map_url',$this->map_url,true);

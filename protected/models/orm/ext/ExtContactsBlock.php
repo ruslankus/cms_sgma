@@ -2,6 +2,7 @@
 /**
  * Class ExtContacts
  * @property ExtContactsFields[] $contactsFields
+ * @property ExtContactsPage $page
  */
 class ExtContactsBlock extends ContactsBlock
 {

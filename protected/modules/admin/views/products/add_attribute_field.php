@@ -93,8 +93,8 @@
                         <td class="value hidden-selector" style="visibility: hidden">
                             <div class="field-in-addable">
                                 <div class="input-block">
-                                    <input class="input-name" placeholder="<?php echo ATrl::t()->getLabel('Name'); ?>" name="AttrFieldForm[option_name][0]" type="text">
-                                    <input class="input-value" placeholder="<?php echo ATrl::t()->getLabel('Value'); ?>" name="AttrFieldForm[option_value][0]" type="text">
+                                    <input class="input-name" placeholder="<?php echo ATrl::t()->getLabel('Name'); ?>" name="AttrFieldForm[variants][option_name][0]" type="text">
+                                    <input class="input-value" placeholder="<?php echo ATrl::t()->getLabel('Value'); ?>" name="AttrFieldForm[variants][option_value][0]" type="text">
                                     <input class="input-delete" type="submit" value="<?php echo ATrl::t()->getLabel('Delete'); ?>">
                                     <div style="clear: both"></div>
                                 </div>
@@ -107,7 +107,7 @@
                             <?php echo CHtml::submitButton(ATrl::t()->getLabel('Save'),array()); ?>
                         </td>
                         <td class="value hidden-selector" style="visibility: hidden">
-                            <input data-ploname="<?php echo ATrl::t()->getLabel('Name'); ?>" data-ploval="<?php echo ATrl::t()->getLabel('Value'); ?>" data-delname="<?php echo ATrl::t()->getLabel('Delete'); ?>" data-oname="AttrFieldForm[option_name]" data-oval="AttrFieldForm[option_value]" class="add-select-option-button" type="submit" value="<?php echo ATrl::t()->getLabel('Add field'); ?>">
+                            <input data-ploname="<?php echo ATrl::t()->getLabel('Name'); ?>" data-ploval="<?php echo ATrl::t()->getLabel('Value'); ?>" data-delname="<?php echo ATrl::t()->getLabel('Delete'); ?>" data-oname="AttrFieldForm[variants][option_name]" data-oval="AttrFieldForm[variants][option_value]" class="add-select-option-button" type="submit" value="<?php echo ATrl::t()->getLabel('Add field'); ?>">
                         </td>
                     </tr>
 

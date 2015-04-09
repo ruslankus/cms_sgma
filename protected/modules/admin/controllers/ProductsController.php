@@ -687,8 +687,48 @@ class ProductsController extends ControllerAdmin
         {
             if(isset($_POST['AttrFieldForm']))
             {
-                Debug::out($_POST);
-                exit();
+                $form_mdl->attributes = $_POST['AttrFieldForm'];
+
+                if($form_mdl->validate())
+                {
+
+                    //use transaction
+                    $con = Yii::app()->db;
+                    $transaction = $con->beginTransaction();
+
+                    try
+                    {
+                        //create field
+                        $field = new ExtProductFields();
+                        $field -> attributes = $form_mdl->attributes;
+                        $field -> priority = Sort::GetNextPriority("ProductFields",array('group_id' => $form_mdl->group_id));
+                        $field -> time_created = time();
+                        $field -> time_updated = time();
+                        $field -> last_change_by = Yii::app()->user->id;
+                        $field -> save();
+
+                        //contacts
+                        $titles = $_POST['AttrFieldForm']['field_titles'];
+                        $descriptions = $_POST['AttrFieldForm']['field_descriptions'];
+
+                        //
+                        foreach($titles as $lngId => $title)
+                        {
+                            $trl = new ProductFieldsTrl();
+                            $trl -> lng_id = $lngId;
+                            $trl -> product_field_id = $field->id;
+                            $trl -> field_title = $title;
+                            $trl -> field_description = $descriptions[$lngId];
+                            $trl -> save();
+                        }
+                    }
+                    catch(Exception $ex)
+                    {
+                        $transaction->rollback();
+                    }
+
+
+                }
             }
             //TODO: processing post request
         }
