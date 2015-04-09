@@ -907,4 +907,42 @@ class ProductsController extends ControllerAdmin
         ));
     }
 
+    /**
+     * Ordering with drg-n-drop
+     */
+    public function actionAjaxOrderFields()
+    {
+        $ordersJson = Yii::app()->request->getParam('orders');
+        $orders = json_decode($ordersJson,true);
+
+        $previous = $orders['old'];
+        $new = $orders['new'];
+
+        Sort::ReorderItems("ProductFields",$previous,$new);
+
+        echo "OK";
+    }
+
+
+    /**
+     * Delete attr group
+     * @param $id
+     */
+    public function actionDelField($id)
+    {
+        ExtProductFields::model()->deleteByPk($id);
+
+        if(Yii::app()->request->isAjaxRequest)
+        {
+            echo "OK";
+            Yii::app()->end();
+        }
+        else
+        {
+            $this->redirect(Yii::app()->createUrl('admin/products/fields'));
+        }
+    }
+
+
+
 }

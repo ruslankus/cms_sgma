@@ -52,7 +52,7 @@
     </div><!--/pagination-->
 
     <?php $params['page'] = CPaginator::getInstance()->getCurrentPage(); ?>
-    <input type="hidden" id="ajax-refresh-link" value="<?php echo Yii::app()->createUrl('admin/products/fields',array('page' => $params)); ?>">
-    <input type="hidden" id="ajax-swap-link" value="<?php echo Yii::app()->createUrl('/admin/products/ajaxorderfields'); ?>">
+    <input type="hidden" id="ajax-refresh-link" value="<?php echo Yii::app()->createUrl('admin/products/fields',$params); ?>">
+    <input type="hidden" id="ajax-swap-link" value="<?php echo Yii::app()->createUrl('admin/products/ajaxorderfields'); ?>">
 
 </main>
