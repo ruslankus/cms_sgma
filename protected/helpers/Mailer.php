@@ -11,7 +11,7 @@ class Mailer {
 */
 	public static function sendMail($params)
 	{
-		
+		$arrSettings = ExtSettings::model()->getSettings();
 		$mail = new PHPMailer;
 /*
 		$mail->SMTPAuth   = true;                  // enable SMTP authentication
@@ -21,6 +21,15 @@ class Mailer {
 		$mail->Password   = "yourpassword";        // SMTP account password
 
 */
+		if($arrSettings['smtp_enable'])
+		{
+			$mail->SMTPAuth   = true;                  
+			$mail->Host       = $arrSettings['smtp_host']; 
+			$mail->Port       = $arrSettings['smtp_port'];                    
+			$mail->Username   = $arrSettings['smtp_username']; 
+			$mail->Password   = $arrSettings['smtp_password'];        
+		}
+
 		//$mail->AddReplyTo($to,"Reply toto");
 		 
 		$mail->SetFrom('cms@cms.com', 'ContactForm');
