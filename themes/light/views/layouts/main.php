@@ -10,8 +10,12 @@
 </head>
 
 <body>
-LIGHT LAYOUT
+DARK LAYOUT
+<?php echo DynamicWidgets::get('Left'); ?>
+<?php echo DynamicWidgets::get('Top'); ?>
+
 <?php echo $content; ?>
+
 </body>
 
 </html>
