@@ -18,7 +18,29 @@ class SettingsController extends ControllerAdmin
 
             Yii::app()->user->setFlash('reset', ATrl::t()->getLabel('Widgets reset reset!'));
 
+            // menu reset templates
+
+            Menu::model()->updateAll(array('template_name'=>'default.php'));
+
+             // widgets reset by type templates
+
+            SystemWidget::model()->updateAll(array('template_name'=>'default_search.php'),'type_id = 1');
+            SystemWidget::model()->updateAll(array('template_name'=>'default_login.php'),'type_id = 2');
+            SystemWidget::model()->updateAll(array('template_name'=>'default_calendar.php'),'type_id = 3');
+            SystemWidget::model()->updateAll(array('template_name'=>'default_languages.php'),'type_id = 4');
+            SystemWidget::model()->updateAll(array('template_name'=>'default_cart.php'),'type_id = 5');
+            SystemWidget::model()->updateAll(array('template_name'=>'default_custom.php'),'type_id = 6');
+
+            // page reset templates
+
+            Page::model()->updateAll(array('template_name'=>'default.php'));
         }
+
+            // pages contacts reset templates
+
+            Contacts::model()->updateAll(array('template_name'=>'default.php'));
+
+
         if($_POST['save'])
         {
             if($objSet->setting != $_POST['radio']) // if no change theme
