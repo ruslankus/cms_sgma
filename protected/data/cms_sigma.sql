@@ -10,7 +10,7 @@ Target Server Type    : MYSQL
 Target Server Version : 50538
 File Encoding         : 65001
 
-Date: 2015-04-09 17:00:24
+Date: 2015-04-09 17:07:49
 */
 
 SET FOREIGN_KEY_CHECKS=0;
@@ -119,15 +119,15 @@ DROP TABLE IF EXISTS `contacts_block_trl`;
 CREATE TABLE `contacts_block_trl` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
   `lng_id` int(11) DEFAULT NULL,
-  `contacts_id` int(11) DEFAULT NULL,
+  `block_id` int(11) DEFAULT NULL,
   `text` text,
   `title` text,
   `meta_description` text,
   `email` text,
   PRIMARY KEY (`id`),
-  KEY `contacts_id` (`contacts_id`),
   KEY `lng_id` (`lng_id`),
-  CONSTRAINT `contacts_block_trl_ibfk_1` FOREIGN KEY (`contacts_id`) REFERENCES `contacts_block` (`id`) ON DELETE CASCADE ON UPDATE NO ACTION,
+  KEY `block_id` (`block_id`),
+  CONSTRAINT `contacts_block_trl_ibfk_3` FOREIGN KEY (`block_id`) REFERENCES `contacts_block` (`id`) ON DELETE CASCADE ON UPDATE NO ACTION,
   CONSTRAINT `contacts_block_trl_ibfk_2` FOREIGN KEY (`lng_id`) REFERENCES `languages` (`id`) ON DELETE CASCADE ON UPDATE NO ACTION
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
@@ -199,17 +199,17 @@ CREATE TABLE `contacts_page` (
 DROP TABLE IF EXISTS `contacts_page_trl`;
 CREATE TABLE `contacts_page_trl` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
-  `group_id` int(11) DEFAULT NULL,
+  `page_id` int(11) DEFAULT NULL,
   `lng_id` int(11) DEFAULT NULL,
   `title` varchar(512) DEFAULT NULL,
   `description` text,
   `meta_keywords` varchar(256) DEFAULT NULL,
   `meta_description` varchar(256) DEFAULT NULL,
   PRIMARY KEY (`id`),
-  KEY `contacts_group_trl_ibfk_1` (`group_id`),
   KEY `lng_id` (`lng_id`),
-  CONSTRAINT `contacts_page_trl_ibfk_2` FOREIGN KEY (`lng_id`) REFERENCES `languages` (`id`) ON DELETE CASCADE ON UPDATE NO ACTION,
-  CONSTRAINT `contacts_page_trl_ibfk_1` FOREIGN KEY (`group_id`) REFERENCES `contacts_page` (`id`) ON DELETE CASCADE ON UPDATE NO ACTION
+  KEY `page_id` (`page_id`),
+  CONSTRAINT `contacts_page_trl_ibfk_3` FOREIGN KEY (`page_id`) REFERENCES `contacts_page` (`id`) ON DELETE CASCADE ON UPDATE NO ACTION,
+  CONSTRAINT `contacts_page_trl_ibfk_2` FOREIGN KEY (`lng_id`) REFERENCES `languages` (`id`) ON DELETE CASCADE ON UPDATE NO ACTION
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 -- ----------------------------

@@ -59,7 +59,7 @@ class ContactsBlock extends CActiveRecord
 		// class name for the relations automatically generated below.
 		return array(
 			'page' => array(self::BELONGS_TO, 'ContactsPage', 'page_id'),
-			'contactsBlockTrls' => array(self::HAS_MANY, 'ContactsBlockTrl', 'contacts_id'),
+			'contactsBlockTrls' => array(self::HAS_MANY, 'ContactsBlockTrl', 'block_id'),
 			'contactsFields' => array(self::HAS_MANY, 'ContactsFields', 'contacts_id'),
 			'imagesOfContacts' => array(self::HAS_MANY, 'ImagesOfContacts', 'contacts_id'),
 		);

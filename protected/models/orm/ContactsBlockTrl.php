@@ -6,14 +6,14 @@
  * The followings are the available columns in table 'contacts_block_trl':
  * @property integer $id
  * @property integer $lng_id
- * @property integer $contacts_id
+ * @property integer $block_id
  * @property string $text
  * @property string $title
  * @property string $meta_description
  * @property string $email
  *
  * The followings are the available model relations:
- * @property ContactsBlock $contacts
+ * @property ContactsBlock $block
  * @property Languages $lng
  */
 class ContactsBlockTrl extends CActiveRecord
@@ -34,11 +34,11 @@ class ContactsBlockTrl extends CActiveRecord
 		// NOTE: you should only define rules for those attributes that
 		// will receive user inputs.
 		return array(
-			array('lng_id, contacts_id', 'numerical', 'integerOnly'=>true),
+			array('lng_id, block_id', 'numerical', 'integerOnly'=>true),
 			array('text, title, meta_description, email', 'safe'),
 			// The following rule is used by search().
 			// @todo Please remove those attributes that should not be searched.
-			array('id, lng_id, contacts_id, text, title, meta_description, email', 'safe', 'on'=>'search'),
+			array('id, lng_id, block_id, text, title, meta_description, email', 'safe', 'on'=>'search'),
 		);
 	}
 
@@ -50,7 +50,7 @@ class ContactsBlockTrl extends CActiveRecord
 		// NOTE: you may need to adjust the relation name and the related
 		// class name for the relations automatically generated below.
 		return array(
-			'contacts' => array(self::BELONGS_TO, 'ContactsBlock', 'contacts_id'),
+			'block' => array(self::BELONGS_TO, 'ContactsBlock', 'block_id'),
 			'lng' => array(self::BELONGS_TO, 'Languages', 'lng_id'),
 		);
 	}
@@ -63,7 +63,7 @@ class ContactsBlockTrl extends CActiveRecord
 		return array(
 			'id' => 'ID',
 			'lng_id' => 'Lng',
-			'contacts_id' => 'Contacts',
+			'block_id' => 'Block',
 			'text' => 'Text',
 			'title' => 'Title',
 			'meta_description' => 'Meta Description',
@@ -91,7 +91,7 @@ class ContactsBlockTrl extends CActiveRecord
 
 		$criteria->compare('id',$this->id);
 		$criteria->compare('lng_id',$this->lng_id);
-		$criteria->compare('contacts_id',$this->contacts_id);
+		$criteria->compare('block_id',$this->block_id);
 		$criteria->compare('text',$this->text,true);
 		$criteria->compare('title',$this->title,true);
 		$criteria->compare('meta_description',$this->meta_description,true);

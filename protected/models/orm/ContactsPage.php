@@ -50,8 +50,8 @@ class ContactsPage extends CActiveRecord
 		// NOTE: you may need to adjust the relation name and the related
 		// class name for the relations automatically generated below.
 		return array(
-			'contactsBlocks' => array(self::HAS_MANY, 'ContactsBlock', 'group_id'),
-			'contactsPageTrls' => array(self::HAS_MANY, 'ContactsPageTrl', 'group_id'),
+			'contactsBlocks' => array(self::HAS_MANY, 'ContactsBlock', 'page_id'),
+			'contactsPageTrls' => array(self::HAS_MANY, 'ContactsPageTrl', 'page_id'),
 		);
 	}
 

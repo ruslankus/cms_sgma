@@ -9,7 +9,7 @@
  * @property integer $label
  *
  * The followings are the available model relations:
- * @property Contacts $contacts
+ * @property ContactsBlock $contacts
  * @property ContactsFieldsTrl[] $contactsFieldsTrls
  */
 class ContactsFields extends CActiveRecord
@@ -45,7 +45,7 @@ class ContactsFields extends CActiveRecord
 		// NOTE: you may need to adjust the relation name and the related
 		// class name for the relations automatically generated below.
 		return array(
-			'contacts' => array(self::BELONGS_TO, 'Contacts', 'contacts_id'),
+			'contacts' => array(self::BELONGS_TO, 'ContactsBlock', 'contacts_id'),
 			'contactsFieldsTrls' => array(self::HAS_MANY, 'ContactsFieldsTrl', 'contacts_field_id'),
 		);
 	}

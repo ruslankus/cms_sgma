@@ -5,7 +5,7 @@
  *
  * The followings are the available columns in table 'contacts_page_trl':
  * @property integer $id
- * @property integer $group_id
+ * @property integer $page_id
  * @property integer $lng_id
  * @property string $title
  * @property string $description
@@ -13,8 +13,8 @@
  * @property string $meta_description
  *
  * The followings are the available model relations:
+ * @property ContactsPage $page
  * @property Languages $lng
- * @property ContactsPage $group
  */
 class ContactsPageTrl extends CActiveRecord
 {
@@ -34,13 +34,13 @@ class ContactsPageTrl extends CActiveRecord
 		// NOTE: you should only define rules for those attributes that
 		// will receive user inputs.
 		return array(
-			array('group_id, lng_id', 'numerical', 'integerOnly'=>true),
+			array('page_id, lng_id', 'numerical', 'integerOnly'=>true),
 			array('title', 'length', 'max'=>512),
 			array('meta_keywords, meta_description', 'length', 'max'=>256),
 			array('description', 'safe'),
 			// The following rule is used by search().
 			// @todo Please remove those attributes that should not be searched.
-			array('id, group_id, lng_id, title, description, meta_keywords, meta_description', 'safe', 'on'=>'search'),
+			array('id, page_id, lng_id, title, description, meta_keywords, meta_description', 'safe', 'on'=>'search'),
 		);
 	}
 
@@ -52,8 +52,8 @@ class ContactsPageTrl extends CActiveRecord
 		// NOTE: you may need to adjust the relation name and the related
 		// class name for the relations automatically generated below.
 		return array(
+			'page' => array(self::BELONGS_TO, 'ContactsPage', 'page_id'),
 			'lng' => array(self::BELONGS_TO, 'Languages', 'lng_id'),
-			'group' => array(self::BELONGS_TO, 'ContactsPage', 'group_id'),
 		);
 	}
 
@@ -64,7 +64,7 @@ class ContactsPageTrl extends CActiveRecord
 	{
 		return array(
 			'id' => 'ID',
-			'group_id' => 'Group',
+			'page_id' => 'Page',
 			'lng_id' => 'Lng',
 			'title' => 'Title',
 			'description' => 'Description',
@@ -92,7 +92,7 @@ class ContactsPageTrl extends CActiveRecord
 		$criteria=new CDbCriteria;
 
 		$criteria->compare('id',$this->id);
-		$criteria->compare('group_id',$this->group_id);
+		$criteria->compare('page_id',$this->page_id);
 		$criteria->compare('lng_id',$this->lng_id);
 		$criteria->compare('title',$this->title,true);
 		$criteria->compare('description',$this->description,true);
