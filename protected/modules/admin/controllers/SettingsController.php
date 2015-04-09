@@ -34,12 +34,11 @@ class SettingsController extends ControllerAdmin
             // page reset templates
 
             Page::model()->updateAll(array('template_name'=>'default.php'));
-        }
+ 
 
             // pages contacts reset templates
 
-            Contacts::model()->updateAll(array('template_name'=>'default.php'));
-
+           // Contacts::model()->updateAll(array('template_name'=>'default.php'));
 
             // news contacts reset templates
 
@@ -48,6 +47,8 @@ class SettingsController extends ControllerAdmin
             // news categories contacts reset templates
 
             NewsCategory::model()->updateAll(array('template_name'=>'default.php'));
+            
+        }
 
         if($_POST['save'])
         {
@@ -57,6 +58,7 @@ class SettingsController extends ControllerAdmin
                 $objSet->update();
             }
         }
+    
         $active_theme = $objSet->setting;
         $dir = "themes";
         $themes = glob("themes/*", GLOB_ONLYDIR);
@@ -75,6 +77,7 @@ class SettingsController extends ControllerAdmin
             }
         endforeach;
         $this->render('main',array('arrData' => $arrData, 'prefix'=>$lang_prefix));
+
     }
     
     /*
