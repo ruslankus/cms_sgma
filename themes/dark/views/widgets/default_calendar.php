@@ -1,0 +1,1 @@
+<p>Calendar template</p>
