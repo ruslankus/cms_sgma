@@ -1,10 +1,9 @@
 <?php
 /**
- * Class ExtContactsFields
- * @property ExtContacts $contacts
- * @property ContactsFieldsTrl $trl
+ * Class ExtContactsGroup
+ * @property ExtContacts[] $contacts
  */
-class ExtContactsFields extends ContactsFields
+class ExtContactsGroup extends ContactsGroup
 {
     /**
      * @param string $className
@@ -33,10 +32,6 @@ class ExtContactsFields extends ContactsFields
                 $relations[$name][1] = 'Ext'.$relation[1];
             }
         }
-
-        //relate with translation
-        $lng = Yii::app()->language;
-        $relations['trl'] = array(self::HAS_ONE, 'ContactsFieldsTrl', 'contacts_field_id', 'with' => array('lng' => array('condition' => "lng.prefix='{$lng}'")));
 
         //return modified relations
         return $relations;

@@ -655,6 +655,7 @@ class ProductsController extends ControllerAdmin
         //include menu necessary scripts
         Yii::app()->clientScript->registerScriptFile($this->assetsPath.'/js/vendor.add-menu.js',CClientScript::POS_END);
         Yii::app()->clientScript->registerScriptFile($this->assetsPath.'/js/menu.edititem.js',CClientScript::POS_END);
+        Yii::app()->clientScript->registerScriptFile($this->assetsPath.'/js/vendor.add-field.js',CClientScript::POS_END);
 
         //exclude jquery to avoid conflict between jquery from Yii core
         Yii::app()->clientScript->scriptMap=array('jquery-1.11.2.min.js' => false);

@@ -1,34 +1,30 @@
 <?php
 
 /**
- * This is the model class for table "contacts".
+ * This is the model class for table "contacts_group".
  *
- * The followings are the available columns in table 'contacts':
+ * The followings are the available columns in table 'contacts_group':
  * @property integer $id
- * @property integer $group_id
- * @property string $label
- * @property string $template_name
- * @property string $map_url
- * @property string $map_code
- * @property integer $priprity
- * @property integer $time_updated
+ * @property integer $label
+ * @property integer $status_id
+ * @property integer $priority
  * @property integer $time_created
+ * @property integer $time_updated
  * @property integer $last_change_by
+ * @property integer $template_name
  *
  * The followings are the available model relations:
- * @property ContactsGroup $group
- * @property ContactsFields[] $contactsFields
- * @property ContactsTrl[] $contactsTrls
- * @property ImagesOfContacts[] $imagesOfContacts
+ * @property Contacts[] $contacts
+ * @property ContactsGroupTrl[] $contactsGroupTrls
  */
-class Contacts extends CActiveRecord
+class ContactsGroup extends CActiveRecord
 {
 	/**
 	 * @return string the associated database table name
 	 */
 	public function tableName()
 	{
-		return 'contacts';
+		return 'contacts_group';
 	}
 
 	/**
@@ -39,14 +35,10 @@ class Contacts extends CActiveRecord
 		// NOTE: you should only define rules for those attributes that
 		// will receive user inputs.
 		return array(
-			array('group_id, priprity, time_updated, time_created, last_change_by', 'numerical', 'integerOnly'=>true),
-			array('label', 'length', 'max'=>128),
-			array('template_name', 'length', 'max'=>256),
-			array('map_url', 'length', 'max'=>1024),
-			array('map_code', 'safe'),
+			array('label, status_id, priority, time_created, time_updated, last_change_by, template_name', 'numerical', 'integerOnly'=>true),
 			// The following rule is used by search().
 			// @todo Please remove those attributes that should not be searched.
-			array('id, group_id, label, template_name, map_url, map_code, priprity, time_updated, time_created, last_change_by', 'safe', 'on'=>'search'),
+			array('id, label, status_id, priority, time_created, time_updated, last_change_by, template_name', 'safe', 'on'=>'search'),
 		);
 	}
 
@@ -58,10 +50,8 @@ class Contacts extends CActiveRecord
 		// NOTE: you may need to adjust the relation name and the related
 		// class name for the relations automatically generated below.
 		return array(
-			'group' => array(self::BELONGS_TO, 'ContactsGroup', 'group_id'),
-			'contactsFields' => array(self::HAS_MANY, 'ContactsFields', 'contacts_id'),
-			'contactsTrls' => array(self::HAS_MANY, 'ContactsTrl', 'contacts_id'),
-			'imagesOfContacts' => array(self::HAS_MANY, 'ImagesOfContacts', 'contacts_id'),
+			'contacts' => array(self::HAS_MANY, 'Contacts', 'group_id'),
+			'contactsGroupTrls' => array(self::HAS_MANY, 'ContactsGroupTrl', 'group_id'),
 		);
 	}
 
@@ -72,15 +62,13 @@ class Contacts extends CActiveRecord
 	{
 		return array(
 			'id' => 'ID',
-			'group_id' => 'Group',
 			'label' => 'Label',
-			'template_name' => 'Template Name',
-			'map_url' => 'Map Url',
-			'map_code' => 'Map Code',
-			'priprity' => 'Priprity',
-			'time_updated' => 'Time Updated',
+			'status_id' => 'Status',
+			'priority' => 'Priority',
 			'time_created' => 'Time Created',
+			'time_updated' => 'Time Updated',
 			'last_change_by' => 'Last Change By',
+			'template_name' => 'Template Name',
 		);
 	}
 
@@ -103,15 +91,13 @@ class Contacts extends CActiveRecord
 		$criteria=new CDbCriteria;
 
 		$criteria->compare('id',$this->id);
-		$criteria->compare('group_id',$this->group_id);
-		$criteria->compare('label',$this->label,true);
-		$criteria->compare('template_name',$this->template_name,true);
-		$criteria->compare('map_url',$this->map_url,true);
-		$criteria->compare('map_code',$this->map_code,true);
-		$criteria->compare('priprity',$this->priprity);
-		$criteria->compare('time_updated',$this->time_updated);
+		$criteria->compare('label',$this->label);
+		$criteria->compare('status_id',$this->status_id);
+		$criteria->compare('priority',$this->priority);
 		$criteria->compare('time_created',$this->time_created);
+		$criteria->compare('time_updated',$this->time_updated);
 		$criteria->compare('last_change_by',$this->last_change_by);
+		$criteria->compare('template_name',$this->template_name);
 
 		return new CActiveDataProvider($this, array(
 			'criteria'=>$criteria,
@@ -122,7 +108,7 @@ class Contacts extends CActiveRecord
 	 * Returns the static model of the specified AR class.
 	 * Please note that you should have this exact method in all your CActiveRecord descendants!
 	 * @param string $className active record class name.
-	 * @return Contacts the static model class
+	 * @return ContactsGroup the static model class
 	 */
 	public static function model($className=__CLASS__)
 	{

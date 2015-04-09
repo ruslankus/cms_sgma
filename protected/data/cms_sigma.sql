@@ -10,7 +10,7 @@ Target Server Type    : MYSQL
 Target Server Version : 50538
 File Encoding         : 65001
 
-Date: 2015-04-09 11:24:17
+Date: 2015-04-09 14:06:02
 */
 
 SET FOREIGN_KEY_CHECKS=0;
@@ -94,11 +94,18 @@ INSERT INTO `available` VALUES ('12', '6', '2');
 DROP TABLE IF EXISTS `contacts`;
 CREATE TABLE `contacts` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
+  `group_id` int(11) DEFAULT NULL,
   `label` varchar(128) DEFAULT NULL,
   `template_name` varchar(256) DEFAULT NULL,
   `map_url` varchar(1024) DEFAULT NULL,
   `map_code` text,
-  PRIMARY KEY (`id`)
+  `priprity` int(11) DEFAULT NULL,
+  `time_updated` int(11) DEFAULT NULL,
+  `time_created` int(11) DEFAULT NULL,
+  `last_change_by` int(11) DEFAULT NULL,
+  PRIMARY KEY (`id`),
+  KEY `group_id` (`group_id`),
+  CONSTRAINT `contacts_ibfk_1` FOREIGN KEY (`group_id`) REFERENCES `contacts_group` (`id`) ON DELETE CASCADE ON UPDATE NO ACTION
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 -- ----------------------------
@@ -141,6 +148,49 @@ CREATE TABLE `contacts_fields_trl` (
 
 -- ----------------------------
 -- Records of contacts_fields_trl
+-- ----------------------------
+
+-- ----------------------------
+-- Table structure for `contacts_group`
+-- ----------------------------
+DROP TABLE IF EXISTS `contacts_group`;
+CREATE TABLE `contacts_group` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `label` int(11) DEFAULT NULL,
+  `status_id` int(11) DEFAULT NULL,
+  `priority` int(11) DEFAULT NULL,
+  `time_created` int(11) DEFAULT NULL,
+  `time_updated` int(11) DEFAULT NULL,
+  `last_change_by` int(11) DEFAULT NULL,
+  `template_name` int(11) DEFAULT NULL,
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+-- ----------------------------
+-- Records of contacts_group
+-- ----------------------------
+
+-- ----------------------------
+-- Table structure for `contacts_group_trl`
+-- ----------------------------
+DROP TABLE IF EXISTS `contacts_group_trl`;
+CREATE TABLE `contacts_group_trl` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `group_id` int(11) DEFAULT NULL,
+  `lng_id` int(11) DEFAULT NULL,
+  `title` varchar(512) DEFAULT NULL,
+  `description` text,
+  `meta_keywords` varchar(256) DEFAULT NULL,
+  `meta_description` varchar(256) DEFAULT NULL,
+  PRIMARY KEY (`id`),
+  KEY `contacts_group_trl_ibfk_1` (`group_id`),
+  KEY `lng_id` (`lng_id`),
+  CONSTRAINT `contacts_group_trl_ibfk_2` FOREIGN KEY (`lng_id`) REFERENCES `languages` (`id`) ON DELETE CASCADE ON UPDATE NO ACTION,
+  CONSTRAINT `contacts_group_trl_ibfk_1` FOREIGN KEY (`group_id`) REFERENCES `contacts_group` (`id`) ON DELETE CASCADE ON UPDATE NO ACTION
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+-- ----------------------------
+-- Records of contacts_group_trl
 -- ----------------------------
 
 -- ----------------------------

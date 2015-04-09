@@ -68,7 +68,7 @@
                 <table>
                     <tr>
                         <td class="label"><?php echo $form->labelEx($form_mdl,'group_id'); ?></td>
-                        <td class="value"><?php echo $form->dropDownList($form_mdl,'group_id',$groups); ?></td>
+                        <td class="value"><?php echo $form->dropDownList($form_mdl,'group_id',$groups,array('options' => array($group => array('selected' => true)))); ?></td>
                     </tr>
                     <tr>
                         <td class="label"><?php echo $form->labelEx($form_mdl,'field_name'); ?></td>
@@ -79,8 +79,14 @@
                         <td class="value"><?php echo $form->dropDownList($form_mdl,'type_id',$types); ?></td>
                     </tr>
                     <tr class="loadable">
-                        <td class="label"><?php echo ATrl::t()->getLabel('Variants'); ?></td>
-                        <td class="value">Something here</td>
+                        <td class="label" style="vertical-align: top"><?php echo ATrl::t()->getLabel('Variants'); ?></td>
+                        <td class="value">
+                            <div class="input-block" style="margin-bottom: 5px;">
+                                <input style="width: 120px;" name="AttrFieldForm[option_name][0]" type="text">
+                                <input style="width: 120px;" name="AttrFieldForm[option_value][0]" type="text">
+                            </div>
+                            <input data-oname="AttrFieldForm[option_name]" data-oval="AttrFieldForm[option_value]" class="add-select-option-button" style="min-width: 50px;" type="submit" value="+">
+                        </td>
                     </tr>
                     <tr>
                         <td class="label">&nbsp;</td>
