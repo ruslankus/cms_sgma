@@ -73,7 +73,7 @@ class AdminModule extends CWebModule
         ),
         array(
             'controller' => 'settings',
-            'action' => 'registration',
+            'action' => 'index',
             'icon' => '',
             'html_class' => 'settings',
             'title' => 'Settings',

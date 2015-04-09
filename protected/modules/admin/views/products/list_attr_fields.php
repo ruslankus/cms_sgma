@@ -26,7 +26,7 @@
     <div class="title-bar">
         <h1><?php echo ATrl::t()->getLabel('Attribute fields'); ?></h1>
         <ul class="actions">
-            <li><a href="<?php echo Yii::app()->createUrl('/admin/products/addfield'); ?>" class="action add"></a></li>
+            <li><a href="<?php echo Yii::app()->createUrl('/admin/products/addfield',$params); ?>" class="action add"></a></li>
         </ul>
     </div><!--/title-bar-->
 

@@ -662,7 +662,7 @@ class ProductsController extends ControllerAdmin
         //all languages
         $objLanguages = SiteLng::lng()->getLngs();
         //statuses
-        $arrTypes = ExtMenuItemType::model()->arrayForMenuItemForm(true);
+        $arrTypes = ExtProductFieldTypes::model()->arrayForMenuItemForm(true);
         //parents
         $arrGroupItems = ExtProductFieldGroups::model()->arrayForMenuItemForm();
 
@@ -684,10 +684,22 @@ class ProductsController extends ControllerAdmin
         }
         else
         {
+            if(isset($_POST['AttrFieldForm']))
+            {
+                Debug::out($_POST);
+                exit();
+            }
             //TODO: processing post request
         }
 
-        $this->render('add_field',array());
+        //render form
+        $this->render('add_attribute_field',array(
+            'languages' => $objLanguages,
+            'types' => $arrTypes,
+            'groups' => $arrGroupItems,
+            'group' => $group,
+            'form_mdl' => $form_mdl
+        ));
     }
 
 }

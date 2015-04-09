@@ -9,6 +9,7 @@
  * @property string $prefix
  * @property string $icon
  * @property integer $active
+ * @property integer $priority
  *
  * The followings are the available model relations:
  * @property ContactsFieldsTrl[] $contactsFieldsTrls
@@ -23,6 +24,7 @@
  * @property ProductCategoryTrl[] $productCategoryTrls
  * @property ProductFieldGroupsTrl[] $productFieldGroupsTrls
  * @property ProductFieldValuesTrl[] $productFieldValuesTrls
+ * @property ProductFieldsTrl[] $productFieldsTrls
  * @property ProductTrl[] $productTrls
  * @property SystemWidgetTrl[] $systemWidgetTrls
  */
@@ -44,13 +46,13 @@ class Languages extends CActiveRecord
 		// NOTE: you should only define rules for those attributes that
 		// will receive user inputs.
 		return array(
-			array('active', 'numerical', 'integerOnly'=>true),
+			array('active, priority', 'numerical', 'integerOnly'=>true),
 			array('name', 'length', 'max'=>64),
 			array('prefix', 'length', 'max'=>16),
 			array('icon', 'length', 'max'=>128),
 			// The following rule is used by search().
 			// @todo Please remove those attributes that should not be searched.
-			array('id, name, prefix, icon, active', 'safe', 'on'=>'search'),
+			array('id, name, prefix, icon, active, priority', 'safe', 'on'=>'search'),
 		);
 	}
 
@@ -74,6 +76,7 @@ class Languages extends CActiveRecord
 			'productCategoryTrls' => array(self::HAS_MANY, 'ProductCategoryTrl', 'lng_id'),
 			'productFieldGroupsTrls' => array(self::HAS_MANY, 'ProductFieldGroupsTrl', 'lng_id'),
 			'productFieldValuesTrls' => array(self::HAS_MANY, 'ProductFieldValuesTrl', 'lng_id'),
+			'productFieldsTrls' => array(self::HAS_MANY, 'ProductFieldsTrl', 'lng_id'),
 			'productTrls' => array(self::HAS_MANY, 'ProductTrl', 'lng_id'),
 			'systemWidgetTrls' => array(self::HAS_MANY, 'SystemWidgetTrl', 'lng_id'),
 		);
@@ -90,6 +93,7 @@ class Languages extends CActiveRecord
 			'prefix' => 'Prefix',
 			'icon' => 'Icon',
 			'active' => 'Active',
+			'priority' => 'Priority',
 		);
 	}
 
@@ -116,6 +120,7 @@ class Languages extends CActiveRecord
 		$criteria->compare('prefix',$this->prefix,true);
 		$criteria->compare('icon',$this->icon,true);
 		$criteria->compare('active',$this->active);
+		$criteria->compare('priority',$this->priority);
 
 		return new CActiveDataProvider($this, array(
 			'criteria'=>$criteria,

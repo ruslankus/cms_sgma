@@ -5,6 +5,7 @@
  * @property ExtProductFieldValues[] $productFieldValues
  * @property ExtProductFieldTypes $type
  * @property ExtProductFieldGroups $group
+ * @property ProductFieldsTrl $trl
  */
 class ExtProductFields extends ProductFields
 {
@@ -36,6 +37,10 @@ class ExtProductFields extends ProductFields
                 $relations[$name][1] = 'Ext'.$relation[1];
             }
         }
+
+        //relate with translation
+        $lng = Yii::app()->language;
+        $relations['trl'] = array(self::HAS_ONE, 'ProductFieldsTrl', 'product_field_id', 'with' => array('lng' => array('condition' => "lng.prefix='{$lng}'")));
 
         //return modified relations
         return $relations;

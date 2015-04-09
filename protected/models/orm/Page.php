@@ -11,9 +11,11 @@
  * @property integer $time_created
  * @property integer $time_update
  * @property integer $last_change_by
+ * @property string $template_name
  *
  * The followings are the available model relations:
  * @property ImagesOfPage[] $imagesOfPages
+ * @property Status $status
  * @property PageTrl[] $pageTrls
  */
 class Page extends CActiveRecord
@@ -36,9 +38,10 @@ class Page extends CActiveRecord
 		return array(
 			array('status_id, priority, time_created, time_update, last_change_by', 'numerical', 'integerOnly'=>true),
 			array('label', 'length', 'max'=>128),
+			array('template_name', 'length', 'max'=>256),
 			// The following rule is used by search().
 			// @todo Please remove those attributes that should not be searched.
-			array('id, label, status_id, priority, time_created, time_update, last_change_by', 'safe', 'on'=>'search'),
+			array('id, label, status_id, priority, time_created, time_update, last_change_by, template_name', 'safe', 'on'=>'search'),
 		);
 	}
 
@@ -51,6 +54,7 @@ class Page extends CActiveRecord
 		// class name for the relations automatically generated below.
 		return array(
 			'imagesOfPages' => array(self::HAS_MANY, 'ImagesOfPage', 'page_id'),
+			'status' => array(self::BELONGS_TO, 'Status', 'status_id'),
 			'pageTrls' => array(self::HAS_MANY, 'PageTrl', 'page_id'),
 		);
 	}
@@ -68,6 +72,7 @@ class Page extends CActiveRecord
 			'time_created' => 'Time Created',
 			'time_update' => 'Time Update',
 			'last_change_by' => 'Last Change By',
+			'template_name' => 'Template Name',
 		);
 	}
 
@@ -96,6 +101,7 @@ class Page extends CActiveRecord
 		$criteria->compare('time_created',$this->time_created);
 		$criteria->compare('time_update',$this->time_update);
 		$criteria->compare('last_change_by',$this->last_change_by);
+		$criteria->compare('template_name',$this->template_name,true);
 
 		return new CActiveDataProvider($this, array(
 			'criteria'=>$criteria,

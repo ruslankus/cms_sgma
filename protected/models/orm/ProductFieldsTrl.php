@@ -1,28 +1,27 @@
 <?php
 
 /**
- * This is the model class for table "contacts".
+ * This is the model class for table "product_fields_trl".
  *
- * The followings are the available columns in table 'contacts':
+ * The followings are the available columns in table 'product_fields_trl':
  * @property integer $id
- * @property string $label
- * @property string $template_name
- * @property string $map_url
- * @property string $map_code
+ * @property integer $product_field_id
+ * @property integer $lng_id
+ * @property integer $field_description
+ * @property integer $field_title
  *
  * The followings are the available model relations:
- * @property ContactsFields[] $contactsFields
- * @property ContactsTrl[] $contactsTrls
- * @property ImagesOfContacts[] $imagesOfContacts
+ * @property Languages $lng
+ * @property ProductFields $productField
  */
-class Contacts extends CActiveRecord
+class ProductFieldsTrl extends CActiveRecord
 {
 	/**
 	 * @return string the associated database table name
 	 */
 	public function tableName()
 	{
-		return 'contacts';
+		return 'product_fields_trl';
 	}
 
 	/**
@@ -33,13 +32,10 @@ class Contacts extends CActiveRecord
 		// NOTE: you should only define rules for those attributes that
 		// will receive user inputs.
 		return array(
-			array('label', 'length', 'max'=>128),
-			array('template_name', 'length', 'max'=>256),
-			array('map_url', 'length', 'max'=>1024),
-			array('map_code', 'safe'),
+			array('product_field_id, lng_id, field_description, field_title', 'numerical', 'integerOnly'=>true),
 			// The following rule is used by search().
 			// @todo Please remove those attributes that should not be searched.
-			array('id, label, template_name, map_url, map_code', 'safe', 'on'=>'search'),
+			array('id, product_field_id, lng_id, field_description, field_title', 'safe', 'on'=>'search'),
 		);
 	}
 
@@ -51,9 +47,8 @@ class Contacts extends CActiveRecord
 		// NOTE: you may need to adjust the relation name and the related
 		// class name for the relations automatically generated below.
 		return array(
-			'contactsFields' => array(self::HAS_MANY, 'ContactsFields', 'contacts_id'),
-			'contactsTrls' => array(self::HAS_MANY, 'ContactsTrl', 'contacts_id'),
-			'imagesOfContacts' => array(self::HAS_MANY, 'ImagesOfContacts', 'contacts_id'),
+			'lng' => array(self::BELONGS_TO, 'Languages', 'lng_id'),
+			'productField' => array(self::BELONGS_TO, 'ProductFields', 'product_field_id'),
 		);
 	}
 
@@ -64,10 +59,10 @@ class Contacts extends CActiveRecord
 	{
 		return array(
 			'id' => 'ID',
-			'label' => 'Label',
-			'template_name' => 'Template Name',
-			'map_url' => 'Map Url',
-			'map_code' => 'Map Code',
+			'product_field_id' => 'Product Field',
+			'lng_id' => 'Lng',
+			'field_description' => 'Field Description',
+			'field_title' => 'Field Title',
 		);
 	}
 
@@ -90,10 +85,10 @@ class Contacts extends CActiveRecord
 		$criteria=new CDbCriteria;
 
 		$criteria->compare('id',$this->id);
-		$criteria->compare('label',$this->label,true);
-		$criteria->compare('template_name',$this->template_name,true);
-		$criteria->compare('map_url',$this->map_url,true);
-		$criteria->compare('map_code',$this->map_code,true);
+		$criteria->compare('product_field_id',$this->product_field_id);
+		$criteria->compare('lng_id',$this->lng_id);
+		$criteria->compare('field_description',$this->field_description);
+		$criteria->compare('field_title',$this->field_title);
 
 		return new CActiveDataProvider($this, array(
 			'criteria'=>$criteria,
@@ -104,7 +99,7 @@ class Contacts extends CActiveRecord
 	 * Returns the static model of the specified AR class.
 	 * Please note that you should have this exact method in all your CActiveRecord descendants!
 	 * @param string $className active record class name.
-	 * @return Contacts the static model class
+	 * @return ProductFieldsTrl the static model class
 	 */
 	public static function model($className=__CLASS__)
 	{

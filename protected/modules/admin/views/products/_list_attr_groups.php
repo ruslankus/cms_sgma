@@ -7,7 +7,7 @@
         <div class="cell block">
             <div class="inner-table">
                 <div class="row root" data-id="<?php echo $item->id; ?>">
-                    <div class="name"><?php echo $item->label; ?></div>
+                    <div class="name"><a href="<?php echo Yii::app()->createUrl('admin/products/fields',array('group' => $item->id)); ?>"><?php echo $item->label; ?></a></div>
                     <div class="type">0</div>
                     <div class="action">
                         <a href="<?php echo Yii::app()->createUrl('admin/products/editattrgroup',array('id' => $item->id)); ?>" class="edit"><span class="ficoned pencil"></span></a>

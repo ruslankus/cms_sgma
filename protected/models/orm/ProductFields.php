@@ -18,6 +18,7 @@
  * @property ProductFieldValues[] $productFieldValues
  * @property ProductFieldGroups $group
  * @property ProductFieldTypes $type
+ * @property ProductFieldsTrl[] $productFieldsTrls
  */
 class ProductFields extends CActiveRecord
 {
@@ -57,6 +58,7 @@ class ProductFields extends CActiveRecord
 			'productFieldValues' => array(self::HAS_MANY, 'ProductFieldValues', 'field_id'),
 			'group' => array(self::BELONGS_TO, 'ProductFieldGroups', 'group_id'),
 			'type' => array(self::BELONGS_TO, 'ProductFieldTypes', 'type_id'),
+			'productFieldsTrls' => array(self::HAS_MANY, 'ProductFieldsTrl', 'product_field_id'),
 		);
 	}
 
