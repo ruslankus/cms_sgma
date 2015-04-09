@@ -648,6 +648,7 @@ class ProductsController extends ControllerAdmin
     }
 
     /**
+     * Add attribute-field
      * @param int $group
      */
     public function actionAddField($group = 0)
@@ -761,6 +762,148 @@ class ProductsController extends ControllerAdmin
             'groups' => $arrGroupItems,
             'group' => $group,
             'form_mdl' => $form_mdl
+        ));
+    }
+
+    /**
+     * Edit attribute-field
+     * @param $id
+     * @throws CHttpException
+     */
+    public function actionEditField($id)
+    {
+        //include menu necessary scripts
+        Yii::app()->clientScript->registerScriptFile($this->assetsPath.'/js/vendor.add-menu.js',CClientScript::POS_END);
+        Yii::app()->clientScript->registerScriptFile($this->assetsPath.'/js/menu.edititem.js',CClientScript::POS_END);
+        Yii::app()->clientScript->registerScriptFile($this->assetsPath.'/js/vendor.add-field.js',CClientScript::POS_END);
+
+        //exclude jquery to avoid conflict between jquery from Yii core
+        Yii::app()->clientScript->scriptMap=array('jquery-1.11.2.min.js' => false);
+
+        //field item
+        $field = ExtProductFields::model()->findByPk($id);
+
+        if(empty($field))
+        {
+            throw new CHttpException(404);
+        }
+
+        //all languages
+        $objLanguages = SiteLng::lng()->getLngs();
+        //statuses
+        $arrTypes = ExtProductFieldTypes::model()->arrayForMenuItemForm(true);
+        //parents
+        $arrGroupItems = ExtProductFieldGroups::model()->arrayForMenuItemForm();
+        //form
+        $form_mdl = new AttrFieldForm();
+
+        //ajax validation
+        if(Yii::app()->request->isAjaxRequest)
+        {
+            //if ajax validation
+            if(isset($_POST['ajax']))
+            {
+                if($_POST['ajax'] == 'edit-field-form')
+                {
+                    echo CActiveForm::validate($form_mdl);
+                }
+                Yii::app()->end();
+            }
+        }
+        else
+        {
+            if(isset($_POST['AttrFieldForm']))
+            {
+                $form_mdl->attributes = $_POST['AttrFieldForm'];
+
+                if($form_mdl->validate())
+                {
+                    //use transaction
+                    $con = Yii::app()->db;
+                    $transaction = $con->beginTransaction();
+
+                    try
+                    {
+                        //do we need recalculate priority
+                        $needChangePriority = $form_mdl->group_id != $field->group_id;
+
+                        //update field
+                        $field -> attributes = $form_mdl->attributes;
+
+                        if($needChangePriority)
+                        {
+                            $field -> priority = Sort::GetNextPriority("ProductFields",array('group_id' => $form_mdl->group_id));
+                        }
+
+                        $field -> time_updated = time();
+                        $field -> last_change_by = Yii::app()->user->id;
+                        $field -> update();
+
+                        //translatable
+                        $titles = $_POST['AttrFieldForm']['field_titles'];
+                        $descriptions = $_POST['AttrFieldForm']['field_descriptions'];
+
+
+                        //update translations
+                        foreach($titles as $lngId => $title)
+                        {
+                            $trl = $field->getOrCreateTrl($lngId);
+                            $trl -> field_title = $title;
+                            $trl -> field_description = $descriptions[$lngId];
+
+                            if($trl->isNewRecord)
+                            {
+                                $trl->save();
+                            }
+                            else
+                            {
+                                $trl->update();
+                            }
+                        }
+
+                        //clear all fields selectable variants
+                        ExtProductFieldSelectOptions::model()->deleteAllByAttributes(array('field_id' => $field->id));
+
+                        //add variants for select box
+                        if($field -> type_id = ExtProductFieldTypes::TYPE_SELECTABLE)
+                        {
+                            $variants_names = $_POST['AttrFieldForm']['variants']['option_name'];
+                            $variants_values = $_POST['AttrFieldForm']['variants']['option_value'];
+
+                            foreach($variants_names as $index => $variant_name)
+                            {
+                                if($variant_name != '' && $variants_values[$index] != '')
+                                {
+                                    $variantForSelectBox = new ExtProductFieldSelectOptions();
+                                    $variantForSelectBox -> field_id = $field->id;
+                                    $variantForSelectBox -> option_name = $variant_name;
+                                    $variantForSelectBox -> option_value = $variants_values[$index];
+                                    $variantForSelectBox -> save();
+                                }
+                            }
+                        }
+
+                        $transaction->commit();
+
+                        $this->redirect(Yii::app()->createUrl('admin/products/fields',array('group' => $field->group_id)));
+                    }
+                    catch(Exception $ex)
+                    {
+                        $transaction->rollback();
+                    }
+                }
+            }
+        }
+
+
+        //render form
+        $this->render('edit_attribute_field',array(
+            'languages' => $objLanguages,
+            'types' => $arrTypes,
+            'groups' => $arrGroupItems,
+            'group' => $field->group_id,
+            'form_mdl' => $form_mdl,
+            'field' => $field
         ));
     }
 

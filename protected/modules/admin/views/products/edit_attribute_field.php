@@ -5,6 +5,7 @@
 <?php /* @var $groups array */ ?>
 <?php /* @var $group int */ ?>
 <?php /* @var $types array */ ?>
+<?php /* @var $field ExtProductFields */ ?>
 
 <style>
     .text-input-in-form
@@ -58,18 +59,19 @@
         </div><!--/tab-line-->
 
         <div class="inner-content">
-            <?php $form=$this->beginWidget('CActiveForm', array('id' =>'add-field-form','enableAjaxValidation'=>true,'htmlOptions'=>array(),'clientOptions' => array('validateOnSubmit'=>true))); ?>
+            <?php $form=$this->beginWidget('CActiveForm', array('id' =>'edit-field-form','enableAjaxValidation'=>true,'htmlOptions'=>array(),'clientOptions' => array('validateOnSubmit'=>true))); ?>
                 <div class="tabs">
                     <?php foreach($languages as $index => $language): ?>
+                    <?php $trl = $field->getOrCreateTrl($language->id); ?>
                     <table data-tab="<?php echo $language->prefix; ?>" <?php if($index == 0): ?> class="active" <?php endif; ?>>
                         <tr>
                             <td class="label"><?php echo ATrl::t()->getLabel('Title'); ?> [<?php echo $language->prefix; ?>]:</td>
-                            <td class="value"><input type="text" name="AttrFieldForm[field_titles][<?php echo $language->id; ?>]" placeholder="<?php echo ATrl::t()->getLabel('Your name'); ?>" value="" /></td>
+                            <td class="value"><input type="text" name="AttrFieldForm[field_titles][<?php echo $language->id; ?>]" placeholder="<?php echo ATrl::t()->getLabel('Your name'); ?>" value="<?php echo $trl->field_title; ?>" /></td>
                         </tr>
                         <tr>
                             <td class="label"><?php echo ATrl::t()->getLabel('Description'); ?> [<?php echo $language->prefix; ?>]:</td>
                             <td class="value">
-                                <textarea class="text-input-in-form" placeholder="<?php echo ATrl::t()->getLabel('Your description'); ?>" name="AttrFieldForm[field_descriptions][<?php echo $language->id; ?>]"></textarea>
+                                <textarea class="text-input-in-form" placeholder="<?php echo ATrl::t()->getLabel('Your description'); ?>" name="AttrFieldForm[field_descriptions][<?php echo $language->id; ?>]"><?php echo $trl->field_description; ?></textarea>
                             </td>
                         </tr>
                     </table>
@@ -84,20 +86,22 @@
                     </tr>
                     <tr>
                         <td class="label"><?php echo $form->labelEx($form_mdl,'field_name'); ?></td>
-                        <td class="value"><?php echo $form->textField($form_mdl,'field_name',array('placeholder' => ATrl::t()->getLabel('Name of field'))); ?></td>
+                        <td class="value"><?php echo $form->textField($form_mdl,'field_name',array('placeholder' => ATrl::t()->getLabel('Name of field'),'value' => $field->field_name)); ?></td>
                         <td class="value"></td>
                     </tr>
                     <tr class="addable">
                         <td class="label"><?php echo $form->labelEx($form_mdl,'type_id'); ?></td>
-                        <td class="value"><?php echo $form->dropDownList($form_mdl,'type_id',$types,array('data-show_variants_for' => ExtProductFieldTypes::TYPE_SELECTABLE)); ?></td>
-                        <td class="value hidden-selector" style="visibility: hidden">
+                        <td class="value"><?php echo $form->dropDownList($form_mdl,'type_id',$types,array('data-show_variants_for' => ExtProductFieldTypes::TYPE_SELECTABLE, 'options' => array($field->type_id => array('selected' => true)))); ?></td>
+                        <td class="value hidden-selector" <?php echo $field->type_id != ExtProductFieldTypes::TYPE_SELECTABLE ? "style='visibility: hidden'" : ''; ?>>
                             <div class="field-in-addable">
-                                <div class="input-block">
-                                    <input class="input-name" placeholder="<?php echo ATrl::t()->getLabel('Name'); ?>" name="AttrFieldForm[variants][option_name][0]" type="text">
-                                    <input class="input-value" placeholder="<?php echo ATrl::t()->getLabel('Value'); ?>" name="AttrFieldForm[variants][option_value][0]" type="text">
-                                    <input class="input-delete" type="submit" value="<?php echo ATrl::t()->getLabel('Delete'); ?>">
-                                    <div style="clear: both"></div>
-                                </div>
+                                <?php foreach($field->productFieldSelectOptions as $index => $variant): ?>
+                                    <div class="input-block">
+                                        <input value="<?php echo $variant->option_name; ?>" class="input-name" placeholder="<?php echo ATrl::t()->getLabel('Name'); ?>" name="AttrFieldForm[variants][option_name][<?php echo $index; ?>]" type="text">
+                                        <input value="<?php echo $variant->option_value; ?>" class="input-value" placeholder="<?php echo ATrl::t()->getLabel('Value'); ?>" name="AttrFieldForm[variants][option_value][<?php echo $index; ?>]" type="text">
+                                        <input class="input-delete" type="submit" value="<?php echo ATrl::t()->getLabel('Delete'); ?>">
+                                        <div style="clear: both"></div>
+                                    </div>
+                                <?php endforeach; ?>
                             </div>
                         </td>
                     </tr>
@@ -106,8 +110,8 @@
                         <td class="value">
                             <?php echo CHtml::submitButton(ATrl::t()->getLabel('Save'),array()); ?>
                         </td>
-                        <td class="value hidden-selector" style="visibility: hidden">
-                            <input data-count="0" data-ploname="<?php echo ATrl::t()->getLabel('Name'); ?>" data-ploval="<?php echo ATrl::t()->getLabel('Value'); ?>" data-delname="<?php echo ATrl::t()->getLabel('Delete'); ?>" data-oname="AttrFieldForm[variants][option_name]" data-oval="AttrFieldForm[variants][option_value]" class="add-select-option-button" type="submit" value="<?php echo ATrl::t()->getLabel('Add field'); ?>">
+                        <td class="value hidden-selector" <?php echo $field->type_id != ExtProductFieldTypes::TYPE_SELECTABLE ? "style='visibility: hidden'" : ''; ?>>
+                            <input data-count="<?php echo count($field->productFieldSelectOptions); ?>" data-ploname="<?php echo ATrl::t()->getLabel('Name'); ?>" data-ploval="<?php echo ATrl::t()->getLabel('Value'); ?>" data-delname="<?php echo ATrl::t()->getLabel('Delete'); ?>" data-oname="AttrFieldForm[variants][option_name]" data-oval="AttrFieldForm[variants][option_value]" class="add-select-option-button" type="submit" value="<?php echo ATrl::t()->getLabel('Add field'); ?>">
                         </td>
                     </tr>
 

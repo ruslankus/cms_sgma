@@ -1,6 +1,15 @@
-var qnt = 0;
+var qnt = undefined;
 
 (function( $ ){
+
+    if($('.input-block').length < 2)
+    {
+        $('.input-delete').css({'visibility':'hidden'});
+    }
+    if($('.input-block').length > 1)
+    {
+        $('.input-delete').css({'visibility':'visible'});
+    }
 
     /**
      * When changing type
@@ -31,6 +40,12 @@ var qnt = 0;
         var name_option_value = $(this).data('oval');
         var placeholder_value = $(this).data('ploval');
         var name_input_delete = $(this).data('delname');
+
+        if(qnt === undefined)
+        {
+            qnt = $(this).data('count');
+            qnt = qnt > 0 ? qnt-1 : 0;
+        }
 
         qnt++;
 
