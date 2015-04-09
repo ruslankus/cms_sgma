@@ -1,1 +1,1 @@
-<p>Search template</p>
+<p>Search core template</p>

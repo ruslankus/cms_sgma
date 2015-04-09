@@ -20,12 +20,14 @@
                             <?php echo $form->dropDownList($form_model,'type_id',$types,array('class'=>''));?>
                         </td>
                     </tr>
+                    <!--/
                     <tr>
-                        <td><?php echo $form->labelEx($form_model,'template_name'); ?></td>
+                        <td><?php //echo $form->labelEx($form_model,'template_name'); ?></td>
                         <td>
-                            <?php echo $form->dropDownList($form_model,'template_name',$templates,array('class'=>''));?>
+                            <?php //echo $form->dropDownList($form_model,'template_name',$templates,array('class'=>''));?>
                         </td>
                     </tr>
+                    -->
                 </table>
 
                 <?php echo CHtml::submitButton(ATrl::t()->getLabel('Save'),array('class' => 'float-left')); ?>

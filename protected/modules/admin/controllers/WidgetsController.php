@@ -21,10 +21,11 @@ class WidgetsController extends ControllerAdmin
         //currently selected theme
         $selectedTheme = 'dark'; //TODO: select theme from DB
         //get all templates for widgets
-        $templates = ThemeHelper::getTemplatesForWidgets($selectedTheme);
+        //$templates = ThemeHelper::getTemplatesForWidgets($selectedTheme);
         //types
         $types = ExtSystemWidgetType::model()->getAllTypesForForm(true);
-
+        
+         
 
         if(Yii::app()->request->isAjaxRequest)
         {
@@ -42,13 +43,16 @@ class WidgetsController extends ControllerAdmin
         {
             //if have form
             if($_POST['WidgetForm'])
-            {
+            {   
+               
                 $form_mdl->attributes = $_POST['WidgetForm'];
 
                 if($form_mdl->validate())
                 {
+                    //$objTypes = SystemWidgetType::model()->findByPk($form_mdl->type_id);
                     $widget = new ExtSystemWidget();
                     $widget -> attributes = $form_mdl->attributes;
+                    //$widget->template_name = $objTypes->default_template;
                     $widget -> save();
                 }
             }
@@ -70,7 +74,8 @@ class WidgetsController extends ControllerAdmin
      * @param $id
      */
     public function actionEdit($id)
-    {
+    {   
+        
         /* @var $objLanguages Languages[] */
 
         //include menu necessary scripts
@@ -84,13 +89,15 @@ class WidgetsController extends ControllerAdmin
         $objLanguages = SiteLng::lng()->getLngs();
         //get widget
         $objWidget = ExtSystemWidget::model()->findByPk($id);
+        $widgetPrefix = $objWidget->type->prefix;
         //types
         $arrTypes = ExtSystemWidgetType::model()->getAllTypesForForm(true);
+        
         //currently selected theme
         $selectedTheme = 'dark'; //TODO: select theme from DB
         //get all templates for widgets
-        $templates = ThemeHelper::getTemplatesForWidgets($selectedTheme);
-
+        $templates = ThemeHelper::getTemplatesForWidgets($selectedTheme,$widgetPrefix);
+        
         //form
         $form_mdl = new WidgetForm();
 
@@ -111,12 +118,14 @@ class WidgetsController extends ControllerAdmin
             //if have form
             if($_POST['WidgetForm'])
             {
+                
+                
                 //attributes
                 $form_mdl->attributes = $_POST['WidgetForm'];
 
                 if($form_mdl->validate())
                 {
-
+                    
                     $con = Yii::app()->db;
                     $transaction = $con->beginTransaction();
 

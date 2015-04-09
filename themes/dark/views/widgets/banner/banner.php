@@ -1,0 +1,1 @@
+<p>Banner from theme template</p>
