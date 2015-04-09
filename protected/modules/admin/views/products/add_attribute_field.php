@@ -21,6 +21,17 @@
         font-family: "Open_sans";
         resize: none;
     }
+    .addable .input-block
+    {
+        margin-bottom: 5px;
+    }
+    .content .inner-content .addable td
+    {
+        vertical-align: top;
+    }
+    .content .inner-content .addable .input-block .input-name{width: 135px; display: block; float: left;}
+    .content .inner-content .addable .input-block .input-value{width: 130px; display: block; float: left; margin-left: 5px;}
+    .content .inner-content .addable .input-block .input-delete{min-width: 70px; display: block; float: left; margin-left: 5px; background-color: #ff3a36; border: 1px solid #cd0000; visibility: hidden; padding: 0;}
 </style>
 
 <?php $params = array(); ?>
@@ -69,29 +80,34 @@
                     <tr>
                         <td class="label"><?php echo $form->labelEx($form_mdl,'group_id'); ?></td>
                         <td class="value"><?php echo $form->dropDownList($form_mdl,'group_id',$groups,array('options' => array($group => array('selected' => true)))); ?></td>
+                        <td class="value"></td>
                     </tr>
                     <tr>
                         <td class="label"><?php echo $form->labelEx($form_mdl,'field_name'); ?></td>
                         <td class="value"><?php echo $form->textField($form_mdl,'field_name',array('placeholder' => ATrl::t()->getLabel('Name of field'))); ?></td>
+                        <td class="value"></td>
                     </tr>
-                    <tr>
+                    <tr class="addable">
                         <td class="label"><?php echo $form->labelEx($form_mdl,'type_id'); ?></td>
-                        <td class="value"><?php echo $form->dropDownList($form_mdl,'type_id',$types); ?></td>
-                    </tr>
-                    <tr class="loadable">
-                        <td class="label" style="vertical-align: top"><?php echo ATrl::t()->getLabel('Variants'); ?></td>
-                        <td class="value">
-                            <div class="input-block" style="margin-bottom: 5px;">
-                                <input style="width: 120px;" name="AttrFieldForm[option_name][0]" type="text">
-                                <input style="width: 120px;" name="AttrFieldForm[option_value][0]" type="text">
+                        <td class="value"><?php echo $form->dropDownList($form_mdl,'type_id',$types,array('data-show_variants_for' => ExtProductFieldTypes::TYPE_SELECTABLE)); ?></td>
+                        <td class="value hidden-selector" style="visibility: hidden">
+                            <div class="field-in-addable">
+                                <div class="input-block">
+                                    <input class="input-name" placeholder="<?php echo ATrl::t()->getLabel('Name'); ?>" name="AttrFieldForm[option_name][0]" type="text">
+                                    <input class="input-value" placeholder="<?php echo ATrl::t()->getLabel('Value'); ?>" name="AttrFieldForm[option_value][0]" type="text">
+                                    <input class="input-delete" type="submit" value="<?php echo ATrl::t()->getLabel('Delete'); ?>">
+                                    <div style="clear: both"></div>
+                                </div>
                             </div>
-                            <input data-oname="AttrFieldForm[option_name]" data-oval="AttrFieldForm[option_value]" class="add-select-option-button" style="min-width: 50px;" type="submit" value="+">
                         </td>
                     </tr>
                     <tr>
                         <td class="label">&nbsp;</td>
                         <td class="value">
                             <?php echo CHtml::submitButton(ATrl::t()->getLabel('Save'),array()); ?>
+                        </td>
+                        <td class="value hidden-selector" style="visibility: hidden">
+                            <input data-ploname="<?php echo ATrl::t()->getLabel('Name'); ?>" data-ploval="<?php echo ATrl::t()->getLabel('Value'); ?>" data-delname="<?php echo ATrl::t()->getLabel('Delete'); ?>" data-oname="AttrFieldForm[option_name]" data-oval="AttrFieldForm[option_value]" class="add-select-option-button" type="submit" value="<?php echo ATrl::t()->getLabel('Add field'); ?>">
                         </td>
                     </tr>
 
@@ -102,6 +118,7 @@
                             <?php echo $form->error($form_mdl,'field_name',array('class'=>'float-right errorMessage')); ?>
                             <?php echo $form->error($form_mdl,'type_id',array('class'=>'float-right errorMessage')); ?>
                         </td>
+                        <td class="value"></td>
                     </tr>
                 </table>
             <?php $this->endWidget(); ?>

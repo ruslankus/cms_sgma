@@ -10,7 +10,7 @@ Target Server Type    : MYSQL
 Target Server Version : 50538
 File Encoding         : 65001
 
-Date: 2015-04-09 14:58:07
+Date: 2015-04-09 15:53:23
 */
 
 SET FOREIGN_KEY_CHECKS=0;
@@ -340,6 +340,25 @@ CREATE TABLE `images_of_product_fields_values` (
 
 -- ----------------------------
 -- Records of images_of_product_fields_values
+-- ----------------------------
+
+-- ----------------------------
+-- Table structure for `images_of_widget`
+-- ----------------------------
+DROP TABLE IF EXISTS `images_of_widget`;
+CREATE TABLE `images_of_widget` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `widget_id` int(11) DEFAULT NULL,
+  `image_id` int(11) DEFAULT NULL,
+  PRIMARY KEY (`id`),
+  KEY `image_id` (`image_id`),
+  KEY `widget_id` (`widget_id`),
+  CONSTRAINT `images_of_widget_ibfk_2` FOREIGN KEY (`widget_id`) REFERENCES `system_widget` (`id`) ON DELETE CASCADE ON UPDATE NO ACTION,
+  CONSTRAINT `images_of_widget_ibfk_1` FOREIGN KEY (`image_id`) REFERENCES `images` (`id`) ON DELETE CASCADE ON UPDATE NO ACTION
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+-- ----------------------------
+-- Records of images_of_widget
 -- ----------------------------
 
 -- ----------------------------
@@ -1200,6 +1219,7 @@ INSERT INTO `system_widget_type` VALUES ('3', 'Calendar', 'SysCalendar');
 INSERT INTO `system_widget_type` VALUES ('4', 'Language Bar', 'SysLanguages');
 INSERT INTO `system_widget_type` VALUES ('5', 'Product cart', 'SysCart');
 INSERT INTO `system_widget_type` VALUES ('6', 'Custom HTML', 'SysCustom');
+INSERT INTO `system_widget_type` VALUES ('7', 'Banner', 'SysBanner');
 
 -- ----------------------------
 -- Table structure for `users`
