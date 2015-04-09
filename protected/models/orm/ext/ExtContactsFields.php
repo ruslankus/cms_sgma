@@ -1,7 +1,7 @@
 <?php
 /**
  * Class ExtContactsFields
- * @property ExtContacts $contacts
+ * @property ExtContactsBlock $contacts
  * @property ContactsFieldsTrl $trl
  */
 class ExtContactsFields extends ContactsFields

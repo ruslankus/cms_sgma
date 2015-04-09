@@ -1,9 +1,9 @@
 <?php
 /**
  * Class ExtContactsGroup
- * @property ExtContacts[] $contacts
+ * @property ExtContactsBlock[] $contacts
  */
-class ExtContactsGroup extends ContactsGroup
+class ExtContactsPage extends ContactsPage
 {
     /**
      * @param string $className

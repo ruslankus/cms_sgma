@@ -2,9 +2,8 @@
 /**
  * Class ExtPage
  * @property ExtMenuItem $menuItem
- * @property PageTrl $trl
  */
-class ExtContactsTrl extends ContactsTrl
+class ExtContactsBlockTrl extends ContactsBlockTrl
 {
     
     /**

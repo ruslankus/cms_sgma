@@ -1,30 +1,29 @@
 <?php
 
 /**
- * This is the model class for table "contacts_group".
+ * This is the model class for table "contacts_block_trl".
  *
- * The followings are the available columns in table 'contacts_group':
+ * The followings are the available columns in table 'contacts_block_trl':
  * @property integer $id
- * @property integer $label
- * @property integer $status_id
- * @property integer $priority
- * @property integer $time_created
- * @property integer $time_updated
- * @property integer $last_change_by
- * @property integer $template_name
+ * @property integer $lng_id
+ * @property integer $contacts_id
+ * @property string $text
+ * @property string $title
+ * @property string $meta_description
+ * @property string $email
  *
  * The followings are the available model relations:
- * @property Contacts[] $contacts
- * @property ContactsGroupTrl[] $contactsGroupTrls
+ * @property ContactsBlock $contacts
+ * @property Languages $lng
  */
-class ContactsGroup extends CActiveRecord
+class ContactsBlockTrl extends CActiveRecord
 {
 	/**
 	 * @return string the associated database table name
 	 */
 	public function tableName()
 	{
-		return 'contacts_group';
+		return 'contacts_block_trl';
 	}
 
 	/**
@@ -35,10 +34,11 @@ class ContactsGroup extends CActiveRecord
 		// NOTE: you should only define rules for those attributes that
 		// will receive user inputs.
 		return array(
-			array('label, status_id, priority, time_created, time_updated, last_change_by, template_name', 'numerical', 'integerOnly'=>true),
+			array('lng_id, contacts_id', 'numerical', 'integerOnly'=>true),
+			array('text, title, meta_description, email', 'safe'),
 			// The following rule is used by search().
 			// @todo Please remove those attributes that should not be searched.
-			array('id, label, status_id, priority, time_created, time_updated, last_change_by, template_name', 'safe', 'on'=>'search'),
+			array('id, lng_id, contacts_id, text, title, meta_description, email', 'safe', 'on'=>'search'),
 		);
 	}
 
@@ -50,8 +50,8 @@ class ContactsGroup extends CActiveRecord
 		// NOTE: you may need to adjust the relation name and the related
 		// class name for the relations automatically generated below.
 		return array(
-			'contacts' => array(self::HAS_MANY, 'Contacts', 'group_id'),
-			'contactsGroupTrls' => array(self::HAS_MANY, 'ContactsGroupTrl', 'group_id'),
+			'contacts' => array(self::BELONGS_TO, 'ContactsBlock', 'contacts_id'),
+			'lng' => array(self::BELONGS_TO, 'Languages', 'lng_id'),
 		);
 	}
 
@@ -62,13 +62,12 @@ class ContactsGroup extends CActiveRecord
 	{
 		return array(
 			'id' => 'ID',
-			'label' => 'Label',
-			'status_id' => 'Status',
-			'priority' => 'Priority',
-			'time_created' => 'Time Created',
-			'time_updated' => 'Time Updated',
-			'last_change_by' => 'Last Change By',
-			'template_name' => 'Template Name',
+			'lng_id' => 'Lng',
+			'contacts_id' => 'Contacts',
+			'text' => 'Text',
+			'title' => 'Title',
+			'meta_description' => 'Meta Description',
+			'email' => 'Email',
 		);
 	}
 
@@ -91,13 +90,12 @@ class ContactsGroup extends CActiveRecord
 		$criteria=new CDbCriteria;
 
 		$criteria->compare('id',$this->id);
-		$criteria->compare('label',$this->label);
-		$criteria->compare('status_id',$this->status_id);
-		$criteria->compare('priority',$this->priority);
-		$criteria->compare('time_created',$this->time_created);
-		$criteria->compare('time_updated',$this->time_updated);
-		$criteria->compare('last_change_by',$this->last_change_by);
-		$criteria->compare('template_name',$this->template_name);
+		$criteria->compare('lng_id',$this->lng_id);
+		$criteria->compare('contacts_id',$this->contacts_id);
+		$criteria->compare('text',$this->text,true);
+		$criteria->compare('title',$this->title,true);
+		$criteria->compare('meta_description',$this->meta_description,true);
+		$criteria->compare('email',$this->email,true);
 
 		return new CActiveDataProvider($this, array(
 			'criteria'=>$criteria,
@@ -108,7 +106,7 @@ class ContactsGroup extends CActiveRecord
 	 * Returns the static model of the specified AR class.
 	 * Please note that you should have this exact method in all your CActiveRecord descendants!
 	 * @param string $className active record class name.
-	 * @return ContactsGroup the static model class
+	 * @return ContactsBlockTrl the static model class
 	 */
 	public static function model($className=__CLASS__)
 	{

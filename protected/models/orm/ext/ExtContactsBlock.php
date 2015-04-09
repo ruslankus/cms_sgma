@@ -3,7 +3,7 @@
  * Class ExtContacts
  * @property ExtContactsFields[] $contactsFields
  */
-class ExtContacts extends Contacts
+class ExtContactsBlock extends ContactsBlock
 {
     /**
      * @param string $className
