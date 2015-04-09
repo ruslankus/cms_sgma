@@ -41,6 +41,14 @@ class SettingsController extends ControllerAdmin
             Contacts::model()->updateAll(array('template_name'=>'default.php'));
 
 
+            // news contacts reset templates
+
+            News::model()->updateAll(array('template_name'=>'default.php'));
+
+            // news categories contacts reset templates
+
+            NewsCategory::model()->updateAll(array('template_name'=>'default.php'));
+
         if($_POST['save'])
         {
             if($objSet->setting != $_POST['radio']) // if no change theme
