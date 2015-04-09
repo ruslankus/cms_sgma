@@ -7,12 +7,12 @@
  * @property integer $id
  * @property integer $product_field_id
  * @property integer $lng_id
- * @property integer $field_description
- * @property integer $field_title
+ * @property string $field_description
+ * @property string $field_title
  *
  * The followings are the available model relations:
- * @property Languages $lng
  * @property ProductFields $productField
+ * @property Languages $lng
  */
 class ProductFieldsTrl extends CActiveRecord
 {
@@ -32,7 +32,8 @@ class ProductFieldsTrl extends CActiveRecord
 		// NOTE: you should only define rules for those attributes that
 		// will receive user inputs.
 		return array(
-			array('product_field_id, lng_id, field_description, field_title', 'numerical', 'integerOnly'=>true),
+			array('product_field_id, lng_id', 'numerical', 'integerOnly'=>true),
+			array('field_description, field_title', 'safe'),
 			// The following rule is used by search().
 			// @todo Please remove those attributes that should not be searched.
 			array('id, product_field_id, lng_id, field_description, field_title', 'safe', 'on'=>'search'),
@@ -47,8 +48,8 @@ class ProductFieldsTrl extends CActiveRecord
 		// NOTE: you may need to adjust the relation name and the related
 		// class name for the relations automatically generated below.
 		return array(
-			'lng' => array(self::BELONGS_TO, 'Languages', 'lng_id'),
 			'productField' => array(self::BELONGS_TO, 'ProductFields', 'product_field_id'),
+			'lng' => array(self::BELONGS_TO, 'Languages', 'lng_id'),
 		);
 	}
 
@@ -87,8 +88,8 @@ class ProductFieldsTrl extends CActiveRecord
 		$criteria->compare('id',$this->id);
 		$criteria->compare('product_field_id',$this->product_field_id);
 		$criteria->compare('lng_id',$this->lng_id);
-		$criteria->compare('field_description',$this->field_description);
-		$criteria->compare('field_title',$this->field_title);
+		$criteria->compare('field_description',$this->field_description,true);
+		$criteria->compare('field_title',$this->field_title,true);
 
 		return new CActiveDataProvider($this, array(
 			'criteria'=>$criteria,

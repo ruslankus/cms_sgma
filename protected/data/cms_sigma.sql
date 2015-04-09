@@ -10,7 +10,7 @@ Target Server Type    : MYSQL
 Target Server Version : 50538
 File Encoding         : 65001
 
-Date: 2015-04-09 16:19:36
+Date: 2015-04-09 17:00:24
 */
 
 SET FOREIGN_KEY_CHECKS=0;
@@ -870,11 +870,13 @@ CREATE TABLE `product_fields` (
   KEY `product_fields_ibfk_2` (`type_id`),
   CONSTRAINT `product_fields_ibfk_1` FOREIGN KEY (`group_id`) REFERENCES `product_field_groups` (`id`) ON DELETE CASCADE ON UPDATE NO ACTION,
   CONSTRAINT `product_fields_ibfk_2` FOREIGN KEY (`type_id`) REFERENCES `product_field_types` (`id`) ON DELETE NO ACTION ON UPDATE NO ACTION
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=12 DEFAULT CHARSET=utf8;
 
 -- ----------------------------
 -- Records of product_fields
 -- ----------------------------
+INSERT INTO `product_fields` VALUES ('10', 'Breakfast', '3', '18', '1', '1428587614', '1428587614', '1');
+INSERT INTO `product_fields` VALUES ('11', 'Power', '6', '18', '2', '1428587695', '1428587695', '1');
 
 -- ----------------------------
 -- Table structure for `product_fields_trl`
@@ -884,18 +886,22 @@ CREATE TABLE `product_fields_trl` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
   `product_field_id` int(11) DEFAULT NULL,
   `lng_id` int(11) DEFAULT NULL,
-  `field_description` int(11) DEFAULT NULL,
-  `field_title` int(11) DEFAULT NULL,
+  `field_description` text,
+  `field_title` text,
   PRIMARY KEY (`id`),
   KEY `product_field_id` (`product_field_id`),
   KEY `lng_id` (`lng_id`),
-  CONSTRAINT `product_fields_trl_ibfk_2` FOREIGN KEY (`lng_id`) REFERENCES `languages` (`id`) ON DELETE CASCADE ON UPDATE NO ACTION,
-  CONSTRAINT `product_fields_trl_ibfk_1` FOREIGN KEY (`product_field_id`) REFERENCES `product_fields` (`id`) ON DELETE CASCADE ON UPDATE NO ACTION
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+  CONSTRAINT `product_fields_trl_ibfk_1` FOREIGN KEY (`product_field_id`) REFERENCES `product_fields` (`id`) ON DELETE CASCADE ON UPDATE NO ACTION,
+  CONSTRAINT `product_fields_trl_ibfk_2` FOREIGN KEY (`lng_id`) REFERENCES `languages` (`id`) ON DELETE CASCADE ON UPDATE NO ACTION
+) ENGINE=InnoDB AUTO_INCREMENT=11 DEFAULT CHARSET=utf8;
 
 -- ----------------------------
 -- Records of product_fields_trl
 -- ----------------------------
+INSERT INTO `product_fields_trl` VALUES ('7', '10', '1', '', 'Breakfast');
+INSERT INTO `product_fields_trl` VALUES ('8', '10', '2', '', 'Завтрак');
+INSERT INTO `product_fields_trl` VALUES ('9', '11', '1', '', 'Power');
+INSERT INTO `product_fields_trl` VALUES ('10', '11', '2', '', 'Мощность');
 
 -- ----------------------------
 -- Table structure for `product_field_groups`
@@ -988,11 +994,14 @@ CREATE TABLE `product_field_select_options` (
   PRIMARY KEY (`id`),
   KEY `field_id` (`field_id`),
   CONSTRAINT `product_field_select_options_ibfk_1` FOREIGN KEY (`field_id`) REFERENCES `product_fields` (`id`) ON DELETE CASCADE ON UPDATE NO ACTION
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=6 DEFAULT CHARSET=utf8;
 
 -- ----------------------------
 -- Records of product_field_select_options
 -- ----------------------------
+INSERT INTO `product_field_select_options` VALUES ('3', '11', 'Powerfull', '1');
+INSERT INTO `product_field_select_options` VALUES ('4', '11', 'Vey powerfull', '2');
+INSERT INTO `product_field_select_options` VALUES ('5', '11', 'Hell-like', '3');
 
 -- ----------------------------
 -- Table structure for `product_field_types`
@@ -1208,19 +1217,20 @@ CREATE TABLE `system_widget_type` (
   `label` varchar(255) DEFAULT NULL,
   `widget_class` varchar(255) DEFAULT NULL,
   `default_template` varchar(255) DEFAULT NULL,
+  `prefix` varchar(255) DEFAULT NULL,
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 -- ----------------------------
 -- Records of system_widget_type
 -- ----------------------------
-INSERT INTO `system_widget_type` VALUES ('1', 'Search Form', 'SysSearch', 'default.php');
-INSERT INTO `system_widget_type` VALUES ('2', 'Login form', 'SysLogin', 'default.php');
-INSERT INTO `system_widget_type` VALUES ('3', 'Calendar', 'SysCalendar', 'default.php');
-INSERT INTO `system_widget_type` VALUES ('4', 'Language Bar', 'SysLanguages', 'default.php');
-INSERT INTO `system_widget_type` VALUES ('5', 'Product cart', 'SysCart', 'default.php');
-INSERT INTO `system_widget_type` VALUES ('6', 'Custom HTML', 'SysCustom', 'default.php');
-INSERT INTO `system_widget_type` VALUES ('7', 'Banner', 'SysBanner', 'default.php');
+INSERT INTO `system_widget_type` VALUES ('1', 'Search Form', 'SysSearch', 'default.php', null);
+INSERT INTO `system_widget_type` VALUES ('2', 'Login form', 'SysLogin', 'default.php', null);
+INSERT INTO `system_widget_type` VALUES ('3', 'Calendar', 'SysCalendar', 'default.php', null);
+INSERT INTO `system_widget_type` VALUES ('4', 'Language Bar', 'SysLanguages', 'default.php', null);
+INSERT INTO `system_widget_type` VALUES ('5', 'Product cart', 'SysCart', 'default.php', null);
+INSERT INTO `system_widget_type` VALUES ('6', 'Custom HTML', 'SysCustom', 'default.php', null);
+INSERT INTO `system_widget_type` VALUES ('7', 'Banner', 'SysBanner', 'default.php', null);
 
 -- ----------------------------
 -- Table structure for `users`

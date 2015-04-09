@@ -707,11 +707,12 @@ class ProductsController extends ControllerAdmin
                         $field -> last_change_by = Yii::app()->user->id;
                         $field -> save();
 
-                        //contacts
+                        //translatable
                         $titles = $_POST['AttrFieldForm']['field_titles'];
                         $descriptions = $_POST['AttrFieldForm']['field_descriptions'];
 
-                        //
+
+                        //create translations
                         foreach($titles as $lngId => $title)
                         {
                             $trl = new ProductFieldsTrl();
@@ -721,16 +722,36 @@ class ProductsController extends ControllerAdmin
                             $trl -> field_description = $descriptions[$lngId];
                             $trl -> save();
                         }
+
+                        //variants for select box
+                        if($field -> type_id = ExtProductFieldTypes::TYPE_SELECTABLE)
+                        {
+                            $variants_names = $_POST['AttrFieldForm']['variants']['option_name'];
+                            $variants_values = $_POST['AttrFieldForm']['variants']['option_value'];
+
+                            foreach($variants_names as $index => $variant_name)
+                            {
+                                if($variant_name != '' && $variants_values[$index] != '')
+                                {
+                                    $variantForSelectBox = new ExtProductFieldSelectOptions();
+                                    $variantForSelectBox -> field_id = $field->id;
+                                    $variantForSelectBox -> option_name = $variant_name;
+                                    $variantForSelectBox -> option_value = $variants_values[$index];
+                                    $variantForSelectBox -> save();
+                                }
+                            }
+                        }
+
+                        $transaction->commit();
+
+                        $this->redirect(Yii::app()->createUrl('admin/products/fields',array('group' => $field->group_id)));
                     }
                     catch(Exception $ex)
                     {
                         $transaction->rollback();
                     }
-
-
                 }
             }
-            //TODO: processing post request
         }
 
         //render form
