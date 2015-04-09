@@ -10,7 +10,7 @@ class ContactsController extends ControllerAdmin
             $siteLng = Yii::app()->language; 
         }
         
-        $objContacts = Contacts::model()->with(array('contactsTrls.lng' => array('condition' => "lng.prefix='{$siteLng}'")))->findall();
+        $objContacts = ContactsBlock::model()->with(array('contactsBlockTrls.lng' => array('condition' => "lng.prefix='{$siteLng}'")))->findall();
         
         $pager = CPaginator::getInstance($objContacts,10,$page);
         $this->render('index',array('pager' => $pager, 'currLng' => $currLng));
