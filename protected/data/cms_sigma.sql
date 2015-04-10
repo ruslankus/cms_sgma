@@ -10,7 +10,7 @@ Target Server Type    : MYSQL
 Target Server Version : 50538
 File Encoding         : 65001
 
-Date: 2015-04-10 12:38:25
+Date: 2015-04-10 14:42:47
 */
 
 SET FOREIGN_KEY_CHECKS=0;
@@ -255,13 +255,13 @@ DROP TABLE IF EXISTS `images_of_contacts`;
 CREATE TABLE `images_of_contacts` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
   `image_id` int(11) DEFAULT NULL,
-  `contacts_id` int(11) DEFAULT NULL,
+  `contact_page_id` int(11) DEFAULT NULL,
   PRIMARY KEY (`id`),
   KEY `image_id` (`image_id`),
-  KEY `contacts_id` (`contacts_id`),
-  CONSTRAINT `images_of_contacts_ibfk_1` FOREIGN KEY (`image_id`) REFERENCES `images` (`id`) ON DELETE NO ACTION,
-  CONSTRAINT `images_of_contacts_ibfk_2` FOREIGN KEY (`contacts_id`) REFERENCES `contacts_block` (`id`) ON DELETE NO ACTION
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+  KEY `contact_page_id` (`contact_page_id`),
+  CONSTRAINT `images_of_contacts_ibfk_2` FOREIGN KEY (`contact_page_id`) REFERENCES `contacts_page` (`id`) ON DELETE NO ACTION,
+  CONSTRAINT `images_of_contacts_ibfk_1` FOREIGN KEY (`image_id`) REFERENCES `images` (`id`) ON DELETE NO ACTION
+) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8;
 
 -- ----------------------------
 -- Records of images_of_contacts
@@ -794,18 +794,18 @@ CREATE TABLE `product` (
   `time_created` int(11) DEFAULT NULL,
   `time_updated` int(11) DEFAULT NULL,
   `last_change_by` int(11) DEFAULT NULL,
+  `product_code` int(11) DEFAULT NULL,
   PRIMARY KEY (`id`),
   KEY `category_id` (`category_id`),
   KEY `status_id` (`status_id`),
   CONSTRAINT `product_ibfk_1` FOREIGN KEY (`category_id`) REFERENCES `product_category` (`id`) ON DELETE CASCADE ON UPDATE NO ACTION,
   CONSTRAINT `product_ibfk_2` FOREIGN KEY (`status_id`) REFERENCES `status` (`id`) ON DELETE NO ACTION ON UPDATE NO ACTION
-) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=7 DEFAULT CHARSET=utf8;
 
 -- ----------------------------
 -- Records of product
 -- ----------------------------
-INSERT INTO `product` VALUES ('1', '1', '0:1', 'hotel 1', 'product.php', '1', '1', '5000', '4000', '1', '50', '0', '0', '1');
-INSERT INTO `product` VALUES ('2', '1', '0:2', 'hotel 2', 'product.php', '1', '2', '6500', '5000', '0', '60', '0', '0', '1');
+INSERT INTO `product` VALUES ('6', '1', '0:1', 'test 3', 'default.php', '1', '3', '8000', '54545', '0', '50', '0', '0', '1', null);
 
 -- ----------------------------
 -- Table structure for `product_category`
@@ -1110,16 +1110,6 @@ CREATE TABLE `rating` (
 -- ----------------------------
 -- Records of rating
 -- ----------------------------
-INSERT INTO `rating` VALUES ('1', '1', '1', '10');
-INSERT INTO `rating` VALUES ('2', '2', '1', '5');
-INSERT INTO `rating` VALUES ('3', '3', '1', '50');
-INSERT INTO `rating` VALUES ('4', '4', '1', '80');
-INSERT INTO `rating` VALUES ('5', '5', '1', '30');
-INSERT INTO `rating` VALUES ('6', '1', '2', '10');
-INSERT INTO `rating` VALUES ('7', '2', '2', '15');
-INSERT INTO `rating` VALUES ('8', '3', '2', '30');
-INSERT INTO `rating` VALUES ('9', '4', '2', '65');
-INSERT INTO `rating` VALUES ('10', '5', '2', '12');
 
 -- ----------------------------
 -- Table structure for `settings`
@@ -1182,9 +1172,9 @@ CREATE TABLE `system_widget` (
 -- ----------------------------
 -- Records of system_widget
 -- ----------------------------
-INSERT INTO `system_widget` VALUES ('2', 'Login widget', '2', 'login.php');
-INSERT INTO `system_widget` VALUES ('3', 'Search widget', '1', 'search.php');
-INSERT INTO `system_widget` VALUES ('5', 'Language switcher', '4', 'languages.php');
+INSERT INTO `system_widget` VALUES ('2', 'Login widget', '2', '');
+INSERT INTO `system_widget` VALUES ('3', 'Search widget', '1', '');
+INSERT INTO `system_widget` VALUES ('5', 'Language switcher', '4', '');
 
 -- ----------------------------
 -- Table structure for `system_widget_trl`
