@@ -1,6 +1,6 @@
 <main>
 	<div class="title-bar world">
-		<h1><?php echo ATrl::t()->getLabel('edit contact content')?></h1>
+		<h1><?php echo ATrl::t()->getLabel('edit contact block')?></h1>
 		<ul class="actions">
 			<li><a href="" class="action undo"></a></li>
 		</ul>
