@@ -1,4 +1,7 @@
+test
+
 <?php
+/*
 $objContacts = $pager->getPreparedArray();
 $totalPages = $pager->getTotalPages();
 $perPage = $pager->getPerPage();
@@ -57,3 +60,5 @@ $currentPage = $pager->getCurrentPage();
 		?>
 	</div>
 </main>
+*/
+?>
