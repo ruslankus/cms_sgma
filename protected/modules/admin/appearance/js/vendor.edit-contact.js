@@ -10,23 +10,23 @@ $(document).ready(function() {
         var prefix = $(this).data('prefix');
         var pageId = $(this).data("page");
         var lngId = $(this).val();
-    	getLangValues(pageId,lngId,prefix);
+        getLangValues(pageId,lngId,prefix);
       
-    	//$(document).find("textarea").textarea({width : "100%"}); // reattach editor to textarea after ajax load.done;	
+        //$(document).find("textarea").textarea({width : "100%"}); // reattach editor to textarea after ajax load.done; 
     });
     // Undo event
     $(".undo").click(function(){
-	
-		console.log("undo");
-		return false;
-	});
+    
+        console.log("undo");
+        return false;
+    });
 // On submit event
 
     $(document).on("click", "#save-content", function()
-	{
-		$console.log(this);
+    {
+        $console.log(this);
         return false;
-	});
+    });
     
    
 // delete img
@@ -52,7 +52,7 @@ $(document).ready(function() {
 
 function getLangValues(pageId,lngId,prefix){
    var title = '';
-   var text = '';
+   var description = '';
    var meta = '';
    var email = '';
    $.ajaxSetup({async:false});
@@ -63,22 +63,24 @@ function getLangValues(pageId,lngId,prefix){
         {
             title = obj.title; 
         }
-        if(obj.text)
+        if(obj.description)
         {
-            text = obj.text; 
+            description = obj.description; 
         }
         if(obj.meta)
         {
             meta = obj.meta; 
         }
+        /*
         if(obj.email)
         {
             email = obj.email; 
         }
+        */
         $('#title').val(title);
-        $('#edit').val(text);
+        $('#edit').val(description);
         $('#meta').val(meta);
-        $('#email').val(email);
+        //$('#email').val(email);
         console.log(obj);
 
     });    

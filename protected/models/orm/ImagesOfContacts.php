@@ -45,7 +45,7 @@ class ImagesOfContacts extends CActiveRecord
 		// NOTE: you may need to adjust the relation name and the related
 		// class name for the relations automatically generated below.
 		return array(
-			'contacts' => array(self::BELONGS_TO, 'Contacts', 'contacts_id'),
+			'contacts' => array(self::BELONGS_TO, 'ContactsPage', 'contacts_id'),
 			'image' => array(self::BELONGS_TO, 'Images', 'image_id'),
 		);
 	}
