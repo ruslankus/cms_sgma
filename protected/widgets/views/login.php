@@ -1,1 +1,1 @@
-<p>Login template</p>
+<p>Login core template</p>
