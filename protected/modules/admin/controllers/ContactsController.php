@@ -4,6 +4,8 @@ class ContactsController extends ControllerAdmin
 {
     public function actionIndex($page = 1)
     {
+        Yii::app()->clientScript->registerScriptFile($this->assetsPath.'/js/vendor.contacts.js',CClientScript::POS_END);
+
         $currLng = Yii::app()->language;
         
         if(empty($siteLng)){

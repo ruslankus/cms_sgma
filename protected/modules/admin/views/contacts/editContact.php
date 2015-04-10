@@ -52,8 +52,30 @@
 			</div><!--/inner-top-->
 
 
-			<div class="inner-editor">
+			<div class="inner-editor inner-content">
 				<table>
+					<tr>
+						<td class="label"><?php echo ATrl::t()->getLabel('page')?>:</td>
+						<td class="value">
+							<select name="template">
+                                <option value="">------------</option>
+                                <option value="1">Page 1</option>
+                                <option value="2">Page 2</option>
+                                <option value="3">Page 3</option>
+							</select>
+						</td>
+					</tr>
+					<tr>
+						<td class="label"><?php echo ATrl::t()->getLabel('template')?>:</td>
+						<td class="value">
+							<select name="template">
+                                <option value="">------------</option>
+                                <option value="template.php">template.php</option>
+                                <option value="template.php">template.php</option>
+                                <option value="template.php">template.php</option>
+							</select>
+						</td>
+					</tr>
 					<tr>
 						<td class="label">Title</td>
 						<td class="value">

@@ -1,5 +1,4 @@
 <?php
-Yii::app()->clientScript->registerScriptFile($this->assetsPath.'/js/vendor.contacts.js',CClientScript::POS_END);
 $objContacts = $pager->getPreparedArray();
 $totalPages = $pager->getTotalPages();
 $perPage = $pager->getPerPage();
