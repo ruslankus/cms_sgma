@@ -1,1 +1,1 @@
-<p>Calendar template</p>
+<p>Calendar from template</p>
