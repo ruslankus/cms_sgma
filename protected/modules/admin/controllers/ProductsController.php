@@ -340,9 +340,7 @@ class ProductsController extends ControllerAdmin
     public function actionList($page = 1, $cat = 0)
     {
         //include js file for AJAX updating
-        Yii::app()->clientScript->registerScriptFile($this->assetsPath.'/js/vendor.trees.js',CClientScript::POS_END);
-        Yii::app()->clientScript->registerScriptFile($this->assetsPath.'/js/vendor.main-menu.js',CClientScript::POS_END);
-        Yii::app()->clientScript->registerCssFile($this->assetsPath.'/css/vendor.news.ext.css');
+        Yii::app()->clientScript->registerScriptFile($this->assetsPath.'/js/vendor.products.js',CClientScript::POS_END);
 
         $category = ExtProductCategory::model()->findByPk($cat);
         $breadCrumbs = array();
@@ -367,6 +365,40 @@ class ProductsController extends ControllerAdmin
         {
             $this->render('list_items',array('items' => $array,'category' => $cat, 'breadcrumbs' => $breadCrumbs));
         }
+    }
+
+    /**
+     * Delete item
+     * @param $id
+     * @param int $page
+     * @param int $cat
+     */
+    public function actionDelete($id,$page = 1,$cat = 0)
+    {
+        /**
+         * Just delete item and back to list
+         */
+        ExtProduct::model()->deleteByPk((int)$id);
+        $this->redirect(Yii::app()->createUrl('admin/products/list',array('page' => $page, 'cat' => $cat)));
+    }
+
+    /**
+     * Deleting by checkboxes
+     * @param int $page
+     * @param int $cat
+     */
+    public function actionDeleteAll($page = 1, $cat = 0)
+    {
+        $ids = array();
+        $deleteIds = Yii::app()->request->getParam('delete',array());
+        foreach($deleteIds as $id => $status)
+        {
+            $ids[] = $id;
+        }
+
+        ExtProduct::model()->deleteByPk($ids);
+
+        $this->redirect(Yii::app()->createUrl('admin/products/list',array('page' => $page, 'cat' => $cat)));
     }
 
 

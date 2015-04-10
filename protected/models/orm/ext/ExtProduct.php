@@ -3,6 +3,7 @@
  * Class ExtProduct
  * @property ExtProductCategory $category
  * @property ProductTrl $trl
+ * @property ExtImagesOfProduct[] $imagesOfProducts
  */
 class ExtProduct extends Product
 {
@@ -44,7 +45,8 @@ class ExtProduct extends Product
     }
 
     /**
-     * @return Images|null
+     * Returns first image if exist
+     * @return ExtImages|null
      */
     public function getFirstImage()
     {

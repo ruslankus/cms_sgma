@@ -27,7 +27,7 @@ class ExtImages extends Images
      */
     public function getUrlOf($filename,$system = false)
     {
-        $dir = $system ? self::UPLOAD_DIR : self::SYS_IMG_DIR;
+        $dir = $system ? self::SYS_IMG_DIR : self::UPLOAD_DIR;
         return Yii::app()->request->baseUrl.'/'.$dir.'/'.$filename;
     }
 
@@ -46,7 +46,7 @@ class ExtImages extends Images
      * @param $system
      * @return bool
      */
-    public function isFileExist($system)
+    public function isFileExist($system = false)
     {
         return file_exists($this->getPath($system));
     }
@@ -58,7 +58,7 @@ class ExtImages extends Images
      */
     public function getPath($system = false)
     {
-        $dir = $system ? self::UPLOAD_DIR : self::SYS_IMG_DIR;
+        $dir = $system ? self::SYS_IMG_DIR : self::UPLOAD_DIR;
         return Yii::app()->basePath.DS.$dir.DS.$this->filename;
     }
 

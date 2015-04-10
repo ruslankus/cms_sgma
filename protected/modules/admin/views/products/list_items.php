@@ -6,14 +6,15 @@
 
 <?php $params = array(); ?>
 <?php if($category != 0): ?> <?php $params['cat'] = $category; ?> <?php endif; ?>
+<?php $params['page'] = CPaginator::getInstance()->getCurrentPage(); ?>
 
 <main>
     <div class="title-bar">
         <?php if(!empty($breadcrumbs)): ?>
             <h1 class="breadcrumbs">
-                <a href="<?php echo Yii::app()->createUrl('admin/products/categories') ?>"><?php echo ATrl::t()->getLabel('Categories'); ?></a>
+                <a style="text-decoration: none; color: inherit;" href="<?php echo Yii::app()->createUrl('admin/products/categories') ?>"><?php echo ATrl::t()->getLabel('Categories'); ?></a>
                 <?php foreach($breadcrumbs as $id => $title): ?>
-                    > <a href="<?php echo Yii::app()->createUrl('admin/products/list',array('cat' => $id)) ?>"><?php echo $title; ?></a>
+                    > <a style="text-decoration: none; color: inherit;" href="<?php echo Yii::app()->createUrl('admin/products/list',array('cat' => $id)) ?>"><?php echo $title; ?></a>
                 <?php endforeach; ?>
             </h1>
         <?php else: ?>
@@ -22,7 +23,8 @@
             </h1>
         <?php endif; ?>
         <ul class="actions">
-            <li><a href="" class="action add" data-id="checkbox"></a></li>
+            <li><a href="#" class="action add" data-id="checkbox"></a></li>
+            <li><a data-message="<?php echo ATrl::t()->getLabel('Delete all selected items ?'); ?>" data-yes="<?php echo ATrl::t()->getLabel('Delete'); ?>" data-no="<?php echo ATrl::t()->getLabel('Cancel'); ?>" href="<?php echo Yii::app()->createUrl('/admin/products/deleteall',$params); ?>" class="action del delete-all" data-id="checkbox"></a></li>
         </ul>
     </div><!--/title-bar-->
 
@@ -40,12 +42,14 @@
 
         <?php foreach($items as $item): ?>
             <div class="list-row h94">
-                <div class="cell checkbox"><input type="checkbox" name="checkbox[]" value="1"/></div>
+                <div class="cell checkbox"><input class="del-all-cb" type="checkbox" name="delete[<?php echo $item->id; ?>]"></div>
 
                 <div class="cell image">
-
-                    <img src="/images/no-image.png" alt=" " />
-
+                    <?php if($item->getFirstImage() != null && $item->getFirstImage()->isFileExist()): ?>
+                        <img src="<?php echo $item->getFirstImage()->getUrl(); ?>" alt="<?php $item->getFirstImage()->trl->caption; ?>">
+                    <?php else: ?>
+                        <img src="<?php echo ExtImages::model()->getUrlOf('no-image.png',true); ?>" alt="<?php $item->getFirstImage()->trl->caption; ?>">
+                    <?php endif; ?>
                 </div>
 
                 <div class="cell"><?php echo $item->label; ?></div>
@@ -53,8 +57,9 @@
                 <div class="cell price">&euro;<?php echo Number::FormatPrice($item->price); ?></div>
                 <div class="cell status"><?php echo ATrl::t()->getLabel($item->status->label); ?></div>
                 <div class="cell action">
-                    <a href="#" class="action edit" data-id="1"></a>
-                    <a href="#" class="action delete" data-id="1"></a>
+                    <a href="#" class="action edit"></a>
+                    <?php $params['id'] = $item->id; ?>
+                    <a data-message="<?php echo ATrl::t()->getLabel('Are your sure ?'); ?>" data-yes="<?php echo ATrl::t()->getLabel('Delete'); ?>" data-no="<?php echo ATrl::t()->getLabel('Cancel'); ?>" href="<?php echo Yii::app()->createUrl('/admin/products/delete',$params); ?>" class="action delete"></a>
                 </div>
             </div><!--/list-row-->
         <?php endforeach; ?>
