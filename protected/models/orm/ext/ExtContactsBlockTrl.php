@@ -22,7 +22,7 @@ class ExtContactsBlockTrl extends ContactsBlockTrl
         $transaction = $con->beginTransaction();
         try{
             
-            $sql  = "INSERT INTO contacts(`label`) ";
+            $sql  = "INSERT INTO contacts_block(`label`) ";
             $sql .= "VALUES(:label)";
             
             $param[':label'] = $label;
@@ -30,7 +30,7 @@ class ExtContactsBlockTrl extends ContactsBlockTrl
             $contactId = $con->getLastInsertID('contacts');
             //adding tranlation
             
-            $sql  = "INSERT INTO ".$this->tableName()."(`contacts_id`, `lng_id`, `title`) ";
+            $sql  = "INSERT INTO ".$this->tableName()."(`block_id`, `lng_id`, `title`) ";
             $sql .= "VALUES ";
             $i=0;
             foreach($arrTitle as $key => $value){

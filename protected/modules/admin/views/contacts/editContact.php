@@ -9,7 +9,7 @@
 	<div class="content page-content">
 		<div class="header">
 			<span><?php echo $arrPage['title'];?></span>
-			<a href="/<?php echo $prefix;?>/admin/contacts/contactsettings/<?php echo $arrPage->contacts->id;?>"><?php echo ATrl::t()->getLabel('contact form images')?></a>
+			<a href="/<?php echo $prefix;?>/admin/contacts/contactsettings/<?php echo $arrPage->block->id;?>"><?php echo ATrl::t()->getLabel('contact form images')?></a>
 			<a href="#" class="active"><?php echo ATrl::t()->getLabel('contact settings')?></a>
 		</div><!--/header-->
 		<div class="contact-img">
