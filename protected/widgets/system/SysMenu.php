@@ -12,6 +12,7 @@ class SysMenu extends CWidget
      */
     public $menu;
     public $themeName;
+    public $defoult_template = 'menu';
 
     public $controllerMatches = array(
         ExtMenuItemType::TYPE_SINGLE_PAGE => 'pages',
@@ -26,16 +27,18 @@ class SysMenu extends CWidget
      * @param bool $checkTheme
      * @return string
      */
-    public function getViewPath($checkTheme=false)
+     public function getViewPath($checkTheme=false)
     {
+        
         $path = Yii::app()->getBasePath().DS.'widgets'.DS.'views';
         $theme = Yii::app()->themeManager->getTheme($this->themeName);
-        if(!empty($theme))
+        
+        if(!empty($theme) && !empty($this->menu->template_name))
         {
             $path = $theme->getBasePath().DS.'views'.DS.'menus';
         }
+        //Debug::d($path);
         return $path;
-
     }
 
 
@@ -98,8 +101,12 @@ class SysMenu extends CWidget
      */
     public function run()
     {
-        $template = $this->menu->template_name;
-        $template = str_replace(".php","",$template);
+        //Debug::d($this->menu);
+        $template = $this->defoult_template;
+        if(!empty($this->menu->template_name)){
+            $template = $this->menu->template_name;
+            $template = str_replace(".php","",$template);
+        }
 
         $items_inline = array();
         $items_nested = array();

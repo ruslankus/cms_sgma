@@ -2,14 +2,16 @@
 
 class SysSearch extends CWidget
 {
+    
     /**
-     * @var ExtSystemWidget
-     */
+    * @var ExtSystemWidget
+    */
     public $widgetInfo;
     public $themeName;
-    const DEFAULT_VIEW = 'search';
-
-    /**
+    public $defoult_template = 'search';
+        
+    
+    /** Override of getting view dir for widget
      * Override of getting view dir for widget
      * @param bool $checkTheme
      * @return string
@@ -26,15 +28,13 @@ class SysSearch extends CWidget
             $path = $theme->getBasePath().DS.'views'.DS.'widgets'.DS.$prefix;
         }
         
-        //Debug::d($path);
-        
         return $path;
     }
     
     
     public function run()
     {
-        $template = self::DEFAULT_VIEW;
+       $template = $this->defoult_template;
         if(!empty($this->widgetInfo->template_name)){
             $template = $this->widgetInfo->template_name;
             $template = str_replace(".php","",$template);
