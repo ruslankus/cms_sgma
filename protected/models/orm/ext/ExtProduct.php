@@ -59,6 +59,37 @@ class ExtProduct extends Product
     }
 
     /**
+     * Generates unique product code for product
+     * @param string $prefix
+     * @param string $postfix
+     * @param int $size
+     * @return int|string
+     */
+    public function generateUniqueProductCode($prefix = 'PR', $postfix = '', $size = 8)
+    {
+        $characters = '0123456789';
+        $charactersLength = strlen($characters);
+
+        while(true)
+        {
+            $randomString = '';
+            for ($i = 0; $i < $size; $i++)
+            {
+                $randomString .= $characters[rand(0, $charactersLength - 1)];
+            }
+            $code = $prefix.$randomString.$prefix;
+            $count = Product::model()->countByAttributes(array('product_code' => $code));
+
+            if($count == 0)
+            {
+                return $code;
+            }
+        }
+
+        return 0;
+    }
+
+    /**
      * Override, relate with extended models
      * @return array relational rules.
      */

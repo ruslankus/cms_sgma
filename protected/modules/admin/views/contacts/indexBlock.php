@@ -1,7 +1,4 @@
-test
-
 <?php
-/*
 $objContacts = $pager->getPreparedArray();
 $totalPages = $pager->getTotalPages();
 $perPage = $pager->getPerPage();
@@ -30,7 +27,7 @@ $currentPage = $pager->getCurrentPage();
 	        
 			<div class="list-row">
 				<div class="cell checkbox"><input type="checkbox"/></div>
-				<div class="cell"><a id="name-<?php echo $contact->id?>" href="/<?php echo $currLng?>/admin/contacts/editcontent/<?php echo $contact->id?>"><?php echo $contact->contactsPageTrls[0]->title ?></a></div>
+				<div class="cell"><a id="name-<?php echo $contact->id?>" href="/<?php echo $currLng?>/admin/contacts/editcontent/<?php echo $contact->id?>"><?php echo $contact->label; ?></a></div>
 				<div class="cell action">
 					<a  href="/<?php echo $currLng?>/admin/contacts/editcontent/<?php echo $contact->id?>" class="action edit"></a>
 					<a href="#" data-id="<?php echo $contact->id?>" data-prefix="<?php echo $currLng?>" class="action delete"></a>
@@ -60,5 +57,3 @@ $currentPage = $pager->getCurrentPage();
 		?>
 	</div>
 </main>
-*/
-?>

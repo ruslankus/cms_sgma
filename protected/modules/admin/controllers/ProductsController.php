@@ -401,9 +401,349 @@ class ProductsController extends ControllerAdmin
         $this->redirect(Yii::app()->createUrl('admin/products/list',array('page' => $page, 'cat' => $cat)));
     }
 
-    public function actionAdd()
+    /**
+     * Add product item
+     * @param int $cat
+     */
+    public function actionAdd($cat = 0)
     {
-        $this->render('add_product',array());
+
+        //include menu necessary scripts
+        Yii::app()->clientScript->registerCssFile($this->assetsPath.'/css/vendor.add-menu.css');
+        Yii::app()->clientScript->registerCssFile($this->assetsPath.'/css/vendor.add-menu.ext.css');
+        Yii::app()->clientScript->registerScriptFile($this->assetsPath.'/js/vendor.add-menu.js',CClientScript::POS_END);
+        Yii::app()->clientScript->registerScriptFile($this->assetsPath.'/js/menu.edititem.js',CClientScript::POS_END);
+
+        //exclude jquery to avoid conflict between jquery from Yii core
+        Yii::app()->clientScript->scriptMap=array('jquery-1.11.2.min.js' => false);
+
+        //all languages
+        $objLanguages = SiteLng::lng()->getLngs();
+        //statuses
+        $arrStatuses = ExtStatus::model()->arrayForNewsAndProducts(true);
+        //parents
+        $arrCategories = ExtProductCategory::model()->arrayForMenuItemForm(0,true,false);
+        //templates
+        $theme = 'dark'; //TODO: get theme from db
+        $arrTemplates = ThemeHelper::getTemplatesFor($theme,'products'.DS.'item');
+        //form
+        $form_mdl = new ProductForm();
+        //product code
+        $product_code = ExtProduct::model()->generateUniqueProductCode('PR',5);
+
+        //ajax validation
+        if(Yii::app()->request->isAjaxRequest)
+        {
+            //if ajax validation
+            if(isset($_POST['ajax']))
+            {
+                if($_POST['ajax'] == 'add-item-form')
+                {
+                    echo CActiveForm::validate($form_mdl);
+                }
+                Yii::app()->end();
+            }
+        }
+        else
+        {
+            if(isset($_POST['ProductForm']))
+            {
+                $form_mdl->attributes = $_POST['ProductForm'];
+
+                $category = ExtProductCategory::model()->findByPk((int)$form_mdl->category_id);
+
+                if($form_mdl->validate())
+                {
+                    //use transaction
+                    $con = Yii::app()->db;
+                    $transaction = $con->beginTransaction();
+
+                    try
+                    {
+                        $item = new ExtProduct();
+                        $item -> attributes = $form_mdl->attributes;
+                        $item -> time_updated = time();
+                        $item -> time_created = time();
+                        $item -> branch = !empty($category) ? $category->branch : '0';
+                        $item -> priority = Sort::GetNextPriority('Product',array('category_id' => $form_mdl->category_id));
+                        $item -> last_change_by = Yii::app()->user->id;
+
+                        $item->price = Number::PriceToBase($item->price);
+                        $item->discount_price = Number::PriceToBase($item->discount_price);
+
+                        $item -> save();
+
+                        //translations
+                        $titles = $_POST['ProductForm']['titles'];
+                        foreach($objLanguages as $language)
+                        {
+                            $itemTrl = new ProductTrl();
+                            $itemTrl -> title = $titles[$language->id];
+                            $itemTrl -> lng_id = $language->id;
+                            $itemTrl -> product_id = $item->id;
+                            $itemTrl -> save();
+                        }
+
+                        $transaction->commit();
+
+                    }
+                    catch(Exception $ex)
+                    {
+                        $transaction->rollback();
+                    }
+
+                    $params = array();
+                    $params['cat'] = !empty($category) ? $category->id : 0;
+
+                    //back to list
+                    $this->redirect(Yii::app()->createUrl('/admin/products/list',$params));
+                }
+            }
+        }
+
+        $this->render('add_product',array(
+                'languages' => $objLanguages,
+                'categories' => $arrCategories,
+                'statuses' => $arrStatuses,
+                'form_model' => $form_mdl,
+                'category' => $cat,
+                'templates' => $arrTemplates,
+                'product_code' => $product_code
+            )
+        );
+    }
+
+    /**
+     * Edit (not translatable content, labels, images and etc.)
+     * @param $id
+     * @throws CHttpException
+     */
+    public function actionEdit($id)
+    {
+        //exclude jquery to avoid conflict between jquery from Yii core
+        Yii::app()->clientScript->scriptMap=array('jquery-1.11.2.min.js' => false);
+
+        //item
+        $item = ExtProduct::model()->findByPk($id);
+
+        if(empty($item))
+        {
+            throw new CHttpException(404);
+        }
+
+        //statuses
+        $arrStatuses = ExtStatus::model()->arrayForNewsAndProducts(true);
+        //parents
+        $arrCategories = ExtProductCategory::model()->arrayForMenuItemForm(0,true,false);
+        //templates
+        $theme = 'dark'; //TODO: get theme from db
+        $arrTemplates = ThemeHelper::getTemplatesFor($theme,'products'.DS.'item');
+        //form
+        $form_mdl = new ProductForm();
+
+
+        //ajax validation
+        if(Yii::app()->request->isAjaxRequest)
+        {
+            //if ajax validation
+            if(isset($_POST['ajax']))
+            {
+                if($_POST['ajax'] == 'edit-item-form')
+                {
+                    echo CActiveForm::validate($form_mdl);
+                }
+                Yii::app()->end();
+            }
+        }
+        else
+        {
+            if(isset($_POST['ProductForm']))
+            {
+                $form_mdl -> attributes = $_POST['ProductForm'];
+                $form_mdl -> image = CUploadedFile::getInstance($form_mdl,'image');
+
+                if($form_mdl->validate())
+                {
+                    //use transaction
+                    $con = Yii::app()->db;
+                    $transaction = $con->beginTransaction();
+
+                    try
+                    {
+                        $needOtherPriority = $item->category_id != $form_mdl->category_id;
+
+                        $item->attributes = $form_mdl->attributes;
+                        $item->time_updated = time();
+                        $item->last_change_by = Yii::app()->user->id;
+
+                        if($needOtherPriority)
+                        {
+                            $item->priority = Sort::GetNextPriority("Product",array('category_id' => $form_mdl->category_id));
+                        }
+
+                        $item->price = Number::PriceToBase($item->price);
+                        $item->discount_price = Number::PriceToBase($item->discount_price);
+
+                        $item->update();
+
+                        //if have image
+                        if(!empty($form_mdl->image))
+                        {
+                            //new name for our image
+                            $randomName = uniqid();
+
+                            //if saved
+                            if($form_mdl->image->saveAs('uploads/images/'.$randomName.'.'.$form_mdl->image->extensionName))
+                            {
+                                //add image item to db (to site gallery)
+                                $image = new ExtImages();
+                                $image -> filename = $randomName.'.'.$form_mdl->image->extensionName;
+                                $image -> original_filename = $form_mdl->image->name;
+                                $image -> size = $form_mdl->image->size;
+                                $image -> mime_type = $form_mdl->image->type;
+                                $image -> label = 'Image of "'.$item->label.'"';
+                                $image -> status_id = ExtStatus::VISIBLE;
+                                $image -> save();
+
+                                //relate added image with this news item
+                                $imageOfProduct = new ImagesOfProduct();
+                                $imageOfProduct -> product_id = $item->id;
+                                $imageOfProduct -> image_id = $image->id;
+                                $imageOfProduct -> save();
+                            }
+                        }
+
+                        //commit changes
+                        $transaction->commit();
+                    }
+                    catch(Exception $ex)
+                    {
+                        $transaction->rollback();
+                    }
+                }
+            }
+        }
+
+        //get all related images of item
+        $images = array(null,null,null,null,null);
+
+        foreach($item->imagesOfProducts as $index => $iop)
+        {
+            if($index+1 <= count($images))
+            {
+                $images[$index] = $iop;
+            }
+        }
+
+        $this->render('edit_product_settings',array(
+            'categories' => $arrCategories,
+            'statuses' => $arrStatuses,
+            'form_model' => $form_mdl,
+            'item' => $item,
+            'images' => $images,
+            'templates' => $arrTemplates
+        ));
+    }
+
+
+    /**
+     * Edit translatable part of content
+     * @param $id
+     * @param null $lng
+     * @throws CHttpException
+     */
+    public function actionEditItemTrl($id,$lng = null)
+    {
+        /* @var $item ExtNews */
+
+        //include menu necessary css and js
+        Yii::app()->clientScript->registerCssFile($this->assetsPath.'/css/vendor.edit-page-content.css');
+        Yii::app()->clientScript->registerScriptFile($this->assetsPath.'/js/vendor.edit-news-content.js',CClientScript::POS_END);
+
+        //fin news item by PK
+        $item = ExtProduct::model()->findByPk($id);
+
+        //if item not found - 404
+        if(empty($item))
+        {
+            throw new CHttpException(404);
+        }
+
+        //get all site languages
+        $objLanguages = SiteLng::lng()->getLngs();
+
+        //if languages not found
+        if(count($objLanguages) == 0)
+        {
+            //redirect to editing of not translatable part
+            $this->redirect(Yii::app()->createUrl('admin/products/edit',array('id' => $id)));
+        }
+
+        //if should update (etc. by AJAX)
+        if(isset($_POST['ProductFormTrl']))
+        {
+            //foreach every language id
+            foreach($_POST['ProductFormTrl'] as $lngId => $fields)
+            {
+                $lng = $lngId; //set current language id
+                $trl = $item->getOrCreateTrl($lngId); // get TRL object (or create in not found in DB)
+
+                //set values
+                $trl->title = $fields['title'];
+                $trl->summary = $fields['summary'];
+                $trl->text = $fields['text'];
+
+                //if record just created
+                if($trl->isNewRecord)
+                {
+                    //save
+                    $trl->save();
+                }
+                //if record has ben already in DB
+                else
+                {
+                    //update
+                    $trl->update();
+                }
+            }
+        }
+
+        //current language (if set - find it by PK, if not set - get first from array)
+        $objCurrentLng = $lng != null ? Languages::model()->findByPk((int)$lng) : $objLanguages[0];
+
+        //translation of item for this language
+        $trl = $item->getOrCreateTrl($objCurrentLng->id);
+
+        //render partial block (for AJAX requests)
+        if(Yii::app()->request->isAjaxRequest)
+        {
+            $this->renderPartial('_edit_item_content',array(
+                'item' => $item,
+                'languages' => $objLanguages,
+                'currentLng' => $objCurrentLng,
+                'itemTrl' => $trl,
+            ));
+        }
+        //render simple
+        else
+        {
+            $this->render('edit_item_content',array(
+                'item' => $item,
+                'languages' => $objLanguages,
+                'currentLng' => $objCurrentLng,
+                'itemTrl' => $trl,
+            ));
+        }
+    }
+
+    /**
+     * Deletes image
+     * @param $id
+     */
+    public function actionDeleteImage($id)
+    {
+        ImagesOfProduct::model()->deleteByPk((int)$id);
+        $this->redirect(Yii::app()->request->urlReferrer);
     }
 
 

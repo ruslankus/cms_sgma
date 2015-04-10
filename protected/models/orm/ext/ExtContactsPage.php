@@ -49,7 +49,7 @@ class ExtContactsPage extends ContactsPage
         $sql .= "JOIN images t2 ON t1.image_id = t2.id ";
         $sql .= "JOIN images_trl t3 ON t3.image_id = t2.id ";
         $sql .= "JOIN languages t4 ON t3.lng_id = t4.id " ;
-        $sql .= "WHERE t1.contacts_id = ".(int)$page_id." AND t4.prefix = :prefix";
+        $sql .= "WHERE t1.contact_page_id = ".(int)$page_id." AND t4.prefix = :prefix";
         
         $sqlParam[':prefix'] = $lng;
         

@@ -46,13 +46,13 @@ class AdminModule extends CWebModule
 
         array(
             'controller' => 'contacts',
-            'action' => 'index',
+            'action' => 'Pages',
             'html_class' => 'pages',
             'title' => 'Contacts',
 
             'sub' => array(
                 array('controller' => 'contacts', 'action' => 'pages', 'title' => 'Pages'),
-                array('controller' => 'contacts' ,'action' => 'index', 'title' => 'Blocks')
+                array('controller' => 'contacts' ,'action' => 'blocks', 'title' => 'Blocks')
             ),
         ),
 

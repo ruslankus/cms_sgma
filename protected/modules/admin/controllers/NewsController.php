@@ -533,12 +533,20 @@ class NewsController extends ControllerAdmin
 
                     try
                     {
+                        $needOtherPriority = $item->category_id != $form_mdl->category_id;
+
                         //update basic params
                         $item->label = $form_mdl->label;
                         $item->status_id = $form_mdl->status_id;
                         $item->category_id = $form_mdl->category_id;
                         $item->time_updated = time();
                         $item->last_change_by = Yii::app()->user->id;
+
+                        if($needOtherPriority)
+                        {
+                            $item->priority = Sort::GetNextPriority("News",array('category_id' => $form_mdl->category_id));
+                        }
+
                         $item->update();
 
                         //if have image
