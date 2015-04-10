@@ -138,7 +138,7 @@ class ExtImages extends Images
             $con->createCommand($sql)->execute($param1);
             $imageId = $con->getLastInsertID('images');
             //adding relation
-            $sql  = "INSERT INTO images_of_contacts(`contacts_id`, `image_id`) ";
+            $sql  = "INSERT INTO images_of_contacts(`contact_page_id`, `image_id`) ";
             $sql .= "VALUES(:page_id, :image_id)";
             $param2[':page_id'] = $page_id;
             $param2[':image_id'] = $imageId;
