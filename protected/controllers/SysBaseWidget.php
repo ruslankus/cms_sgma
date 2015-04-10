@@ -1,49 +1,46 @@
 <?php
 
-class SysBanner extends CWidget
-{
-   
+    class SysBaseWidget extends CWidget
+    {
+        
         /**
         * @var ExtSystemWidget
         */
         public $widgetInfo;
         public $themeName;
-        public $defoult_template = 'banner';
+        public $template;
         
-    
-    /** Override of getting view dir for widget
+        
+         /**
      * Override of getting view dir for widget
      * @param bool $checkTheme
      * @return string
      */
     public function getViewPath($checkTheme=false)
     {
-        
         $path = Yii::app()->getBasePath().DS.'widgets'.DS.'views';
         $theme = Yii::app()->themeManager->getTheme($this->themeName);
         $prefix = $this->widgetInfo->type->prefix;
         
-        if(!empty($theme) && !empty($this->widgetInfo->template_name))
+        if(!empty($theme))
         {
             $path = $theme->getBasePath().DS.'views'.DS.'widgets'.DS.$prefix;
         }
-        
+        Debug::d($path);
         return $path;
+        
     }
-    
-    
+
     public function run()
     {
-       $template = $this->defoult_template;
-        if(!empty($this->widgetInfo->template_name)){
-            $template = $this->widgetInfo->template_name;
-            $template = str_replace(".php","",$template);
-        }
-        
-        
+        $this->template = $this->widgetInfo->template_name;
+        $this->template = str_replace(".php","",$template);
 
-        $this->render($template);
     }
 
         
-}
+        
+        
+    }//class
+
+?>

@@ -1,0 +1,1 @@
+<p>Banner core template</p>
