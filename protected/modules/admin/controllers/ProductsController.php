@@ -736,7 +736,11 @@ class ProductsController extends ControllerAdmin
         }
     }
 
-
+    /**
+     * Select and deselect which groups of attributes you want in product
+     * @param $id
+     * @throws CHttpException
+     */
     public function actionEditProdAttrGroup($id)
     {
         //product item
@@ -784,6 +788,28 @@ class ProductsController extends ControllerAdmin
         );
 
 
+    }
+
+    /**
+     * Edit values of attribute-fields
+     * @param $id
+     * @throws CHttpException
+     */
+    public function actionEditProdFields($id)
+    {
+        //product item
+        $product = ExtProduct::model()->findByPk((int)$id);
+
+        if(empty($product))
+        {
+            throw new CHttpException(404);
+        }
+
+        $attributeGroupsOfProduct = $product->productFieldGroupsActives;
+
+        Debug::out($attributeGroupsOfProduct);
+
+        exit('Work in progress...');
     }
 
     /**
