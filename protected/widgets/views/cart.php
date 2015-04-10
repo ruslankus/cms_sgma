@@ -1,1 +1,1 @@
-<p>Cart template</p>
+<p>Cart core template</p>
