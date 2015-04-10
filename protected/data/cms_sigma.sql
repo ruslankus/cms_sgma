@@ -10,7 +10,7 @@ Target Server Type    : MYSQL
 Target Server Version : 50538
 File Encoding         : 65001
 
-Date: 2015-04-10 11:11:54
+Date: 2015-04-10 12:38:25
 */
 
 SET FOREIGN_KEY_CHECKS=0;
@@ -106,11 +106,14 @@ CREATE TABLE `contacts_block` (
   PRIMARY KEY (`id`),
   KEY `page_id` (`page_id`),
   CONSTRAINT `contacts_block_ibfk_1` FOREIGN KEY (`page_id`) REFERENCES `contacts_page` (`id`) ON DELETE CASCADE ON UPDATE NO ACTION
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=4 DEFAULT CHARSET=utf8;
 
 -- ----------------------------
 -- Records of contacts_block
 -- ----------------------------
+INSERT INTO `contacts_block` VALUES ('1', '1', 'block1', 'default.php', null, null, '1', '0', '0', '1');
+INSERT INTO `contacts_block` VALUES ('2', '1', 'block2', 'default.php', null, null, '2', '0', '0', '1');
+INSERT INTO `contacts_block` VALUES ('3', '2', 'other block', 'default.php', null, null, '1', '0', '0', '1');
 
 -- ----------------------------
 -- Table structure for `contacts_block_trl`
@@ -185,13 +188,14 @@ CREATE TABLE `contacts_page` (
   `time_updated` int(11) DEFAULT NULL,
   `last_change_by` int(11) DEFAULT NULL,
   `template_name` varchar(256) DEFAULT NULL,
-  `feedback_email` varchar(256) DEFAULT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=utf8;
 
 -- ----------------------------
 -- Records of contacts_page
 -- ----------------------------
+INSERT INTO `contacts_page` VALUES ('1', 'Contacts', '1', '1', '0', '0', '1', 'default.php');
+INSERT INTO `contacts_page` VALUES ('2', 'Additional contacts', '1', '1', '0', '0', '1', 'default.php');
 
 -- ----------------------------
 -- Table structure for `contacts_page_trl`
@@ -826,7 +830,7 @@ CREATE TABLE `product_category` (
 -- ----------------------------
 -- Records of product_category
 -- ----------------------------
-INSERT INTO `product_category` VALUES ('1', '0', 'main_category.php', '0:1', 'Products 1', '1', '2', '1428408351', '1428408351', '1');
+INSERT INTO `product_category` VALUES ('1', '0', 'main_category.php', '0:1', 'Hotels', '1', '3', '1428654240', '1428654240', '1');
 
 -- ----------------------------
 -- Table structure for `product_category_trl`
@@ -849,8 +853,8 @@ CREATE TABLE `product_category_trl` (
 -- ----------------------------
 -- Records of product_category_trl
 -- ----------------------------
-INSERT INTO `product_category_trl` VALUES ('1', 'Products 1', 'Products, keywords', 'Description', '1', '1');
-INSERT INTO `product_category_trl` VALUES ('2', 'Продукты 1', 'Продукты, ключ-слова', 'Описание', '1', '2');
+INSERT INTO `product_category_trl` VALUES ('1', 'Hotels', 'Products, keywords', 'Description', '1', '1');
+INSERT INTO `product_category_trl` VALUES ('2', 'Гостиницы', 'Продукты, ключ-слова', 'Описание', '1', '2');
 
 -- ----------------------------
 -- Table structure for `product_fields`
@@ -870,12 +874,12 @@ CREATE TABLE `product_fields` (
   KEY `product_fields_ibfk_2` (`type_id`),
   CONSTRAINT `product_fields_ibfk_1` FOREIGN KEY (`group_id`) REFERENCES `product_field_groups` (`id`) ON DELETE CASCADE ON UPDATE NO ACTION,
   CONSTRAINT `product_fields_ibfk_2` FOREIGN KEY (`type_id`) REFERENCES `product_field_types` (`id`) ON DELETE NO ACTION ON UPDATE NO ACTION
-) ENGINE=InnoDB AUTO_INCREMENT=12 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=13 DEFAULT CHARSET=utf8;
 
 -- ----------------------------
 -- Records of product_fields
 -- ----------------------------
-INSERT INTO `product_fields` VALUES ('11', 'Power', '6', '18', '2', '1428587695', '1428593592', '1');
+INSERT INTO `product_fields` VALUES ('11', 'Power', '6', '18', '2', '1428587695', '1428653791', '1');
 
 -- ----------------------------
 -- Table structure for `product_fields_trl`
@@ -892,7 +896,7 @@ CREATE TABLE `product_fields_trl` (
   KEY `lng_id` (`lng_id`),
   CONSTRAINT `product_fields_trl_ibfk_1` FOREIGN KEY (`product_field_id`) REFERENCES `product_fields` (`id`) ON DELETE CASCADE ON UPDATE NO ACTION,
   CONSTRAINT `product_fields_trl_ibfk_2` FOREIGN KEY (`lng_id`) REFERENCES `languages` (`id`) ON DELETE CASCADE ON UPDATE NO ACTION
-) ENGINE=InnoDB AUTO_INCREMENT=11 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=13 DEFAULT CHARSET=utf8;
 
 -- ----------------------------
 -- Records of product_fields_trl
@@ -991,13 +995,14 @@ CREATE TABLE `product_field_select_options` (
   PRIMARY KEY (`id`),
   KEY `field_id` (`field_id`),
   CONSTRAINT `product_field_select_options_ibfk_1` FOREIGN KEY (`field_id`) REFERENCES `product_fields` (`id`) ON DELETE CASCADE ON UPDATE NO ACTION
-) ENGINE=InnoDB AUTO_INCREMENT=22 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=27 DEFAULT CHARSET=utf8;
 
 -- ----------------------------
 -- Records of product_field_select_options
 -- ----------------------------
-INSERT INTO `product_field_select_options` VALUES ('20', '11', 'Powerfull', '1');
-INSERT INTO `product_field_select_options` VALUES ('21', '11', 'Vey powerfull', '2');
+INSERT INTO `product_field_select_options` VALUES ('22', '11', 'Low', '1');
+INSERT INTO `product_field_select_options` VALUES ('23', '11', 'Medium', '2');
+INSERT INTO `product_field_select_options` VALUES ('24', '11', 'High', '3');
 
 -- ----------------------------
 -- Table structure for `product_field_types`

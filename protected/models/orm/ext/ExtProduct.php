@@ -43,7 +43,18 @@ class ExtProduct extends Product
         return $trl;
     }
 
+    /**
+     * @return Images|null
+     */
+    public function getFirstImage()
+    {
+        if(count($this->imagesOfProducts) > 0)
+        {
+            return $this->imagesOfProducts[0]->image;
+        }
 
+        return null;
+    }
 
     /**
      * Override, relate with extended models

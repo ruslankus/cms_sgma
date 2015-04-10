@@ -7,6 +7,7 @@ class ExtImages extends Images
 {
     const UPLOAD_DIR = "uploads/images";
     const CACHED_DIR = "uploads/images/cached";
+    const SYS_IMG_DIR = "images";
 
     /**
      * @param string $className
@@ -17,32 +18,48 @@ class ExtImages extends Images
         return parent::model($className);
     }
 
+
     /**
-     * Returns URL to uploaded file
+     * Returns URL to file specified
      * @param $filename
+     * @param bool $system
      * @return string
      */
-    public function getUrlOf($filename)
+    public function getUrlOf($filename,$system = false)
     {
-        return Yii::app()->request->baseUrl.'/'.self::UPLOAD_DIR.'/'.$filename;
+        $dir = $system ? self::UPLOAD_DIR : self::SYS_IMG_DIR;
+        return Yii::app()->request->baseUrl.'/'.$dir.'/'.$filename;
     }
 
     /**
-     * Returns URL to uploaded file of this image
+     * Returns URL to file of this image
+     * @param bool $system
      * @return string
      */
-    public function getUrl()
+    public function getUrl($system = false)
     {
-        return $this->getUrlOf($this->filename);
+        return $this->getUrlOf($this->filename,$system);
+    }
+
+    /**
+     * Checks if file for this image exist in site's storage dir
+     * @param $system
+     * @return bool
+     */
+    public function isFileExist($system)
+    {
+        return file_exists($this->getPath($system));
     }
 
     /**
      * Returns local path
+     * @param bool $system
      * @return string
      */
-    public function getPath()
+    public function getPath($system = false)
     {
-        return Yii::app()->basePath.DS.self::UPLOAD_DIR.DS.$this->filename;
+        $dir = $system ? self::UPLOAD_DIR : self::SYS_IMG_DIR;
+        return Yii::app()->basePath.DS.$dir.DS.$this->filename;
     }
 
     /**

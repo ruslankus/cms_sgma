@@ -51,8 +51,8 @@ class AdminModule extends CWebModule
             'title' => 'Contacts',
 
             'sub' => array(
-                array('controller' => 'contacts', 'action' => 'groups', 'title' => 'Groups'),
-                array('controller' => 'contacts' ,'action' => 'index', 'title' => 'Items')
+                array('controller' => 'contacts', 'action' => 'pages', 'title' => 'Pages'),
+                array('controller' => 'contacts' ,'action' => 'index', 'title' => 'Blocks')
             ),
         ),
 
@@ -82,6 +82,14 @@ class AdminModule extends CWebModule
                 array('controller' => 'products', 'action' => 'attrgroups', 'title' => 'Attributes')
             ),
         ),
+
+        array(
+            'controller' => 'gallery',
+            'action' => 'index',
+            'html_class' => 'pages',
+            'title' => 'Gallery',
+        ),
+
         array(
             'controller' => 'settings',
             'action' => 'index',

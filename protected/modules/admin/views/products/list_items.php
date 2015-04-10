@@ -41,14 +41,20 @@
         <?php foreach($items as $item): ?>
             <div class="list-row h94">
                 <div class="cell checkbox"><input type="checkbox" name="checkbox[]" value="1"/></div>
-                <div class="cell image"><img src="images/no-image.png" alt=" " /></div>
-                <div class="cell"><a href="edit.html">Lorem ipsum</a></div>
-                <div class="cell category">Hot product</div>
-                <div class="cell price">&euro; 1.500</div>
-                <div class="cell status">Enabled</div>
+
+                <div class="cell image">
+
+                    <img src="/images/no-image.png" alt=" " />
+
+                </div>
+
+                <div class="cell"><?php echo $item->label; ?></div>
+                <div class="cell category"><?php echo $item->category->label; ?></div>
+                <div class="cell price">&euro;<?php echo Number::FormatPrice($item->price); ?></div>
+                <div class="cell status"><?php echo ATrl::t()->getLabel($item->status->label); ?></div>
                 <div class="cell action">
-                    <a href="edit.html" class="action edit" data-id="1"></a>
-                    <a href="index.html" class="action delete" data-id="1"></a>
+                    <a href="#" class="action edit" data-id="1"></a>
+                    <a href="#" class="action delete" data-id="1"></a>
                 </div>
             </div><!--/list-row-->
         <?php endforeach; ?>
