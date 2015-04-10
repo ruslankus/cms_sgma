@@ -10,11 +10,10 @@
  * @property string $text
  * @property string $title
  * @property string $meta_description
- * @property string $email
  *
  * The followings are the available model relations:
- * @property ContactsBlock $block
  * @property Languages $lng
+ * @property ContactsBlock $block
  */
 class ContactsBlockTrl extends CActiveRecord
 {
@@ -35,10 +34,10 @@ class ContactsBlockTrl extends CActiveRecord
 		// will receive user inputs.
 		return array(
 			array('lng_id, block_id', 'numerical', 'integerOnly'=>true),
-			array('text, title, meta_description, email', 'safe'),
+			array('text, title, meta_description', 'safe'),
 			// The following rule is used by search().
 			// @todo Please remove those attributes that should not be searched.
-			array('id, lng_id, block_id, text, title, meta_description, email', 'safe', 'on'=>'search'),
+			array('id, lng_id, block_id, text, title, meta_description', 'safe', 'on'=>'search'),
 		);
 	}
 
@@ -50,8 +49,8 @@ class ContactsBlockTrl extends CActiveRecord
 		// NOTE: you may need to adjust the relation name and the related
 		// class name for the relations automatically generated below.
 		return array(
-			'block' => array(self::BELONGS_TO, 'ContactsBlock', 'block_id'),
 			'lng' => array(self::BELONGS_TO, 'Languages', 'lng_id'),
+			'block' => array(self::BELONGS_TO, 'ContactsBlock', 'block_id'),
 		);
 	}
 
@@ -67,7 +66,6 @@ class ContactsBlockTrl extends CActiveRecord
 			'text' => 'Text',
 			'title' => 'Title',
 			'meta_description' => 'Meta Description',
-			'email' => 'Email',
 		);
 	}
 
@@ -95,7 +93,6 @@ class ContactsBlockTrl extends CActiveRecord
 		$criteria->compare('text',$this->text,true);
 		$criteria->compare('title',$this->title,true);
 		$criteria->compare('meta_description',$this->meta_description,true);
-		$criteria->compare('email',$this->email,true);
 
 		return new CActiveDataProvider($this, array(
 			'criteria'=>$criteria,

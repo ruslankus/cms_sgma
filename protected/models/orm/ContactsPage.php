@@ -5,13 +5,14 @@
  *
  * The followings are the available columns in table 'contacts_page':
  * @property integer $id
- * @property integer $label
+ * @property string $label
  * @property integer $status_id
  * @property integer $priority
  * @property integer $time_created
  * @property integer $time_updated
  * @property integer $last_change_by
- * @property integer $template_name
+ * @property string $template_name
+ * @property string $feedback_email
  *
  * The followings are the available model relations:
  * @property ContactsBlock[] $contactsBlocks
@@ -35,10 +36,12 @@ class ContactsPage extends CActiveRecord
 		// NOTE: you should only define rules for those attributes that
 		// will receive user inputs.
 		return array(
-			array('label, status_id, priority, time_created, time_updated, last_change_by, template_name', 'numerical', 'integerOnly'=>true),
+			array('status_id, priority, time_created, time_updated, last_change_by', 'numerical', 'integerOnly'=>true),
+			array('label', 'length', 'max'=>128),
+			array('template_name, feedback_email', 'length', 'max'=>256),
 			// The following rule is used by search().
 			// @todo Please remove those attributes that should not be searched.
-			array('id, label, status_id, priority, time_created, time_updated, last_change_by, template_name', 'safe', 'on'=>'search'),
+			array('id, label, status_id, priority, time_created, time_updated, last_change_by, template_name, feedback_email', 'safe', 'on'=>'search'),
 		);
 	}
 
@@ -69,6 +72,7 @@ class ContactsPage extends CActiveRecord
 			'time_updated' => 'Time Updated',
 			'last_change_by' => 'Last Change By',
 			'template_name' => 'Template Name',
+			'feedback_email' => 'Feedback Email',
 		);
 	}
 
@@ -91,13 +95,14 @@ class ContactsPage extends CActiveRecord
 		$criteria=new CDbCriteria;
 
 		$criteria->compare('id',$this->id);
-		$criteria->compare('label',$this->label);
+		$criteria->compare('label',$this->label,true);
 		$criteria->compare('status_id',$this->status_id);
 		$criteria->compare('priority',$this->priority);
 		$criteria->compare('time_created',$this->time_created);
 		$criteria->compare('time_updated',$this->time_updated);
 		$criteria->compare('last_change_by',$this->last_change_by);
-		$criteria->compare('template_name',$this->template_name);
+		$criteria->compare('template_name',$this->template_name,true);
+		$criteria->compare('feedback_email',$this->feedback_email,true);
 
 		return new CActiveDataProvider($this, array(
 			'criteria'=>$criteria,

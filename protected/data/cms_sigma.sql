@@ -10,7 +10,7 @@ Target Server Type    : MYSQL
 Target Server Version : 50538
 File Encoding         : 65001
 
-Date: 2015-04-09 17:11:26
+Date: 2015-04-10 11:11:54
 */
 
 SET FOREIGN_KEY_CHECKS=0;
@@ -123,12 +123,11 @@ CREATE TABLE `contacts_block_trl` (
   `text` text,
   `title` text,
   `meta_description` text,
-  `email` text,
   PRIMARY KEY (`id`),
   KEY `lng_id` (`lng_id`),
   KEY `block_id` (`block_id`),
-  CONSTRAINT `contacts_block_trl_ibfk_3` FOREIGN KEY (`block_id`) REFERENCES `contacts_block` (`id`) ON DELETE CASCADE ON UPDATE NO ACTION,
-  CONSTRAINT `contacts_block_trl_ibfk_2` FOREIGN KEY (`lng_id`) REFERENCES `languages` (`id`) ON DELETE CASCADE ON UPDATE NO ACTION
+  CONSTRAINT `contacts_block_trl_ibfk_2` FOREIGN KEY (`lng_id`) REFERENCES `languages` (`id`) ON DELETE CASCADE ON UPDATE NO ACTION,
+  CONSTRAINT `contacts_block_trl_ibfk_3` FOREIGN KEY (`block_id`) REFERENCES `contacts_block` (`id`) ON DELETE CASCADE ON UPDATE NO ACTION
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 -- ----------------------------
@@ -179,13 +178,14 @@ CREATE TABLE `contacts_fields_trl` (
 DROP TABLE IF EXISTS `contacts_page`;
 CREATE TABLE `contacts_page` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
-  `label` int(11) DEFAULT NULL,
+  `label` varchar(128) DEFAULT NULL,
   `status_id` int(11) DEFAULT NULL,
   `priority` int(11) DEFAULT NULL,
   `time_created` int(11) DEFAULT NULL,
   `time_updated` int(11) DEFAULT NULL,
   `last_change_by` int(11) DEFAULT NULL,
-  `template_name` int(11) DEFAULT NULL,
+  `template_name` varchar(256) DEFAULT NULL,
+  `feedback_email` varchar(256) DEFAULT NULL,
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
@@ -208,8 +208,8 @@ CREATE TABLE `contacts_page_trl` (
   PRIMARY KEY (`id`),
   KEY `lng_id` (`lng_id`),
   KEY `page_id` (`page_id`),
-  CONSTRAINT `contacts_page_trl_ibfk_3` FOREIGN KEY (`page_id`) REFERENCES `contacts_page` (`id`) ON DELETE CASCADE ON UPDATE NO ACTION,
-  CONSTRAINT `contacts_page_trl_ibfk_2` FOREIGN KEY (`lng_id`) REFERENCES `languages` (`id`) ON DELETE CASCADE ON UPDATE NO ACTION
+  CONSTRAINT `contacts_page_trl_ibfk_2` FOREIGN KEY (`lng_id`) REFERENCES `languages` (`id`) ON DELETE CASCADE ON UPDATE NO ACTION,
+  CONSTRAINT `contacts_page_trl_ibfk_3` FOREIGN KEY (`page_id`) REFERENCES `contacts_page` (`id`) ON DELETE CASCADE ON UPDATE NO ACTION
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 -- ----------------------------
@@ -353,8 +353,8 @@ CREATE TABLE `images_of_widget` (
   PRIMARY KEY (`id`),
   KEY `image_id` (`image_id`),
   KEY `widget_id` (`widget_id`),
-  CONSTRAINT `images_of_widget_ibfk_2` FOREIGN KEY (`widget_id`) REFERENCES `system_widget` (`id`) ON DELETE CASCADE ON UPDATE NO ACTION,
-  CONSTRAINT `images_of_widget_ibfk_1` FOREIGN KEY (`image_id`) REFERENCES `images` (`id`) ON DELETE CASCADE ON UPDATE NO ACTION
+  CONSTRAINT `images_of_widget_ibfk_1` FOREIGN KEY (`image_id`) REFERENCES `images` (`id`) ON DELETE CASCADE ON UPDATE NO ACTION,
+  CONSTRAINT `images_of_widget_ibfk_2` FOREIGN KEY (`widget_id`) REFERENCES `system_widget` (`id`) ON DELETE CASCADE ON UPDATE NO ACTION
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 -- ----------------------------
@@ -875,8 +875,7 @@ CREATE TABLE `product_fields` (
 -- ----------------------------
 -- Records of product_fields
 -- ----------------------------
-INSERT INTO `product_fields` VALUES ('10', 'Breakfast', '3', '18', '1', '1428587614', '1428587614', '1');
-INSERT INTO `product_fields` VALUES ('11', 'Power', '6', '18', '2', '1428587695', '1428587695', '1');
+INSERT INTO `product_fields` VALUES ('11', 'Power', '6', '18', '2', '1428587695', '1428593592', '1');
 
 -- ----------------------------
 -- Table structure for `product_fields_trl`
@@ -898,8 +897,6 @@ CREATE TABLE `product_fields_trl` (
 -- ----------------------------
 -- Records of product_fields_trl
 -- ----------------------------
-INSERT INTO `product_fields_trl` VALUES ('7', '10', '1', '', 'Breakfast');
-INSERT INTO `product_fields_trl` VALUES ('8', '10', '2', '', 'Завтрак');
 INSERT INTO `product_fields_trl` VALUES ('9', '11', '1', '', 'Power');
 INSERT INTO `product_fields_trl` VALUES ('10', '11', '2', '', 'Мощность');
 
@@ -994,14 +991,13 @@ CREATE TABLE `product_field_select_options` (
   PRIMARY KEY (`id`),
   KEY `field_id` (`field_id`),
   CONSTRAINT `product_field_select_options_ibfk_1` FOREIGN KEY (`field_id`) REFERENCES `product_fields` (`id`) ON DELETE CASCADE ON UPDATE NO ACTION
-) ENGINE=InnoDB AUTO_INCREMENT=6 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=22 DEFAULT CHARSET=utf8;
 
 -- ----------------------------
 -- Records of product_field_select_options
 -- ----------------------------
-INSERT INTO `product_field_select_options` VALUES ('3', '11', 'Powerfull', '1');
-INSERT INTO `product_field_select_options` VALUES ('4', '11', 'Vey powerfull', '2');
-INSERT INTO `product_field_select_options` VALUES ('5', '11', 'Hell-like', '3');
+INSERT INTO `product_field_select_options` VALUES ('20', '11', 'Powerfull', '1');
+INSERT INTO `product_field_select_options` VALUES ('21', '11', 'Vey powerfull', '2');
 
 -- ----------------------------
 -- Table structure for `product_field_types`
@@ -1291,7 +1287,7 @@ CREATE TABLE `wid_registration` (
   CONSTRAINT `wid_registration_ibfk_1` FOREIGN KEY (`type_id`) REFERENCES `wid_registration_type` (`id`) ON DELETE NO ACTION ON UPDATE NO ACTION,
   CONSTRAINT `wid_registration_ibfk_2` FOREIGN KEY (`menu_id`) REFERENCES `menu` (`id`) ON DELETE CASCADE ON UPDATE NO ACTION,
   CONSTRAINT `wid_registration_ibfk_3` FOREIGN KEY (`widget_id`) REFERENCES `system_widget` (`id`) ON DELETE CASCADE ON UPDATE NO ACTION
-) ENGINE=InnoDB AUTO_INCREMENT=57 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=55 DEFAULT CHARSET=utf8;
 
 -- ----------------------------
 -- Records of wid_registration
