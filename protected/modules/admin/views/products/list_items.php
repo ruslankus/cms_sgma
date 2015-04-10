@@ -23,7 +23,7 @@
             </h1>
         <?php endif; ?>
         <ul class="actions">
-            <li><a href="#" class="action add" data-id="checkbox"></a></li>
+            <li><a href="<?php echo Yii::app()->createUrl('admin/products/add'); ?>" class="action add"></a></li>
             <li><a data-message="<?php echo ATrl::t()->getLabel('Delete all selected items ?'); ?>" data-yes="<?php echo ATrl::t()->getLabel('Delete'); ?>" data-no="<?php echo ATrl::t()->getLabel('Cancel'); ?>" href="<?php echo Yii::app()->createUrl('/admin/products/deleteall',$params); ?>" class="action del delete-all" data-id="checkbox"></a></li>
         </ul>
     </div><!--/title-bar-->

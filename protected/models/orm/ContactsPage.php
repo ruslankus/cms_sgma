@@ -12,11 +12,11 @@
  * @property integer $time_updated
  * @property integer $last_change_by
  * @property string $template_name
- * @property string $feedback_email
  *
  * The followings are the available model relations:
  * @property ContactsBlock[] $contactsBlocks
  * @property ContactsPageTrl[] $contactsPageTrls
+ * @property ImagesOfContacts[] $imagesOfContacts
  */
 class ContactsPage extends CActiveRecord
 {
@@ -38,10 +38,10 @@ class ContactsPage extends CActiveRecord
 		return array(
 			array('status_id, priority, time_created, time_updated, last_change_by', 'numerical', 'integerOnly'=>true),
 			array('label', 'length', 'max'=>128),
-			array('template_name, feedback_email', 'length', 'max'=>256),
+			array('template_name', 'length', 'max'=>256),
 			// The following rule is used by search().
 			// @todo Please remove those attributes that should not be searched.
-			array('id, label, status_id, priority, time_created, time_updated, last_change_by, template_name, feedback_email', 'safe', 'on'=>'search'),
+			array('id, label, status_id, priority, time_created, time_updated, last_change_by, template_name', 'safe', 'on'=>'search'),
 		);
 	}
 
@@ -55,6 +55,7 @@ class ContactsPage extends CActiveRecord
 		return array(
 			'contactsBlocks' => array(self::HAS_MANY, 'ContactsBlock', 'page_id'),
 			'contactsPageTrls' => array(self::HAS_MANY, 'ContactsPageTrl', 'page_id'),
+			'imagesOfContacts' => array(self::HAS_MANY, 'ImagesOfContacts', 'contact_page_id'),
 		);
 	}
 
@@ -72,7 +73,6 @@ class ContactsPage extends CActiveRecord
 			'time_updated' => 'Time Updated',
 			'last_change_by' => 'Last Change By',
 			'template_name' => 'Template Name',
-			'feedback_email' => 'Feedback Email',
 		);
 	}
 
@@ -102,7 +102,6 @@ class ContactsPage extends CActiveRecord
 		$criteria->compare('time_updated',$this->time_updated);
 		$criteria->compare('last_change_by',$this->last_change_by);
 		$criteria->compare('template_name',$this->template_name,true);
-		$criteria->compare('feedback_email',$this->feedback_email,true);
 
 		return new CActiveDataProvider($this, array(
 			'criteria'=>$criteria,

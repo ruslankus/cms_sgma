@@ -18,6 +18,7 @@
  * @property integer $time_created
  * @property integer $time_updated
  * @property integer $last_change_by
+ * @property integer $product_code
  *
  * The followings are the available model relations:
  * @property ImagesOfProduct[] $imagesOfProducts
@@ -26,6 +27,7 @@
  * @property ProductFieldGroupsActive[] $productFieldGroupsActives
  * @property ProductFieldValues[] $productFieldValues
  * @property ProductTrl[] $productTrls
+ * @property Rating[] $ratings
  */
 class Product extends CActiveRecord
 {
@@ -45,13 +47,13 @@ class Product extends CActiveRecord
 		// NOTE: you should only define rules for those attributes that
 		// will receive user inputs.
 		return array(
-			array('category_id, status_id, priority, price, discount_price, is_new, stock_qnt, time_created, time_updated, last_change_by', 'numerical', 'integerOnly'=>true),
+			array('category_id, status_id, priority, price, discount_price, is_new, stock_qnt, time_created, time_updated, last_change_by, product_code', 'numerical', 'integerOnly'=>true),
 			array('branch', 'length', 'max'=>1024),
 			array('label', 'length', 'max'=>128),
 			array('template_name', 'length', 'max'=>512),
 			// The following rule is used by search().
 			// @todo Please remove those attributes that should not be searched.
-			array('id, category_id, branch, label, template_name, status_id, priority, price, discount_price, is_new, stock_qnt, time_created, time_updated, last_change_by', 'safe', 'on'=>'search'),
+			array('id, category_id, branch, label, template_name, status_id, priority, price, discount_price, is_new, stock_qnt, time_created, time_updated, last_change_by, product_code', 'safe', 'on'=>'search'),
 		);
 	}
 
@@ -69,6 +71,7 @@ class Product extends CActiveRecord
 			'productFieldGroupsActives' => array(self::HAS_MANY, 'ProductFieldGroupsActive', 'product_id'),
 			'productFieldValues' => array(self::HAS_MANY, 'ProductFieldValues', 'product_id'),
 			'productTrls' => array(self::HAS_MANY, 'ProductTrl', 'product_id'),
+			'ratings' => array(self::HAS_MANY, 'Rating', 'product_id'),
 		);
 	}
 
@@ -92,6 +95,7 @@ class Product extends CActiveRecord
 			'time_created' => 'Time Created',
 			'time_updated' => 'Time Updated',
 			'last_change_by' => 'Last Change By',
+			'product_code' => 'Product Code',
 		);
 	}
 
@@ -127,6 +131,7 @@ class Product extends CActiveRecord
 		$criteria->compare('time_created',$this->time_created);
 		$criteria->compare('time_updated',$this->time_updated);
 		$criteria->compare('last_change_by',$this->last_change_by);
+		$criteria->compare('product_code',$this->product_code);
 
 		return new CActiveDataProvider($this, array(
 			'criteria'=>$criteria,

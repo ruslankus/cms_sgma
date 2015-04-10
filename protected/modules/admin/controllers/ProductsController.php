@@ -401,6 +401,11 @@ class ProductsController extends ControllerAdmin
         $this->redirect(Yii::app()->createUrl('admin/products/list',array('page' => $page, 'cat' => $cat)));
     }
 
+    public function actionAdd()
+    {
+        $this->render('add_product',array());
+    }
+
 
     /******************************** A T T R I B U T E S : G R O U P S ***********************************************/
 
