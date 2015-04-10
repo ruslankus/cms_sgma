@@ -1,0 +1,1 @@
+<p>Search template from theme</p>

@@ -865,7 +865,7 @@ class ProductsController extends ControllerAdmin
                         ExtProductFieldSelectOptions::model()->deleteAllByAttributes(array('field_id' => $field->id));
 
                         //add variants for select box
-                        if($field -> type_id = ExtProductFieldTypes::TYPE_SELECTABLE)
+                        if($field -> type_id == ExtProductFieldTypes::TYPE_SELECTABLE)
                         {
                             $variants_names = $_POST['AttrFieldForm']['variants']['option_name'];
                             $variants_values = $_POST['AttrFieldForm']['variants']['option_value'];

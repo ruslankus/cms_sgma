@@ -7,6 +7,7 @@ class SysSearch extends CWidget
      */
     public $widgetInfo;
     public $themeName;
+    const DEFAULT_VIEW = 'search';
 
     /**
      * Override of getting view dir for widget
@@ -15,19 +16,31 @@ class SysSearch extends CWidget
      */
     public function getViewPath($checkTheme=false)
     {
+        
         $path = Yii::app()->getBasePath().DS.'widgets'.DS.'views';
         $theme = Yii::app()->themeManager->getTheme($this->themeName);
-        if(!empty($theme))
+        $prefix = $this->widgetInfo->type->prefix;
+        
+        if(!empty($theme) && !empty($this->widgetInfo->template_name))
         {
-            $path = $theme->getBasePath().DS.'views'.DS.'widgets';
+            $path = $theme->getBasePath().DS.'views'.DS.'widgets'.DS.$prefix;
         }
+        
+        //Debug::d($path);
+        
         return $path;
     }
     
+    
     public function run()
     {
-        $template = $this->widgetInfo->template_name;
-        $template = str_replace(".php","",$template);
+        $template = self::DEFAULT_VIEW;
+        if(!empty($this->widgetInfo->template_name)){
+            $template = $this->widgetInfo->template_name;
+            $template = str_replace(".php","",$template);
+        }
+        
+        
 
         $this->render($template);
     }

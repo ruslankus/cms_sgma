@@ -1,6 +1,6 @@
 <main>
 	<div class="title-bar world">
-		<h1><?php echo ATrl::t()->getLabel('edit contact content')?></h1>
+		<h1><?php echo ATrl::t()->getLabel('edit contact block')?></h1>
 		<ul class="actions">
 			<li><a href="" class="action undo"></a></li>
 		</ul>
@@ -9,7 +9,7 @@
 	<div class="content page-content">
 		<div class="header">
 			<span><?php echo $arrPage['title'];?></span>
-			<a href="/<?php echo $prefix;?>/admin/contacts/contactsettings/<?php echo $arrPage->contacts->id;?>"><?php echo ATrl::t()->getLabel('contact form images')?></a>
+			<a href="/<?php echo $prefix;?>/admin/contacts/contactsettings/<?php echo $arrPage->block->id;?>"><?php echo ATrl::t()->getLabel('contact form images')?></a>
 			<a href="#" class="active"><?php echo ATrl::t()->getLabel('contact settings')?></a>
 		</div><!--/header-->
 		<div class="contact-img">
@@ -52,8 +52,30 @@
 			</div><!--/inner-top-->
 
 
-			<div class="inner-editor">
+			<div class="inner-editor inner-content">
 				<table>
+					<tr>
+						<td class="label"><?php echo ATrl::t()->getLabel('page')?>:</td>
+						<td class="value">
+							<select name="template">
+                                <option value="">------------</option>
+                                <option value="1">Page 1</option>
+                                <option value="2">Page 2</option>
+                                <option value="3">Page 3</option>
+							</select>
+						</td>
+					</tr>
+					<tr>
+						<td class="label"><?php echo ATrl::t()->getLabel('template')?>:</td>
+						<td class="value">
+							<select name="template">
+                                <option value="">------------</option>
+                                <option value="template.php">template.php</option>
+                                <option value="template.php">template.php</option>
+                                <option value="template.php">template.php</option>
+							</select>
+						</td>
+					</tr>
 					<tr>
 						<td class="label">Title</td>
 						<td class="value">

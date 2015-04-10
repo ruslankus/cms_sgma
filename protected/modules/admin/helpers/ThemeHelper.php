@@ -18,9 +18,14 @@ class ThemeHelper
      * @param $selectedTheme
      * @return array
      */
-    public static function getTemplatesForWidgets($selectedTheme)
+    public static function getTemplatesForWidgets($selectedTheme, $prefix = '')
     {
-        return self::getTemplatesFor($selectedTheme,'widgets');
+        if(!empty($prefix)){
+            $path = "widgets/{$prefix}";
+        }
+        $retArr = self::getTemplatesFor($selectedTheme,$path);
+        
+        return (!empty($retArr))? $retArr : null; 
     }
 
 

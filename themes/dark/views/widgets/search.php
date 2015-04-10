@@ -1,1 +1,0 @@
-<p>Search template</p>

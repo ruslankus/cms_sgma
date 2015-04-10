@@ -94,14 +94,23 @@
                         <td class="value"><?php echo $form->dropDownList($form_mdl,'type_id',$types,array('data-show_variants_for' => ExtProductFieldTypes::TYPE_SELECTABLE, 'options' => array($field->type_id => array('selected' => true)))); ?></td>
                         <td class="value hidden-selector" <?php echo $field->type_id != ExtProductFieldTypes::TYPE_SELECTABLE ? "style='visibility: hidden'" : ''; ?>>
                             <div class="field-in-addable">
-                                <?php foreach($field->productFieldSelectOptions as $index => $variant): ?>
+                                <?php if($field->type_id == ExtProductFieldTypes::TYPE_SELECTABLE): ?>
+                                    <?php foreach($field->productFieldSelectOptions as $index => $variant): ?>
+                                        <div class="input-block">
+                                            <input value="<?php echo $variant->option_name; ?>" class="input-name" placeholder="<?php echo ATrl::t()->getLabel('Name'); ?>" name="AttrFieldForm[variants][option_name][<?php echo $index; ?>]" type="text">
+                                            <input value="<?php echo $variant->option_value; ?>" class="input-value" placeholder="<?php echo ATrl::t()->getLabel('Value'); ?>" name="AttrFieldForm[variants][option_value][<?php echo $index; ?>]" type="text">
+                                            <input class="input-delete" type="submit" value="<?php echo ATrl::t()->getLabel('Delete'); ?>">
+                                            <div style="clear: both"></div>
+                                        </div>
+                                    <?php endforeach; ?>
+                                <?php else: ?>
                                     <div class="input-block">
-                                        <input value="<?php echo $variant->option_name; ?>" class="input-name" placeholder="<?php echo ATrl::t()->getLabel('Name'); ?>" name="AttrFieldForm[variants][option_name][<?php echo $index; ?>]" type="text">
-                                        <input value="<?php echo $variant->option_value; ?>" class="input-value" placeholder="<?php echo ATrl::t()->getLabel('Value'); ?>" name="AttrFieldForm[variants][option_value][<?php echo $index; ?>]" type="text">
+                                        <input value="" class="input-name" placeholder="<?php echo ATrl::t()->getLabel('Name'); ?>" name="AttrFieldForm[variants][option_name][0]" type="text">
+                                        <input value="" class="input-value" placeholder="<?php echo ATrl::t()->getLabel('Value'); ?>" name="AttrFieldForm[variants][option_value][0]" type="text">
                                         <input class="input-delete" type="submit" value="<?php echo ATrl::t()->getLabel('Delete'); ?>">
                                         <div style="clear: both"></div>
                                     </div>
-                                <?php endforeach; ?>
+                                <?php endif; ?>
                             </div>
                         </td>
                     </tr>
@@ -111,7 +120,7 @@
                             <?php echo CHtml::submitButton(ATrl::t()->getLabel('Save'),array()); ?>
                         </td>
                         <td class="value hidden-selector" <?php echo $field->type_id != ExtProductFieldTypes::TYPE_SELECTABLE ? "style='visibility: hidden'" : ''; ?>>
-                            <input data-count="<?php echo count($field->productFieldSelectOptions); ?>" data-ploname="<?php echo ATrl::t()->getLabel('Name'); ?>" data-ploval="<?php echo ATrl::t()->getLabel('Value'); ?>" data-delname="<?php echo ATrl::t()->getLabel('Delete'); ?>" data-oname="AttrFieldForm[variants][option_name]" data-oval="AttrFieldForm[variants][option_value]" class="add-select-option-button" type="submit" value="<?php echo ATrl::t()->getLabel('Add field'); ?>">
+                            <input data-count="<?php echo $field->type_id == ExtProductFieldTypes::TYPE_SELECTABLE ? count($field->productFieldSelectOptions) : 0; ?>" data-ploname="<?php echo ATrl::t()->getLabel('Name'); ?>" data-ploval="<?php echo ATrl::t()->getLabel('Value'); ?>" data-delname="<?php echo ATrl::t()->getLabel('Delete'); ?>" data-oname="AttrFieldForm[variants][option_name]" data-oval="AttrFieldForm[variants][option_value]" class="add-select-option-button" type="submit" value="<?php echo ATrl::t()->getLabel('Add field'); ?>">
                         </td>
                     </tr>
 

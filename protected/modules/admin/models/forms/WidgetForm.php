@@ -15,7 +15,7 @@ class WidgetForm extends CFormModel
     public function rules()
     {
         return array(
-            array('label, type_id, template_name', 'required'),
+            array('label, type_id', 'required'),
             array('label, type_id, template_name', 'safe')
         );
     }
