@@ -2,7 +2,7 @@
 
 class ContactsController extends ControllerAdmin
 {
-    public function actionIndex($page = 1)
+    public function actionPages($page = 1)
     {
         Yii::app()->clientScript->registerScriptFile($this->assetsPath.'/js/vendor.contacts.js',CClientScript::POS_END);
 
@@ -12,7 +12,7 @@ class ContactsController extends ControllerAdmin
             $siteLng = Yii::app()->language; 
         }
         
-        $objContacts = ContactsBlock::model()->with(array('contactsBlockTrls.lng' => array('condition' => "lng.prefix='{$siteLng}'")))->findall();
+        $objContacts = ContactsPage::model()->with(array('contactsPageTrls.lng' => array('condition' => "lng.prefix='{$siteLng}'")))->findall();
         
         $pager = CPaginator::getInstance($objContacts,10,$page);
         $this->render('index',array('pager' => $pager, 'currLng' => $currLng));
@@ -33,9 +33,9 @@ class ContactsController extends ControllerAdmin
                     $arrTitle[$objLng->id] = $_POST['AddPageForm']["title_{$lngPrefix}"];
                 }
                 
-                $result = ExtContactsBlockTrl::model()->setNewContact($model->page_label,$arrTitle);
+                $result = ExtContactsPageTrl::model()->setNewContactPage($model->page_label,$arrTitle);
                 if($result){
-                    $this->redirect('index');
+                    $this->redirect('pages');
                 }else{
                     
                 }
@@ -62,11 +62,11 @@ class ContactsController extends ControllerAdmin
             if($model->validate())
             {
 
-                $contactTrlObj = ContactsBlockTrl::model()->find(array('condition'=>'lng_id=:lng_id AND block_id=:block_id','params'=>array('lng_id'=>$siteLng,'block_id'=>$id)));
-                $contactTrlObj->text=$_POST['SaveContactForm']['text'];
+                $contactTrlObj = ContactsPageTrl::model()->find(array('condition'=>'lng_id=:lng_id AND page_id=:page_id','params'=>array('lng_id'=>$siteLng,'page_id'=>$id)));
+                $contactTrlObj->description=$_POST['SaveContactForm']['description'];
                 $contactTrlObj->title=$_POST['SaveContactForm']['title'];
                 $contactTrlObj->meta_description=$_POST['SaveContactForm']['meta'];
-                $contactTrlObj->email=$_POST['SaveContactForm']['email'];
+                //$contactTrlObj->email=$_POST['SaveContactForm']['email'];
                 $contactTrlObj->update(); 
 
             }
@@ -90,14 +90,14 @@ class ContactsController extends ControllerAdmin
 
         //$objPage = ExtPage::model()->findByPk($id);
         //$arrPage = ExtContacts::model()->getContact($id,$curr_prefix);
-        $arrPage = ContactsBlockTrl::model()->find(array('condition'=>'block_id=:id AND lng_id=:siteLng','params'=>array('id'=>$id,'siteLng'=>$siteLng)));
+        $arrPage = ContactsPageTrl::model()->find(array('condition'=>'Page_id=:id AND lng_id=:siteLng','params'=>array('id'=>$id,'siteLng'=>$siteLng)));
         //Debug::d($arrPage);
         $this->render('editContact', array('arrPage' => $arrPage, 'model' => $model, 'contact_id' => $id, 'siteLng' => $siteLng, 'prefix' => $prefix ));
     }//edit
 
     public function actionDeleteContact($id=null)
     {
-    	$objContact = ContactsBlock::model()->findByPk($id);
+    	$objContact = ContactsPage::model()->findByPk($id);
     	$objContact->delete();
     	$this->redirect(array('index'));
     }
@@ -132,7 +132,7 @@ class ContactsController extends ControllerAdmin
                        //
                        $model->addError('file',"Can't save file in DB");
                    }
-
+            
                 }
                                
               
@@ -143,7 +143,7 @@ class ContactsController extends ControllerAdmin
 
         $lngObj = SiteLng::lng()->getCurrLng();
       
-        $arrPage = ExtContactsBlock::model()->getContactWithImage($id, $lngObj->prefix);
+        $arrPage = ExtContactsPage::model()->getContactPageWithImage($id, $lngObj->prefix);
         
         $arrImages = $arrPage['images'];
        
@@ -187,12 +187,12 @@ class ContactsController extends ControllerAdmin
             
             $lngId = $request->getPost('lngId');
             
-            $objPage = ContactsBlockTrl::model()->findByAttributes(array('lng_id' => $lngId, 'block_id' => $id));
+            $objPage = ContactsPageTrl::model()->findByAttributes(array('lng_id' => $lngId, 'page_id' => $id));
             $arrJson = array();
             $arrJson['title'] = $objPage->title;
             $arrJson['meta'] = $objPage->meta_description;
-            $arrJson['text'] = $objPage->text;
-            $arrJson['email'] = $objPage->email;
+            $arrJson['description'] = $objPage->description;
+            //$arrJson['email'] = $objPage->email;
             echo json_encode($arrJson);
             Yii::app()->end();
         }//ajax part
@@ -212,7 +212,7 @@ class ContactsController extends ControllerAdmin
 	            $siteLng = Yii::app()->language; 
 	        }
 	        
-	        $objContacts = ContactsBlock::model()->with(array('contactsTrls.lng' => array('condition' => "lng.prefix='{$siteLng}'")))->findall();
+	        $objContacts = ContactsPage::model()->with(array('contactsPageTrls.lng' => array('condition' => "lng.prefix='{$siteLng}'")))->findall();
 	        
 	        $pager = CPaginator::getInstance($objContacts,10,$page);
 	        $this->renderPartial('_index',array('pager' => $pager, 'currLng' => $currLng));

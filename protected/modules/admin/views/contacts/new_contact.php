@@ -35,7 +35,24 @@
 							
 							</div><!--/tabs-->
 							
-							<table>							
+							<table>	
+								<?php /*
+								<tr>
+									<td class="label"><?php echo ATrl::t()->getLabel('page')?>:</td>
+									<td class="value">
+									<?php
+									
+										$selected_page_id = $model->page_id;
+									    echo $form->dropDownList($model,
+									      'page_id',
+									      CHtml::listData(ContactsPage::model()->findAll(),'id','label'),array('class'=>'float-left', 'empty'=> ATrl::t()->getLabel('Select page'), 'options' => array($selected_page_id=>array('selected'=>true)))
+									    );
+									    echo $form->error($model,'page_id');
+
+									?>
+									</td>
+								</tr>	
+								*/ ?>					
 								<tr>
 									<td class="label"><?php echo ATrl::t()->getLabel('label')?></td>
 									<td class="value">                                   

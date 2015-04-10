@@ -6,8 +6,6 @@
 class AddPageForm extends CFormModel
 {
     public $page_label;
-
-
 	/**
 	 * Declares the validation rules.
 	 */

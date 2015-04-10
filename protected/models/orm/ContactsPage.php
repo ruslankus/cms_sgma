@@ -55,6 +55,7 @@ class ContactsPage extends CActiveRecord
 		return array(
 			'contactsBlocks' => array(self::HAS_MANY, 'ContactsBlock', 'page_id'),
 			'contactsPageTrls' => array(self::HAS_MANY, 'ContactsPageTrl', 'page_id'),
+
 		);
 	}
 

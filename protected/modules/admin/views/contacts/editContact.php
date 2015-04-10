@@ -9,7 +9,7 @@
 	<div class="content page-content">
 		<div class="header">
 			<span><?php echo $arrPage['title'];?></span>
-			<a href="/<?php echo $prefix;?>/admin/contacts/contactsettings/<?php echo $arrPage->block->id;?>"><?php echo ATrl::t()->getLabel('contact form images')?></a>
+			<a href="/<?php echo $prefix;?>/admin/contacts/contactsettings/<?php echo $arrPage->page->id;?>"><?php echo ATrl::t()->getLabel('contact form images')?></a>
 			<a href="#" class="active"><?php echo ATrl::t()->getLabel('contact settings')?></a>
 		</div><!--/header-->
 		<div class="contact-img">
@@ -55,17 +55,6 @@
 			<div class="inner-editor inner-content">
 				<table>
 					<tr>
-						<td class="label"><?php echo ATrl::t()->getLabel('page')?>:</td>
-						<td class="value">
-							<select name="template">
-                                <option value="">------------</option>
-                                <option value="1">Page 1</option>
-                                <option value="2">Page 2</option>
-                                <option value="3">Page 3</option>
-							</select>
-						</td>
-					</tr>
-					<tr>
 						<td class="label"><?php echo ATrl::t()->getLabel('template')?>:</td>
 						<td class="value">
 							<select name="template">
@@ -83,6 +72,9 @@
 							<?php echo $form->error($model,'title'); ?>
 						</td>
 					</tr>
+					<?php
+					/*
+					?>
 					<tr>
 						<td class="label">Email</td>
 						<td class="value">
@@ -90,9 +82,12 @@
 							<?php echo $form->error($model,'email'); ?>
 						</td>
 					</tr>
+					<?php
+					*/
+					?>
 				</table>
-				<?php echo $form->textArea($model,'text',array('id'=>'edit','value'=>$arrPage['text'])); ?>
-				<?php echo $form->error($model,'text'); ?>
+				<?php echo $form->textArea($model,'description',array('id'=>'edit','value'=>$arrPage['description'])); ?>
+				<?php echo $form->error($model,'description'); ?>
 				<table>
 					<tr>
 						<td class="label">Meta</td>
