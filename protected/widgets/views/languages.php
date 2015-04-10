@@ -1,1 +1,1 @@
-<p>Language template</p>
+<p>Language core template</p>
