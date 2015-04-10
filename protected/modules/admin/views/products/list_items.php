@@ -46,9 +46,9 @@
 
                 <div class="cell image">
                     <?php if($item->getFirstImage() != null && $item->getFirstImage()->isFileExist()): ?>
-                        <img src="<?php echo $item->getFirstImage()->getUrl(); ?>" alt="<?php $item->getFirstImage()->trl->caption; ?>">
+                        <img style="width: 60px; height: 60px;" src="<?php echo $item->getFirstImage()->getUrl(); ?>" alt="<?php $item->getFirstImage()->trl->caption; ?>">
                     <?php else: ?>
-                        <img src="<?php echo ExtImages::model()->getUrlOf('no-image.png',true); ?>" alt="<?php $item->getFirstImage()->trl->caption; ?>">
+                        <img style="width: 60px; height: 60px;" src="<?php echo ExtImages::model()->getUrlOf('no-image.png',true); ?>" alt="<?php $item->getFirstImage()->trl->caption; ?>">
                     <?php endif; ?>
                 </div>
 
@@ -57,7 +57,7 @@
                 <div class="cell price">&euro;<?php echo Number::FormatPrice($item->price); ?></div>
                 <div class="cell status"><?php echo ATrl::t()->getLabel($item->status->label); ?></div>
                 <div class="cell action">
-                    <a href="#" class="action edit"></a>
+                    <a href="<?php echo Yii::app()->createUrl('admin/products/edit',array('id' => $item->id)); ?>" class="action edit"></a>
                     <?php $params['id'] = $item->id; ?>
                     <a data-message="<?php echo ATrl::t()->getLabel('Are your sure ?'); ?>" data-yes="<?php echo ATrl::t()->getLabel('Delete'); ?>" data-no="<?php echo ATrl::t()->getLabel('Cancel'); ?>" href="<?php echo Yii::app()->createUrl('/admin/products/delete',$params); ?>" class="action delete"></a>
                 </div>
