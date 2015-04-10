@@ -18,11 +18,12 @@ class Number
      * @param int $centsInOne
      * @return float|int
      */
-    public function priceToBase($formattedPrice,$centsInOne = 100)
+    public static function PriceToBase($formattedPrice,$centsInOne = 100)
     {
         if(is_numeric($formattedPrice))
         {
             $clean = floatval(str_replace(',','.',$formattedPrice));
+
             return $clean * $centsInOne;
         }
 

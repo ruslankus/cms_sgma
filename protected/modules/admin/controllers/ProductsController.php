@@ -401,9 +401,115 @@ class ProductsController extends ControllerAdmin
         $this->redirect(Yii::app()->createUrl('admin/products/list',array('page' => $page, 'cat' => $cat)));
     }
 
-    public function actionAdd()
+    /**
+     * Add product item
+     * @param int $cat
+     */
+    public function actionAdd($cat = 0)
     {
-        $this->render('add_product',array());
+        //include menu necessary scripts
+        Yii::app()->clientScript->registerCssFile($this->assetsPath.'/css/vendor.add-menu.css');
+        Yii::app()->clientScript->registerCssFile($this->assetsPath.'/css/vendor.add-menu.ext.css');
+        Yii::app()->clientScript->registerScriptFile($this->assetsPath.'/js/vendor.add-menu.js',CClientScript::POS_END);
+        Yii::app()->clientScript->registerScriptFile($this->assetsPath.'/js/menu.edititem.js',CClientScript::POS_END);
+
+        //exclude jquery to avoid conflict between jquery from Yii core
+        Yii::app()->clientScript->scriptMap=array('jquery-1.11.2.min.js' => false);
+
+        //all languages
+        $objLanguages = SiteLng::lng()->getLngs();
+        //statuses
+        $arrStatuses = ExtStatus::model()->arrayForNewsAndProducts(true);
+        //parents
+        $arrCategories = ExtProductCategory::model()->arrayForMenuItemForm(0,true,false);
+        //templates
+        $theme = 'dark'; //TODO: get theme from db
+        $arrTemplates = ThemeHelper::getTemplatesFor($theme,'products'.DS.'item');
+        //form
+        $form_mdl = new ProductForm();
+        //product code
+        $product_code = ExtProduct::model()->generateUniqueProductCode('PR',5);
+
+        //ajax validation
+        if(Yii::app()->request->isAjaxRequest)
+        {
+            //if ajax validation
+            if(isset($_POST['ajax']))
+            {
+                if($_POST['ajax'] == 'add-item-form')
+                {
+                    echo CActiveForm::validate($form_mdl);
+                }
+                Yii::app()->end();
+            }
+        }
+        else
+        {
+            if(isset($_POST['ProductForm']))
+            {
+                $form_mdl->attributes = $_POST['ProductForm'];
+
+                $category = ExtProductCategory::model()->findByPk((int)$form_mdl->category_id);
+
+                if($form_mdl->validate())
+                {
+                    //use transaction
+                    $con = Yii::app()->db;
+                    $transaction = $con->beginTransaction();
+
+                    try
+                    {
+                        $item = new ExtProduct();
+                        $item -> attributes = $form_mdl->attributes;
+                        $item -> time_updated = time();
+                        $item -> time_created = time();
+                        $item -> branch = !empty($category) ? $category->branch : '0';
+                        $item -> priority = Sort::GetNextPriority('Product',array('category_id' => $form_mdl->category_id));
+                        $item -> last_change_by = Yii::app()->user->id;
+
+                        $item->price = Number::PriceToBase($item->price);
+                        $item->discount_price = Number::PriceToBase($item->discount_price);
+
+                        $item -> save();
+
+                        //translations
+                        $titles = $_POST['ProductForm']['titles'];
+                        foreach($objLanguages as $language)
+                        {
+                            $itemTrl = new ProductTrl();
+                            $itemTrl -> title = $titles[$language->id];
+                            $itemTrl -> lng_id = $language->id;
+                            $itemTrl -> product_id = $item->id;
+                            $itemTrl -> save();
+                        }
+
+                        $transaction->commit();
+
+                    }
+                    catch(Exception $ex)
+                    {
+                        $transaction->rollback();
+                    }
+
+                    $params = array();
+                    $params['cat'] = !empty($category) ? $category->id : 0;
+
+                    //back to list
+                    $this->redirect(Yii::app()->createUrl('/admin/products/list',$params));
+                }
+            }
+        }
+
+        $this->render('add_product',array(
+                'languages' => $objLanguages,
+                'categories' => $arrCategories,
+                'statuses' => $arrStatuses,
+                'form_model' => $form_mdl,
+                'category' => $cat,
+                'templates' => $arrTemplates,
+                'product_code' => $product_code
+            )
+        );
     }
 
 

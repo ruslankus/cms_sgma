@@ -18,7 +18,7 @@
  * @property integer $time_created
  * @property integer $time_updated
  * @property integer $last_change_by
- * @property integer $product_code
+ * @property string $product_code
  *
  * The followings are the available model relations:
  * @property ImagesOfProduct[] $imagesOfProducts
@@ -47,8 +47,8 @@ class Product extends CActiveRecord
 		// NOTE: you should only define rules for those attributes that
 		// will receive user inputs.
 		return array(
-			array('category_id, status_id, priority, price, discount_price, is_new, stock_qnt, time_created, time_updated, last_change_by, product_code', 'numerical', 'integerOnly'=>true),
-			array('branch', 'length', 'max'=>1024),
+			array('category_id, status_id, priority, price, discount_price, is_new, stock_qnt, time_created, time_updated, last_change_by', 'numerical', 'integerOnly'=>true),
+			array('branch, product_code', 'length', 'max'=>1024),
 			array('label', 'length', 'max'=>128),
 			array('template_name', 'length', 'max'=>512),
 			// The following rule is used by search().
@@ -131,7 +131,7 @@ class Product extends CActiveRecord
 		$criteria->compare('time_created',$this->time_created);
 		$criteria->compare('time_updated',$this->time_updated);
 		$criteria->compare('last_change_by',$this->last_change_by);
-		$criteria->compare('product_code',$this->product_code);
+		$criteria->compare('product_code',$this->product_code,true);
 
 		return new CActiveDataProvider($this, array(
 			'criteria'=>$criteria,
