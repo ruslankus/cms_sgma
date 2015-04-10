@@ -46,7 +46,7 @@ class AdminModule extends CWebModule
 
         array(
             'controller' => 'contacts',
-            'action' => 'index',
+            'action' => 'Pages',
             'html_class' => 'pages',
             'title' => 'Contacts',
 
