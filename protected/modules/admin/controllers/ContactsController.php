@@ -2,6 +2,9 @@
 
 class ContactsController extends ControllerAdmin
 {
+
+/*************************************************************  Pages ***********************************************/
+
     public function actionPages($page = 1)
     {
         Yii::app()->clientScript->registerScriptFile($this->assetsPath.'/js/vendor.contacts.js',CClientScript::POS_END);
@@ -172,13 +175,14 @@ class ContactsController extends ControllerAdmin
         $request = Yii::app()->request;
         $image_id = $request->getPost('image_id');
         $contact_id = $request->getPost('contact_id');        
-        $model = ImagesOfContacts::model()->find(array('condition'=>'image_id=:image_id AND contacts_id=:contacts_id','params'=>array('image_id'=>$image_id,'contacts_id'=>$contact_id)));
+        $model = ImagesOfContacts::model()->find(array('condition'=>'image_id=:image_id AND contact_page_id=:contacts_id','params'=>array('image_id'=>$image_id,'contacts_id'=>$contact_id)));
      
         $model->delete();
         $this->redirect(array('ContactSettings', 'id'=>$contact_id));
     }
 
-    /* ----------------------------- ajax section -------------------------------------- */
+    /* ----------------------------- pages ajax section -------------------------------------- */
+
     public function actionEditContentAjax($id = null)
     {
         
@@ -255,4 +259,33 @@ class ContactsController extends ControllerAdmin
         }
 
     }
+
+    /* ----------------------------- pages ajax section -------------------------------------- */
+
+/************************************************************* End Pages ***********************************************/
+
+
+/************************************************************* End Blocks ***********************************************/
+
+    public function actionBlocks(){
+        Yii::app()->clientScript->registerScriptFile($this->assetsPath.'/js/vendor.contacts.js',CClientScript::POS_END);
+
+        $currLng = Yii::app()->language;
+        
+        if(empty($siteLng)){
+            $siteLng = Yii::app()->language; 
+        }
+        
+        //$objContacts = ContactsPage::model()->with(array('contactsPageTrls.lng' => array('condition' => "lng.prefix='{$siteLng}'")))->findall();
+        $objContacts = ContactsBlock::model()->findAll(); 
+        $pager = CPaginator::getInstance($objContacts,10,$page);
+        $this->render('indexBlock',array('pager' => $pager, 'currLng' => $currLng));
+    }
+
+
+    /* ----------------------------- blocks ajax section -------------------------------------- */
+
+    /* ----------------------------- blocks ajax section -------------------------------------- */
+
+/************************************************************* End Blocks ***********************************************/
 }

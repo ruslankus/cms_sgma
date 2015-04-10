@@ -52,7 +52,7 @@ class AdminModule extends CWebModule
 
             'sub' => array(
                 array('controller' => 'contacts', 'action' => 'pages', 'title' => 'Pages'),
-                array('controller' => 'contacts' ,'action' => 'index', 'title' => 'Blocks')
+                array('controller' => 'contacts' ,'action' => 'blocks', 'title' => 'Blocks')
             ),
         ),
 
