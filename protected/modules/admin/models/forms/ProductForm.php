@@ -21,8 +21,8 @@ class ProductForm extends CFormModel
     public function rules()
     {
         return array(
-            array('label, status_id, category_id', 'required'),
-            array('label, status_id, category_id, template_name, price, discount_price, stock_qnt', 'safe'),
+            array('label, status_id, category_id, product_code', 'required'),
+            array('label, status_id, category_id, template_name, price, discount_price, stock_qnt, product_code', 'safe'),
             array('price, discount_price','numerical'),
             array('stock_qnt','numerical','integerOnly' => true),
             array('image', 'file', 'types'=>'jpg, gif, png','allowEmpty' =>true,'maxSize' => 1048576)

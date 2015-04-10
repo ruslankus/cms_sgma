@@ -48,7 +48,8 @@ class ExtImages extends Images
      */
     public function isFileExist($system = false)
     {
-        return file_exists($this->getPath($system));
+        $dir = $system ? self::SYS_IMG_DIR : self::UPLOAD_DIR;
+        return file_exists($dir.DS.$this->filename);
     }
 
     /**
