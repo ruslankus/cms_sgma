@@ -717,7 +717,7 @@ class ProductsController extends ControllerAdmin
         //render partial block (for AJAX requests)
         if(Yii::app()->request->isAjaxRequest)
         {
-            $this->renderPartial('_edit_item_content',array(
+            $this->renderPartial('_edit_product_content',array(
                 'item' => $item,
                 'languages' => $objLanguages,
                 'currentLng' => $objCurrentLng,
@@ -727,13 +727,63 @@ class ProductsController extends ControllerAdmin
         //render simple
         else
         {
-            $this->render('edit_item_content',array(
+            $this->render('edit_product_content',array(
                 'item' => $item,
                 'languages' => $objLanguages,
                 'currentLng' => $objCurrentLng,
                 'itemTrl' => $trl,
             ));
         }
+    }
+
+
+    public function actionEditProdAttrGroup($id)
+    {
+        //product item
+        $product = ExtProduct::model()->findByPk((int)$id);
+
+        if(empty($product))
+        {
+            throw new CHttpException(404);
+        }
+
+        //if checked any checkbox
+        if(isset($_POST['active']))
+        {
+            $active = $_POST['active'];
+
+            ExtProductFieldGroupsActive::model()->deleteAllByAttributes(array('product_id' => $product->id));
+
+            foreach($active as $id => $status)
+            {
+                $active = new ExtProductFieldGroupsActive();
+                $active -> product_id = $product->id;
+                $active -> group_id = $id;
+                $active -> save();
+            }
+        }
+
+        //all field groups
+        $allGroups = ExtProductFieldGroups::model()->findAll(array('order' => 'priority DESC'));
+
+        //active id's
+        $activeGroupIds = array();
+
+        //get active id's
+        foreach($product->productFieldGroupsActives as $active)
+        {
+            $activeGroupIds[] = $active->group_id;
+        }
+
+        //render
+        $this->render('edit_product_attr_groups',
+            array(
+            'item' => $product,
+            'groups' => $allGroups,
+            'active_ids' => $activeGroupIds)
+        );
+
+
     }
 
     /**
