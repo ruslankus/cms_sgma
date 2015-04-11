@@ -75,6 +75,17 @@ $(document).ready(function() {
 		
         return false;
 	});
+        
+        
+        
+    $(".add-image").click(function(e)
+    {
+        
+        $block = $(".lightbox");
+        console.log($block);
+        $block.fadeIn(300);
+        return false;
+    });//end add button   
     
     
     

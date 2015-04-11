@@ -4,7 +4,8 @@ class PagesController extends ControllerAdmin
 {
     
     public function init(){
-        Yii::app()->clientScript->registerCssFile($this->assetsPath.'/css/vendor.css');    
+        Yii::app()->clientScript->registerCssFile($this->assetsPath.'/css/vendor.css'); 
+        Yii::app()->clientScript->registerCssFile($this->assetsPath.'/css/vendor.lighbox.css');  
     }
     
     

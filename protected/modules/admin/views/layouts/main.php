@@ -40,6 +40,11 @@
         <?php echo $content; ?>
     </div><!--/content-fluid-->
 </div><!--fluid-->
+<div class="lightbox">
+    <div class="wrap">
+        
+    </div><!--/wrap -->
+</div><!--/lightbox -->
 </body>
 
 

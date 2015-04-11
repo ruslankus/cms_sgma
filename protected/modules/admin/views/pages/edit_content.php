@@ -17,7 +17,7 @@
 					<select name="language" id="styled-language-editor" class="float-left">
                     
                     <?php foreach(SiteLng::lng()->getLngs() as $objLng):?>
-					  <option value="<?php echo $objLng->id;?>" data-page="<?php echo $page_id ?>"><?php echo  ucwords($objLng->name); ?> </option>
+			<option value="<?php echo $objLng->id;?>" data-page="<?php echo $page_id ?>"><?php echo  ucwords($objLng->name); ?> </option>
                     <?php endforeach;?>  
 					 
 					</select>

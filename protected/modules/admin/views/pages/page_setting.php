@@ -68,6 +68,7 @@
 						</div><!--/form-zone-->
 						<div class="image-zone">
 							<strong>Preview</strong>
+                                                        <a href="#" class="add-image">Add local image</a>
 							<div class="list">
                             <?php foreach($arrImages as $item):?>
                                 <?php if(!empty($item)):?>

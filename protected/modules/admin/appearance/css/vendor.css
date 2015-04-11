@@ -621,6 +621,26 @@ body
 .content > .list-row > .cell.action { width: 158px; text-align: center; padding-left: 0; }
 .content > .list-row > .cell.item-qnt { width: 120px; text-align: center; padding-left: 0;}
 .content > .list-row > .cell.template { width: 250px;}
+.content > .list-row > .cell.template:before,
+.content > .list-row > .cell.template:after { display: table; clear: both; content : ''; }
+.delete-template {
+  width: 24px;
+  height: 24px;
+  border-radius: 2px;
+  display: block;
+  margin-left: 4px;
+  cursor: pointer;
+  border-radius: 14px;
+  float: right;
+  background-color: #fb8f73;
+  border: 1px solid #eb603c;
+  line-height: 22px;
+  text-align: center;
+  margin-top: -2px;
+  margin-right: 5px;
+  color: #fff!important;
+  text-decoration: none;
+ }
 .content > .list-row > .cell > .order
 	{
 		color: #149fe4;
@@ -1236,4 +1256,17 @@ body
 .e-message
 	{
 		padding:50px 0;
+	}
+.add-image { 
+		background: #149fe4;
+		border: 1px solid #0084c6;
+		height: 30px;
+		display: block;
+		border-radius: 3px;
+		float: right;
+		margin-right: 31px;
+		line-height: 28px;
+		color: #fff;
+		padding: 0 10px;
+		text-decoration: none;
 	}
