@@ -4,8 +4,8 @@ class PagesController extends ControllerAdmin
 {
     
     public function init(){
-        Yii::app()->clientScript->registerCssFile($this->assetsPath.'/css/vendor.css'); 
-        Yii::app()->clientScript->registerCssFile($this->assetsPath.'/css/vendor.lighbox.css');  
+        //Yii::app()->clientScript->registerCssFile($this->assetsPath.'/css/vendor.css'); 
+        //Yii::app()->clientScript->registerCssFile($this->assetsPath.'/css/vendor.lighbox.css');  
     }
     
     
@@ -74,6 +74,7 @@ class PagesController extends ControllerAdmin
             Yii::app()->end();
         }//ajax part
         
+        Yii::app()->clientScript->registerCssFile($this->assetsPath.'/css/vendor.lightbox.css');
         
         Yii::app()->clientScript->registerScriptFile($this->assetsPath.'/ckeditor/ckeditor.js',CClientScript::POS_END);
         Yii::app()->clientScript->registerScriptFile($this->assetsPath.'/ckeditor/adapters/jquery.js',CClientScript::POS_END);
@@ -135,6 +136,7 @@ class PagesController extends ControllerAdmin
     
     public function actionPageSetting($id = null){
         
+        Yii::app()->clientScript->registerCssFile($this->assetsPath.'/css/vendor.lightbox.css');
         Yii::app()->clientScript->registerScriptFile($this->assetsPath.'/js/vendor.edit-page-content.js',CClientScript::POS_END);
         
         //
@@ -244,6 +246,15 @@ class PagesController extends ControllerAdmin
         }
 
     }
+    
+    
+    public function actionLoadFiles(){
+        
+        $objPhotos = Images::model()->findAll();
+        
+        $this->renderPartial('_modal_load_local_files',array('objPhotos' => $objPhotos));
+        
+    }//end: loadfiles
     
     
     

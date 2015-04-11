@@ -81,7 +81,9 @@ $(document).ready(function() {
     $(".add-image").click(function(e)
     {
         
+        
         $block = $(".lightbox");
+        $block.load('/en/admin/pages/loadfiles');
         console.log($block);
         $block.fadeIn(300);
         return false;

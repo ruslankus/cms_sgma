@@ -73,6 +73,7 @@ class ControllerAdmin extends CController
 
         $language = Yii::app()->request->getParam('language',Yii::app()->params['defaultLanguage']);
         $this->setLanguage($language);
+        
     }
 
     /**
