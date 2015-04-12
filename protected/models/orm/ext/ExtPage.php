@@ -92,7 +92,7 @@ class ExtPage extends Page
         $sql .= "WHERE t1.page_id = ".(int)$page_id." AND t4.prefix = :prefix";
         
         $sqlParam[':prefix'] = $lng;
-        
+        //Debug::d($sql);
         $arrData['images'] = $con->createCommand($sql)->queryAll(true,$sqlParam);
         
         return (!empty($arrData))? $arrData : false;

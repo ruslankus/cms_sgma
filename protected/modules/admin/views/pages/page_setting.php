@@ -29,23 +29,23 @@
 									<td class="label">Template:</td>
 									<td class="value">
 										<select name="template">
-                                                                                    <option value="">------------</option>
-                                                                                    <option value="template.php">template.php</option>
-                                                                                    <option value="template.php">template.php</option>
-                                                                                    <option value="template.php">template.php</option>
+                                            <option value="">------------</option>
+                                            <option value="template.php">template.php</option>
+                                            <option value="template.php">template.php</option>
+                                            <option value="template.php">template.php</option>
 										</select>
 									</td>
 								</tr>
 								<tr>
 									<td class="label">Choose image:</td>
-									<td class="value">
-                                                                            
-                                                                            <?php echo CHtml::activeFileField($model,'file', array(
-                                                                                'id'=>'file-input','data-label'=>'Browse...'
-                                                                            ))?>
-                                                                            <?php echo Chtml::error($model, 'file')?>
-                                                                           
-                                                                        </td>
+                                    <td class="value">
+                                        
+                                        <?php echo CHtml::activeFileField($model,'file', array(
+                                            'id'=>'file-input','data-label'=>'Browse...'
+                                        ))?>
+                                        <?php echo Chtml::error($model, 'file')?>
+                                       
+                                    </td>
 								</tr>
 								<tr>
 									<td class="label"><strong>Caption:</strong></td>
@@ -68,7 +68,9 @@
 						</div><!--/form-zone-->
 						<div class="image-zone">
 							<strong>Preview</strong>
-                                                        <a href="#" class="add-image">Add local image</a>
+                            <?php if($elCount < 5):?>
+                                <a href="#"  data-page="<?php echo $page_id; ?>" data-count="<?php echo $elCount ?>" data-prefix="<?php echo $lngPrefix?>" class="add-image">Add local image</a>
+                            <?php endif; ?>
 							<div class="list">
                             <?php foreach($arrImages as $item):?>
                                 <?php if(!empty($item)):?>

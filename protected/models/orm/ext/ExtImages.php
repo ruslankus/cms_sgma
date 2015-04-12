@@ -49,7 +49,7 @@ class ExtImages extends Images
     public function isFileExist($system = false)
     {
         $dir = $system ? self::SYS_IMG_DIR : self::UPLOAD_DIR;
-        return file_exists($dir.DS.$this->filename);
+        return file_exists($dir .DS. $this->filename);
     }
 
     /**
@@ -60,7 +60,7 @@ class ExtImages extends Images
     public function getPath($system = false)
     {
         $dir = $system ? self::SYS_IMG_DIR : self::UPLOAD_DIR;
-        return Yii::app()->basePath.DS.$dir.DS.$this->filename;
+        return Yii::app()->basePath .DS. $dir .DS. $this->filename;
     }
 
     /**
@@ -114,6 +114,27 @@ class ExtImages extends Images
         }
 
     }//savePageFile
+    
+    
+    public function savePageLocalImages($page_id, $arrImages = array()){
+            
+            $con = $this->dbConnection;
+            $sql  = "INSERT INTO images_of_page(`page_id`, `image_id`) ";
+            $sql .= "VALUES ";
+            
+            foreach($arrImages as $key => $value){
+                if($i == 0){
+                    $sql .= "({$page_id}, {$key}) ";
+                }else{
+                    $sql .= ",({$page_id}, {$key}) ";
+                }
+                $i++;
+            }//foreach
+
+           $result = $con->createCommand($sql)->execute();
+           return $result;
+    }
+    
 
     /**
      * Save image for contact pages

@@ -81,19 +81,36 @@ $(document).ready(function() {
     $(".add-image").click(function(e)
     {
         
-        
+        var page_id = $(this).data('page');
+        var prefix = $(this).data('prefix');
+        var el_count = $(this).data('count');
         $block = $(".lightbox");
-        $block.load('/en/admin/pages/loadfiles');
-        console.log($block);
+        $block.load('/'+ prefix +'/admin/pages/loadfiles/' + page_id,{el_count:el_count});
+        console.log(page_id);
         $block.fadeIn(300);
         return false;
     });//end add button  
+    
+    
     
     $(document).on("click", ".cancel-images", function()
   	{
 		$(".lightbox").fadeOut(300);
 		return false;
-	});//end cancel lightbox 
+	});//end cancel lightbox
+    
+    $(document).on("click", ":checkbox", function()
+    {
+        var el_count = 5 - $('#el_count').val();
+        
+        if(el_count >= $( "input:checked" ).length){
+            return true;
+        }else{
+            return false;
+        }
+        
+        
+    });
     
     
     

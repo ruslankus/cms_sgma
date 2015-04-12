@@ -178,7 +178,7 @@ class PagesController extends ControllerAdmin
         $lngObj = SiteLng::lng()->getCurrLng();
         
         $arrPage = ExtPage::model()->getPageWithImage($id, $lngObj->prefix);
-        
+        //Debug::d($arrPage);
         if(!empty($arrPage)){
         
             $arrImages = $arrPage['images'];
@@ -186,10 +186,12 @@ class PagesController extends ControllerAdmin
             $elCount = count($arrImages);
             if($elCount < 5){          
                 $arrComb = array_pad($arrImages,5,'');           
+            }else{
+                $arrComb = $arrImages;    
             }        
             //Debug::d($arrComb);
             $this->render('page_setting',array('page_id' => $id, 'arrPage' => $arrPage,
-             'arrImages' => $arrComb, 'model' => $model, 'lngPrefix' => $lngObj->prefix));    
+             'arrImages' => $arrComb, 'model' => $model, 'lngPrefix' => $lngObj->prefix,'elCount' => $elCount));    
         
         }else{
             $prefix = $lngObj->prefix;
@@ -248,12 +250,35 @@ class PagesController extends ControllerAdmin
     }
     
     
-    public function actionLoadFiles(){
+    /**
+     * @param $id int Page id
+     */
+    public function actionLoadFiles($id){
         
-        $objPhotos = Images::model()->findAll();
         
-        $this->renderPartial('_modal_load_local_files',array('objPhotos' => $objPhotos));
-        
+        $prefix = SiteLng::lng()->getCurrLng()->prefix;
+        $request = Yii::app()->request;
+        if($request->isAjaxRequest){
+            $objPhotos = Images::model()->findAll();
+            $elCount = $request->getPost('el_count');
+            $this->renderPartial('_modal_load_local_files',array('objPhotos' => $objPhotos,
+            'page_id' => $id, 'prefix' => $prefix, 'elCount' => $elCount));
+                
+        }else{
+            
+            //Debug::d($_POST);
+            $arrImgs = $_POST['image'];
+            
+            $result = ExtImages::model()->savePageLocalImages($id, $arrImgs);
+            
+            if($result){
+                $this->redirect("/{$prefix}/admin/pages/pagesetting/{$id}");                    
+            }else{
+                echo 'error';
+            }
+           
+        }
+    
     }//end: loadfiles
     
     

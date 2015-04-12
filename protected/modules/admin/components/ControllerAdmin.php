@@ -53,7 +53,7 @@ class ControllerAdmin extends CController
     }
 
 
-    /*
+    
     public function __construct($id,$module=null)
     {
         //set default ime-zone
@@ -64,8 +64,8 @@ class ControllerAdmin extends CController
 
         parent::__construct($id,$module);
     }
-    */
-
+    
+    /*
     public function init()
     {
         //set default ime-zone
@@ -75,6 +75,7 @@ class ControllerAdmin extends CController
         $this->setLanguage($language);
         
     }
+    */
 
     /**
      * Setup the language
