@@ -87,7 +87,13 @@ $(document).ready(function() {
         console.log($block);
         $block.fadeIn(300);
         return false;
-    });//end add button   
+    });//end add button  
+    
+    $(document).on("click", ".cancel-images", function()
+  	{
+		$(".lightbox").fadeOut(300);
+		return false;
+	});//end cancel lightbox 
     
     
     
