@@ -5,11 +5,11 @@
  *
  * The followings are the available columns in table 'contacts_fields':
  * @property integer $id
- * @property integer $contacts_id
+ * @property integer $block_id
  * @property integer $label
  *
  * The followings are the available model relations:
- * @property ContactsBlock $contacts
+ * @property ContactsBlock $block
  * @property ContactsFieldsTrl[] $contactsFieldsTrls
  */
 class ContactsFields extends CActiveRecord
@@ -30,10 +30,10 @@ class ContactsFields extends CActiveRecord
 		// NOTE: you should only define rules for those attributes that
 		// will receive user inputs.
 		return array(
-			array('contacts_id, label', 'numerical', 'integerOnly'=>true),
+			array('block_id, label', 'numerical', 'integerOnly'=>true),
 			// The following rule is used by search().
 			// @todo Please remove those attributes that should not be searched.
-			array('id, contacts_id, label', 'safe', 'on'=>'search'),
+			array('id, block_id, label', 'safe', 'on'=>'search'),
 		);
 	}
 
@@ -45,7 +45,7 @@ class ContactsFields extends CActiveRecord
 		// NOTE: you may need to adjust the relation name and the related
 		// class name for the relations automatically generated below.
 		return array(
-			'contacts' => array(self::BELONGS_TO, 'ContactsBlock', 'contacts_id'),
+			'block' => array(self::BELONGS_TO, 'ContactsBlock', 'block_id'),
 			'contactsFieldsTrls' => array(self::HAS_MANY, 'ContactsFieldsTrl', 'contacts_field_id'),
 		);
 	}
@@ -57,7 +57,7 @@ class ContactsFields extends CActiveRecord
 	{
 		return array(
 			'id' => 'ID',
-			'contacts_id' => 'Contacts',
+			'block_id' => 'Block',
 			'label' => 'Label',
 		);
 	}
@@ -81,7 +81,7 @@ class ContactsFields extends CActiveRecord
 		$criteria=new CDbCriteria;
 
 		$criteria->compare('id',$this->id);
-		$criteria->compare('contacts_id',$this->contacts_id);
+		$criteria->compare('block_id',$this->block_id);
 		$criteria->compare('label',$this->label);
 
 		return new CActiveDataProvider($this, array(

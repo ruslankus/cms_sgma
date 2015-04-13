@@ -10,7 +10,7 @@ Target Server Type    : MYSQL
 Target Server Version : 50538
 File Encoding         : 65001
 
-Date: 2015-04-13 13:33:56
+Date: 2015-04-13 16:32:48
 */
 
 SET FOREIGN_KEY_CHECKS=0;
@@ -143,11 +143,11 @@ CREATE TABLE `contacts_block_trl` (
 DROP TABLE IF EXISTS `contacts_fields`;
 CREATE TABLE `contacts_fields` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
-  `contacts_id` int(11) DEFAULT NULL,
+  `block_id` int(11) DEFAULT NULL,
   `label` int(11) DEFAULT NULL,
   PRIMARY KEY (`id`),
-  KEY `contacts_id` (`contacts_id`),
-  CONSTRAINT `contacts_fields_ibfk_1` FOREIGN KEY (`contacts_id`) REFERENCES `contacts_block` (`id`) ON DELETE CASCADE ON UPDATE NO ACTION
+  KEY `block_id` (`block_id`),
+  CONSTRAINT `contacts_fields_ibfk_1` FOREIGN KEY (`block_id`) REFERENCES `contacts_block` (`id`) ON DELETE CASCADE ON UPDATE NO ACTION
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 -- ----------------------------
@@ -882,19 +882,19 @@ CREATE TABLE `product_fields` (
   KEY `product_fields_ibfk_2` (`type_id`),
   CONSTRAINT `product_fields_ibfk_1` FOREIGN KEY (`group_id`) REFERENCES `product_field_groups` (`id`) ON DELETE CASCADE ON UPDATE NO ACTION,
   CONSTRAINT `product_fields_ibfk_2` FOREIGN KEY (`type_id`) REFERENCES `product_field_types` (`id`) ON DELETE NO ACTION ON UPDATE NO ACTION
-) ENGINE=InnoDB AUTO_INCREMENT=19 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=27 DEFAULT CHARSET=utf8;
 
 -- ----------------------------
 -- Records of product_fields
 -- ----------------------------
-INSERT INTO `product_fields` VALUES ('11', 'Power', '6', '18', '2', '1428587695', '1428653791', '1');
-INSERT INTO `product_fields` VALUES ('12', 'Some numeric field', '1', '18', '3', '1428918963', '1428918963', '1');
-INSERT INTO `product_fields` VALUES ('13', 'Simple text', '3', '18', '4', '1428919007', '1428919007', '1');
-INSERT INTO `product_fields` VALUES ('14', 'Date', '2', '18', '5', '1428919023', '1428919023', '1');
-INSERT INTO `product_fields` VALUES ('15', 'Just text', '3', '16', '1', '1428919052', '1428919052', '1');
-INSERT INTO `product_fields` VALUES ('16', 'Trl text', '4', '16', '2', '1428919066', '1428919066', '1');
-INSERT INTO `product_fields` VALUES ('17', 'Image selector', '5', '16', '3', '1428919084', '1428919084', '1');
-INSERT INTO `product_fields` VALUES ('18', 'Selector', '6', '16', '4', '1428919432', '1428919432', '1');
+INSERT INTO `product_fields` VALUES ('19', 'Country', '3', '15', '3', '1428927022', '1428927095', '1');
+INSERT INTO `product_fields` VALUES ('20', 'City', '3', '15', '2', '1428927056', '1428927095', '1');
+INSERT INTO `product_fields` VALUES ('21', 'Placement', '3', '15', '1', '1428927092', '1428927095', '1');
+INSERT INTO `product_fields` VALUES ('22', 'Children', '6', '15', '4', '1428927432', '1428927432', '1');
+INSERT INTO `product_fields` VALUES ('23', 'Header', '4', '18', '4', '1428927481', '1428927769', '1');
+INSERT INTO `product_fields` VALUES ('24', 'Description', '4', '18', '3', '1428927512', '1428927777', '1');
+INSERT INTO `product_fields` VALUES ('25', 'Image 1', '5', '18', '2', '1428927611', '1428927641', '1');
+INSERT INTO `product_fields` VALUES ('26', 'Image 2', '5', '18', '1', '1428927637', '1428927641', '1');
 
 -- ----------------------------
 -- Table structure for `product_fields_trl`
@@ -911,27 +911,27 @@ CREATE TABLE `product_fields_trl` (
   KEY `lng_id` (`lng_id`),
   CONSTRAINT `product_fields_trl_ibfk_1` FOREIGN KEY (`product_field_id`) REFERENCES `product_fields` (`id`) ON DELETE CASCADE ON UPDATE NO ACTION,
   CONSTRAINT `product_fields_trl_ibfk_2` FOREIGN KEY (`lng_id`) REFERENCES `languages` (`id`) ON DELETE CASCADE ON UPDATE NO ACTION
-) ENGINE=InnoDB AUTO_INCREMENT=25 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=41 DEFAULT CHARSET=utf8;
 
 -- ----------------------------
 -- Records of product_fields_trl
 -- ----------------------------
-INSERT INTO `product_fields_trl` VALUES ('9', '11', '1', '', 'Power');
-INSERT INTO `product_fields_trl` VALUES ('10', '11', '2', '', 'Мощность');
-INSERT INTO `product_fields_trl` VALUES ('11', '12', '1', '', 'Some numeric field');
-INSERT INTO `product_fields_trl` VALUES ('12', '12', '2', '', '');
-INSERT INTO `product_fields_trl` VALUES ('13', '13', '1', '', 'Simple text');
-INSERT INTO `product_fields_trl` VALUES ('14', '13', '2', '', '');
-INSERT INTO `product_fields_trl` VALUES ('15', '14', '1', '', 'Date');
-INSERT INTO `product_fields_trl` VALUES ('16', '14', '2', '', '');
-INSERT INTO `product_fields_trl` VALUES ('17', '15', '1', '', 'One more text');
-INSERT INTO `product_fields_trl` VALUES ('18', '15', '2', '', '');
-INSERT INTO `product_fields_trl` VALUES ('19', '16', '1', '', 'Trl text');
-INSERT INTO `product_fields_trl` VALUES ('20', '16', '2', '', '');
-INSERT INTO `product_fields_trl` VALUES ('21', '17', '1', '', 'Image selector');
-INSERT INTO `product_fields_trl` VALUES ('22', '17', '2', '', '');
-INSERT INTO `product_fields_trl` VALUES ('23', '18', '1', '', 'Selector');
-INSERT INTO `product_fields_trl` VALUES ('24', '18', '2', '', '');
+INSERT INTO `product_fields_trl` VALUES ('25', '19', '1', '', 'Country');
+INSERT INTO `product_fields_trl` VALUES ('26', '19', '2', '', 'Страна');
+INSERT INTO `product_fields_trl` VALUES ('27', '20', '1', '', 'City');
+INSERT INTO `product_fields_trl` VALUES ('28', '20', '2', '', 'Город');
+INSERT INTO `product_fields_trl` VALUES ('29', '21', '1', '', 'Placement');
+INSERT INTO `product_fields_trl` VALUES ('30', '21', '2', '', 'Местонахождение');
+INSERT INTO `product_fields_trl` VALUES ('31', '22', '1', '', 'Children');
+INSERT INTO `product_fields_trl` VALUES ('32', '22', '2', '', 'Дети');
+INSERT INTO `product_fields_trl` VALUES ('33', '23', '1', '', 'Header');
+INSERT INTO `product_fields_trl` VALUES ('34', '23', '2', '', 'Заголовок');
+INSERT INTO `product_fields_trl` VALUES ('35', '24', '1', '', 'Description');
+INSERT INTO `product_fields_trl` VALUES ('36', '24', '2', '', 'Описание');
+INSERT INTO `product_fields_trl` VALUES ('37', '25', '1', '', 'Image 1');
+INSERT INTO `product_fields_trl` VALUES ('38', '25', '2', '', 'Картинка 1');
+INSERT INTO `product_fields_trl` VALUES ('39', '26', '1', '', 'Image 2');
+INSERT INTO `product_fields_trl` VALUES ('40', '26', '2', '', 'Картинка 2');
 
 -- ----------------------------
 -- Table structure for `product_field_groups`
@@ -950,13 +950,13 @@ CREATE TABLE `product_field_groups` (
 -- ----------------------------
 -- Records of product_field_groups
 -- ----------------------------
-INSERT INTO `product_field_groups` VALUES ('15', 'Description', '7', '1428566185', '1428500592', '1');
-INSERT INTO `product_field_groups` VALUES ('16', 'Prices', '6', '1428566185', '1428500636', '1');
-INSERT INTO `product_field_groups` VALUES ('17', 'Medicine', '5', '1428566185', '1428500677', '1');
-INSERT INTO `product_field_groups` VALUES ('18', 'Food', '4', '1428566185', '1428500761', '1');
-INSERT INTO `product_field_groups` VALUES ('19', 'The room fund', '3', '1428566185', '1428500806', '1');
-INSERT INTO `product_field_groups` VALUES ('20', 'Services', '2', '1428566185', '1428500828', '1');
-INSERT INTO `product_field_groups` VALUES ('21', 'How to get', '1', '1428566185', '1428500858', '1');
+INSERT INTO `product_field_groups` VALUES ('15', 'Description', '7', '1428927656', '1428500592', '1');
+INSERT INTO `product_field_groups` VALUES ('16', 'Prices', '5', '1428927656', '1428500636', '1');
+INSERT INTO `product_field_groups` VALUES ('17', 'Medicine', '4', '1428927656', '1428500677', '1');
+INSERT INTO `product_field_groups` VALUES ('18', 'Food', '6', '1428927656', '1428500761', '1');
+INSERT INTO `product_field_groups` VALUES ('19', 'The room fund', '3', '1428927656', '1428500806', '1');
+INSERT INTO `product_field_groups` VALUES ('20', 'Services', '2', '1428927656', '1428500828', '1');
+INSERT INTO `product_field_groups` VALUES ('21', 'How to get', '1', '1428927656', '1428500858', '1');
 
 -- ----------------------------
 -- Table structure for `product_field_groups_active`
@@ -971,14 +971,13 @@ CREATE TABLE `product_field_groups_active` (
   KEY `product_id` (`product_id`),
   CONSTRAINT `product_field_groups_active_ibfk_1` FOREIGN KEY (`group_id`) REFERENCES `product_field_groups` (`id`) ON DELETE CASCADE ON UPDATE NO ACTION,
   CONSTRAINT `product_field_groups_active_ibfk_2` FOREIGN KEY (`product_id`) REFERENCES `product` (`id`) ON DELETE CASCADE ON UPDATE NO ACTION
-) ENGINE=InnoDB AUTO_INCREMENT=28 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=35 DEFAULT CHARSET=utf8;
 
 -- ----------------------------
 -- Records of product_field_groups_active
 -- ----------------------------
-INSERT INTO `product_field_groups_active` VALUES ('25', '16', '14');
-INSERT INTO `product_field_groups_active` VALUES ('26', '18', '14');
-INSERT INTO `product_field_groups_active` VALUES ('27', '20', '14');
+INSERT INTO `product_field_groups_active` VALUES ('33', '15', '14');
+INSERT INTO `product_field_groups_active` VALUES ('34', '18', '14');
 
 -- ----------------------------
 -- Table structure for `product_field_groups_trl`
@@ -1027,17 +1026,15 @@ CREATE TABLE `product_field_select_options` (
   PRIMARY KEY (`id`),
   KEY `field_id` (`field_id`),
   CONSTRAINT `product_field_select_options_ibfk_1` FOREIGN KEY (`field_id`) REFERENCES `product_fields` (`id`) ON DELETE CASCADE ON UPDATE NO ACTION
-) ENGINE=InnoDB AUTO_INCREMENT=28 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=32 DEFAULT CHARSET=utf8;
 
 -- ----------------------------
 -- Records of product_field_select_options
 -- ----------------------------
-INSERT INTO `product_field_select_options` VALUES ('22', '11', 'Low', '1');
-INSERT INTO `product_field_select_options` VALUES ('23', '11', 'Medium', '2');
-INSERT INTO `product_field_select_options` VALUES ('24', '11', 'High', '3');
-INSERT INTO `product_field_select_options` VALUES ('25', '18', 'One', '1');
-INSERT INTO `product_field_select_options` VALUES ('26', '18', 'Two', '2');
-INSERT INTO `product_field_select_options` VALUES ('27', '18', 'Three', '3');
+INSERT INTO `product_field_select_options` VALUES ('28', '22', 'С любого возраста', '1');
+INSERT INTO `product_field_select_options` VALUES ('29', '22', 'С 3-ех лет', '2');
+INSERT INTO `product_field_select_options` VALUES ('30', '22', 'С 5 лет', '3');
+INSERT INTO `product_field_select_options` VALUES ('31', '22', 'Не принимаются', '4');
 
 -- ----------------------------
 -- Table structure for `product_field_types`
