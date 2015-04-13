@@ -114,11 +114,11 @@ class PagesController extends ControllerAdmin
                         $this->renderPartial('_success_page_edit',array('model' => $model));
                         Yii::app()->end();    
                     }else{
-                        Debug::d($objData);
+                        //Debug::d($objData);
                     }
                     
                 }else{
-                    Debug::d($model);
+                    //Debug::d($model);
                 }
            
             }else{
@@ -145,6 +145,7 @@ class PagesController extends ControllerAdmin
         if(!empty($_POST['AddPageFile'])){
             //Debug::d($_POST);
             $model->attributes = $_POST['AddPageFile'];
+            $model->page_id = $id;
             if($model->validate()){
                 
                 $objFile = CUploadedFile::getInstance($model, 'file');
