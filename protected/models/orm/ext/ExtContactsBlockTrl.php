@@ -16,16 +16,19 @@ class ExtContactsBlockTrl extends ContactsBlockTrl
     }
     
     
-    public function setNewContact($label,$arrTitle = null){
+    public function setNewContactBlock($label,$arrTitle = null, $page_id = null){
         
         $con = $this->dbConnection;
         $transaction = $con->beginTransaction();
         try{
             
-            $sql  = "INSERT INTO contacts_block(`label`) ";
-            $sql .= "VALUES(:label)";
+            $sql  = "INSERT INTO contacts_block(`label`,`page_id`,`priority`) ";
+            $sql .= "VALUES(:label,:page_id,:priority)";
             
             $param[':label'] = $label;
+            $param[':page_id'] = $page_id;
+            $param[':priority'] = Sort::GetNextPriority("ContactsBlock");
+
             $con->createCommand($sql)->execute($param);
             $contactId = $con->getLastInsertID('contacts');
             //adding tranlation

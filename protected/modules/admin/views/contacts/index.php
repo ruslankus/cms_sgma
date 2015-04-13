@@ -17,7 +17,8 @@ $currentPage = $pager->getCurrentPage();
     <div class="content">
         <div class="tab-line">
             <span class="active"><a href="<?php echo Yii::app()->createUrl('admin/contacts/pages'); ?>"><?php echo ATrl::t()->getLabel('Groups'); ?></a></span>
-            <span><a href="<?php echo Yii::app()->createUrl('admin/contacts/blocks'); ?>"><?php echo ATrl::t()->getLabel('Fields'); ?></a></span>
+            <span><a href="<?php echo Yii::app()->createUrl('admin/contacts/blocks'); ?>"><?php echo ATrl::t()->getLabel('Blocks'); ?></a></span>
+			<span><a href="<?php echo Yii::app()->createUrl('admin/contacts/fields'); ?>"><?php echo ATrl::t()->getLabel('Fields'); ?></a></span>
         </div><!--/tab-line-->
     </div>
 

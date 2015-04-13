@@ -4,7 +4,7 @@
         <div class="cell block">
             <div class="inner-table">
                 <div class="row root" data-id="<?php echo $contact->id; ?>">
-                    <div class="name"><a href="<?php //echo Yii::app()->createUrl('admin/products/fields',array('group' => $item->id)); ?>"><?php echo $contact->label; ?></a></div>
+                    <div class="name"><a href="<?php echo Yii::app()->createUrl('admin/contacts/blocks',array('group' => $contact->id)); ?>"><?php echo $contact->label; ?></a></div>
                     <div class="type"><?php echo $contact->priority;?></div>
                     <div class="action">
                         <a href="/<?php echo $currLng?>/admin/contacts/editcontent/<?php echo $contact->id?>" class="edit"><span class="ficoned pencil"></span></a>

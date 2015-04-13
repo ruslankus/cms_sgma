@@ -1,6 +1,6 @@
 <main>
 	<div class="title-bar world">
-		<h1><?php echo ATrl::t()->getLabel('edit contact page')?></h1>
+		<h1><?php echo ATrl::t()->getLabel('edit contact block')?></h1>
 		<ul class="actions">
 			<li><a href="" class="action undo"></a></li>
 		</ul>
@@ -9,7 +9,6 @@
 	<div class="content page-content">
 		<div class="header">
 			<span><?php echo $arrPage['title'];?></span>
-			<a href="/<?php echo $prefix;?>/admin/contacts/contactsettings/<?php echo $arrPage->page->id;?>"><?php echo ATrl::t()->getLabel('contact form images')?></a>
 			<a href="#" class="active"><?php echo ATrl::t()->getLabel('contact settings')?></a>
 		</div><!--/header-->
 		<div class="contact-img">
@@ -34,6 +33,9 @@
 				'enableAjaxValidation'=>false,
 				'htmlOptions' => array('enctype' => 'multipart/form-data'),
 			)); ?>
+			<?php
+			print_r($_POST);
+			?>
 			<div class="inner-top">
 			<?php
 				if($_POST['SaveContactForm']['lngId']){
@@ -54,6 +56,20 @@
 
 			<div class="inner-editor inner-content">
 				<table>
+					<tr>
+						<td class="label"><?php echo ATrl::t()->getLabel('page')?>:</td>
+						<td class="value">
+						<?php
+
+						    echo $form->dropDownList($model,
+						      'page_id',
+						      CHtml::listData(ContactsPage::model()->findAll(),'id','label'),array('class'=>'float-left', 'empty'=> ATrl::t()->getLabel('Select page'), 'options' => array($page_id=>array('selected'=>true)))
+						    );
+						    echo $form->error($model,'page_id');
+
+						?>
+						</td>
+					</tr>	
 					<tr>
 						<td class="label"><?php echo ATrl::t()->getLabel('template')?>:</td>
 						<td class="value">
