@@ -3,7 +3,7 @@
  * Class ExtPage
  * @property ExtMenuItem $menuItem
  */
-class ExtContactsBlockTrl extends ContactsBlockTrl
+class ExtContactsFieldsTrl extends ContactsFieldsTrl
 {
     
     /**
@@ -16,24 +16,23 @@ class ExtContactsBlockTrl extends ContactsBlockTrl
     }
     
     
-    public function setNewContactBlock($label,$arrTitle = null, $page_id = null){
+    public function setNewContactField($label,$arrTitle = null, $block_id = null){
         
         $con = $this->dbConnection;
         $transaction = $con->beginTransaction();
         try{
             
-            $sql  = "INSERT INTO contacts_block(`label`,`page_id`,`priority`) ";
-            $sql .= "VALUES(:label,:page_id,:priority)";
+            $sql  = "INSERT INTO contacts_fields(`label`,`block_id`) ";
+            $sql .= "VALUES(:label,:block_id)";
             
             $param[':label'] = $label;
-            $param[':page_id'] = $page_id;
-            $param[':priority'] = Sort::GetNextPriority("ContactsBlock");
-
+            $param[':block_id'] = $block_id;
+           
             $con->createCommand($sql)->execute($param);
-            $contactId = $con->getLastInsertID('contacts_block');
+            $contactId = $con->getLastInsertID('contacts_fields');
             //adding tranlation
             
-            $sql  = "INSERT INTO ".$this->tableName()."(`block_id`, `lng_id`, `title`) ";
+            $sql  = "INSERT INTO ".$this->tableName()."(`contacts_field_id`, `lng_id`, `name`) ";
             $sql .= "VALUES ";
             $i=0;
             foreach($arrTitle as $key => $value){
@@ -47,6 +46,7 @@ class ExtContactsBlockTrl extends ContactsBlockTrl
             
             $con->createCommand($sql)->execute();
             $transaction->commit();
+            
             return true; 
         }catch(Exception $e){
             $transaction->rollback();
@@ -57,9 +57,6 @@ class ExtContactsBlockTrl extends ContactsBlockTrl
             return false;
         }
         
-        
-        
-       
 
     }// setNewPage
     

@@ -22,9 +22,9 @@ class ExtContactsPageTrl extends ContactsPageTrl
         $transaction = $con->beginTransaction();
         try{
             
-            $sql  = "INSERT INTO contacts_page(`label`) ";
-            $sql .= "VALUES(:label)";
-            
+            $sql  = "INSERT INTO contacts_page(`label`,`priority`) ";
+            $sql .= "VALUES(:label,:priority)";
+            $param[':priority']= Sort::GetNextPriority("ContactsPage");
             $param[':label'] = $label;
             $con->createCommand($sql)->execute($param);
             $contactId = $con->getLastInsertID('contacts');

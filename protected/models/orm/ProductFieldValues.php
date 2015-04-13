@@ -14,8 +14,8 @@
  *
  * The followings are the available model relations:
  * @property ImagesOfProductFieldsValues[] $imagesOfProductFieldsValues
- * @property ProductFields $field
  * @property Product $product
+ * @property ProductFields $field
  * @property ProductFieldValuesTrl[] $productFieldValuesTrls
  */
 class ProductFieldValues extends CActiveRecord
@@ -53,8 +53,8 @@ class ProductFieldValues extends CActiveRecord
 		// class name for the relations automatically generated below.
 		return array(
 			'imagesOfProductFieldsValues' => array(self::HAS_MANY, 'ImagesOfProductFieldsValues', 'field_value_id'),
-			'field' => array(self::BELONGS_TO, 'ProductFields', 'field_id'),
 			'product' => array(self::BELONGS_TO, 'Product', 'product_id'),
+			'field' => array(self::BELONGS_TO, 'ProductFields', 'field_id'),
 			'productFieldValuesTrls' => array(self::HAS_MANY, 'ProductFieldValuesTrl', 'field_value_id'),
 		);
 	}

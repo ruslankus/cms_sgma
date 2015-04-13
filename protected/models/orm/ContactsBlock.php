@@ -10,7 +10,7 @@
  * @property string $template_name
  * @property string $map_url
  * @property string $map_code
- * @property integer $priprity
+ * @property integer $priority
  * @property integer $time_updated
  * @property integer $time_created
  * @property integer $last_change_by
@@ -38,14 +38,14 @@ class ContactsBlock extends CActiveRecord
 		// NOTE: you should only define rules for those attributes that
 		// will receive user inputs.
 		return array(
-			array('page_id, priprity, time_updated, time_created, last_change_by', 'numerical', 'integerOnly'=>true),
+			array('page_id, priority, time_updated, time_created, last_change_by', 'numerical', 'integerOnly'=>true),
 			array('label', 'length', 'max'=>128),
 			array('template_name', 'length', 'max'=>256),
 			array('map_url', 'length', 'max'=>1024),
 			array('map_code', 'safe'),
 			// The following rule is used by search().
 			// @todo Please remove those attributes that should not be searched.
-			array('id, page_id, label, template_name, map_url, map_code, priprity, time_updated, time_created, last_change_by', 'safe', 'on'=>'search'),
+			array('id, page_id, label, template_name, map_url, map_code, priority, time_updated, time_created, last_change_by', 'safe', 'on'=>'search'),
 		);
 	}
 
@@ -59,7 +59,7 @@ class ContactsBlock extends CActiveRecord
 		return array(
 			'page' => array(self::BELONGS_TO, 'ContactsPage', 'page_id'),
 			'contactsBlockTrls' => array(self::HAS_MANY, 'ContactsBlockTrl', 'block_id'),
-			'contactsFields' => array(self::HAS_MANY, 'ContactsFields', 'contacts_id'),
+			'contactsFields' => array(self::HAS_MANY, 'ContactsFields', 'block_id'),
 		);
 	}
 
@@ -75,7 +75,7 @@ class ContactsBlock extends CActiveRecord
 			'template_name' => 'Template Name',
 			'map_url' => 'Map Url',
 			'map_code' => 'Map Code',
-			'priprity' => 'Priprity',
+			'priority' => 'Priority',
 			'time_updated' => 'Time Updated',
 			'time_created' => 'Time Created',
 			'last_change_by' => 'Last Change By',
@@ -106,7 +106,7 @@ class ContactsBlock extends CActiveRecord
 		$criteria->compare('template_name',$this->template_name,true);
 		$criteria->compare('map_url',$this->map_url,true);
 		$criteria->compare('map_code',$this->map_code,true);
-		$criteria->compare('priprity',$this->priprity);
+		$criteria->compare('priority',$this->priority);
 		$criteria->compare('time_updated',$this->time_updated);
 		$criteria->compare('time_created',$this->time_created);
 		$criteria->compare('last_change_by',$this->last_change_by);

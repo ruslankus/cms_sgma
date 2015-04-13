@@ -20,6 +20,31 @@ class ExtProductFields extends ProductFields
 
 
     /**
+     * Get value for dynamic field of specified item
+     * @param $itemId
+     * @return ExtProductFieldValues|ProductFieldValues
+     */
+    public function getValueObjForItem($itemId)
+    {
+        $values = $this->productFieldValues;
+
+        $resultValue = new ExtProductFieldValues();
+
+        foreach($values as $value)
+        {
+            if($value->product_id == $itemId)
+            {
+                return $value;
+            }
+        }
+
+        $resultValue -> field_id = $this->id;
+        $resultValue -> product_id = $itemId;
+        return $resultValue;
+    }
+
+
+    /**
      * Returns trl or creates it if not found
      * @param $lngId
      * @return ProductFieldsTrl

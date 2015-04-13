@@ -10,7 +10,7 @@ Target Server Type    : MYSQL
 Target Server Version : 50538
 File Encoding         : 65001
 
-Date: 2015-04-10 14:42:47
+Date: 2015-04-13 17:51:37
 */
 
 SET FOREIGN_KEY_CHECKS=0;
@@ -99,7 +99,7 @@ CREATE TABLE `contacts_block` (
   `template_name` varchar(256) DEFAULT NULL,
   `map_url` varchar(1024) DEFAULT NULL,
   `map_code` text,
-  `priprity` int(11) DEFAULT NULL,
+  `priority` int(11) DEFAULT NULL,
   `time_updated` int(11) DEFAULT NULL,
   `time_created` int(11) DEFAULT NULL,
   `last_change_by` int(11) DEFAULT NULL,
@@ -143,11 +143,11 @@ CREATE TABLE `contacts_block_trl` (
 DROP TABLE IF EXISTS `contacts_fields`;
 CREATE TABLE `contacts_fields` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
-  `contacts_id` int(11) DEFAULT NULL,
-  `label` int(11) DEFAULT NULL,
+  `block_id` int(11) DEFAULT NULL,
+  `label` text,
   PRIMARY KEY (`id`),
-  KEY `contacts_id` (`contacts_id`),
-  CONSTRAINT `contacts_fields_ibfk_1` FOREIGN KEY (`contacts_id`) REFERENCES `contacts_block` (`id`) ON DELETE CASCADE ON UPDATE NO ACTION
+  KEY `block_id` (`block_id`),
+  CONSTRAINT `contacts_fields_ibfk_1` FOREIGN KEY (`block_id`) REFERENCES `contacts_block` (`id`) ON DELETE CASCADE ON UPDATE NO ACTION
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 -- ----------------------------
@@ -235,7 +235,7 @@ CREATE TABLE `images` (
   PRIMARY KEY (`id`),
   KEY `status_id` (`status_id`),
   CONSTRAINT `images_ibfk_1` FOREIGN KEY (`status_id`) REFERENCES `status` (`id`) ON DELETE NO ACTION ON UPDATE NO ACTION
-) ENGINE=InnoDB AUTO_INCREMENT=10 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=16 DEFAULT CHARSET=utf8;
 
 -- ----------------------------
 -- Records of images
@@ -247,6 +247,12 @@ INSERT INTO `images` VALUES ('6', 'Image of \"Test\"', '55238a6f9909c.jpg', 'Pen
 INSERT INTO `images` VALUES ('7', 'Image of \"Test\"', '552395de7927b.jpg', 'Koala.jpg', 'image/jpeg', '780831', '1');
 INSERT INTO `images` VALUES ('8', 'Image of \"Item 1\"', '5523e2ed15214.jpg', 'Jellyfish.jpg', 'image/jpeg', '775702', '1');
 INSERT INTO `images` VALUES ('9', null, '5524edbbd45e6.jpg', null, null, null, null);
+INSERT INTO `images` VALUES ('10', 'Image of \"Some title\"', '5527d24652824.jpg', 'Desert.jpg', 'image/jpeg', '845941', '1');
+INSERT INTO `images` VALUES ('11', 'Image of \"Some title\"', '5527d2b4661cc.jpg', 'Penguins.jpg', 'image/jpeg', '777835', '1');
+INSERT INTO `images` VALUES ('12', 'Image of \"Some title\"', '5527d2bfe9dd8.jpg', 'Koala.jpg', 'image/jpeg', '780831', '1');
+INSERT INTO `images` VALUES ('13', 'Image of \"Some title\"', '5527d2d029b58.jpg', 'Jellyfish.jpg', 'image/jpeg', '775702', '1');
+INSERT INTO `images` VALUES ('14', 'Image of \"Some title\"', '5527d2d63b20b.jpg', 'Tulips.jpg', 'image/jpeg', '620888', '1');
+INSERT INTO `images` VALUES ('15', 'Image of \"Some title\"', '5527d7fde98fe.jpg', 'Koala.jpg', 'image/jpeg', '780831', '1');
 
 -- ----------------------------
 -- Table structure for `images_of_contacts`
@@ -259,9 +265,9 @@ CREATE TABLE `images_of_contacts` (
   PRIMARY KEY (`id`),
   KEY `image_id` (`image_id`),
   KEY `contact_page_id` (`contact_page_id`),
-  CONSTRAINT `images_of_contacts_ibfk_2` FOREIGN KEY (`contact_page_id`) REFERENCES `contacts_page` (`id`) ON DELETE NO ACTION,
-  CONSTRAINT `images_of_contacts_ibfk_1` FOREIGN KEY (`image_id`) REFERENCES `images` (`id`) ON DELETE NO ACTION
-) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8;
+  CONSTRAINT `images_of_contacts_ibfk_1` FOREIGN KEY (`image_id`) REFERENCES `images` (`id`) ON DELETE NO ACTION,
+  CONSTRAINT `images_of_contacts_ibfk_2` FOREIGN KEY (`contact_page_id`) REFERENCES `contacts_page` (`id`) ON DELETE NO ACTION
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 -- ----------------------------
 -- Records of images_of_contacts
@@ -321,11 +327,12 @@ CREATE TABLE `images_of_product` (
   KEY `product_id` (`product_id`),
   CONSTRAINT `images_of_product_ibfk_1` FOREIGN KEY (`image_id`) REFERENCES `images` (`id`) ON DELETE CASCADE ON UPDATE NO ACTION,
   CONSTRAINT `images_of_product_ibfk_2` FOREIGN KEY (`product_id`) REFERENCES `product` (`id`) ON DELETE CASCADE ON UPDATE NO ACTION
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=7 DEFAULT CHARSET=utf8;
 
 -- ----------------------------
 -- Records of images_of_product
 -- ----------------------------
+INSERT INTO `images_of_product` VALUES ('6', '15', '14');
 
 -- ----------------------------
 -- Table structure for `images_of_product_fields_values`
@@ -481,13 +488,14 @@ CREATE TABLE `menu` (
   PRIMARY KEY (`id`),
   KEY `status_id` (`status_id`),
   CONSTRAINT `menu_ibfk_1` FOREIGN KEY (`status_id`) REFERENCES `status` (`id`) ON DELETE NO ACTION ON UPDATE NO ACTION
-) ENGINE=InnoDB AUTO_INCREMENT=7 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=8 DEFAULT CHARSET=utf8;
 
 -- ----------------------------
 -- Records of menu
 -- ----------------------------
 INSERT INTO `menu` VALUES ('5', 'Main menu', '1', '1427987138', '1427987138', '1', 'main_menu.php');
 INSERT INTO `menu` VALUES ('6', 'Bottom menu', '1', '1427987161', '1427987161', '1', 'other_menu.php');
+INSERT INTO `menu` VALUES ('7', 'еуыеыу', '1', '1428671996', '1428671996', '1', 'main_menu.php');
 
 -- ----------------------------
 -- Table structure for `menu_item`
@@ -794,18 +802,18 @@ CREATE TABLE `product` (
   `time_created` int(11) DEFAULT NULL,
   `time_updated` int(11) DEFAULT NULL,
   `last_change_by` int(11) DEFAULT NULL,
-  `product_code` int(11) DEFAULT NULL,
+  `product_code` varchar(1024) DEFAULT NULL,
   PRIMARY KEY (`id`),
   KEY `category_id` (`category_id`),
   KEY `status_id` (`status_id`),
   CONSTRAINT `product_ibfk_1` FOREIGN KEY (`category_id`) REFERENCES `product_category` (`id`) ON DELETE CASCADE ON UPDATE NO ACTION,
   CONSTRAINT `product_ibfk_2` FOREIGN KEY (`status_id`) REFERENCES `status` (`id`) ON DELETE NO ACTION ON UPDATE NO ACTION
-) ENGINE=InnoDB AUTO_INCREMENT=7 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=15 DEFAULT CHARSET=utf8;
 
 -- ----------------------------
 -- Records of product
 -- ----------------------------
-INSERT INTO `product` VALUES ('6', '1', '0:1', 'test 3', 'default.php', '1', '3', '8000', '54545', '0', '50', '0', '0', '1', null);
+INSERT INTO `product` VALUES ('14', '1', '0:1', 'Some title', 'default.php', '1', '1', '15000', '0', null, '5', '1428672850', '1428674681', '1', 'PR20366592PR');
 
 -- ----------------------------
 -- Table structure for `product_category`
@@ -874,12 +882,19 @@ CREATE TABLE `product_fields` (
   KEY `product_fields_ibfk_2` (`type_id`),
   CONSTRAINT `product_fields_ibfk_1` FOREIGN KEY (`group_id`) REFERENCES `product_field_groups` (`id`) ON DELETE CASCADE ON UPDATE NO ACTION,
   CONSTRAINT `product_fields_ibfk_2` FOREIGN KEY (`type_id`) REFERENCES `product_field_types` (`id`) ON DELETE NO ACTION ON UPDATE NO ACTION
-) ENGINE=InnoDB AUTO_INCREMENT=13 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=27 DEFAULT CHARSET=utf8;
 
 -- ----------------------------
 -- Records of product_fields
 -- ----------------------------
-INSERT INTO `product_fields` VALUES ('11', 'Power', '6', '18', '2', '1428587695', '1428653791', '1');
+INSERT INTO `product_fields` VALUES ('19', 'Country', '3', '15', '3', '1428927022', '1428927095', '1');
+INSERT INTO `product_fields` VALUES ('20', 'City', '3', '15', '2', '1428927056', '1428927095', '1');
+INSERT INTO `product_fields` VALUES ('21', 'Placement', '3', '15', '1', '1428927092', '1428927095', '1');
+INSERT INTO `product_fields` VALUES ('22', 'Children', '6', '15', '4', '1428927432', '1428927432', '1');
+INSERT INTO `product_fields` VALUES ('23', 'Header', '4', '18', '4', '1428927481', '1428927769', '1');
+INSERT INTO `product_fields` VALUES ('24', 'Description', '4', '18', '3', '1428927512', '1428927777', '1');
+INSERT INTO `product_fields` VALUES ('25', 'Image 1', '5', '18', '2', '1428927611', '1428927641', '1');
+INSERT INTO `product_fields` VALUES ('26', 'Image 2', '5', '18', '1', '1428927637', '1428927641', '1');
 
 -- ----------------------------
 -- Table structure for `product_fields_trl`
@@ -896,13 +911,27 @@ CREATE TABLE `product_fields_trl` (
   KEY `lng_id` (`lng_id`),
   CONSTRAINT `product_fields_trl_ibfk_1` FOREIGN KEY (`product_field_id`) REFERENCES `product_fields` (`id`) ON DELETE CASCADE ON UPDATE NO ACTION,
   CONSTRAINT `product_fields_trl_ibfk_2` FOREIGN KEY (`lng_id`) REFERENCES `languages` (`id`) ON DELETE CASCADE ON UPDATE NO ACTION
-) ENGINE=InnoDB AUTO_INCREMENT=13 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=41 DEFAULT CHARSET=utf8;
 
 -- ----------------------------
 -- Records of product_fields_trl
 -- ----------------------------
-INSERT INTO `product_fields_trl` VALUES ('9', '11', '1', '', 'Power');
-INSERT INTO `product_fields_trl` VALUES ('10', '11', '2', '', 'Мощность');
+INSERT INTO `product_fields_trl` VALUES ('25', '19', '1', '', 'Country');
+INSERT INTO `product_fields_trl` VALUES ('26', '19', '2', '', 'Страна');
+INSERT INTO `product_fields_trl` VALUES ('27', '20', '1', '', 'City');
+INSERT INTO `product_fields_trl` VALUES ('28', '20', '2', '', 'Город');
+INSERT INTO `product_fields_trl` VALUES ('29', '21', '1', '', 'Placement');
+INSERT INTO `product_fields_trl` VALUES ('30', '21', '2', '', 'Местонахождение');
+INSERT INTO `product_fields_trl` VALUES ('31', '22', '1', '', 'Children');
+INSERT INTO `product_fields_trl` VALUES ('32', '22', '2', '', 'Дети');
+INSERT INTO `product_fields_trl` VALUES ('33', '23', '1', '', 'Header');
+INSERT INTO `product_fields_trl` VALUES ('34', '23', '2', '', 'Заголовок');
+INSERT INTO `product_fields_trl` VALUES ('35', '24', '1', '', 'Description');
+INSERT INTO `product_fields_trl` VALUES ('36', '24', '2', '', 'Описание');
+INSERT INTO `product_fields_trl` VALUES ('37', '25', '1', '', 'Image 1');
+INSERT INTO `product_fields_trl` VALUES ('38', '25', '2', '', 'Картинка 1');
+INSERT INTO `product_fields_trl` VALUES ('39', '26', '1', '', 'Image 2');
+INSERT INTO `product_fields_trl` VALUES ('40', '26', '2', '', 'Картинка 2');
 
 -- ----------------------------
 -- Table structure for `product_field_groups`
@@ -921,13 +950,13 @@ CREATE TABLE `product_field_groups` (
 -- ----------------------------
 -- Records of product_field_groups
 -- ----------------------------
-INSERT INTO `product_field_groups` VALUES ('15', 'Description', '7', '1428566185', '1428500592', '1');
-INSERT INTO `product_field_groups` VALUES ('16', 'Prices', '6', '1428566185', '1428500636', '1');
-INSERT INTO `product_field_groups` VALUES ('17', 'Medicine', '5', '1428566185', '1428500677', '1');
-INSERT INTO `product_field_groups` VALUES ('18', 'Food', '4', '1428566185', '1428500761', '1');
-INSERT INTO `product_field_groups` VALUES ('19', 'The room fund', '3', '1428566185', '1428500806', '1');
-INSERT INTO `product_field_groups` VALUES ('20', 'Services', '2', '1428566185', '1428500828', '1');
-INSERT INTO `product_field_groups` VALUES ('21', 'How to get', '1', '1428566185', '1428500858', '1');
+INSERT INTO `product_field_groups` VALUES ('15', 'Description', '7', '1428927656', '1428500592', '1');
+INSERT INTO `product_field_groups` VALUES ('16', 'Prices', '5', '1428927656', '1428500636', '1');
+INSERT INTO `product_field_groups` VALUES ('17', 'Medicine', '4', '1428927656', '1428500677', '1');
+INSERT INTO `product_field_groups` VALUES ('18', 'Food', '6', '1428927656', '1428500761', '1');
+INSERT INTO `product_field_groups` VALUES ('19', 'The room fund', '3', '1428927656', '1428500806', '1');
+INSERT INTO `product_field_groups` VALUES ('20', 'Services', '2', '1428927656', '1428500828', '1');
+INSERT INTO `product_field_groups` VALUES ('21', 'How to get', '1', '1428927656', '1428500858', '1');
 
 -- ----------------------------
 -- Table structure for `product_field_groups_active`
@@ -942,11 +971,13 @@ CREATE TABLE `product_field_groups_active` (
   KEY `product_id` (`product_id`),
   CONSTRAINT `product_field_groups_active_ibfk_1` FOREIGN KEY (`group_id`) REFERENCES `product_field_groups` (`id`) ON DELETE CASCADE ON UPDATE NO ACTION,
   CONSTRAINT `product_field_groups_active_ibfk_2` FOREIGN KEY (`product_id`) REFERENCES `product` (`id`) ON DELETE CASCADE ON UPDATE NO ACTION
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=35 DEFAULT CHARSET=utf8;
 
 -- ----------------------------
 -- Records of product_field_groups_active
 -- ----------------------------
+INSERT INTO `product_field_groups_active` VALUES ('33', '15', '14');
+INSERT INTO `product_field_groups_active` VALUES ('34', '18', '14');
 
 -- ----------------------------
 -- Table structure for `product_field_groups_trl`
@@ -995,14 +1026,15 @@ CREATE TABLE `product_field_select_options` (
   PRIMARY KEY (`id`),
   KEY `field_id` (`field_id`),
   CONSTRAINT `product_field_select_options_ibfk_1` FOREIGN KEY (`field_id`) REFERENCES `product_fields` (`id`) ON DELETE CASCADE ON UPDATE NO ACTION
-) ENGINE=InnoDB AUTO_INCREMENT=27 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=32 DEFAULT CHARSET=utf8;
 
 -- ----------------------------
 -- Records of product_field_select_options
 -- ----------------------------
-INSERT INTO `product_field_select_options` VALUES ('22', '11', 'Low', '1');
-INSERT INTO `product_field_select_options` VALUES ('23', '11', 'Medium', '2');
-INSERT INTO `product_field_select_options` VALUES ('24', '11', 'High', '3');
+INSERT INTO `product_field_select_options` VALUES ('28', '22', 'С любого возраста', '1');
+INSERT INTO `product_field_select_options` VALUES ('29', '22', 'С 3-ех лет', '2');
+INSERT INTO `product_field_select_options` VALUES ('30', '22', 'С 5 лет', '3');
+INSERT INTO `product_field_select_options` VALUES ('31', '22', 'Не принимаются', '4');
 
 -- ----------------------------
 -- Table structure for `product_field_types`
@@ -1041,11 +1073,17 @@ CREATE TABLE `product_field_values` (
   KEY `field_id` (`field_id`),
   CONSTRAINT `product_field_values_ibfk_1` FOREIGN KEY (`product_id`) REFERENCES `product` (`id`) ON DELETE CASCADE ON UPDATE NO ACTION,
   CONSTRAINT `product_field_values_ibfk_2` FOREIGN KEY (`field_id`) REFERENCES `product_fields` (`id`) ON DELETE CASCADE ON UPDATE NO ACTION
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=9 DEFAULT CHARSET=utf8;
 
 -- ----------------------------
 -- Records of product_field_values
 -- ----------------------------
+INSERT INTO `product_field_values` VALUES ('3', '14', '19', null, null, 'Country', null);
+INSERT INTO `product_field_values` VALUES ('4', '14', '20', null, null, 'City', null);
+INSERT INTO `product_field_values` VALUES ('5', '14', '21', null, null, 'Place', null);
+INSERT INTO `product_field_values` VALUES ('6', '14', '22', null, '2', null, null);
+INSERT INTO `product_field_values` VALUES ('7', '14', '23', null, null, null, null);
+INSERT INTO `product_field_values` VALUES ('8', '14', '24', null, null, null, null);
 
 -- ----------------------------
 -- Table structure for `product_field_values_trl`
@@ -1055,17 +1093,21 @@ CREATE TABLE `product_field_values_trl` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
   `lng_id` int(11) DEFAULT NULL,
   `field_value_id` int(11) DEFAULT NULL,
-  `tranlsatable_text` text,
+  `translatable_text` text,
   PRIMARY KEY (`id`),
   KEY `lng_id` (`lng_id`),
   KEY `field_value_id` (`field_value_id`),
   CONSTRAINT `product_field_values_trl_ibfk_1` FOREIGN KEY (`lng_id`) REFERENCES `languages` (`id`) ON DELETE CASCADE ON UPDATE NO ACTION,
   CONSTRAINT `product_field_values_trl_ibfk_2` FOREIGN KEY (`field_value_id`) REFERENCES `product_field_values` (`id`) ON DELETE CASCADE ON UPDATE NO ACTION
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=5 DEFAULT CHARSET=utf8;
 
 -- ----------------------------
 -- Records of product_field_values_trl
 -- ----------------------------
+INSERT INTO `product_field_values_trl` VALUES ('1', '1', '7', 'ggggg');
+INSERT INTO `product_field_values_trl` VALUES ('2', '2', '7', '');
+INSERT INTO `product_field_values_trl` VALUES ('3', '1', '8', 'ggggg');
+INSERT INTO `product_field_values_trl` VALUES ('4', '2', '8', '');
 
 -- ----------------------------
 -- Table structure for `product_trl`
@@ -1085,11 +1127,13 @@ CREATE TABLE `product_trl` (
   KEY `lng_id` (`lng_id`),
   CONSTRAINT `product_trl_ibfk_1` FOREIGN KEY (`lng_id`) REFERENCES `languages` (`id`) ON DELETE CASCADE ON UPDATE NO ACTION,
   CONSTRAINT `product_trl_ibfk_2` FOREIGN KEY (`product_id`) REFERENCES `product` (`id`) ON DELETE CASCADE ON UPDATE NO ACTION
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=17 DEFAULT CHARSET=utf8;
 
 -- ----------------------------
 -- Records of product_trl
 -- ----------------------------
+INSERT INTO `product_trl` VALUES ('15', 'Some title', null, null, '', '', '14', '1');
+INSERT INTO `product_trl` VALUES ('16', 'Какое-то название', null, null, '', '', '14', '2');
 
 -- ----------------------------
 -- Table structure for `rating`
@@ -1105,7 +1149,7 @@ CREATE TABLE `rating` (
   KEY `product_id` (`product_id`),
   CONSTRAINT `rating_ibfk_1` FOREIGN KEY (`mark_id`) REFERENCES `marks` (`id`) ON DELETE CASCADE ON UPDATE NO ACTION,
   CONSTRAINT `rating_ibfk_2` FOREIGN KEY (`product_id`) REFERENCES `product` (`id`) ON DELETE CASCADE ON UPDATE NO ACTION
-) ENGINE=InnoDB AUTO_INCREMENT=11 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 -- ----------------------------
 -- Records of rating

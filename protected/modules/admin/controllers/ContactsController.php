@@ -7,6 +7,37 @@ class ContactsController extends ControllerAdmin
 
     public function actionPages($page = 1)
     {
+        Yii::app()->clientScript->registerScriptFile($this->assetsPath.'/js/vendor.trees.js',CClientScript::POS_END);
+        Yii::app()->clientScript->registerScriptFile($this->assetsPath.'/js/vendor.main-menu.js',CClientScript::POS_END);
+        Yii::app()->clientScript->registerCssFile($this->assetsPath.'/css/vendor.news.ext.css');
+
+        $currLng = Yii::app()->language;
+        
+        if(empty($siteLng)){
+            $siteLng = Yii::app()->language; 
+        }
+        
+        //$objContacts = ContactsPage::model()->with(array('contactsPageTrls.lng' => array('condition' => "lng.prefix='{$siteLng}'")))->findall(array('order' => 'priority DESC'));
+
+       $objContacts = ContactsPage::model()->findall(array('order' => 'priority DESC'));    
+        
+        $pager = CPaginator::getInstance($objContacts,100,$page);
+
+        if(Yii::app()->request->isAjaxRequest)
+        {
+            $pager = $pager->getPreparedArray();
+            $this->renderPartial('_index',array('objContacts' => $pager, 'currLng' => $currLng));
+        }
+        else
+        {
+
+            $this->render('index',array('pager' => $pager, 'currLng' => $currLng));
+        }
+
+    }
+/*
+    public function actionPages_old($page = 1)
+    {
         Yii::app()->clientScript->registerScriptFile($this->assetsPath.'/js/vendor.contacts.js',CClientScript::POS_END);
 
         $currLng = Yii::app()->language;
@@ -20,7 +51,7 @@ class ContactsController extends ControllerAdmin
         $pager = CPaginator::getInstance($objContacts,10,$page);
         $this->render('index',array('pager' => $pager, 'currLng' => $currLng));
     }
-
+*/
     public function actionCreate(){
         Yii::app()->clientScript->registerScriptFile($this->assetsPath.'/js/vendor.add-contact.js',CClientScript::POS_END);
         $model = new AddPageForm();
@@ -98,13 +129,27 @@ class ContactsController extends ControllerAdmin
         $this->render('editContact', array('arrPage' => $arrPage, 'model' => $model, 'contact_id' => $id, 'siteLng' => $siteLng, 'prefix' => $prefix ));
     }//edit
 
+    public function actionDeleteContact($id=null){
+        ContactsPage::model()->deleteByPk($id);
+
+        if(Yii::app()->request->isAjaxRequest)
+        {
+            echo "OK";
+            Yii::app()->end();
+        }
+        else
+        {
+            $this->redirect(Yii::app()->createUrl('admin/contacts/pages'));
+        }
+    }
+/*
     public function actionDeleteContact($id=null)
     {
     	$objContact = ContactsPage::model()->findByPk($id);
     	$objContact->delete();
     	$this->redirect(array('index'));
     }
-
+*/
 
     public function actionContactSettings($id=null)
     {
@@ -182,6 +227,19 @@ class ContactsController extends ControllerAdmin
     }
 
     /* ----------------------------- pages ajax section -------------------------------------- */
+
+    public function actionAjaxOrderPages()
+    {
+        $ordersJson = Yii::app()->request->getParam('orders');
+        $orders = json_decode($ordersJson,true);
+
+        $previous = $orders['old'];
+        $new = $orders['new'];
+
+        Sort::ReorderItems("ContactsPage",$previous,$new);
+
+        echo "OK";
+    }
 
     public function actionEditContentAjax($id = null)
     {
@@ -265,27 +323,221 @@ class ContactsController extends ControllerAdmin
 /************************************************************* End Pages ***********************************************/
 
 
-/************************************************************* End Blocks ***********************************************/
+/*************************************************************  Blocks ***********************************************/
 
-    public function actionBlocks(){
-        Yii::app()->clientScript->registerScriptFile($this->assetsPath.'/js/vendor.contacts.js',CClientScript::POS_END);
+    public function actionBlocks($page = 1, $group = 0)
+    {
+        //include js file for AJAX updating
+        Yii::app()->clientScript->registerScriptFile($this->assetsPath.'/js/vendor.trees.js',CClientScript::POS_END);
+        Yii::app()->clientScript->registerScriptFile($this->assetsPath.'/js/vendor.main-menu.js',CClientScript::POS_END);
+        Yii::app()->clientScript->registerCssFile($this->assetsPath.'/css/vendor.news.ext.css');
 
-        $currLng = Yii::app()->language;
-        
-        if(empty($siteLng)){
-            $siteLng = Yii::app()->language; 
+        $fieldGroup = ContactsPage::model()->findByPk($group);
+
+        if(!empty($fieldGroup))
+        {
+            $fields = ContactsBlock::model()->findAllByAttributes(array('page_id' => $group),array('order' => 'priority DESC'));
+            $per_page = 100;
         }
-        
-        //$objContacts = ContactsPage::model()->with(array('contactsPageTrls.lng' => array('condition' => "lng.prefix='{$siteLng}'")))->findall();
-        $objContacts = ContactsBlock::model()->findAll(); 
-        $pager = CPaginator::getInstance($objContacts,10,$page);
-        $this->render('indexBlock',array('pager' => $pager, 'currLng' => $currLng));
+        else
+        {
+            $fields = ContactsBlock::model()->findAll(array('order' => 'priority DESC'));
+            $per_page = 10;
+        }
+
+        $items = CPaginator::getInstance($fields,$per_page,$page)->getPreparedArray();
+
+        if(Yii::app()->request->isAjaxRequest)
+        {
+            $this->renderPartial('_listBlocks',array('items' => $items, 'group' => $group));
+        }
+        else
+        {
+            $this->render('listBlocks',array('items' => $items, 'group' => $group));
+        }       
     }
 
 
+    public function actionAddBlock($group=0){
+        Yii::app()->clientScript->registerScriptFile($this->assetsPath.'/js/vendor.add-contact-block.js',CClientScript::POS_END);
+        $model = new AddPageBlockForm();
+        
+        if(isset($_POST['AddPageBlockForm'])){
+            //Debug::d($_POST);
+            $model->attributes = $_POST['AddPageBlockForm'];
+            $arrTitle = array();
+            if($model->validate()){
+                //get title
+                foreach(SiteLng::lng()->getLngs() as $objLng){
+                    $lngPrefix = $objLng->prefix;
+                    $arrTitle[$objLng->id] = $_POST['AddPageBlockForm']["title_{$lngPrefix}"];
+                }
+                
+                $result = ExtContactsBlockTrl::model()->setNewContactBlock($model->page_label,$arrTitle,$model->page_id);
+                if($result){
+                    $this->redirect(Yii::app()->createUrl('admin/contacts/blocks',array('group' => $model->page_id)));
+                }else{
+                    
+                }
+            }
+       
+        }
+        
+        $this->render('new_block', array('model' => $model, 'group_id'=>$group));
+        
+    }//create
+
+    public function actionDelBlock($id=null)
+    {
+        ContactsBlock::model()->deleteByPk($id);
+
+        if(Yii::app()->request->isAjaxRequest)
+        {
+            echo "OK";
+            Yii::app()->end();
+        }
+        else
+        {
+            $this->redirect(Yii::app()->createUrl('admin/contacts/blocks'));
+        }
+    }       
+    
+
+    public function actionEditBlock($id = null)
+    {
+        $objBlock = ContactsBlock::model()->findByPk($id);
+        $model = new SaveContactBlockForm();
+        $request = Yii::app()->request;
+        $prefix = Yii::app()->language;
+        if(isset($_POST['SaveContactBlockForm']))
+        {
+            $siteLng = $_POST['SaveContactBlockForm']['lngId'];
+            $langObj = Languages::model()->findByPk($siteLng);
+            $curr_prefix = $langObj->prefix;
+            $model->attributes=$_POST['SaveContactBlockForm'];
+
+            if($model->validate())
+            {
+
+                $contactTrlObj = ContactsBlockTrl::model()->find(array('condition'=>'lng_id=:lng_id AND block_id=:block_id','params'=>array('lng_id'=>$siteLng,'block_id'=>$id)));
+                $contactTrlObj->text=$_POST['SaveContactBlockForm']['description'];
+                 $contactTrlObj->title=$_POST['SaveContactBlockForm']['title'];
+                $contactTrlObj->meta_description=$_POST['SaveContactBlockForm']['meta'];
+                $contactTrlObj->update(); 
+
+                $objBlock->page_id=$_POST['SaveContactBlockForm']['page_id'];
+
+                $objBlock->update();
+
+            }
+        } 
+
+        Yii::app()->clientScript->registerScriptFile($this->assetsPath.'/ckeditor/ckeditor.js',CClientScript::POS_END);
+        Yii::app()->clientScript->registerScriptFile($this->assetsPath.'/ckeditor/adapters/jquery.js',CClientScript::POS_END);
+        Yii::app()->clientScript->registerScriptFile($this->assetsPath.'/js/vendor.edit-contact-block.js',CClientScript::POS_END);
+       
+        
+        $objCurrLng = SiteLng::lng()->getCurrLng();  
+        
+
+
+        if(empty($siteLng))
+        {
+            $siteLng = $objCurrLng->id;
+            $curr_prefix = $objCurrLng->prefix;
+
+        }
+
+        //$objPage = ExtPage::model()->findByPk($id);
+        //$arrPage = ExtContacts::model()->getContact($id,$curr_prefix);
+        $arrPage = ContactsPageTrl::model()->find(array('condition'=>'Page_id=:id AND lng_id=:siteLng','params'=>array('id'=>$id,'siteLng'=>$siteLng)));
+        //Debug::d($arrPage);
+        $this->render('editBlock', array('arrPage' => $arrPage, 'model' => $model, 'contact_id' => $id, 'siteLng' => $siteLng, 'prefix' => $prefix, 'page_id'=>$objBlock->page_id));
+    }//edit
+
+
     /* ----------------------------- blocks ajax section -------------------------------------- */
+
+    public function actionAjaxOrderBlocks()
+    {
+         $ordersJson = Yii::app()->request->getParam('orders');
+        $orders = json_decode($ordersJson,true);
+
+        $previous = $orders['old'];
+        $new = $orders['new'];
+
+        Sort::ReorderItems("ContactsBlock",$previous,$new);
+
+        echo "OK";       
+    }
 
     /* ----------------------------- blocks ajax section -------------------------------------- */
 
 /************************************************************* End Blocks ***********************************************/
+
+
+/*************************************************************  Fields ***********************************************/
+
+    public function actionFields($page = 1, $group = 0)
+    {
+        //include js file for AJAX updating
+        Yii::app()->clientScript->registerScriptFile($this->assetsPath.'/js/vendor.trees.js',CClientScript::POS_END);
+        Yii::app()->clientScript->registerScriptFile($this->assetsPath.'/js/vendor.main-menu.js',CClientScript::POS_END);
+        Yii::app()->clientScript->registerCssFile($this->assetsPath.'/css/vendor.news.ext.css');
+
+        $fieldGroup = ContactsBlock::model()->findByPk($group);
+
+        if(!empty($fieldGroup))
+        {
+            $fields = ContactsFields::model()->findAllByAttributes(array('block_id' => $group));
+            $per_page = 100;
+        }
+        else
+        {
+            $fields = ContactsFields::model()->findAll();
+            $per_page = 10;
+        }
+
+        $items = CPaginator::getInstance($fields,$per_page,$page)->getPreparedArray();
+
+        if(Yii::app()->request->isAjaxRequest)
+        {
+            $this->renderPartial('_listFields',array('items' => $items, 'group' => $group));
+        }
+        else
+        {
+            $this->render('listFields',array('items' => $items, 'group' => $group));
+        }       
+    }
+
+    public function actionAddField($group=0){
+        Yii::app()->clientScript->registerScriptFile($this->assetsPath.'/js/vendor.add-contact-field.js',CClientScript::POS_END);
+        $model = new AddPageFieldForm();
+        
+        if(isset($_POST['AddPageFieldForm'])){
+            //Debug::d($_POST);
+            $model->attributes = $_POST['AddPageFieldForm'];
+            $arrTitle = array();
+            if($model->validate()){
+                //get title
+                foreach(SiteLng::lng()->getLngs() as $objLng){
+                    $lngPrefix = $objLng->prefix;
+                    $arrTitle[$objLng->id] = $_POST['AddPageFieldForm']["title_{$lngPrefix}"];
+                }
+
+                $result = ExtContactsFieldsTrl::model()->setNewContactField($model->page_label,$arrTitle,$model->block_id);
+              
+                if($result){
+                    $this->redirect(Yii::app()->createUrl('admin/contacts/fields',array('group' => $model->block_id)));
+                }else{
+                    
+                }
+            }
+       
+        }
+        
+        $this->render('new_field', array('model' => $model, 'group_id'=>$group));
+        
+    }//create
+
 }

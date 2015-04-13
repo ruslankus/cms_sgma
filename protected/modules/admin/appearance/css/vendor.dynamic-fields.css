@@ -1,0 +1,54 @@
+.lng-switcher
+{
+    height: 30px;
+    padding-left: 10px;
+    padding-right: 10px;
+    padding-top: 3px;
+    text-align: center;
+    background-color: #F6F6F6;
+    cursor: pointer;
+    border-radius: 3px;
+    border: 1px solid #DDD;
+    color: #868686;
+    font-size: 15px;
+    font-family: "Open_sans";
+    display: inline-block;
+    text-decoration: none;
+    margin-left: 5px;
+}
+.lng-switcher.active
+{
+    background-color: #149FE4;
+    border: 1px solid #0084C6;
+    color: #FFF;
+    font-weight: bold;
+}
+.content.menu-content .inner-content input[type="text"], .content .inner-content .form-zone .trl.value input
+{
+    display: none;
+}
+.content.menu-content .inner-content input[type="text"], .content .inner-content .form-zone .trl.value input.active
+{
+    display: block;
+}
+
+.content.menu-content .inner-content table tr td.label
+{
+    vertical-align: top;
+    padding-top: 11px;
+}
+
+.content .inner-content .form-zone textarea
+{
+    width: 360px;
+    height: 65px;
+    padding-left: 3px;
+    padding-right: 3px;
+    background-color: #FFF;
+    border-radius: 3px;
+    border: 1px solid #DDD;
+    color: #968B8B;
+    font-size: 15px;
+    font-family: "Open_sans";
+    resize: none;
+}

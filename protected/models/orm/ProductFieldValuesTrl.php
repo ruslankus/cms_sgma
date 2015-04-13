@@ -7,11 +7,11 @@
  * @property integer $id
  * @property integer $lng_id
  * @property integer $field_value_id
- * @property string $tranlsatable_text
+ * @property string $translatable_text
  *
  * The followings are the available model relations:
- * @property ProductFieldValues $fieldValue
  * @property Languages $lng
+ * @property ProductFieldValues $fieldValue
  */
 class ProductFieldValuesTrl extends CActiveRecord
 {
@@ -32,10 +32,10 @@ class ProductFieldValuesTrl extends CActiveRecord
 		// will receive user inputs.
 		return array(
 			array('lng_id, field_value_id', 'numerical', 'integerOnly'=>true),
-			array('tranlsatable_text', 'safe'),
+			array('translatable_text', 'safe'),
 			// The following rule is used by search().
 			// @todo Please remove those attributes that should not be searched.
-			array('id, lng_id, field_value_id, tranlsatable_text', 'safe', 'on'=>'search'),
+			array('id, lng_id, field_value_id, translatable_text', 'safe', 'on'=>'search'),
 		);
 	}
 
@@ -47,8 +47,8 @@ class ProductFieldValuesTrl extends CActiveRecord
 		// NOTE: you may need to adjust the relation name and the related
 		// class name for the relations automatically generated below.
 		return array(
-			'fieldValue' => array(self::BELONGS_TO, 'ProductFieldValues', 'field_value_id'),
 			'lng' => array(self::BELONGS_TO, 'Languages', 'lng_id'),
+			'fieldValue' => array(self::BELONGS_TO, 'ProductFieldValues', 'field_value_id'),
 		);
 	}
 
@@ -61,7 +61,7 @@ class ProductFieldValuesTrl extends CActiveRecord
 			'id' => 'ID',
 			'lng_id' => 'Lng',
 			'field_value_id' => 'Field Value',
-			'tranlsatable_text' => 'Tranlsatable Text',
+			'translatable_text' => 'Translatable Text',
 		);
 	}
 
@@ -86,7 +86,7 @@ class ProductFieldValuesTrl extends CActiveRecord
 		$criteria->compare('id',$this->id);
 		$criteria->compare('lng_id',$this->lng_id);
 		$criteria->compare('field_value_id',$this->field_value_id);
-		$criteria->compare('tranlsatable_text',$this->tranlsatable_text,true);
+		$criteria->compare('translatable_text',$this->translatable_text,true);
 
 		return new CActiveDataProvider($this, array(
 			'criteria'=>$criteria,

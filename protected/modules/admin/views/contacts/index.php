@@ -1,45 +1,47 @@
-test
-
 <?php
-/*
 $objContacts = $pager->getPreparedArray();
 $totalPages = $pager->getTotalPages();
 $perPage = $pager->getPerPage();
 $currentPage = $pager->getCurrentPage();
 ?>
+<style>
+    .content > .tab-line
+    {
+        margin: 0;
+        margin-bottom: 10px;
+        margin-top: 10px;
+    }
+</style>
 <main>
+
+    <div class="content">
+        <div class="tab-line">
+            <span class="active"><a href="<?php echo Yii::app()->createUrl('admin/contacts/pages'); ?>"><?php echo ATrl::t()->getLabel('Groups'); ?></a></span>
+            <span><a href="<?php echo Yii::app()->createUrl('admin/contacts/blocks'); ?>"><?php echo ATrl::t()->getLabel('Blocks'); ?></a></span>
+			<span><a href="<?php echo Yii::app()->createUrl('admin/contacts/fields'); ?>"><?php echo ATrl::t()->getLabel('Fields'); ?></a></span>
+        </div><!--/tab-line-->
+    </div>
+
 	<div class="title-bar">
 		<h1><?php echo ATrl::t()->getLabel('contacts pages')?></h1>
 		<ul class="actions">
 			<li><a href="/<?php echo $currLng?>/admin/contacts/create" class="action add"></a></li>
-			<li><a href="" class="action refresh"></a></li>
-			<li><a href="" class="action copy"></a></li>
-			<li><a href="" class="action del"></a></li>
 		</ul>
 	</div><!--/title-bar-->
 	<div class="contacts-box">
-		<div class="content list">
-			<div class="list-row title">
-				<div class="cell checkbox"><input type="checkbox" id="checkall_pages"/></div>
-				<div class="cell"><?php echo ATrl::t()->getLabel('pages names')?></div>
-				<div class="cell action"><?php echo ATrl::t()->getLabel('action')?></div>
-			</div><!--/list-row-->
-			
-	        
-	        <?php foreach($objContacts as $contact): ?>
-	        
-			<div class="list-row">
-				<div class="cell checkbox"><input type="checkbox"/></div>
-				<div class="cell"><a id="name-<?php echo $contact->id?>" href="/<?php echo $currLng?>/admin/contacts/editcontent/<?php echo $contact->id?>"><?php echo $contact->contactsPageTrls[0]->title ?></a></div>
-				<div class="cell action">
-					<a  href="/<?php echo $currLng?>/admin/contacts/editcontent/<?php echo $contact->id?>" class="action edit"></a>
-					<a href="#" data-id="<?php echo $contact->id?>" data-prefix="<?php echo $currLng?>" class="action delete"></a>
-				</div>
-			</div><!--/list-row-->
-	        
-	        <?php endforeach ?>
-			
-			
+		<div class="content">
+
+	        <div class="title-table">
+	            <div class="cell drag-drop"><?php echo ATrl::t()->getLabel('Drag and Drop'); ?></div>
+	            <div class="cell"><?php echo ATrl::t()->getLabel('Label'); ?></div>
+	            <div class="cell type"><?php echo ATrl::t()->getLabel('Priority'); ?></div>
+	            <div class="cell action"><?php echo ATrl::t()->getLabel('Actions'); ?></div>
+	        </div><!--table-->
+
+	        <div class="sortable">
+	            <?php echo $this->renderPartial('_index',array('objContacts' => $objContacts, 'currLng'=>$currLng)); ?>
+	        </div><!--/sortable-->
+
 		</div><!--/content-->
 	    
 		<?php
@@ -54,11 +56,12 @@ $currentPage = $pager->getCurrentPage();
 		<?php
 			endfor;
 		?>
+
 		</div>
 		<?php
 		}
 		?>
+		<input type="hidden" id="ajax-refresh-link" value="<?php echo Yii::app()->createUrl('admin/contacts/pages',array('page' => CPaginator::getInstance()->getCurrentPage())); ?>">
+		<input type="hidden" id="ajax-swap-link" value="<?php echo Yii::app()->createUrl('/admin/contacts/ajaxorderpages'); ?>">
 	</div>
 </main>
-*/
-?>

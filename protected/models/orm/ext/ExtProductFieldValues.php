@@ -18,6 +18,48 @@ class ExtProductFieldValues extends ProductFieldValues
 
 
     /**
+     * Returns trl or creates it if not found
+     * @param $lngId
+     * @return ProductFieldValuesTrl
+     */
+    public function getOrCreateTrl($lngId)
+    {
+        $all = $this->productFieldValuesTrls;
+
+        if(!empty($all))
+        {
+            foreach($all as $trl)
+            {
+                if($trl->lng_id == $lngId)
+                {
+                    return $trl;
+                }
+            }
+        }
+
+        $trl = new ProductFieldValuesTrl();
+        $trl -> field_value_id = $this->id;
+        $trl -> lng_id = $lngId;
+
+        return $trl;
+    }
+
+    /**
+     * Does saving or updating record if exist in db
+     */
+    public function saveOrUpdate()
+    {
+        if($this->isNewRecord)
+        {
+            $this->save();
+        }
+        else
+        {
+            $this->update();
+        }
+    }
+
+    /**
      * Override, relate with extended models
      * @return array relational rules.
      */
