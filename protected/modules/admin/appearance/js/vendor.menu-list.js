@@ -26,7 +26,7 @@
 //add button
     $(".add").click(function(e)
     {
-        $(".lightbox").fadeIn(300);
+        $(".lightbox.add-box").fadeIn(300);
         return false;
     });
 // cancel lightbox

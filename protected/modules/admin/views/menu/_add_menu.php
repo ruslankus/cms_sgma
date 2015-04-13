@@ -4,7 +4,7 @@
 <?php /* @var $templates array() */ ?>
 <?php /* @var $statuses array() */ ?>
 
-<div class="lightbox">
+<div class="lightbox add-box">
     <div class="wrap"><div class="middle">
             <div class="content">
                 <span class="header"><?php echo ATrl::t()->getLabel('Add menu'); ?></span>
