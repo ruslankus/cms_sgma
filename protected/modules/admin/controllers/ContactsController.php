@@ -370,7 +370,7 @@ class ContactsController extends ControllerAdmin
                 //get title
                 foreach(SiteLng::lng()->getLngs() as $objLng){
                     $lngPrefix = $objLng->prefix;
-                    $arrTitle[$objLng->id] = $_POST['AddPagBlockeForm']["title_{$lngPrefix}"];
+                    $arrTitle[$objLng->id] = $_POST['AddPageBlockForm']["title_{$lngPrefix}"];
                 }
                 
                 $result = ExtContactsBlockTrl::model()->setNewContactBlock($model->page_label,$arrTitle,$model->page_id);
@@ -485,16 +485,16 @@ class ContactsController extends ControllerAdmin
         Yii::app()->clientScript->registerScriptFile($this->assetsPath.'/js/vendor.main-menu.js',CClientScript::POS_END);
         Yii::app()->clientScript->registerCssFile($this->assetsPath.'/css/vendor.news.ext.css');
 
-        $fieldGroup = ContactsPage::model()->findByPk($group);
+        $fieldGroup = ContactsBlock::model()->findByPk($group);
 
         if(!empty($fieldGroup))
         {
-            $fields = ContactsBlock::model()->findAllByAttributes(array('page_id' => $group),array('order' => 'priority DESC'));
+            $fields = ContactsFields::model()->findAllByAttributes(array('block_id' => $group));
             $per_page = 100;
         }
         else
         {
-            $fields = ContactsBlock::model()->findAll(array('order' => 'priority DESC'));
+            $fields = ContactsFields::model()->findAll();
             $per_page = 10;
         }
 
@@ -510,5 +510,34 @@ class ContactsController extends ControllerAdmin
         }       
     }
 
+    public function actionAddField($group=0){
+        Yii::app()->clientScript->registerScriptFile($this->assetsPath.'/js/vendor.add-contact-field.js',CClientScript::POS_END);
+        $model = new AddPageFieldForm();
+        
+        if(isset($_POST['AddPageFieldForm'])){
+            //Debug::d($_POST);
+            $model->attributes = $_POST['AddPageFieldForm'];
+            $arrTitle = array();
+            if($model->validate()){
+                //get title
+                foreach(SiteLng::lng()->getLngs() as $objLng){
+                    $lngPrefix = $objLng->prefix;
+                    $arrTitle[$objLng->id] = $_POST['AddPageFieldForm']["title_{$lngPrefix}"];
+                }
+
+                $result = ExtContactsFieldsTrl::model()->setNewContactField($model->page_label,$arrTitle,$model->block_id);
+              
+                if($result){
+                    $this->redirect(Yii::app()->createUrl('admin/contacts/fields',array('group' => $model->block_id)));
+                }else{
+                    
+                }
+            }
+       
+        }
+        
+        $this->render('new_field', array('model' => $model, 'group_id'=>$group));
+        
+    }//create
 
 }

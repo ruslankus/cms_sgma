@@ -15,15 +15,15 @@
     <div class="content">
         <div class="tab-line">
             <span><a href="<?php echo Yii::app()->createUrl('admin/contacts/pages'); ?>"><?php echo ATrl::t()->getLabel('Groups'); ?></a></span>
-            <span class="active"><a href="<?php echo Yii::app()->createUrl('admin/contacts/blocks'); ?>"><?php echo ATrl::t()->getLabel('Blocks'); ?></a></span>
-            <span><a href="<?php echo Yii::app()->createUrl('admin/contacts/fields'); ?>"><?php echo ATrl::t()->getLabel('Fields'); ?></a></span>
+            <span><a href="<?php echo Yii::app()->createUrl('admin/contacts/blocks'); ?>"><?php echo ATrl::t()->getLabel('Blocks'); ?></a></span>
+            <span class="active"><a href="<?php echo Yii::app()->createUrl('admin/contacts/fields'); ?>"><?php echo ATrl::t()->getLabel('Fields'); ?></a></span>
         </div><!--/tab-line-->
     </div>
 
     <div class="title-bar">
         <h1><?php echo ATrl::t()->getLabel('Blocks'); ?></h1>
         <ul class="actions">
-            <li><a href="<?php echo Yii::app()->createUrl('/admin/contacts/addblock',$params); ?>" class="action add"></a></li>
+            <li><a href="<?php echo Yii::app()->createUrl('/admin/contacts/addfield',$params); ?>" class="action add"></a></li>
         </ul>
     </div><!--/title-bar-->
 
@@ -31,12 +31,11 @@
         <div class="title-table">
             <?php if($group != 0): ?><div class="cell drag-drop"><?php echo ATrl::t()->getLabel('Drag and Drop'); ?></div><?php endif; ?>
             <div class="cell"><?php echo ATrl::t()->getLabel('Label'); ?></div>
-            <div class="cell type"><?php echo ATrl::t()->getLabel('Priority'); ?></div>
             <div class="cell action"><?php echo ATrl::t()->getLabel('Actions'); ?></div>
         </div><!--table-->
 
         <div class="sortable">
-            <?php echo $this->renderPartial('_listBlocks',array('items' => $items, 'group' => $group)); ?>
+            <?php echo $this->renderPartial('_listFields',array('items' => $items, 'group' => $group)); ?>
         </div><!--/sortable-->
 
     </div><!--/content-->
