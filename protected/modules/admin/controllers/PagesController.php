@@ -178,7 +178,7 @@ class PagesController extends ControllerAdmin
         
         $lngObj = SiteLng::lng()->getCurrLng();
         
-        $arrPage = ExtPage::model()->getPageWithImage($id, $lngObj->prefix);
+        $arrPage = ExtPage::model()->getPageImaageNoCaption($id);
         //Debug::d($arrPage);
         if(!empty($arrPage)){
         

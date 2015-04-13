@@ -47,6 +47,12 @@
 		clear: both;
 		content: ' ';
 	}
+.lightbox > .wrap > .middle > .content .message
+	{
+		display: block;
+		margin-bottom: 15px;
+		text-align: left;
+	}
 .lightbox > .wrap > .middle > .content .header
 	{
 		display: block;

@@ -1,0 +1,109 @@
+.inner-content:after { display: table; content: ' '; clear: both; }
+.images
+	{
+		width: 100%;
+		max-height: 550px;
+		overflow-y: auto;
+		overflow-x: hidden;
+		margin-left: -3px;
+		margin-right: -3px;
+	}
+.images > .image
+	{
+		width: 160px;
+		height: 120px;
+		position: relative;
+		float: left;
+		margin: 10px;
+		border: 1px solid #ddd;
+		border-radius: 3px;
+		text-align: center;
+	}
+.images > .image > img
+	{
+		min-width: 158px;
+		min-height: 118px;
+		width: 100%;
+		z-index: 0;
+	}
+.images > .image > .delete
+	{
+		display: block;
+		position: absolute;
+		top: 10px;
+		right: 10px;
+		border-radius: 3px;
+		width: 30px;
+		height: 30px;
+		color: #fff;
+		font-size: 16px;
+		background-image: url(../images/icon-delete.png);
+		background-position: center center;
+		background-repeat: no-repeat;
+		
+		background-color: #fb8f73;
+		border: 1px solid #eb603c;
+		cursor: pointer;
+	}
+.images > .image > .edit
+	{
+		display: block;
+		position: absolute;
+		bottom: 10px;
+		right: 10px;
+		border-radius: 3px;
+		width: 30px;
+		height: 30px;
+		color: #fff;
+		font-size: 16px;
+		background-image: url(../images/icon-edit.png);
+		background-position: center center;
+		background-repeat: no-repeat;
+		
+		background-color: #fb8f73;
+		border: 1px solid #eb603c;
+		cursor: pointer;
+	}
+.images > .image > input[type=checkbox]
+	{
+		position: absolute;
+		top: 10px;
+		left: 10px;
+		width:16px;
+		height: 16px;
+	}
+.add-images {
+  width: 40px;
+  height: 40px;
+  border-radius: 2px;
+  display: block;
+  margin-left: 4px;
+  background-color: #149fe4;
+  cursor: pointer;
+  border-radius: 3px;
+  border: 1px solid #0084c6;
+  background-image: url(../images/icon-plus.png);
+  background-repeat: no-repeat;
+  background-position: center center;
+  float: left;
+ }
+.delete-images {
+  width: 40px;
+  height: 40px;
+  border-radius: 2px;
+  display: block;
+  margin-left: 4px;
+  cursor: pointer;
+  border-radius: 3px;
+  float: left;
+  
+  background-image: url(../images/icon-delete.png);
+  background-position: center center;
+  background-repeat: no-repeat;
+  background-color: #fb8f73;
+  border: 1px solid #eb603c;
+ }
+.delete-images:disabled {
+   background-color: #feddd5;
+  border: 1px solid #f9cfc4
+ }

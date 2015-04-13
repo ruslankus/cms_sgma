@@ -1024,7 +1024,11 @@ body
 		display: inline-block;
 		float: left;
 	}
-.content .inner-content .form-zone span.file
+.lightbox input.file
+	{
+		width: 140px!important;
+	}
+.content .inner-content .form-zone span.file, .lightbox span.file
 	{
 		width: 100px;
 		height: 30px;

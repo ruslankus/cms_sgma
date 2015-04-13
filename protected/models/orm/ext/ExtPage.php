@@ -99,6 +99,27 @@ class ExtPage extends Page
       
     }//getPageWithImage
     
+    
+    public function getPageImaageNoCaption($page_id){
+        $sql  = "SELECT * FROM ".$this->tableName();
+        $sql .= " WHERE id=".(int)$page_id;
+        $sql .= " LIMIT 1";
+        $con = $this->dbConnection;
+        $arrData = $con->createCommand($sql)->queryRow();
+        // if array is empty - finish
+        if(empty($arrData)){ return false;}
+        
+        $sql  = "SELECT t1.id AS link_id, t2.* FROM images_of_page t1 ";
+        $sql .= "JOIN images t2 ON t1.image_id = t2.id ";
+        $sql .= "WHERE t1.page_id = ".(int)$page_id;
+        
+        $sqlParam[':prefix'] = $lng;
+        //Debug::d($sql);
+        $arrData['images'] = $con->createCommand($sql)->queryAll();
+        
+        return (!empty($arrData))? $arrData : false; 
+    }
+    
 
     
     
