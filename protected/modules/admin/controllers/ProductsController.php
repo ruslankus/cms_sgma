@@ -752,18 +752,21 @@ class ProductsController extends ControllerAdmin
         }
 
         //if checked any checkbox
-        if(isset($_POST['active']))
+        if(Yii::app()->request->isPostRequest)
         {
-            $active = $_POST['active'];
-
             ExtProductFieldGroupsActive::model()->deleteAllByAttributes(array('product_id' => $product->id));
 
-            foreach($active as $id => $status)
+            if(isset($_POST['active']))
             {
-                $active = new ExtProductFieldGroupsActive();
-                $active -> product_id = $product->id;
-                $active -> group_id = $id;
-                $active -> save();
+                $active = $_POST['active'];
+
+                foreach($active as $id => $status)
+                {
+                    $active = new ExtProductFieldGroupsActive();
+                    $active -> product_id = $product->id;
+                    $active -> group_id = $id;
+                    $active -> save();
+                }
             }
         }
 
@@ -797,6 +800,10 @@ class ProductsController extends ControllerAdmin
      */
     public function actionEditProdFields($id)
     {
+        //include menu necessary scripts
+        Yii::app()->clientScript->registerCssFile($this->assetsPath.'/css/vendor.dynamic-fields.css');
+        Yii::app()->clientScript->registerScriptFile($this->assetsPath.'/js/vendor.add-menu.js',CClientScript::POS_END);
+
         //product item
         $product = ExtProduct::model()->findByPk((int)$id);
 
@@ -805,11 +812,81 @@ class ProductsController extends ControllerAdmin
             throw new CHttpException(404);
         }
 
+        //languages
+        $languages = SiteLng::lng()->getLngs();
+
+        //all selected groups of this item
         $attributeGroupsOfProduct = $product->productFieldGroupsActives;
 
-        Debug::out($attributeGroupsOfProduct);
+        //if have POST request
+        if(Yii::app()->request->isPostRequest)
+        {
+            //get all dynamic field data
+            $fieldData = $_POST['DynamicFields'];
 
-        exit('Work in progress...');
+            //use transaction
+            $con = Yii::app()->db;
+            $transaction = $con->beginTransaction();
+
+            try
+            {
+                foreach ($fieldData as $fieldId => $valueData)
+                {
+                    $field = ExtProductFields::model()->findByPk($fieldId);
+                    switch($field->type_id)
+                    {
+                        case ExtProductFieldTypes::TYPE_NUMERIC;
+                            $value = $field->getValueObjForItem($product->id);
+                            $value -> numeric_value = $valueData;
+                            $value -> saveOrUpdate();
+                            break;
+                        case ExtProductFieldTypes::TYPE_TEXT:
+                            $value = $field->getValueObjForItem($product->id);
+                            $value -> text_value = $valueData;
+                            $value -> saveOrUpdate();
+                            break;
+                        case ExtProductFieldTypes::TYPE_TRL_TEXT:
+                            $value = $field->getValueObjForItem($product->id);
+                            $value -> saveOrUpdate();
+
+                            foreach($valueData as $lngId => $trlData)
+                            {
+                                $trl = $value->getOrCreateTrl($lngId);
+                                $trl -> translatable_text = $trlData;
+                                $saved = $trl -> isNewRecord ? $trl->save() : $trl->update();
+                            }
+                            break;
+                        case ExtProductFieldTypes::TYPE_SELECTABLE:
+                            $value = $field->getValueObjForItem($product->id);
+                            $value -> selected_option_id = (int)$valueData;
+                            $value -> saveOrUpdate();
+                            break;
+                        case ExtProductFieldTypes::TYPE_DATE:
+                            $value = $field->getValueObjForItem($product->id);
+                            $value -> time_value = time(); // TODO: parse date-picker value and write timestamp to base
+                            $value -> saveOrUpdate();
+                            break;
+                        default:
+                            //do nothing
+                            break;
+                    }
+                }
+
+                $transaction->commit();
+            }
+            catch(Exception $ex)
+            {
+                $transaction->rollback();
+            }
+        }
+
+        //render form
+        $this->render('edit_product_attr_values',
+            array(
+                'active' => $attributeGroupsOfProduct,
+                'item' => $product,
+                'languages' => $languages
+            ));
     }
 
     /**

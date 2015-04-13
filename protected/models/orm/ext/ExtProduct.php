@@ -4,6 +4,7 @@
  * @property ExtProductCategory $category
  * @property ProductTrl $trl
  * @property ExtImagesOfProduct[] $imagesOfProducts
+ * @property ExtProductFieldGroupsActive[] $productFieldGroupsActives
  */
 class ExtProduct extends Product
 {
@@ -38,7 +39,7 @@ class ExtProduct extends Product
         }
 
         $trl = new ProductTrl();
-        $trl -> product_id = $this;
+        $trl -> product_id = $this->id;
         $trl -> lng_id = $lngId;
 
         return $trl;
