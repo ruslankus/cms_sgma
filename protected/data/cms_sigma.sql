@@ -10,7 +10,7 @@ Target Server Type    : MYSQL
 Target Server Version : 50538
 File Encoding         : 65001
 
-Date: 2015-04-13 16:32:48
+Date: 2015-04-13 17:51:37
 */
 
 SET FOREIGN_KEY_CHECKS=0;
@@ -144,7 +144,7 @@ DROP TABLE IF EXISTS `contacts_fields`;
 CREATE TABLE `contacts_fields` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
   `block_id` int(11) DEFAULT NULL,
-  `label` int(11) DEFAULT NULL,
+  `label` text,
   PRIMARY KEY (`id`),
   KEY `block_id` (`block_id`),
   CONSTRAINT `contacts_fields_ibfk_1` FOREIGN KEY (`block_id`) REFERENCES `contacts_block` (`id`) ON DELETE CASCADE ON UPDATE NO ACTION
@@ -1073,11 +1073,17 @@ CREATE TABLE `product_field_values` (
   KEY `field_id` (`field_id`),
   CONSTRAINT `product_field_values_ibfk_1` FOREIGN KEY (`product_id`) REFERENCES `product` (`id`) ON DELETE CASCADE ON UPDATE NO ACTION,
   CONSTRAINT `product_field_values_ibfk_2` FOREIGN KEY (`field_id`) REFERENCES `product_fields` (`id`) ON DELETE CASCADE ON UPDATE NO ACTION
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=9 DEFAULT CHARSET=utf8;
 
 -- ----------------------------
 -- Records of product_field_values
 -- ----------------------------
+INSERT INTO `product_field_values` VALUES ('3', '14', '19', null, null, 'Country', null);
+INSERT INTO `product_field_values` VALUES ('4', '14', '20', null, null, 'City', null);
+INSERT INTO `product_field_values` VALUES ('5', '14', '21', null, null, 'Place', null);
+INSERT INTO `product_field_values` VALUES ('6', '14', '22', null, '2', null, null);
+INSERT INTO `product_field_values` VALUES ('7', '14', '23', null, null, null, null);
+INSERT INTO `product_field_values` VALUES ('8', '14', '24', null, null, null, null);
 
 -- ----------------------------
 -- Table structure for `product_field_values_trl`
@@ -1087,17 +1093,21 @@ CREATE TABLE `product_field_values_trl` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
   `lng_id` int(11) DEFAULT NULL,
   `field_value_id` int(11) DEFAULT NULL,
-  `tranlsatable_text` text,
+  `translatable_text` text,
   PRIMARY KEY (`id`),
   KEY `lng_id` (`lng_id`),
   KEY `field_value_id` (`field_value_id`),
   CONSTRAINT `product_field_values_trl_ibfk_1` FOREIGN KEY (`lng_id`) REFERENCES `languages` (`id`) ON DELETE CASCADE ON UPDATE NO ACTION,
   CONSTRAINT `product_field_values_trl_ibfk_2` FOREIGN KEY (`field_value_id`) REFERENCES `product_field_values` (`id`) ON DELETE CASCADE ON UPDATE NO ACTION
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=5 DEFAULT CHARSET=utf8;
 
 -- ----------------------------
 -- Records of product_field_values_trl
 -- ----------------------------
+INSERT INTO `product_field_values_trl` VALUES ('1', '1', '7', 'ggggg');
+INSERT INTO `product_field_values_trl` VALUES ('2', '2', '7', '');
+INSERT INTO `product_field_values_trl` VALUES ('3', '1', '8', 'ggggg');
+INSERT INTO `product_field_values_trl` VALUES ('4', '2', '8', '');
 
 -- ----------------------------
 -- Table structure for `product_trl`

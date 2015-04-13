@@ -6,7 +6,7 @@
  * The followings are the available columns in table 'contacts_fields':
  * @property integer $id
  * @property integer $block_id
- * @property integer $label
+ * @property string $label
  *
  * The followings are the available model relations:
  * @property ContactsBlock $block
@@ -30,7 +30,8 @@ class ContactsFields extends CActiveRecord
 		// NOTE: you should only define rules for those attributes that
 		// will receive user inputs.
 		return array(
-			array('block_id, label', 'numerical', 'integerOnly'=>true),
+			array('block_id', 'numerical', 'integerOnly'=>true),
+			array('label', 'safe'),
 			// The following rule is used by search().
 			// @todo Please remove those attributes that should not be searched.
 			array('id, block_id, label', 'safe', 'on'=>'search'),
@@ -82,7 +83,7 @@ class ContactsFields extends CActiveRecord
 
 		$criteria->compare('id',$this->id);
 		$criteria->compare('block_id',$this->block_id);
-		$criteria->compare('label',$this->label);
+		$criteria->compare('label',$this->label,true);
 
 		return new CActiveDataProvider($this, array(
 			'criteria'=>$criteria,
