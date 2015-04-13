@@ -7,6 +7,37 @@ class ContactsController extends ControllerAdmin
 
     public function actionPages($page = 1)
     {
+        Yii::app()->clientScript->registerScriptFile($this->assetsPath.'/js/vendor.trees.js',CClientScript::POS_END);
+        Yii::app()->clientScript->registerScriptFile($this->assetsPath.'/js/vendor.main-menu.js',CClientScript::POS_END);
+        Yii::app()->clientScript->registerCssFile($this->assetsPath.'/css/vendor.news.ext.css');
+
+        $currLng = Yii::app()->language;
+        
+        if(empty($siteLng)){
+            $siteLng = Yii::app()->language; 
+        }
+        
+        //$objContacts = ContactsPage::model()->with(array('contactsPageTrls.lng' => array('condition' => "lng.prefix='{$siteLng}'")))->findall(array('order' => 'priority DESC'));
+
+       $objContacts = ContactsPage::model()->findall(array('order' => 'priority DESC'));    
+        
+        $pager = CPaginator::getInstance($objContacts,100,$page);
+
+        if(Yii::app()->request->isAjaxRequest)
+        {
+            $pager = $pager->getPreparedArray();
+            $this->renderPartial('_index',array('objContacts' => $pager, 'currLng' => $currLng));
+        }
+        else
+        {
+
+            $this->render('index',array('pager' => $pager, 'currLng' => $currLng));
+        }
+
+    }
+/*
+    public function actionPages_old($page = 1)
+    {
         Yii::app()->clientScript->registerScriptFile($this->assetsPath.'/js/vendor.contacts.js',CClientScript::POS_END);
 
         $currLng = Yii::app()->language;
@@ -20,7 +51,7 @@ class ContactsController extends ControllerAdmin
         $pager = CPaginator::getInstance($objContacts,10,$page);
         $this->render('index',array('pager' => $pager, 'currLng' => $currLng));
     }
-
+*/
     public function actionCreate(){
         Yii::app()->clientScript->registerScriptFile($this->assetsPath.'/js/vendor.add-contact.js',CClientScript::POS_END);
         $model = new AddPageForm();
@@ -98,13 +129,27 @@ class ContactsController extends ControllerAdmin
         $this->render('editContact', array('arrPage' => $arrPage, 'model' => $model, 'contact_id' => $id, 'siteLng' => $siteLng, 'prefix' => $prefix ));
     }//edit
 
+    public function actionDeleteContact($id=null){
+        ContactsPage::model()->deleteByPk($id);
+
+        if(Yii::app()->request->isAjaxRequest)
+        {
+            echo "OK";
+            Yii::app()->end();
+        }
+        else
+        {
+            $this->redirect(Yii::app()->createUrl('admin/contacts/pages'));
+        }
+    }
+/*
     public function actionDeleteContact($id=null)
     {
     	$objContact = ContactsPage::model()->findByPk($id);
     	$objContact->delete();
     	$this->redirect(array('index'));
     }
-
+*/
 
     public function actionContactSettings($id=null)
     {
@@ -182,6 +227,19 @@ class ContactsController extends ControllerAdmin
     }
 
     /* ----------------------------- pages ajax section -------------------------------------- */
+
+    public function actionAjaxOrderPages()
+    {
+        $ordersJson = Yii::app()->request->getParam('orders');
+        $orders = json_decode($ordersJson,true);
+
+        $previous = $orders['old'];
+        $new = $orders['new'];
+
+        Sort::ReorderItems("ContactsPage",$previous,$new);
+
+        echo "OK";
+    }
 
     public function actionEditContentAjax($id = null)
     {
@@ -267,21 +325,37 @@ class ContactsController extends ControllerAdmin
 
 /************************************************************* End Blocks ***********************************************/
 
-    public function actionBlocks(){
-        Yii::app()->clientScript->registerScriptFile($this->assetsPath.'/js/vendor.contacts.js',CClientScript::POS_END);
+    public function actionBlocks($page = 1, $group = 0)
+    {
+        //include js file for AJAX updating
+        Yii::app()->clientScript->registerScriptFile($this->assetsPath.'/js/vendor.trees.js',CClientScript::POS_END);
+        Yii::app()->clientScript->registerScriptFile($this->assetsPath.'/js/vendor.main-menu.js',CClientScript::POS_END);
+        Yii::app()->clientScript->registerCssFile($this->assetsPath.'/css/vendor.news.ext.css');
 
-        $currLng = Yii::app()->language;
-        
-        if(empty($siteLng)){
-            $siteLng = Yii::app()->language; 
+        $fieldGroup = ContactsPage::model()->findByPk($group);
+
+        if(!empty($fieldGroup))
+        {
+            $fields = ContactsBlock::model()->findAllByAttributes(array('page_id' => $group),array('order' => 'priority DESC'));
+            $per_page = 100;
         }
-        
-        //$objContacts = ContactsPage::model()->with(array('contactsPageTrls.lng' => array('condition' => "lng.prefix='{$siteLng}'")))->findall();
-        $objContacts = ContactsBlock::model()->findAll(); 
-        $pager = CPaginator::getInstance($objContacts,10,$page);
-        $this->render('indexBlock',array('pager' => $pager, 'currLng' => $currLng));
-    }
+        else
+        {
+            $fields = ContactsBlock::model()->findAll(array('order' => 'priority DESC'));
+            $per_page = 10;
+        }
 
+        $items = CPaginator::getInstance($fields,$per_page,$page)->getPreparedArray();
+
+        if(Yii::app()->request->isAjaxRequest)
+        {
+            $this->renderPartial('_listBlocks',array('items' => $items, 'group' => $group));
+        }
+        else
+        {
+            $this->render('listBlocks',array('items' => $items, 'group' => $group));
+        }       
+    }
 
     /* ----------------------------- blocks ajax section -------------------------------------- */
 
