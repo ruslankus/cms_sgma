@@ -91,6 +91,7 @@ class ExtProductFieldGroups extends ProductFieldGroups
         //relate with translation
         $lng = Yii::app()->language;
         $relations['trl'] = array(self::HAS_ONE, 'ProductFieldGroupsTrl', 'group_id', 'with' => array('lng' => array('condition' => "lng.prefix='{$lng}'")));
+        $relations['productFields'] = array(self::HAS_MANY, 'ExtProductFields', 'group_id','order' => 'priority DESC');
 
         //return modified relations
         return $relations;
