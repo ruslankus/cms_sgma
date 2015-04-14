@@ -23,7 +23,7 @@
                             <?php foreach(SiteLng::lng()->getLngs() as  $index => $objLng):?>
 								<table data-tab="<?php echo $objLng->prefix?>" class="<?php echo ($index == 0)? "active" : ""?>">
 									<tr>
-										<td class="label">Title <?php echo $objLng->prefix ?>:</td>
+										<td class="label">Name <?php echo $objLng->prefix ?>:</td>
 										<td class="value">
                                         <input type="text" name="AddPageFieldForm[title_<?php echo $objLng->prefix ?>]" placeholder="Enter holder" />
                                        
@@ -42,7 +42,7 @@
 									
 									    echo $form->dropDownList($model,
 									      'block_id',
-									      CHtml::listData(ContactsBlock::model()->findAll(),'id','label'),array('class'=>'float-left', 'empty'=> ATrl::t()->getLabel('Select block'), 'options' => array($model->block_id=>array('selected'=>true)))
+									      CHtml::listData(ContactsBlock::model()->findAll(),'id','label'),array('class'=>'float-left', 'empty'=> ATrl::t()->getLabel('Select block'), 'options' => array($group_id=>array('selected'=>true)))
 									    );
 									    echo $form->error($model,'block_id');
 

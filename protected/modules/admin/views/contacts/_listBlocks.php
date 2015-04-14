@@ -7,8 +7,8 @@
         <div class="cell block">
             <div class="inner-table">
                 <div class="row root" data-id="<?php echo $item->id; ?>">
-                    <div class="name"><?php echo $item->label; ?></div>
-                    <div class="type"><?php echo $item->priority;?></div>
+                    <div class="name"><a href="<?php echo Yii::app()->createUrl('admin/contacts/fields',array('group' => $item->id)); ?>"><?php echo $item->label; ?></a></div>
+                    <div class="type"><?php echo $item->page->label;?></div>
                     <div class="action">
                         <a href="<?php echo Yii::app()->createUrl('admin/contacts/editblock',array('id' => $item->id)); ?>" class="edit"><span class="ficoned pencil"></span></a>
                         <a data-message="<?php echo ATrl::t()->getLabel('Are your sure ?'); ?>" data-yes="<?php echo ATrl::t()->getLabel('Delete'); ?>" data-no="<?php echo ATrl::t()->getLabel('Cancel'); ?>" href="<?php echo Yii::app()->createUrl('/admin/contacts/delblock',array('id' => $item->id)); ?>" class="delete"><span class="ficoned trash-can"></span></a>

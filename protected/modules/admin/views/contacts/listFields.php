@@ -21,7 +21,7 @@
     </div>
 
     <div class="title-bar">
-        <h1><?php echo ATrl::t()->getLabel('Blocks'); ?></h1>
+        <h1><?php echo ATrl::t()->getLabel('Fields'); ?></h1>
         <ul class="actions">
             <li><a href="<?php echo Yii::app()->createUrl('/admin/contacts/addfield',$params); ?>" class="action add"></a></li>
         </ul>
@@ -29,8 +29,8 @@
 
     <div class="content">
         <div class="title-table">
-            <?php if($group != 0): ?><div class="cell drag-drop"><?php echo ATrl::t()->getLabel('Drag and Drop'); ?></div><?php endif; ?>
             <div class="cell"><?php echo ATrl::t()->getLabel('Label'); ?></div>
+            <div class="cell type"><?php echo ATrl::t()->getLabel('Block'); ?></div>
             <div class="cell action"><?php echo ATrl::t()->getLabel('Actions'); ?></div>
         </div><!--table-->
 
@@ -53,7 +53,5 @@
     }
 ?>
     <?php $params['page'] = CPaginator::getInstance()->getCurrentPage(); ?>
-    <input type="hidden" id="ajax-refresh-link" value="<?php echo Yii::app()->createUrl('admin/contacts/blocks',$params); ?>">
-    <input type="hidden" id="ajax-swap-link" value="<?php echo Yii::app()->createUrl('admin/contacts/ajaxorderblocks'); ?>">
 
 </main>

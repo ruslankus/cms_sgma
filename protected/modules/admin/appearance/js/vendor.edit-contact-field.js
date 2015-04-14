@@ -51,36 +51,23 @@ $(document).ready(function() {
 
 
 function getLangValues(pageId,lngId,prefix){
-   var title = '';
-   var description = '';
-   var meta = '';
-   var email = '';
+   var name = '';
+   var value = '';
    $.ajaxSetup({async:false});
    var link = "/"+prefix+"/admin/contacts/EditContentAjax/"+pageId;
     $.ajax({ type: "post",url:link,data:{lngId:lngId}}).done(function(data){
         obj = jQuery.parseJSON(data);
-        if(obj.title)
+        if(obj.name)
         {
-            title = obj.title; 
+            name = obj.name; 
         }
-        if(obj.description)
+        if(obj.value)
         {
-            description = obj.description; 
+            value = obj.value; 
         }
-        if(obj.meta)
-        {
-            meta = obj.meta; 
-        }
-        /*
-        if(obj.email)
-        {
-            email = obj.email; 
-        }
-        */
-        $('#title').val(title);
-        $('#edit').val(description);
-        $('#meta').val(meta);
-        //$('#email').val(email);
+        $('#name').val(name);
+        $('#value').val(value);
+
         console.log(obj);
 
     });    

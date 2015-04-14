@@ -33,9 +33,6 @@
 				'enableAjaxValidation'=>false,
 				'htmlOptions' => array('enctype' => 'multipart/form-data'),
 			)); ?>
-			<?php
-			print_r($_POST);
-			?>
 			<div class="inner-top">
 			<?php
 				if($_POST['SaveContactForm']['lngId']){

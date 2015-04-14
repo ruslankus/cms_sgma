@@ -31,7 +31,7 @@
         <div class="title-table">
             <?php if($group != 0): ?><div class="cell drag-drop"><?php echo ATrl::t()->getLabel('Drag and Drop'); ?></div><?php endif; ?>
             <div class="cell"><?php echo ATrl::t()->getLabel('Label'); ?></div>
-            <div class="cell type"><?php echo ATrl::t()->getLabel('Priority'); ?></div>
+            <div class="cell type"><?php echo ATrl::t()->getLabel('Page'); ?></div>
             <div class="cell action"><?php echo ATrl::t()->getLabel('Actions'); ?></div>
         </div><!--table-->
 

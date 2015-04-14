@@ -540,4 +540,70 @@ class ContactsController extends ControllerAdmin
         
     }//create
 
+    public function actionDelField($id=null)
+    {
+        ContactsFields::model()->deleteByPk($id);
+
+        if(Yii::app()->request->isAjaxRequest)
+        {
+            echo "OK";
+            Yii::app()->end();
+        }
+        else
+        {
+            $this->redirect(Yii::app()->createUrl('admin/contacts/fields'));
+        }
+    }       
+    
+    public function actionEditField($id = null)
+    {
+        $objField = ContactsFields::model()->findByPk($id);
+        $model = new SaveContactFieldForm();
+        $request = Yii::app()->request;
+        $prefix = Yii::app()->language;
+        if(isset($_POST['SaveContactFieldForm']))
+        {
+            $siteLng = $_POST['SaveContactFieldForm']['lngId'];
+            $langObj = Languages::model()->findByPk($siteLng);
+            $curr_prefix = $langObj->prefix;
+            $model->attributes=$_POST['SaveContactFieldForm'];
+
+            if($model->validate())
+            {
+
+                $contactTrlObj = ContactsFieldsTrl::model()->find(array('condition'=>'lng_id=:lng_id AND contacts_field_id=:contacts_field_id','params'=>array('lng_id'=>$siteLng,'contacts_field_id'=>$id)));
+                $contactTrlObj->value=$_POST['SaveContactFieldForm']['value'];
+                 $contactTrlObj->name=$_POST['SaveContactFieldForm']['name'];
+                $contactTrlObj->update(); 
+
+                $objField->block_id=$_POST['SaveContactFieldForm']['block_id'];
+
+                $objField->update();
+
+            }
+        } 
+
+        Yii::app()->clientScript->registerScriptFile($this->assetsPath.'/ckeditor/ckeditor.js',CClientScript::POS_END);
+        Yii::app()->clientScript->registerScriptFile($this->assetsPath.'/ckeditor/adapters/jquery.js',CClientScript::POS_END);
+        Yii::app()->clientScript->registerScriptFile($this->assetsPath.'/js/vendor.edit-contact-field.js',CClientScript::POS_END);
+       
+        
+        $objCurrLng = SiteLng::lng()->getCurrLng();  
+        
+
+
+        if(empty($siteLng))
+        {
+            $siteLng = $objCurrLng->id;
+            $curr_prefix = $objCurrLng->prefix;
+
+        }
+
+        //$objPage = ExtPage::model()->findByPk($id);
+        //$arrPage = ExtContacts::model()->getContact($id,$curr_prefix);
+        $arrPage = ContactsFieldsTrl::model()->find(array('condition'=>'contacts_field_id=:id AND lng_id=:siteLng','params'=>array('id'=>$id,'siteLng'=>$siteLng)));
+        //Debug::d($arrPage);
+        $this->render('editField', array('arrPage' => $arrPage, 'model' => $model, 'contact_id' => $id, 'siteLng' => $siteLng, 'prefix' => $prefix, 'block_id'=>$objField->block_id));
+    }//edit
 }
+
