@@ -37,12 +37,11 @@ class AdminModule extends CWebModule
             'icon' => '',
             'html_class' => 'pages',
             'title' => 'Pages',
-            /*
             'sub' => array(
                 array('controller' => 'pages', 'action' => 'index', 'title' => 'Single pages'),
                 array('controller' => 'complex' ,'action' => 'list', 'title' => 'Custom pages')
             ),
-            */
+            
         ),
 
         array(
@@ -50,11 +49,12 @@ class AdminModule extends CWebModule
             'action' => 'Pages',
             'html_class' => 'pages',
             'title' => 'Contacts',
-
+            /*
             'sub' => array(
                 array('controller' => 'contacts', 'action' => 'pages', 'title' => 'Pages')
                 //array('controller' => 'contacts' ,'action' => 'blocks', 'title' => 'Blocks')
             ),
+            */
         ),
 
         array(
