@@ -135,6 +135,24 @@ class ExtImages extends Images
            return $result;
     }
     
+    public function saveBannerLocalImages($widget_id, $arrImages = array()){
+            
+            $con = $this->dbConnection;
+            $sql  = "INSERT INTO images_of_widget(`widget_id`, `image_id`) ";
+            $sql .= "VALUES ";
+            
+            foreach($arrImages as $key => $value){
+                if($i == 0){
+                    $sql .= "({$widget_id}, {$key}) ";
+                }else{
+                    $sql .= ",({$widget_id}, {$key}) ";
+                }
+                $i++;
+            }//foreach
+
+           $result = $con->createCommand($sql)->execute();
+           return $result;
+    }
 
     /**
      * Save image for contact pages
@@ -192,7 +210,50 @@ class ExtImages extends Images
 
     }// save contact file
 
+    public function saveBannerFile($fileName, $widget_id ,$arrCaptions){
 
+        $con = $this->dbConnection;
+        $transaction = $con->beginTransaction();
+        try{
+            $sql  = "INSERT INTO {$this->tableName()}(`filename`) ";
+            $sql .= "VALUES(:filename)";
+
+            $param1[':filename'] = $fileName;
+            $con->createCommand($sql)->execute($param1);
+            $imageId = $con->getLastInsertID('images');
+            //adding relation
+            $sql  = "INSERT INTO images_of_widget(`widget_id`, `image_id`) ";
+            $sql .= "VALUES(:widget_id, :image_id)";
+            $param2[':widget_id'] = $widget_id;
+            $param2[':image_id'] = $imageId;
+            $con->createCommand($sql)->execute($param2);
+            //adding translation
+            $sql  = "INSERT INTO images_trl(`image_id`, `lng_id`, `caption`) ";
+            $sql .= "VALUES ";
+            $i=0;
+            foreach($arrCaptions as $key => $value){
+                if($i == 0){
+                    $sql .= "({$imageId}, {$key}, '{$value}') ";
+                }else{
+                    $sql .= ",({$imageId}, {$key}, '{$value}') ";
+                }
+                $i++;
+            }//foreach
+
+            $con->createCommand($sql)->execute();
+            $transaction->commit();
+            return true;
+
+        } catch (Exception $e) {
+            $transaction->rollback();
+            $msg = $e->getMessage();
+            $code = $e->getCode();
+            echo($msg."   ".$code);
+            Debug::d();
+            return false;
+        }
+
+    }
 
 
     /**

@@ -32,10 +32,18 @@
         </ul>
     </div><!--/title-bar-->
 
-    <div class="content menu-content">
+    <div class="content menu-content page-content">
 
         <div class="header">
             <span><?php echo ATrl::t()->getLabel('Edit widget'); ?></span>
+            <?php
+            if($widget->type_id==7):
+            ?>
+                <a href="<?php echo Yii::app()->createUrl('admin/widgets/bannerimages',array('id' => $widget->id)); ?>"><?php echo ATrl::t()->getLabel('Banner images'); ?></a>
+                <a href="<?php echo Yii::app()->createUrl('admin/widgets/edit',array('id' => $widget->id)); ?>" class="active"><?php echo ATrl::t()->getLabel('Widget settings'); ?></a>
+            <?php
+            endif;
+            ?>
         </div><!--/header-->
 
         <div class="tab-line">

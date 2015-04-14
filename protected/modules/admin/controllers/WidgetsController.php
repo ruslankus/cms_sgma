@@ -202,4 +202,142 @@ class WidgetsController extends ControllerAdmin
         ExtSystemWidget::model()->deleteByPk($id);
         $this->redirect(Yii::app()->createUrl('/admin/widgets/list'));
     }
+  
+    /**
+     * Baners widget images by Maxim
+    */
+
+    public function actionBannerImages($id)
+    {
+        Yii::app()->clientScript->registerCssFile($this->assetsPath.'/css/vendor.lightbox.css');
+        Yii::app()->clientScript->registerScriptFile($this->assetsPath.'/js/vendor.edit-banner-images.js',CClientScript::POS_END);
+        
+        //
+        //$objPage = Page::model()->findByPk($id);
+        $model = new AddBannerFile();
+        if(!empty($_POST['AddBannerFile'])){
+            //Debug::d($_POST);
+            $model->attributes = $_POST['AddBannerFile'];
+            $model->page_id = $id;
+            if($model->validate()){
+                
+                $objFile = CUploadedFile::getInstance($model, 'file');
+                
+               
+                $newFileName = uniqid(). "." . $objFile->extensionName;
+                $path  = Yii::getPathOfAlias('webroot').'/uploads/images/';
+                $path .= $newFileName;
+                
+                if($objFile->saveAs($path)){
+
+                    //Caption
+                   foreach(SiteLng::lng()->getLngs() as $objLng){
+                       $arrCaps[$objLng->id] = $model->captions[$objLng->prefix];
+                   }
+                   
+                   if(ExtImages::model()->saveBannerFile($newFileName, $id, $arrCaps)){
+                       //success
+                       $this->refresh();
+                   }else{
+                       //
+                       $model->addError('file',"Can't save file in DB");
+                   }
+
+                }
+                               
+              
+            }
+        }//if post
+        
+        $lngObj = SiteLng::lng()->getCurrLng();
+        
+        $arrPage = ExtSystemWidget::model()->getBannerImageNoCaption($id);
+        //Debug::d($arrPage);
+        if(!empty($arrPage)){
+        
+            $arrImages = $arrPage['images'];
+           
+            $elCount = count($arrImages);
+            if($elCount < 5){          
+                $arrComb = array_pad($arrImages,5,'');           
+            }else{
+                $arrComb = $arrImages;    
+            }        
+            //Debug::d($arrComb);
+            $this->render('banner_images',array('page_id' => $id, 'arrPage' => $arrPage,
+             'arrImages' => $arrComb, 'model' => $model, 'lngPrefix' => $lngObj->prefix,'elCount' => $elCount));    
+        
+        }else{
+            $prefix = $lngObj->prefix;
+            $this->redirect("/{$prefix}/admin/widgets/list");
+        }
+        
+
+    } 
+
+    public function actionLoadFiles($id){
+        
+        
+        $prefix = SiteLng::lng()->getCurrLng()->prefix;
+        $request = Yii::app()->request;
+        if($request->isAjaxRequest){
+            $objPhotos = Images::model()->findAll();
+            $elCount = $request->getPost('el_count');
+            $this->renderPartial('_modal_load_local_files',array('objPhotos' => $objPhotos,
+            'page_id' => $id, 'prefix' => $prefix, 'elCount' => $elCount));
+                
+        }else{
+            
+            //Debug::d($_POST);
+            $arrImgs = $_POST['image'];
+            
+            $result = ExtImages::model()->saveBannerLocalImages($id, $arrImgs);
+            
+            if($result){
+                $this->redirect("/{$prefix}/admin/widgets/bannerimages/{$id}");                    
+            }else{
+                echo 'error';
+            }
+           
+        }
+    
+    }//end: loadfiles
+
+    public function actionDelImageBanner($id = null){
+        //Debug::d($_POST);
+        $request = Yii::app()->request;
+        if($request->isPostRequest){
+            $currLng = SiteLng::lng()->getCurrLng()->prefix;
+            $pageId = $request->getPost('page_id');
+            $objImg = ImagesOfWidget::model()->findByPk((int)$id);
+            if(!empty($objImg)){
+                $objImg->delete();
+                $this->redirect("/{$currLng}/admin/widgets/bannerimages/{$pageId}");
+            } 
+            
+        }else{
+            //exception
+        }
+        
+        
+    }
+
+    public function actionDelImageAjax($id=null)
+    {
+        
+        $request = Yii::app()->request;
+        $currLng = Yii::app()->language;
+        $arrJson=array();
+        if($request->isAjaxRequest)
+        {    
+            $page_id = $request->getPost('page_id');
+            $arrJson['html'] = $this->renderPartial('_deleteBannerImage',array('page_id' => $page_id, 'link_id' => $id, 'lang_prefix' => $currLng), true);
+            echo json_encode($arrJson);
+            Yii::app()->end();
+        }
+
+    }
+    
+
 }
+
