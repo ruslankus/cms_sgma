@@ -40,9 +40,13 @@ class SysBanner extends CWidget
             $template = str_replace(".php","",$template);
         }
         
+        $banner_id = $this->widgetInfo->id;
         
+        $objBanner = ExtSystemWidget::model()->getBannerImageNoCaption($banner_id);
 
-        $this->render($template);
+        $images = $objBanner['images'];
+
+        $this->render($template, array('images'=>$images));
     }
 
         
