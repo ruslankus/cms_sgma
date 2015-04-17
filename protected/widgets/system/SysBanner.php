@@ -42,7 +42,7 @@ class SysBanner extends CWidget
         
         $banner_id = $this->widgetInfo->id;
         
-        $objBanner = ExtSystemWidget::model()->getBannerImageNoCaption($banner_id);
+        $objBanner = ExtSystemWidget::model()->getBannerImageWithCaption($banner_id);
 
         $images = $objBanner['images'];
 

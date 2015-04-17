@@ -8,10 +8,10 @@ if(count($images)>0){
 ?>
 		<div class="item">
 			<img src="/uploads/images/<?php echo $item['filename']?>"/>
-		<?php if(!empty($item['label'])){?>
+		<?php if(!empty($item['caption'])){?>
 		    <div class="overlay" style="display:none;"></div>
 		    <div class="ic_caption">
-		      <h3><?php echo $item['label']?></h3>
+		      <?php echo $item['caption']?>
 		      
 		    </div>
 		 <?php

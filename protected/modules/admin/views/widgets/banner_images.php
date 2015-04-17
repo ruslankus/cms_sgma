@@ -50,7 +50,7 @@
 					<tr>
 						<td class="label"><?php echo $objLng->name?></td>
 						<td class="value">                                    
-                        <?php echo CHtml::activeTextField($model,"captions[{$objLng->prefix}]")?>
+                        <?php echo CHtml::activeTextArea($model,"captions[{$objLng->prefix}]", array('class'=>'textarea'))?>
                         <?php echo CHtml::error($model,"captions[{$objLng->prefix}]") ?>
                         </td>
 					</tr>
