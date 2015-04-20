@@ -25,6 +25,124 @@ $(document).ready(function() {
         return false;
     });
 
+    /**
+     * When clicked on 'add local image'
+     */
+    $(document).on('click','.add-image',function(){
+
+        var url = $(this).data('images'); //listing all images - url
+        var urlAssignImage = $(this).data('update'); //assign new image - url
+        var urlDeleteImage = $(this).data('delete'); //delete added image - url
+
+        var block = $('.lightbox'); //box for images
+
+        var itemId = $(this).data('item'); //item id (product's etc.)
+        var fieldId = $(this).data('field'); //field id
+
+        //find image on form related with this button
+        var imageRelated = $(this).parent().find('img');
+        var deleteButton = $(this).parent().find('.delete');
+
+        //load all images to box
+        var request = $.ajax({url: url});
+
+        //when loaded all images
+        request.done(function(msg) {
+
+            //push all contents to block
+            block.html(msg);
+            //show light-box
+            block.fadeIn();
+
+            //when clicked on 'cancel' - close light box
+            block.find('.cancel-images').click(function(){
+                block.fadeOut(300);
+                return false;
+            });
+
+            //when clicked on image
+            block.find('.selectable-image').click(function(){
+
+                //get url and image id
+                var imageId = $(this).data('id');
+                var url = $(this).attr('src');
+
+                //hide light-box
+                block.fadeOut(300);
+
+                //show pre-loader
+                $.preLoader.show();
+
+                //reassign image of field by ajax
+                var requestUpdate = $.ajax({url:urlAssignImage+'/id/'+itemId+'/fid/'+fieldId+'/iid/'+imageId});
+
+                //when ajax finished
+                requestUpdate.done(function(imageRelId) {
+                    if(imageRelId != '')
+                    {
+                        //related image stuff (change image instantly)
+                        $(imageRelated).attr('src',url);
+                        $(deleteButton).addClass('active');
+
+                        //change deleting url
+                        $(deleteButton).attr('href',urlDeleteImage+'/id/'+imageRelId);
+                    }
+                    $.preLoader.hide();
+                });
+
+                //when ajax failed
+                requestUpdate.fail(function(jqXHR,textStatus) {
+                    alert( "Request failed: " + textStatus);
+                    $.preLoader.hide();
+                });
+
+            });
+
+        });
+
+        //when listing images failed
+        request.fail(function(jqXHR,textStatus) {
+            alert( "Request failed: " + textStatus);
+        });
+
+        return false;
+    });
+
+
+
+    /**
+     * When pressed on 'delete image'
+     */
+    $(document).on('click','.delete-btn',function(){
+
+        if($(this).hasClass('active'))
+        {
+            var noImageUrl = $('.no-image-url').val();
+            var link = $(this);
+            var imageRelated = $(this).parent().find('img');
+
+            $.preLoader.show();
+
+            var request = $.ajax({url:$(this).attr('href')});
+
+            request.done(function(msg) {
+                $.preLoader.hide();
+                link.attr('href','#');
+                link.removeClass('active');
+                imageRelated.attr('src',noImageUrl);
+            });
+
+            request.fail(function(jqXHR,textStatus) {
+                alert( "Request failed: " + textStatus);
+                $.preLoader.hide();
+            });
+
+        }
+
+        return false;
+    });
+
+
 });
 
 /**

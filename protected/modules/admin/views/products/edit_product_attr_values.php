@@ -9,14 +9,13 @@
         padding-top: 0;
     }
 
-    .content .inner-content .image-zone .list .image > .delete
-    {
-        cursor: pointer;
-    }
-
     .add-image
     {
         float: left;
+    }
+    .lightbox img
+    {
+        cursor: pointer;
     }
 </style>
 
