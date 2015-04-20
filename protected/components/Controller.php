@@ -59,9 +59,16 @@ class Controller extends CController
         if(is_dir(Yii::app()->theme->basePath))
         {
             $publishedPath = Yii::app()->assetManager->publish(Yii::app()->theme->basePath.'/appearance');       
-            $arrThemeFiles = ThemeFiles::getThemeFiles($publishedPath);         
-            print_r($arrThemeFiles);
-            //echo $publishedPath;
+            $path = Yii::app()->assetManager->basePath."/..".$publishedPath;
+            $arrThemeFiles = ThemeFiles::getThemeFiles($path);         
+            foreach($arrThemeFiles['css'] as $css_file)
+            {
+                Yii::app()->clientScript->registerCssFile($publishedPath.'/css/'.$css_file);
+            }
+            foreach($arrThemeFiles['js'] as $js_file)
+            {
+                Yii::app()->clientScript->registerScriptFile($publishedPath.'/js/'.$js_file,CClientScript::POS_END);
+            }
         }
 
         return parent::beforeAction($action);
