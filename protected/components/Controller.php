@@ -50,12 +50,19 @@ class Controller extends CController
          */
         DynamicWidgets::init(Yii::app()->theme->name,$this);
 
-        /*
+        
         //publish dir to assets (fonts, css, js, images)
-        $publishedPath = Yii::app()->assetManager->publish(Yii::app()->theme->basePath.'/asset');
-        Yii::app()->clientScript->registerCssFile($publishedPath.'/css/main.css');
-        Yii::app()->clientScript->registerCssFile($publishedPath.'/css/controller.css');
-        */
+        //$publishedPath = Yii::app()->assetManager->publish(Yii::app()->theme->basePath.'/appearance');
+        //Yii::app()->clientScript->registerCssFile($publishedPath.'/css/main.css');
+       // Yii::app()->clientScript->registerCssFile($publishedPath.'/css/controller.css');
+
+        if(is_dir(Yii::app()->theme->basePath))
+        {
+            $publishedPath = Yii::app()->assetManager->publish(Yii::app()->theme->basePath.'/appearance');       
+            $arrThemeFiles = ThemeFiles::getThemeFiles($publishedPath);         
+            print_r($arrThemeFiles);
+            //echo $publishedPath;
+        }
 
         return parent::beforeAction($action);
     }
