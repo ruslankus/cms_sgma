@@ -10,6 +10,11 @@
 				<div class="content editor">
 					<div class="header"><span>Some title</span></div><!--/header-->
 					<div class="inner-content">
+                    <?php if (Yii::app()->user->hasFlash('error')): ?>
+                    <div class="clearfix">
+                         <?php echo CHtml::encode(Yii::app()->user->getFlash('error')); ?>
+                    </div>
+                    <?php endif;?>
 						<div class="images">
 						<?php foreach($objImgs as $objImg):?>
 							<div class="image">

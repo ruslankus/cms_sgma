@@ -15,17 +15,28 @@ class GalleryController extends ControllerAdmin
     
     
     public function actionUploadFile(){
+        $prefix = SiteLng::lng()->getCurrLng()->prefix;
         $request = Yii::app()->request;
+        $model = new AddImageFile();
         if($request->isAjaxRequest){
             
-            $model = new AddImageFile();
+            
             $this->renderPartial('_upload_file_form', array('model' => $model));
              
         }else{
             
-            Debug::d($_POST);
-            
-            
+            $model->attributes = $_POST['AddImageFile'];
+            if($model->validate()){
+                //gruzim
+                
+                
+            }else{
+               //errors
+               $errors = array_shift($model->errors['file']);
+               Yii::app()->user->setFlash('error',$errors);
+               $this->redirect("/{$prefix}/admin/gallery");
+            }
+           
         }
     }
     
