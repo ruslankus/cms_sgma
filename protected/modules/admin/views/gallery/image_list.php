@@ -20,7 +20,7 @@
 							<div class="image">
 								<img src="/uploads/images/<?php echo $objImg->filename; ?>" alt="" />
 								<input type="checkbox" name="image[]" value="1"/>
-								<a href="#" class="delete"></a>
+								<a href="#" data-id="<?php echo $objImg->id; ?>" class="delete"></a>
 								<a href="#" class="edit"></a>
 							</div><!--/image-->
 						<?php endforeach; ?>	

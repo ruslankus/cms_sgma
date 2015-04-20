@@ -51,8 +51,7 @@ class GalleryController extends ControllerAdmin
                         $this->redirect("/{$prefix}/admin/gallery");
                         Yii::app()->end();
                    }
-                    
-                    
+                  
                 }else{
                     
                     Yii::app()->user->setFlash('error',$errors);
@@ -67,6 +66,37 @@ class GalleryController extends ControllerAdmin
                $this->redirect("/{$prefix}/admin/gallery");
             }
            
+        }
+    }//actionUploadFile
+    
+    public function actionDeleteFile($id){
+        $prefix = SiteLng::lng()->getCurrLng()->prefix;
+        $request = Yii::app()->request;
+        if($request->isAjaxRequest){
+            
+            $this->renderPartial('_delete_file');
+      
+        }elseif($request->isPostRequest){
+            
+            $objImg = Images::model()->findByPk($id);
+            if(!empty($objImg)){
+                $fileName = $objImg->filename;
+                $path  = Yii::getPathOfAlias('webroot').'/uploads/images/';
+                $path .= $fileName;
+                
+                if($objImg->delete()){
+                    
+                    @unlink($path);
+                    
+                    Yii::app()->user->setFlash('error',"File {$fileName} has ben deleted");
+                    $this->redirect("/{$prefix}/admin/gallery");
+                }
+                
+            }else{
+                //error
+            }
+            
+                  
         }
     }
     

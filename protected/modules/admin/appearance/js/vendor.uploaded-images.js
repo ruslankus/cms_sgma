@@ -9,8 +9,7 @@ $(document).ready(function(){
     	});//end undo button
     //delete button
     
-    $(".add-images").on("click", function() {
-        
+    $(".add-images").on("click", function() {        
         $block = $(".lightbox");
         $.ajaxSetup({async:false});
         $block.load('/en/admin/gallery/uploadfile');
@@ -20,6 +19,17 @@ $(document).ready(function(){
     	//$(".lightbox #upload-images").fadeIn(300);
     	return false;
     });//click
+    
+    
+     $(".delete").on("click", function() {
+        var fileId = $(this).data('id');
+        $block = $(".lightbox");
+        $.ajaxSetup({async:false});
+        $block.load('/en/admin/gallery/deletefile/'+ fileId);
+        $block.fadeIn(300);
+        
+     });//click delete    
+    
     
     $(document).on("click",'.cancel', function() {
         console.log(this);
