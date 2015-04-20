@@ -23,11 +23,6 @@
         <div class="form-zone">
             <form method="post">
                 <div class="content list">
-                    <div class="list-row title">
-                        <div class="cell checkbox"></div>
-                        <div class="cell"><span class="order asc"><?php echo ATrl::t()->getLabel('Name of group'); ?><span></span></span></div>
-                    </div><!--/list-row-->
-
                     <?php foreach($groups as $group): ?>
                         <div class="list-row h94">
                             <div class="cell checkbox"><input class="del-all-cb" type="checkbox" name="active[<?php echo $group->id; ?>]" <?php if(in_array($group->id,$active_ids)): ?> checked <?php endif; ?>></div>

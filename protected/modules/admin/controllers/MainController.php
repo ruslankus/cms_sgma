@@ -44,7 +44,6 @@ class MainController extends ControllerAdmin
                 $this->redirect(Yii::app()->createUrl('/admin/main/index'));
             }
         }
-       
 
         $this->render('login',array('form_mdl' => $form));
     }
