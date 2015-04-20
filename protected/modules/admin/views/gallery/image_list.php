@@ -11,7 +11,7 @@
 					<div class="header"><span>Some title</span></div><!--/header-->
 					<div class="inner-content">
                     <?php if (Yii::app()->user->hasFlash('error')): ?>
-                    <div class="clearfix">
+                    <div class="message">
                          <?php echo CHtml::encode(Yii::app()->user->getFlash('error')); ?>
                     </div>
                     <?php endif;?>

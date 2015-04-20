@@ -133,7 +133,7 @@ class ExtImages extends Images
 
            $result = $con->createCommand($sql)->execute();
            return $result;
-    }
+    }//savePageLocalImages
     
     public function saveBannerLocalImages($widget_id, $arrImages = array()){
             
@@ -152,7 +152,7 @@ class ExtImages extends Images
 
            $result = $con->createCommand($sql)->execute();
            return $result;
-    }
+    }//saveBannerLocalImages
 
     /**
      * Save image for contact pages
@@ -254,6 +254,48 @@ class ExtImages extends Images
         }
 
     }
+    
+    
+    
+    public function saveGalleryImage($fileName, $arrCaptions){
+        
+        $con = $this->dbConnection;
+        $transaction = $con->beginTransaction();
+        try{
+            
+            $sql  = "INSERT INTO {$this->tableName()}(`filename`) ";
+            $sql .= "VALUES(:filename)";
+
+            $param1[':filename'] = $fileName;
+            $con->createCommand($sql)->execute($param1);
+            $imageId = $con->getLastInsertID('images');
+            //adding translation
+            $sql  = "INSERT INTO images_trl(`image_id`, `lng_id`, `caption`) ";
+            $sql .= "VALUES ";
+            $i=0;
+            foreach($arrCaptions as $key => $value){
+                if($i == 0){
+                    $sql .= "({$imageId}, {$key}, '{$value}') ";
+                }else{
+                    $sql .= ",({$imageId}, {$key}, '{$value}') ";
+                }
+                $i++;
+            }//foreach
+            
+            $con->createCommand($sql)->execute();
+            $transaction->commit();
+            return true;
+            
+            
+        }catch(Exception $e){
+            $transaction->rollback();
+            $msg = $e->getMessage();
+            $code = $e->getCode();
+            echo($msg."   ".$code);
+            Debug::d();
+            return false;        
+        }
+    }//saveGalleryImage
 
 
     /**
