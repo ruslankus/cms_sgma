@@ -803,6 +803,7 @@ class ProductsController extends ControllerAdmin
         //include menu necessary scripts
         Yii::app()->clientScript->registerCssFile($this->assetsPath.'/css/vendor.dynamic-fields.css');
         Yii::app()->clientScript->registerScriptFile($this->assetsPath.'/js/vendor.add-menu.js',CClientScript::POS_END);
+        Yii::app()->clientScript->registerScriptFile($this->assetsPath.'/js/vendor.dynamic-fields.js',CClientScript::POS_END);
 
         //product item
         $product = ExtProduct::model()->findByPk((int)$id);
@@ -819,7 +820,7 @@ class ProductsController extends ControllerAdmin
         $attributeGroupsOfProduct = $product->productFieldGroupsActives;
 
         //if have POST request
-        if(Yii::app()->request->isPostRequest)
+        if(isset($_POST['DynamicFields']))
         {
             //get all dynamic field data
             $fieldData = $_POST['DynamicFields'];
@@ -840,11 +841,13 @@ class ProductsController extends ControllerAdmin
                             $value -> numeric_value = $valueData;
                             $value -> saveOrUpdate();
                             break;
+
                         case ExtProductFieldTypes::TYPE_TEXT:
                             $value = $field->getValueObjForItem($product->id);
                             $value -> text_value = $valueData;
                             $value -> saveOrUpdate();
                             break;
+
                         case ExtProductFieldTypes::TYPE_TRL_TEXT:
                             $value = $field->getValueObjForItem($product->id);
                             $value -> saveOrUpdate();
@@ -856,16 +859,19 @@ class ProductsController extends ControllerAdmin
                                 $saved = $trl -> isNewRecord ? $trl->save() : $trl->update();
                             }
                             break;
+
                         case ExtProductFieldTypes::TYPE_SELECTABLE:
                             $value = $field->getValueObjForItem($product->id);
                             $value -> selected_option_id = (int)$valueData;
                             $value -> saveOrUpdate();
                             break;
+
                         case ExtProductFieldTypes::TYPE_DATE:
                             $value = $field->getValueObjForItem($product->id);
                             $value -> time_value = time(); // TODO: parse date-picker value and write timestamp to base
                             $value -> saveOrUpdate();
                             break;
+
                         default:
                             //do nothing
                             break;
@@ -880,13 +886,22 @@ class ProductsController extends ControllerAdmin
             }
         }
 
-        //render form
-        $this->render('edit_product_attr_values',
-            array(
-                'active' => $attributeGroupsOfProduct,
-                'item' => $product,
-                'languages' => $languages
-            ));
+        if(Yii::app()->request->isAjaxRequest)
+        {
+            echo "OK";
+            Yii::app()->end();
+        }
+        else
+        {
+            //render form
+            $this->render('edit_product_attr_values',
+                array(
+                    'active' => $attributeGroupsOfProduct,
+                    'item' => $product,
+                    'languages' => $languages
+                ));
+        }
+
     }
 
     /**
