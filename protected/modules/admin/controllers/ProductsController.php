@@ -802,6 +802,7 @@ class ProductsController extends ControllerAdmin
     {
         //include menu necessary scripts
         Yii::app()->clientScript->registerCssFile($this->assetsPath.'/css/vendor.lightbox.css');
+        Yii::app()->clientScript->registerCssFile($this->assetsPath.'/css/jquery-ui.min.css');
         Yii::app()->clientScript->registerCssFile($this->assetsPath.'/css/vendor.dynamic-fields.css');
         Yii::app()->clientScript->registerScriptFile($this->assetsPath.'/js/vendor.add-menu.js',CClientScript::POS_END);
         Yii::app()->clientScript->registerScriptFile($this->assetsPath.'/js/vendor.dynamic-fields.js',CClientScript::POS_END);
@@ -869,7 +870,11 @@ class ProductsController extends ControllerAdmin
 
                         case ExtProductFieldTypes::TYPE_DATE:
                             $value = $field->getValueObjForItem($product->id);
-                            $value -> time_value = time(); // TODO: parse date-picker value and write timestamp to base
+
+                            $dt = DateTime::createFromFormat('m/d/Y', $valueData);
+                            $time = $dt -> getTimestamp();
+
+                            $value -> time_value = $time;
                             $value -> saveOrUpdate();
                             break;
 

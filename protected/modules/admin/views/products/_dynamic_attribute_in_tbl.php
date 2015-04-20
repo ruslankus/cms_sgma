@@ -51,7 +51,7 @@
     <tr>
         <?php $value = $field->getValueObjForItem($item->id); ?>
         <td class="label"><label for="<?php echo $field->id; ?>"><?php echo $field->field_name; ?></label></td>
-        <td class="value"><input value="<?php echo $value->time_value; ?>" id="<?php echo $field->id; ?>" name="DynamicFields[<?php echo $field->id ?>]" type="text"></td>
+        <td class="value"><input class="ui-datepicker" value="<?php echo date('m/d/Y',$value->time_value); ?>" id="<?php echo $field->id; ?>" name="DynamicFields[<?php echo $field->id ?>]" type="text"></td>
         <td class="value"></td>
     </tr>
 <?php elseif($field->type_id == ExtProductFieldTypes::TYPE_IMAGES): ?>

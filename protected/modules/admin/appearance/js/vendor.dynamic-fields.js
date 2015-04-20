@@ -143,6 +143,11 @@ $(document).ready(function() {
     });
 
 
+    /**
+     * Show date-picker for date-fields
+     */
+    $('.ui-datepicker').datepicker();
+
 });
 
 /**
