@@ -3,24 +3,6 @@
 <?php /* @var $active ExtProductFieldGroupsActive[] */ ?>
 <?php /* @var $languages Languages[] */ ?>
 
-<style>
-    .content .inner-content .image-zone
-    {
-        padding-top: 0;
-    }
-
-    .content .inner-content .image-zone .list .image > .delete
-    {
-        cursor: pointer;
-    }
-
-    .add-image
-    {
-        float: left;
-    }
-</style>
-
-
 <main xmlns="http://www.w3.org/1999/html">
     <div class="title-bar world">
         <h1><?php echo ATrl::t()->getLabel('News'); ?></h1>

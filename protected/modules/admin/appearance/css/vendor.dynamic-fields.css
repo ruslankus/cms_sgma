@@ -52,3 +52,41 @@
     font-family: "Open_sans";
     resize: none;
 }
+
+.content .inner-content .image-zone
+{
+    padding-top: 0;
+}
+
+.add-image
+{
+    float: left;
+}
+
+.lightbox img
+{
+    cursor: pointer;
+}
+
+#ui-datepicker-div
+{
+    border-radius: 3px;
+    border: 1px solid #DDD;
+    margin-top: 5px;
+    background-color: white;
+}
+
+.ui-datepicker .ui-datepicker-next
+{
+    border-top: 5px solid #DDD;;
+    border-right: 5px solid #DDD;;
+    cursor: pointer;
+    border-radius: 10px;
+}
+.ui-datepicker .ui-datepicker-prev
+{
+    border-top: 5px solid #DDD;;
+    border-left: 5px solid #DDD;;
+    cursor: pointer;
+    border-radius: 10px;
+}

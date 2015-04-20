@@ -801,6 +801,8 @@ class ProductsController extends ControllerAdmin
     public function actionEditProdFields($id)
     {
         //include menu necessary scripts
+        Yii::app()->clientScript->registerCssFile($this->assetsPath.'/css/vendor.lightbox.css');
+        Yii::app()->clientScript->registerCssFile($this->assetsPath.'/css/jquery-ui.min.css');
         Yii::app()->clientScript->registerCssFile($this->assetsPath.'/css/vendor.dynamic-fields.css');
         Yii::app()->clientScript->registerScriptFile($this->assetsPath.'/js/vendor.add-menu.js',CClientScript::POS_END);
         Yii::app()->clientScript->registerScriptFile($this->assetsPath.'/js/vendor.dynamic-fields.js',CClientScript::POS_END);
@@ -868,7 +870,11 @@ class ProductsController extends ControllerAdmin
 
                         case ExtProductFieldTypes::TYPE_DATE:
                             $value = $field->getValueObjForItem($product->id);
-                            $value -> time_value = time(); // TODO: parse date-picker value and write timestamp to base
+
+                            $dt = DateTime::createFromFormat('m/d/Y', $valueData);
+                            $time = $dt -> getTimestamp();
+
+                            $value -> time_value = $time;
                             $value -> saveOrUpdate();
                             break;
 
@@ -914,6 +920,99 @@ class ProductsController extends ControllerAdmin
         $this->redirect(Yii::app()->request->urlReferrer);
     }
 
+
+    /**
+     * Just list images in partial image-selection-box
+     * @throws CHttpException
+     */
+    public function actionListImagesBox()
+    {
+        if(Yii::app()->request->isAjaxRequest)
+        {
+            $images = ExtImages::model()->findAll();
+            $this->renderPartial('_list_images_in_box',array('objPhotos' => $images));
+        }
+        else
+        {
+            throw new CHttpException(404);
+        }
+    }
+
+    /**
+     * Assign image to value for image-type field of product
+     * @param $id
+     * @param $fid
+     * @param $iid
+     * @throws CHttpException
+     */
+    public function actionAssignFieldImage($id,$fid,$iid)
+    {
+        //just found all necessary records in db
+        $field = ExtProductFields::model()->findByPk((int)$fid);
+        $item = ExtProduct::model()->findByPk((int)$id);
+        $image = ExtImages::model()->findByPk((int)$iid);
+
+        //if something not found
+        if(empty($field) || empty($item) || empty($image))
+        {
+            throw new CHttpException(404);
+        }
+
+        //get value of item's field
+        $value = $field->getValueObjForItem((int)$id);
+
+        //if value is new - save it
+        if($value->isNewRecord)
+        {
+            $value->save();
+        }
+
+        //get all image-relations of this value (probably value already has them)
+        $imagesOfValue = $value->imagesOfProductFieldsValues;
+
+        //if found some image-relations
+        if(count($imagesOfValue) > 0)
+        {
+            //delete them all (this field can have only one image)
+            ExtImagesOfProductFieldsValues::model()->deleteAllByAttributes(array('field_value_id' => $value->id));
+        }
+
+        //relate field value with image
+        $imageOf = new ExtImagesOfProductFieldsValues();
+        $imageOf -> field_value_id = $value->id;
+        $imageOf -> image_id = $image->id;
+        $imageOf -> save();
+
+        //OK for ajax - redirect for standard request
+        if(Yii::app()->request->isAjaxRequest)
+        {
+            echo $imageOf->id;
+        }
+        else
+        {
+            $this->redirect(Yii::app()->request->urlReferrer);
+        }
+    }
+
+
+    /**
+     * Delete image relation with field value
+     * @param $id
+     */
+    public function actionDelFieldImage($id)
+    {
+        ExtImagesOfProductFieldsValues::model()->deleteByPk((int)$id);
+
+        //OK for ajax - redirect for standard request
+        if(Yii::app()->request->isAjaxRequest)
+        {
+            echo "OK";
+        }
+        else
+        {
+            $this->redirect(Yii::app()->request->urlReferrer);
+        }
+    }
 
     /******************************** A T T R I B U T E S : G R O U P S ***********************************************/
 

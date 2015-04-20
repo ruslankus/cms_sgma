@@ -22,7 +22,7 @@ class ExtProductFields extends ProductFields
     /**
      * Get value for dynamic field of specified item
      * @param $itemId
-     * @return ExtProductFieldValues|ProductFieldValues
+     * @return ExtProductFieldValues
      */
     public function getValueObjForItem($itemId)
     {
