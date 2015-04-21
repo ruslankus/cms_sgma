@@ -98,7 +98,55 @@ class GalleryController extends ControllerAdmin
             
                   
         }
-    }
+    }//actionDeleteFile
+    
+    
+    public function actionDelMultFiles(){
+        $prefix = SiteLng::lng()->getCurrLng()->prefix;
+        $request = Yii::app()->request;
+        if($request->isAjaxRequest){
+            
+            if(isset($_POST['image'])){
+                $arrKeys = array();
+                foreach($_POST['image'] as $key => $value){
+                    $arrKeys[] = $key;
+                }
+                
+                $objImages = Images::model()->findAllByPk($arrKeys);
+                
+                $this->renderPartial('_delete_mult_files',array('objImgs' => $objImages));
+                Yii::app()->end();
+            }
+            
+        }elseif($request->isPostRequest){
+            $arrKeys = array();
+            $arrFileNames = array();
+            $path  = Yii::getPathOfAlias('webroot').'/uploads/images/';
+            foreach($_POST['image'] as $key => $value){
+                $arrKeys[] = $key;
+            }
+            
+            
+            $result = images::model()->deleteByPk($arrKeys);
+             
+            if($result){
+                foreach($_POST['image'] as $key => $value){
+                    $filepath = $path . $value;
+                    //deleting file
+                    @unlink($filepath);
+                    $arrFileNames[] = $value; 
+                }
+            
+                $fileNameString = implode(", ",$arrFileNames);
+                Yii::app()->user->setFlash('error',"Files: {$fileNameString} have been deleted");
+                $this->redirect("/{$prefix}/admin/gallery");   
+                
+            }else{
+                //error    
+            }
+          
+        }//end: $request->isPostRequest
+    }//end: actionDelMultFiles
     
     
 }//end class

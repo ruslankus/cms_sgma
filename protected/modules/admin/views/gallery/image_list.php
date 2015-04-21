@@ -10,16 +10,18 @@
 				<div class="content editor">
 					<div class="header"><span>Some title</span></div><!--/header-->
 					<div class="inner-content">
+                    <form>
                     <?php if (Yii::app()->user->hasFlash('error')): ?>
                     <div class="message">
                          <?php echo CHtml::encode(Yii::app()->user->getFlash('error')); ?>
                     </div>
                     <?php endif;?>
 						<div class="images">
+                        
 						<?php foreach($objImgs as $objImg):?>
 							<div class="image">
 								<img src="/uploads/images/<?php echo $objImg->filename; ?>" alt="" />
-								<input type="checkbox" name="image[]" value="1"/>
+								<input type="checkbox" name="image[<?php echo $objImg->id?>]" value="1"/>
 								<a href="#" data-id="<?php echo $objImg->id; ?>" class="delete"></a>
 								<a href="#" class="edit"></a>
 							</div><!--/image-->
@@ -30,6 +32,7 @@
 						
 						<a href="#" class="add-images"></a>
 						<input type="submit" class="delete-images" disabled="disabled" value=" " />
+                        </form>
 					</div><!--/inner-content-->
 				</div><!--/content editor-->
 			

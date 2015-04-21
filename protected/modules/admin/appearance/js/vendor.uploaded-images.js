@@ -62,6 +62,19 @@ $(document).ready(function(){
         });
         return result;
    });
+   
+   
+    $(".delete-images").on("click", function() {
+        //$checkedImg = $(".image input:checked");
+        $checkedImg = $('.inner-content > form').serializeArray();
+        
+        $block = $(".lightbox");
+        $.ajaxSetup({async:false});
+        $block.load('/en/admin/gallery/delmultfiles/',$checkedImg);
+        $block.fadeIn(300);
+        console.log($checkedImg);
+        return false    
+    }); 
     
     
     
