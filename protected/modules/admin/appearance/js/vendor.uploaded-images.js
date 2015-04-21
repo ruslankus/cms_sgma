@@ -55,7 +55,7 @@ $(document).ready(function(){
         inputs.each(function(){
             var $this = $(this);
             if($this.val() == ""){
-                $('.errorMessage').html('field cannet be empty');
+                $('.errorMessage').html('field cannot be empty');
                 result = false;
                 return false;
             }
