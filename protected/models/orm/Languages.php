@@ -12,8 +12,9 @@
  * @property integer $priority
  *
  * The followings are the available model relations:
+ * @property ContactsBlockTrl[] $contactsBlockTrls
  * @property ContactsFieldsTrl[] $contactsFieldsTrls
- * @property ContactsTrl[] $contactsTrls
+ * @property ContactsPageTrl[] $contactsPageTrls
  * @property ImagesTrl[] $imagesTrls
  * @property LabelsTrl[] $labelsTrls
  * @property MenuItemTrl[] $menuItemTrls
@@ -27,6 +28,7 @@
  * @property ProductFieldsTrl[] $productFieldsTrls
  * @property ProductTrl[] $productTrls
  * @property SystemWidgetTrl[] $systemWidgetTrls
+ * @property TagTrl[] $tagTrls
  */
 class Languages extends CActiveRecord
 {
@@ -64,8 +66,9 @@ class Languages extends CActiveRecord
 		// NOTE: you may need to adjust the relation name and the related
 		// class name for the relations automatically generated below.
 		return array(
+			'contactsBlockTrls' => array(self::HAS_MANY, 'ContactsBlockTrl', 'lng_id'),
 			'contactsFieldsTrls' => array(self::HAS_MANY, 'ContactsFieldsTrl', 'lng_id'),
-			'contactsTrls' => array(self::HAS_MANY, 'ContactsTrl', 'lng_id'),
+			'contactsPageTrls' => array(self::HAS_MANY, 'ContactsPageTrl', 'lng_id'),
 			'imagesTrls' => array(self::HAS_MANY, 'ImagesTrl', 'lng_id'),
 			'labelsTrls' => array(self::HAS_MANY, 'LabelsTrl', 'lng_id'),
 			'menuItemTrls' => array(self::HAS_MANY, 'MenuItemTrl', 'lng_id'),
@@ -79,6 +82,7 @@ class Languages extends CActiveRecord
 			'productFieldsTrls' => array(self::HAS_MANY, 'ProductFieldsTrl', 'lng_id'),
 			'productTrls' => array(self::HAS_MANY, 'ProductTrl', 'lng_id'),
 			'systemWidgetTrls' => array(self::HAS_MANY, 'SystemWidgetTrl', 'lng_id'),
+			'tagTrls' => array(self::HAS_MANY, 'TagTrl', 'lng_id'),
 		);
 	}
 

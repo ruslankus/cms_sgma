@@ -26,8 +26,7 @@ class ProductsController extends Controller
         $arrCategory = $this->objToAssoc($objProdCatalogCategory,true);
 
         //all active(visible) sub-categories
-        $objSubCats = ExtProductCategory::model()->buildObjArrRecursive($id,true);
-        $arrSubCats = $this->objArrToAssoc($objSubCats,true);
+        $arrSubCats = ExtProductCategory::model()->buildMenuItemsArrayFromObjArr($id,true);
 
         //bread-crumbs
         $arrBreadcrumbs = $objProdCatalogCategory->breadCrumbs(true,true);
@@ -37,6 +36,12 @@ class ProductsController extends Controller
         $objItems = CPaginator::getInstance($items,10,$page)->getPreparedArray(true);
         $arrItems = $this->objArrToAssoc($objItems,true);
 
+        //pagination links
+        $pagination = array();
+        for($i=0; $i < CPaginator::getInstance()->getTotalPages(); $i++)
+        {
+            $pagination[$i+1] = Yii::app()->createUrl('products/show/',array('id' => $id, 'page' => $i+1));
+        }
 
 
         //default template
@@ -66,7 +71,9 @@ class ProductsController extends Controller
             'products' => $arrItems,
             'subcategories' => $arrSubCats,
             'breadcrumbs' => $arrBreadcrumbs,
-            'category' => $arrCategory
+            'category' => $arrCategory,
+            'page' => $page,
+            'pagination' => $pagination
         ));
     }
 

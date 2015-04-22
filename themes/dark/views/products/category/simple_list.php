@@ -2,14 +2,22 @@
 <?php /* @var $breadcrumbs array */ ?>
 <?php /* @var $subcategories array */ ?>
 <?php /* @var $category array */ ?>
+<?php /* @var $pagination array */ ?>
 
 <?php //Debug::out($products);  ?>
 <?php //Debug::out($breadcrumbs); ?>
 <?php //Debug::out($subcategories); ?>
 <?php //Debug::out($category); ?>
 
+<?php Debug::out($subcategories); ?>
 <h1><?php echo $category['trl']['header']; ?></h1>
-
+<br>
+<ul>
+    <?php foreach($subcategories as $sub): ?>
+<!--        <li><a href="#">--><?php // ?><!--</a></li>-->
+    <?php endforeach; ?>
+</ul>
+<br>
 <table>
     <?php foreach($products as $product): ?>
         <tr>
@@ -19,4 +27,9 @@
         </tr>
     <?php endforeach; ?>
 </table>
-
+<br>
+<ul>
+    <?php foreach($pagination as $index => $link): ?>
+        <li><a href="<?php echo $link; ?>"><?php echo $index; ?></a></li>
+    <?php endforeach; ?>
+</ul>

@@ -61,15 +61,18 @@ return array(
                  */
                 '<language:\w{2}>/admin' => 'admin/main/index',
                 'admin/' => 'admin/main/index',
+                '<language:\w{2}>/admin/<controller:\w+>/<id:\d+>'=>'admin/<controller>/view',
+                '<language:\w{2}>/admin/<controller:\w+>/<action:\w+>/<id:\d+>/*'=>'admin/<controller>/<action>',
+                '<language:\w{2}>/admin/<controller:\w+>/<action:\w+>/*'=>'admin/<controller>/<action>',
 
                 /**
                  * Routes for other modules
                  */
-                '<language:\w{2}>/<module:\w+>' => '<module>/main/index',
+//                '<language:\w{2}>/<module:\w+>' => '<module>/main/index',
 //                '<language:\w{2}>/<module:\w+>/<controller:\w+>'=>'<module>/<controller>/index',
-                '<language:\w{2}>/<module:\w+>/<controller:\w+>/<id:\d+>'=>'<module>/<controller>/view',
-                '<language:\w{2}>/<module:\w+>/<controller:\w+>/<action:\w+>/<id:\d+>/*'=>'<module>/<controller>/<action>',
-                '<language:\w{2}>/<module:\w+>/<controller:\w+>/<action:\w+>/*'=>'<module>/<controller>/<action>',
+//                '<language:\w{2}>/<module:\w+>/<controller:\w+>/<id:\d+>'=>'<module>/<controller>/view',
+//                '<language:\w{2}>/<module:\w+>/<controller:\w+>/<action:\w+>/<id:\d+>/*'=>'<module>/<controller>/<action>',
+//                '<language:\w{2}>/<module:\w+>/<controller:\w+>/<action:\w+>/*'=>'<module>/<controller>/<action>',
 
 
                 /**
@@ -77,9 +80,13 @@ return array(
                  */
                 '<language:\w{2}>' => 'main/index',
                 '<language:\w{2}>/<controller:\w+>'=>'<controller>/index',
-                '<language:\w{2}>/<controller:\w+>/<id:\d+>'=>'<controller>/view',
+//                '<language:\w{2}>/<controller:\w+>/<id:\d+>'=>'<controller>/view',
                 '<language:\w{2}>/<controller:\w+>/<action:\w+>/<id:\d+>/*'=>'<controller>/<action>',
                 '<language:\w{2}>/<controller:\w+>/<action:\w+>/*'=>'<controller>/<action>',
+
+
+
+
                 '/' => 'main/index',
 			),
 		),

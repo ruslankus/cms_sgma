@@ -10,7 +10,7 @@
 
 <main>
     <div class="title-bar world">
-        <h1><?php echo ATrl::t()->getLabel('News'); ?></h1>
+        <h1><?php echo ATrl::t()->getLabel('Products'); ?></h1>
         <ul class="actions">
             <li><a href="<?php echo Yii::app()->request->urlReferrer; ?>" class="action undo"></a></li>
         </ul>

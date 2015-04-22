@@ -123,6 +123,36 @@ class ExtProductCategory extends ProductCategory
         return $arr_result;
     }
 
+
+    /**
+     * Returns all items of category as array (with translations and information of nesting) - use it for site templates
+     * @param int $parent_id
+     * @param bool $only_active
+     * @param string $order
+     * @return array
+     */
+    public function buildMenuItemsArrayFromObjArr($parent_id = 0, $only_active = false, $order = 'priority DESC')
+    {
+        /* @var $arrayOfObj self[] */
+
+        $result = array();
+        $arrayOfObj = $this->buildObjArrRecursive($parent_id, $only_active, $order);
+
+        foreach($arrayOfObj as $itemObj)
+        {
+            $itemArr = $itemObj->attributes;
+            $itemArr['nesting_level'] = $itemObj->nestingLevel();
+            $itemArr['name'] = $itemObj->trl->header;
+            $itemArr['children_qnt'] = $itemObj->countOfChildren();
+            $itemArr['has_children'] = (int)$itemObj->hasChildren();
+
+            //add to result array
+            $result[] = $itemArr;
+        }
+
+        return $result;
+    }
+
     /**
      * All items (products) related with this category
      * @param bool $allFromNested
