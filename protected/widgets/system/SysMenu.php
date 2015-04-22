@@ -12,7 +12,7 @@ class SysMenu extends CWidget
      */
     public $menu;
     public $themeName;
-    public $defoult_template = 'menu';
+    public $default_template = 'menu';
 
     public $controllerMatches = array(
         ExtMenuItemType::TYPE_SINGLE_PAGE => 'pages',
@@ -102,7 +102,7 @@ class SysMenu extends CWidget
     public function run()
     {
         //Debug::d($this->menu);
-        $template = $this->defoult_template;
+        $template = $this->default_template;
         if(!empty($this->menu->template_name)){
             $template = $this->menu->template_name;
             $template = str_replace(".php","",$template);
@@ -113,7 +113,7 @@ class SysMenu extends CWidget
 
         if($this->menu->status_id == ExtStatus::VISIBLE)
         {
-            $items = $this->menu->buildMenuItemsArrayFromObjArr();
+            $items = $this->menu->buildMenuItemsArrayFromObjArr(0,true);
 
             foreach($items as $index => $item)
             {

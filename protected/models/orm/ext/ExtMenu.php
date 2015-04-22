@@ -37,18 +37,30 @@ Class ExtMenu extends Menu
         return $data;
     }
 
+
     /**
      * Build recursive array of menu items (ORM) - use it for admin templates
      * @param int $parent_id
+     * @param bool $only_active
      * @return array
      */
-    public function buildObjArrRecursive($parent_id = 0)
+    public function buildObjArrRecursive($parent_id = 0,$only_active = false)
     {
         /* @var $all ExtMenuItem[] */
         /* @var $tmp ExtMenuItem[] */
 
         $arr_result = array();
-        $all = ExtMenuItem::model()->findAllByAttributes(array('menu_id' => $this->id, 'parent_id' => $parent_id),array('order' => 'priority DESC'));
+
+        $conditions = array();
+        $conditions['menu_id'] = $this->id;
+        $conditions['parent_id'] = $parent_id;
+
+        if($only_active)
+        {
+            $conditions['status_id'] = ExtStatus::VISIBLE;
+        }
+
+        $all = ExtMenuItem::model()->findAllByAttributes($conditions,array('order' => 'priority DESC'));
 
         foreach($all as $item)
         {
@@ -140,14 +152,15 @@ Class ExtMenu extends Menu
     /**
      * Returns all items of menu as array (with translations and information of nesting) - use it for site templates
      * @param int $parent_id
+     * @param bool $only_active
      * @return array
      */
-    public function buildMenuItemsArrayFromObjArr($parent_id = 0)
+    public function buildMenuItemsArrayFromObjArr($parent_id = 0, $only_active = false)
     {
         /* @var $arrayOfObj ExtMenuItem[] */
 
         $result = array();
-        $arrayOfObj = $this->buildObjArrRecursive($parent_id);
+        $arrayOfObj = $this->buildObjArrRecursive($parent_id, $only_active);
 
         foreach($arrayOfObj as $itemObj)
         {
