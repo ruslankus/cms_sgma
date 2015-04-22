@@ -1,5 +1,5 @@
 <?php
-class MaximController extends Controller
+class MailController extends Controller
 {
 	public function actionIndex()
 	{

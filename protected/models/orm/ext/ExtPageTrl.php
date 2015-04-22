@@ -78,8 +78,19 @@ class ExtPageTrl extends PageTrl
         
         if(!empty($arrPage)){
             
-           $sql  = "SELECT t2.* FROM images_of_page t1 ";
-           $sql .= "JOIN images t2 ON t1.image_id = t2.id ";
+            $sql  = "SELECT  t2.*,t1.id AS link_id, ";
+            $sql .= "(" ;
+            $sql .= "SELECT i1.caption FROM images_trl i1 ";
+            $sql .= "JOIN languages i2 ON i1.lng_id = i2.id ";
+            $sql .= "WHERE i1.image_id = t2.id AND i2.prefix = :prefix ";
+            $sql .= ") as caption ";
+            $sql .= "FROM images_of_page t1 ";
+            $sql .= "JOIN images t2 ON t1.image_id = t2.id"; 
+            
+            //Debug::d($sql);
+            
+            //$sql  = "SELECT t2.* FROM images_of_page t1 ";
+            //$sql .= "JOIN images t2 ON t1.image_id = t2.id ";
           
            
            $param[":prefix"] = $prefix;

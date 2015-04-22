@@ -5,11 +5,11 @@ class PagesController extends Controller
     public function actionShow($id){
     
         //get page data 
-        //$arrPage = ExtPageTrl::model()->getPageWithImages($id);
-        $objPage = ExtPage::model()->findByPk($id);
+        $arrPage = ExtPageTrl::model()->getPageWithImages($id);
+        //$objPage = ExtPage::model()->findByPk($id);
         
-        Debug::d($objPage->imagesOfPages[0]->image->trl);
-        
+        //Debug::d($objPage->imagesOfPages[0]->image->trl);
+       
         $this->title = $arrPage['title'];
                 
         $content = $arrPage['content'];

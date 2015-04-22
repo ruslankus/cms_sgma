@@ -85,11 +85,20 @@ class ExtPage extends Page
         // if array is empty - finish
         if(empty($arrData)){ return false;}
         
-        $sql  = "SELECT t1.id AS link_id, t2.*,t3.caption FROM images_of_page t1 ";
-        $sql .= "JOIN images t2 ON t1.image_id = t2.id ";
-        $sql .= "JOIN images_trl t3 ON t3.image_id = t2.id ";
-        $sql .= "JOIN languages t4 ON t3.lng_id = t4.id " ;
-        $sql .= "WHERE t1.page_id = ".(int)$page_id." AND t4.prefix = :prefix";
+        $sql  = "SELECT  t2.*,t1.id AS link_id, ";
+        $sql .= "(" ;
+	    $sql .= "i1.caption FROM images_trl i1 ";
+	    $sql .= "JOIN languages i2 ON i1.lng_id = i2.id ";
+	    $sql .= "WHERE i1.image_id = t2.id AND i2.prefix = :prefix ";
+        $sql .= ") as caption" ;
+        $sql .= "FROM images_of_page t1 ";
+        $sql .= "JOIN images t2 ON t1.image_id = t2.id";
+        
+        //$sql  = "SELECT t1.id AS link_id, t2.*,t3.caption FROM images_of_page t1 ";
+        //$sql .= "JOIN images t2 ON t1.image_id = t2.id ";
+        //$sql .= "JOIN images_trl t3 ON t3.image_id = t2.id ";
+        //$sql .= "JOIN languages t4 ON t3.lng_id = t4.id " ;
+        //$sql .= "WHERE t1.page_id = ".(int)$page_id." AND t4.prefix = :prefix";
         
         $sqlParam[':prefix'] = $lng;
         //Debug::d($sql);
