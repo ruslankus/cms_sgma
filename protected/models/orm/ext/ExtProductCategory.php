@@ -84,16 +84,26 @@ class ExtProductCategory extends ProductCategory
     /**
      * Build recursive array of categories (ORM) - use it for admin templates
      * @param int $parent_id
+     * @param bool $only_active
      * @param string $order
      * @return array
      */
-    public function buildObjArrRecursive($parent_id = 0, $order = 'priority DESC')
+    public function buildObjArrRecursive($parent_id = 0, $only_active = false, $order = 'priority DESC')
     {
         /* @var $all ExtMenuItem[] */
         /* @var $tmp ExtMenuItem[] */
 
         $arr_result = array();
-        $all = self::model()->findAllByAttributes(array('parent_id' => $parent_id),array('order' => $order));
+
+        $conditions = array();
+        $conditions['parent_id'] = $parent_id;
+
+        if($only_active)
+        {
+            $conditions['status_id'] = ExtStatus::VISIBLE;
+        }
+
+        $all = self::model()->findAllByAttributes($conditions,array('order' => $order));
 
         foreach($all as $item)
         {
@@ -113,6 +123,59 @@ class ExtProductCategory extends ProductCategory
         return $arr_result;
     }
 
+    /**
+     * All items (products) related with this category
+     * @param bool $allFromNested
+     * @param bool $only_active
+     * @param string $order
+     * @return ExtProduct[]
+     */
+    public function allRelatedItems($allFromNested = false, $only_active = false, $order = 'priority DESC')
+    {
+        $items = array();
+
+        //select just form this category
+        if(!$allFromNested)
+        {
+            $conditions = array();
+            $conditions['category_id'] = $this->id;
+            if($only_active)
+            {
+                $conditions['status_id'] = ExtStatus::VISIBLE;
+            }
+
+            $items = ExtProduct::model()->findAllByAttributes($conditions,array('order' => $order));
+        }
+
+        //select all items form this and nested categories
+        else
+        {
+            /* @var $allItems ExtProduct[] */
+
+            $conditions = array();
+            if($only_active)
+            {
+                $conditions['status_id'] = ExtStatus::VISIBLE;
+            }
+
+            $allItems = ExtProduct::model()->findAllByAttributes($conditions);
+
+            foreach($allItems as $item)
+            {
+                //get branch (path of item)
+                $strBranch = $item->branch;
+                $arrBranch = explode(':',$strBranch);
+
+                //if path of item includes this category - item must be visible in it
+                if(in_array($this->id,$arrBranch))
+                {
+                    $items[] = $item;
+                }
+            }
+        }
+
+        return $items;
+    }
 
     /**
      * Groups array by root-categories (to build blocks easier in template)

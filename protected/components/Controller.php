@@ -12,8 +12,7 @@ class Controller extends CController
     public $title = "";
     public $keywords = "";
     public $description = "";
-    
-    //settingng
+
     public $arrSettings = array();
 
     public function init(){
@@ -23,20 +22,19 @@ class Controller extends CController
         
         $language = Yii::app()->request->getParam('language',Yii::app()->params['defaultLanguage']);
         $this->setLanguage($language);
-        
-        //TODO: get theme name form current settings
-        //Set settings
+
+        //get all settings from db
         $this->arrSettings = ExtSettings::model()->getSettings(true);
-      
-        if(!empty($this->arrSettings['active_desktop_theme'])){
-            Yii::app()->theme = $this->arrSettings['active_desktop_theme'];   
-        }else{
-        //Default
-            Yii::app()->theme = 'classic';  
+
+        //if not empty theme name
+        if(!empty($this->arrSettings['active_desktop_theme']))
+        {
+            //set theme
+            Yii::app()->theme = $this->arrSettings['active_desktop_theme'];
         }
-       
-        
+
     }//init
+
 
     /**
      * Override before action method
