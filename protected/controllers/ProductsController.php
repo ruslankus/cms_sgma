@@ -27,9 +27,18 @@ class ProductsController extends Controller
 
         //all active(visible) sub-categories
         $arrSubCats = ExtProductCategory::model()->buildMenuItemsArrayFromObjArr($id,true);
+        foreach($arrSubCats as $index => $subCat)
+        {
+            $arrSubCats[$index]['link'] = Yii::app()->createUrl('products/show/',array('id' => $subCat['id']));
+        }
 
         //bread-crumbs
-        $arrBreadcrumbs = $objProdCatalogCategory->breadCrumbs(true,true);
+        $breadcrumbs = $objProdCatalogCategory->breadCrumbs(true,true);
+        $arrBreadCrumbs = array();
+        foreach($breadcrumbs as $id => $breadcrumb)
+        {
+            $arrBreadCrumbs[] = array('link' => Yii::app()->createUrl('products/show/',array('id' => $id)),'name' => $breadcrumb);
+        }
 
         //all active(visible) items
         $items = $objProdCatalogCategory->allRelatedItems(true,true);
@@ -70,11 +79,17 @@ class ProductsController extends Controller
         $this->render('category/'.$template,array(
             'products' => $arrItems,
             'subcategories' => $arrSubCats,
-            'breadcrumbs' => $arrBreadcrumbs,
+            'breadcrumbs' => $arrBreadCrumbs,
             'category' => $arrCategory,
             'page' => $page,
             'pagination' => $pagination
         ));
+    }
+
+    public function actionOne($id)
+    {
+        Debug::out($id);
+        exit('Under construction...');
     }
 
 
