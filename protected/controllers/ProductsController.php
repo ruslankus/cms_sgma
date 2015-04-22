@@ -88,11 +88,32 @@ class ProductsController extends Controller
 
     public function actionOne($id)
     {
-        Debug::out($id);
+        $product = ExtProduct::model()->findByPk((int)$id);
+
+        if(empty($product))
+        {
+            throw new CHttpException(404);
+        }
+
+        $arrProductAttributes = $product->attributes;
+        $arrProductTrl = $product->trl->attributes;
+        $images = array();
+
+
+        $arrObjIop = $product->imagesOfProducts;
+        foreach($arrObjIop as $objIop)
+        {
+            $images[] = $objIop->image;
+        }
+
+        //$arrImages = $this->objArrToAssoc($images,true);
+
+        Debug::out($arrProductAttributes);
+        Debug::out($arrProductTrl);
+        //Debug::out($arrImages);
+
         exit('Under construction...');
     }
-
-
 
 
     /****************************************** H E L P E R - M E T H O D S *******************************************/
