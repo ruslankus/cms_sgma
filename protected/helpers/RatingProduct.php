@@ -12,9 +12,11 @@ class RatingProduct
         
         $arrData = ExtRating::model()->getProductMarks($id);
         
-        foreach($arrData as $mark => $qnt){
-            $this->_total += $mark * $qnt;
-            $this->_marks_qnt += $qnt; 
+        if(!empty($arrData)){
+            foreach($arrData as $mark => $qnt){
+                $this->_total += $mark * $qnt;
+                $this->_marks_qnt += $qnt; 
+            }
         }      
     }
     
@@ -25,7 +27,11 @@ class RatingProduct
     
     
     public function getRating() {
-        return round($this->_total / $this->_marks_qnt);
+        if($this->_marks_qnt > 0){
+            return round($this->_total / $this->_marks_qnt);
+        }else{
+            return 0;
+        }
     }
     
     
