@@ -12,6 +12,10 @@
  * @property integer $priority
  *
  * The followings are the available model relations:
+ * @property ComplexPageFieldGroupsTrl[] $complexPageFieldGroupsTrls
+ * @property ComplexPageFieldValuesTrl[] $complexPageFieldValuesTrls
+ * @property ComplexPageFieldsTrl[] $complexPageFieldsTrls
+ * @property ComplexPageTrl[] $complexPageTrls
  * @property ContactsBlockTrl[] $contactsBlockTrls
  * @property ContactsFieldsTrl[] $contactsFieldsTrls
  * @property ContactsPageTrl[] $contactsPageTrls
@@ -66,6 +70,10 @@ class Languages extends CActiveRecord
 		// NOTE: you may need to adjust the relation name and the related
 		// class name for the relations automatically generated below.
 		return array(
+			'complexPageFieldGroupsTrls' => array(self::HAS_MANY, 'ComplexPageFieldGroupsTrl', 'lng_id'),
+			'complexPageFieldValuesTrls' => array(self::HAS_MANY, 'ComplexPageFieldValuesTrl', 'lng_id'),
+			'complexPageFieldsTrls' => array(self::HAS_MANY, 'ComplexPageFieldsTrl', 'lng_id'),
+			'complexPageTrls' => array(self::HAS_MANY, 'ComplexPageTrl', 'lng_id'),
 			'contactsBlockTrls' => array(self::HAS_MANY, 'ContactsBlockTrl', 'lng_id'),
 			'contactsFieldsTrls' => array(self::HAS_MANY, 'ContactsFieldsTrl', 'lng_id'),
 			'contactsPageTrls' => array(self::HAS_MANY, 'ContactsPageTrl', 'lng_id'),

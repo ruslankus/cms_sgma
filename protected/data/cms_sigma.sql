@@ -2,21 +2,21 @@
 Navicat MySQL Data Transfer
 
 Source Server         : local
-Source Server Version : 50538
+Source Server Version : 50535
 Source Host           : localhost:3306
 Source Database       : cms_sigma
 
 Target Server Type    : MYSQL
-Target Server Version : 50538
+Target Server Version : 50535
 File Encoding         : 65001
 
-Date: 2015-04-22 16:46:40
+Date: 2015-04-23 02:08:50
 */
 
 SET FOREIGN_KEY_CHECKS=0;
 
 -- ----------------------------
--- Table structure for `admin_actions`
+-- Table structure for admin_actions
 -- ----------------------------
 DROP TABLE IF EXISTS `admin_actions`;
 CREATE TABLE `admin_actions` (
@@ -39,7 +39,7 @@ INSERT INTO `admin_actions` VALUES ('5', 'index', '5');
 INSERT INTO `admin_actions` VALUES ('6', 'categories', '4');
 
 -- ----------------------------
--- Table structure for `admin_controllers`
+-- Table structure for admin_controllers
 -- ----------------------------
 DROP TABLE IF EXISTS `admin_controllers`;
 CREATE TABLE `admin_controllers` (
@@ -58,7 +58,7 @@ INSERT INTO `admin_controllers` VALUES ('4', 'products');
 INSERT INTO `admin_controllers` VALUES ('5', 'settings');
 
 -- ----------------------------
--- Table structure for `available`
+-- Table structure for available
 -- ----------------------------
 DROP TABLE IF EXISTS `available`;
 CREATE TABLE `available` (
@@ -89,7 +89,233 @@ INSERT INTO `available` VALUES ('11', '5', '2');
 INSERT INTO `available` VALUES ('12', '6', '2');
 
 -- ----------------------------
--- Table structure for `contacts_block`
+-- Table structure for complex_page
+-- ----------------------------
+DROP TABLE IF EXISTS `complex_page`;
+CREATE TABLE `complex_page` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `label` varchar(128) DEFAULT NULL,
+  `template_name` varchar(512) DEFAULT NULL,
+  `status_id` int(11) DEFAULT NULL,
+  `time_created` int(11) DEFAULT NULL,
+  `time_updated` int(11) DEFAULT NULL,
+  `last_change_by` int(11) DEFAULT NULL,
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+-- ----------------------------
+-- Records of complex_page
+-- ----------------------------
+
+-- ----------------------------
+-- Table structure for complex_page_fields
+-- ----------------------------
+DROP TABLE IF EXISTS `complex_page_fields`;
+CREATE TABLE `complex_page_fields` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `field_name` varchar(256) DEFAULT NULL,
+  `type_id` int(11) DEFAULT NULL,
+  `group_id` int(11) DEFAULT NULL,
+  `priority` int(11) DEFAULT NULL,
+  `time_created` int(11) DEFAULT NULL,
+  `time_updated` int(11) DEFAULT NULL,
+  `last_change_by` int(11) DEFAULT NULL,
+  PRIMARY KEY (`id`),
+  KEY `group_id` (`group_id`),
+  KEY `type_id` (`type_id`),
+  CONSTRAINT `complex_page_fields_ibfk_2` FOREIGN KEY (`type_id`) REFERENCES `complex_page_field_types` (`id`) ON DELETE NO ACTION ON UPDATE NO ACTION,
+  CONSTRAINT `complex_page_fields_ibfk_1` FOREIGN KEY (`group_id`) REFERENCES `complex_page_field_groups` (`id`) ON DELETE CASCADE ON UPDATE NO ACTION
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+-- ----------------------------
+-- Records of complex_page_fields
+-- ----------------------------
+
+-- ----------------------------
+-- Table structure for complex_page_fields_trl
+-- ----------------------------
+DROP TABLE IF EXISTS `complex_page_fields_trl`;
+CREATE TABLE `complex_page_fields_trl` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `page_field_id` int(11) DEFAULT NULL,
+  `lng_id` int(11) DEFAULT NULL,
+  `field_description` text,
+  `field_title` text,
+  PRIMARY KEY (`id`),
+  KEY `page_field_id` (`page_field_id`),
+  KEY `lng_id` (`lng_id`),
+  CONSTRAINT `complex_page_fields_trl_ibfk_1` FOREIGN KEY (`page_field_id`) REFERENCES `complex_page_fields` (`id`) ON DELETE CASCADE ON UPDATE NO ACTION,
+  CONSTRAINT `complex_page_fields_trl_ibfk_2` FOREIGN KEY (`lng_id`) REFERENCES `languages` (`id`) ON DELETE CASCADE ON UPDATE NO ACTION
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+-- ----------------------------
+-- Records of complex_page_fields_trl
+-- ----------------------------
+
+-- ----------------------------
+-- Table structure for complex_page_field_groups
+-- ----------------------------
+DROP TABLE IF EXISTS `complex_page_field_groups`;
+CREATE TABLE `complex_page_field_groups` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `label` varchar(128) DEFAULT NULL,
+  `priority` int(11) DEFAULT NULL,
+  `time_updated` int(11) DEFAULT NULL,
+  `time_created` int(11) DEFAULT NULL,
+  `last_change_by` int(11) DEFAULT NULL,
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+-- ----------------------------
+-- Records of complex_page_field_groups
+-- ----------------------------
+
+-- ----------------------------
+-- Table structure for complex_page_field_groups_active
+-- ----------------------------
+DROP TABLE IF EXISTS `complex_page_field_groups_active`;
+CREATE TABLE `complex_page_field_groups_active` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `group_id` int(11) DEFAULT NULL,
+  `page_id` int(11) DEFAULT NULL,
+  `priority` int(11) DEFAULT NULL,
+  PRIMARY KEY (`id`),
+  KEY `group_id` (`group_id`),
+  KEY `page_id` (`page_id`),
+  CONSTRAINT `complex_page_field_groups_active_ibfk_2` FOREIGN KEY (`page_id`) REFERENCES `complex_page` (`id`) ON DELETE CASCADE ON UPDATE NO ACTION,
+  CONSTRAINT `complex_page_field_groups_active_ibfk_1` FOREIGN KEY (`group_id`) REFERENCES `complex_page_field_groups` (`id`) ON DELETE CASCADE ON UPDATE NO ACTION
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+-- ----------------------------
+-- Records of complex_page_field_groups_active
+-- ----------------------------
+
+-- ----------------------------
+-- Table structure for complex_page_field_groups_trl
+-- ----------------------------
+DROP TABLE IF EXISTS `complex_page_field_groups_trl`;
+CREATE TABLE `complex_page_field_groups_trl` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `lng_id` int(11) DEFAULT NULL,
+  `group_id` int(11) DEFAULT NULL,
+  `name` varchar(512) DEFAULT NULL,
+  `description` varchar(1024) DEFAULT NULL,
+  PRIMARY KEY (`id`),
+  KEY `lng_id` (`lng_id`),
+  KEY `group_id` (`group_id`),
+  CONSTRAINT `complex_page_field_groups_trl_ibfk_2` FOREIGN KEY (`group_id`) REFERENCES `complex_page_field_groups` (`id`) ON DELETE CASCADE ON UPDATE NO ACTION,
+  CONSTRAINT `complex_page_field_groups_trl_ibfk_1` FOREIGN KEY (`lng_id`) REFERENCES `languages` (`id`) ON DELETE CASCADE ON UPDATE NO ACTION
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+-- ----------------------------
+-- Records of complex_page_field_groups_trl
+-- ----------------------------
+
+-- ----------------------------
+-- Table structure for complex_page_field_select_options
+-- ----------------------------
+DROP TABLE IF EXISTS `complex_page_field_select_options`;
+CREATE TABLE `complex_page_field_select_options` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `field_id` int(11) DEFAULT NULL,
+  `option_name` varchar(128) DEFAULT NULL,
+  `option_value` varchar(128) DEFAULT NULL,
+  PRIMARY KEY (`id`),
+  KEY `field_id` (`field_id`),
+  CONSTRAINT `complex_page_field_select_options_ibfk_1` FOREIGN KEY (`field_id`) REFERENCES `complex_page_fields` (`id`) ON DELETE CASCADE ON UPDATE NO ACTION
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+-- ----------------------------
+-- Records of complex_page_field_select_options
+-- ----------------------------
+
+-- ----------------------------
+-- Table structure for complex_page_field_types
+-- ----------------------------
+DROP TABLE IF EXISTS `complex_page_field_types`;
+CREATE TABLE `complex_page_field_types` (
+  `id` int(11) NOT NULL,
+  `label` varchar(255) DEFAULT NULL,
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+-- ----------------------------
+-- Records of complex_page_field_types
+-- ----------------------------
+INSERT INTO `complex_page_field_types` VALUES ('1', 'Numeric');
+INSERT INTO `complex_page_field_types` VALUES ('2', 'Date');
+INSERT INTO `complex_page_field_types` VALUES ('3', 'Text');
+INSERT INTO `complex_page_field_types` VALUES ('4', 'Translatable text');
+INSERT INTO `complex_page_field_types` VALUES ('5', 'Images');
+INSERT INTO `complex_page_field_types` VALUES ('6', 'Selectable value');
+
+-- ----------------------------
+-- Table structure for complex_page_field_values
+-- ----------------------------
+DROP TABLE IF EXISTS `complex_page_field_values`;
+CREATE TABLE `complex_page_field_values` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `page_id` int(11) DEFAULT NULL,
+  `field_id` int(11) DEFAULT NULL,
+  `numeric_value` int(11) DEFAULT NULL,
+  `selected_option_id` int(11) DEFAULT NULL,
+  `text_value` text,
+  `time_value` int(11) DEFAULT NULL,
+  PRIMARY KEY (`id`),
+  KEY `page_id` (`page_id`),
+  KEY `field_id` (`field_id`),
+  CONSTRAINT `complex_page_field_values_ibfk_1` FOREIGN KEY (`page_id`) REFERENCES `complex_page` (`id`) ON DELETE CASCADE ON UPDATE NO ACTION,
+  CONSTRAINT `complex_page_field_values_ibfk_2` FOREIGN KEY (`field_id`) REFERENCES `complex_page_fields` (`id`) ON DELETE CASCADE ON UPDATE NO ACTION
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+-- ----------------------------
+-- Records of complex_page_field_values
+-- ----------------------------
+
+-- ----------------------------
+-- Table structure for complex_page_field_values_trl
+-- ----------------------------
+DROP TABLE IF EXISTS `complex_page_field_values_trl`;
+CREATE TABLE `complex_page_field_values_trl` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `lng_id` int(11) DEFAULT NULL,
+  `field_value_id` int(11) DEFAULT NULL,
+  `translatable_text` text,
+  PRIMARY KEY (`id`),
+  KEY `lng_id` (`lng_id`),
+  KEY `field_value_id` (`field_value_id`),
+  CONSTRAINT `complex_page_field_values_trl_ibfk_1` FOREIGN KEY (`lng_id`) REFERENCES `languages` (`id`) ON DELETE CASCADE ON UPDATE NO ACTION,
+  CONSTRAINT `complex_page_field_values_trl_ibfk_2` FOREIGN KEY (`field_value_id`) REFERENCES `complex_page_field_values` (`id`) ON DELETE CASCADE ON UPDATE NO ACTION
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+-- ----------------------------
+-- Records of complex_page_field_values_trl
+-- ----------------------------
+
+-- ----------------------------
+-- Table structure for complex_page_trl
+-- ----------------------------
+DROP TABLE IF EXISTS `complex_page_trl`;
+CREATE TABLE `complex_page_trl` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `page_id` int(11) DEFAULT NULL,
+  `lng_id` int(11) DEFAULT NULL,
+  `title` varchar(1024) DEFAULT NULL,
+  `text` text,
+  `meta_keywords` varchar(256) DEFAULT NULL,
+  PRIMARY KEY (`id`),
+  KEY `page_id` (`page_id`),
+  KEY `lng_id` (`lng_id`),
+  CONSTRAINT `complex_page_trl_ibfk_2` FOREIGN KEY (`lng_id`) REFERENCES `languages` (`id`) ON DELETE CASCADE ON UPDATE NO ACTION,
+  CONSTRAINT `complex_page_trl_ibfk_1` FOREIGN KEY (`page_id`) REFERENCES `complex_page` (`id`) ON DELETE CASCADE ON UPDATE NO ACTION
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+-- ----------------------------
+-- Records of complex_page_trl
+-- ----------------------------
+
+-- ----------------------------
+-- Table structure for contacts_block
 -- ----------------------------
 DROP TABLE IF EXISTS `contacts_block`;
 CREATE TABLE `contacts_block` (
@@ -116,7 +342,7 @@ INSERT INTO `contacts_block` VALUES ('2', '1', 'block2', 'default.php', null, nu
 INSERT INTO `contacts_block` VALUES ('3', '2', 'other block', 'default.php', null, null, '1', '0', '0', '1');
 
 -- ----------------------------
--- Table structure for `contacts_block_trl`
+-- Table structure for contacts_block_trl
 -- ----------------------------
 DROP TABLE IF EXISTS `contacts_block_trl`;
 CREATE TABLE `contacts_block_trl` (
@@ -138,7 +364,7 @@ CREATE TABLE `contacts_block_trl` (
 -- ----------------------------
 
 -- ----------------------------
--- Table structure for `contacts_fields`
+-- Table structure for contacts_fields
 -- ----------------------------
 DROP TABLE IF EXISTS `contacts_fields`;
 CREATE TABLE `contacts_fields` (
@@ -155,7 +381,7 @@ CREATE TABLE `contacts_fields` (
 -- ----------------------------
 
 -- ----------------------------
--- Table structure for `contacts_fields_trl`
+-- Table structure for contacts_fields_trl
 -- ----------------------------
 DROP TABLE IF EXISTS `contacts_fields_trl`;
 CREATE TABLE `contacts_fields_trl` (
@@ -176,7 +402,7 @@ CREATE TABLE `contacts_fields_trl` (
 -- ----------------------------
 
 -- ----------------------------
--- Table structure for `contacts_page`
+-- Table structure for contacts_page
 -- ----------------------------
 DROP TABLE IF EXISTS `contacts_page`;
 CREATE TABLE `contacts_page` (
@@ -198,7 +424,7 @@ INSERT INTO `contacts_page` VALUES ('1', 'Contacts', '1', '1', '0', '1429171769'
 INSERT INTO `contacts_page` VALUES ('2', 'Additional contacts', '1', '1', '0', '1429171769', '1', 'default.php');
 
 -- ----------------------------
--- Table structure for `contacts_page_trl`
+-- Table structure for contacts_page_trl
 -- ----------------------------
 DROP TABLE IF EXISTS `contacts_page_trl`;
 CREATE TABLE `contacts_page_trl` (
@@ -221,7 +447,7 @@ CREATE TABLE `contacts_page_trl` (
 -- ----------------------------
 
 -- ----------------------------
--- Table structure for `images`
+-- Table structure for images
 -- ----------------------------
 DROP TABLE IF EXISTS `images`;
 CREATE TABLE `images` (
@@ -245,7 +471,26 @@ INSERT INTO `images` VALUES ('20', 'Image of \"Some title\"', '553755397403d.jpg
 INSERT INTO `images` VALUES ('21', 'Image of \"One more product\"', '55379ffb0d22c.jpg', 'Chrysanthemum.jpg', 'image/jpeg', '879394', '1');
 
 -- ----------------------------
--- Table structure for `images_of_contacts`
+-- Table structure for images_of_complex_page_field_values
+-- ----------------------------
+DROP TABLE IF EXISTS `images_of_complex_page_field_values`;
+CREATE TABLE `images_of_complex_page_field_values` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `image_id` int(11) DEFAULT NULL,
+  `field_value_id` int(11) DEFAULT NULL,
+  PRIMARY KEY (`id`),
+  KEY `image_id` (`image_id`),
+  KEY `field_value_id` (`field_value_id`),
+  CONSTRAINT `images_of_complex_page_field_values_ibfk_1` FOREIGN KEY (`image_id`) REFERENCES `images` (`id`) ON DELETE CASCADE ON UPDATE NO ACTION,
+  CONSTRAINT `images_of_complex_page_field_values_ibfk_2` FOREIGN KEY (`field_value_id`) REFERENCES `complex_page_field_values` (`id`) ON DELETE CASCADE ON UPDATE NO ACTION
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+-- ----------------------------
+-- Records of images_of_complex_page_field_values
+-- ----------------------------
+
+-- ----------------------------
+-- Table structure for images_of_contacts
 -- ----------------------------
 DROP TABLE IF EXISTS `images_of_contacts`;
 CREATE TABLE `images_of_contacts` (
@@ -264,7 +509,7 @@ CREATE TABLE `images_of_contacts` (
 -- ----------------------------
 
 -- ----------------------------
--- Table structure for `images_of_news`
+-- Table structure for images_of_news
 -- ----------------------------
 DROP TABLE IF EXISTS `images_of_news`;
 CREATE TABLE `images_of_news` (
@@ -283,7 +528,7 @@ CREATE TABLE `images_of_news` (
 -- ----------------------------
 
 -- ----------------------------
--- Table structure for `images_of_page`
+-- Table structure for images_of_page
 -- ----------------------------
 DROP TABLE IF EXISTS `images_of_page`;
 CREATE TABLE `images_of_page` (
@@ -302,7 +547,7 @@ CREATE TABLE `images_of_page` (
 -- ----------------------------
 
 -- ----------------------------
--- Table structure for `images_of_product`
+-- Table structure for images_of_product
 -- ----------------------------
 DROP TABLE IF EXISTS `images_of_product`;
 CREATE TABLE `images_of_product` (
@@ -324,7 +569,7 @@ INSERT INTO `images_of_product` VALUES ('4', '20', '14');
 INSERT INTO `images_of_product` VALUES ('5', '21', '15');
 
 -- ----------------------------
--- Table structure for `images_of_product_fields_values`
+-- Table structure for images_of_product_fields_values
 -- ----------------------------
 DROP TABLE IF EXISTS `images_of_product_fields_values`;
 CREATE TABLE `images_of_product_fields_values` (
@@ -343,7 +588,7 @@ CREATE TABLE `images_of_product_fields_values` (
 -- ----------------------------
 
 -- ----------------------------
--- Table structure for `images_of_widget`
+-- Table structure for images_of_widget
 -- ----------------------------
 DROP TABLE IF EXISTS `images_of_widget`;
 CREATE TABLE `images_of_widget` (
@@ -362,7 +607,7 @@ CREATE TABLE `images_of_widget` (
 -- ----------------------------
 
 -- ----------------------------
--- Table structure for `images_trl`
+-- Table structure for images_trl
 -- ----------------------------
 DROP TABLE IF EXISTS `images_trl`;
 CREATE TABLE `images_trl` (
@@ -383,7 +628,7 @@ CREATE TABLE `images_trl` (
 -- ----------------------------
 
 -- ----------------------------
--- Table structure for `labels`
+-- Table structure for labels
 -- ----------------------------
 DROP TABLE IF EXISTS `labels`;
 CREATE TABLE `labels` (
@@ -401,7 +646,7 @@ CREATE TABLE `labels` (
 -- ----------------------------
 
 -- ----------------------------
--- Table structure for `labels_trl`
+-- Table structure for labels_trl
 -- ----------------------------
 DROP TABLE IF EXISTS `labels_trl`;
 CREATE TABLE `labels_trl` (
@@ -421,7 +666,7 @@ CREATE TABLE `labels_trl` (
 -- ----------------------------
 
 -- ----------------------------
--- Table structure for `languages`
+-- Table structure for languages
 -- ----------------------------
 DROP TABLE IF EXISTS `languages`;
 CREATE TABLE `languages` (
@@ -441,7 +686,7 @@ INSERT INTO `languages` VALUES ('1', 'english', 'en', null, '1', null);
 INSERT INTO `languages` VALUES ('2', 'русский', 'ru', null, '1', null);
 
 -- ----------------------------
--- Table structure for `marks`
+-- Table structure for marks
 -- ----------------------------
 DROP TABLE IF EXISTS `marks`;
 CREATE TABLE `marks` (
@@ -461,7 +706,7 @@ INSERT INTO `marks` VALUES ('4', '4', 'd');
 INSERT INTO `marks` VALUES ('5', '5', 'e');
 
 -- ----------------------------
--- Table structure for `menu`
+-- Table structure for menu
 -- ----------------------------
 DROP TABLE IF EXISTS `menu`;
 CREATE TABLE `menu` (
@@ -485,7 +730,7 @@ INSERT INTO `menu` VALUES ('6', 'Bottom menu', '1', '1427987161', '1429694972', 
 INSERT INTO `menu` VALUES ('7', 'еуыеыу', '1', '1428671996', '1428671996', '1', 'main_menu.php');
 
 -- ----------------------------
--- Table structure for `menu_item`
+-- Table structure for menu_item
 -- ----------------------------
 DROP TABLE IF EXISTS `menu_item`;
 CREATE TABLE `menu_item` (
@@ -519,7 +764,7 @@ INSERT INTO `menu_item` VALUES ('33', '5', 'Products', '0', '3', '3', '1', '1', 
 INSERT INTO `menu_item` VALUES ('34', '5', 'Contacts', '0', '1', '1', '8', '1', '1427987474', '1429690372', '1');
 
 -- ----------------------------
--- Table structure for `menu_item_trl`
+-- Table structure for menu_item_trl
 -- ----------------------------
 DROP TABLE IF EXISTS `menu_item_trl`;
 CREATE TABLE `menu_item_trl` (
@@ -547,7 +792,7 @@ INSERT INTO `menu_item_trl` VALUES ('97', 'Contacts', '34', '1');
 INSERT INTO `menu_item_trl` VALUES ('98', 'Контакты', '34', '2');
 
 -- ----------------------------
--- Table structure for `menu_item_type`
+-- Table structure for menu_item_type
 -- ----------------------------
 DROP TABLE IF EXISTS `menu_item_type`;
 CREATE TABLE `menu_item_type` (
@@ -566,7 +811,7 @@ INSERT INTO `menu_item_type` VALUES ('4', 'Contact form');
 INSERT INTO `menu_item_type` VALUES ('5', 'Complex page');
 
 -- ----------------------------
--- Table structure for `messages`
+-- Table structure for messages
 -- ----------------------------
 DROP TABLE IF EXISTS `messages`;
 CREATE TABLE `messages` (
@@ -584,7 +829,7 @@ CREATE TABLE `messages` (
 -- ----------------------------
 
 -- ----------------------------
--- Table structure for `messages_trl`
+-- Table structure for messages_trl
 -- ----------------------------
 DROP TABLE IF EXISTS `messages_trl`;
 CREATE TABLE `messages_trl` (
@@ -604,7 +849,7 @@ CREATE TABLE `messages_trl` (
 -- ----------------------------
 
 -- ----------------------------
--- Table structure for `news`
+-- Table structure for news
 -- ----------------------------
 DROP TABLE IF EXISTS `news`;
 CREATE TABLE `news` (
@@ -632,7 +877,7 @@ INSERT INTO `news` VALUES ('24', '7', '0:7', 'Item 2', null, '1', '2', '14280626
 INSERT INTO `news` VALUES ('25', '7', '0:7', 'Item 1', null, '1', '3', '1428062690', '1428415213', '1');
 
 -- ----------------------------
--- Table structure for `news_category`
+-- Table structure for news_category
 -- ----------------------------
 DROP TABLE IF EXISTS `news_category`;
 CREATE TABLE `news_category` (
@@ -661,7 +906,7 @@ INSERT INTO `news_category` VALUES ('9', '7', 'main_category.php', '0:7:9', 'Tec
 INSERT INTO `news_category` VALUES ('10', '6', 'main_category.php', '0:6:10', 'Geopolitics', '1', '2', '1428394909', '1428394909', '1');
 
 -- ----------------------------
--- Table structure for `news_category_trl`
+-- Table structure for news_category_trl
 -- ----------------------------
 DROP TABLE IF EXISTS `news_category_trl`;
 CREATE TABLE `news_category_trl` (
@@ -693,7 +938,7 @@ INSERT INTO `news_category_trl` VALUES ('19', 'Geopolitics', 'geo, world, politi
 INSERT INTO `news_category_trl` VALUES ('20', 'Геополитика', 'мир, политика', 'Все новости мира геополитики', '10', '2');
 
 -- ----------------------------
--- Table structure for `news_trl`
+-- Table structure for news_trl
 -- ----------------------------
 DROP TABLE IF EXISTS `news_trl`;
 CREATE TABLE `news_trl` (
@@ -721,7 +966,7 @@ INSERT INTO `news_trl` VALUES ('31', 'Some title', null, null, 'Some text', 'Som
 INSERT INTO `news_trl` VALUES ('32', 'Название', null, null, 'Текст', 'Общее', '25', '2');
 
 -- ----------------------------
--- Table structure for `page`
+-- Table structure for page
 -- ----------------------------
 DROP TABLE IF EXISTS `page`;
 CREATE TABLE `page` (
@@ -745,7 +990,7 @@ INSERT INTO `page` VALUES ('8', 'Page 1', null, null, null, null, null, null);
 INSERT INTO `page` VALUES ('9', 'Page 2', null, null, null, null, null, null);
 
 -- ----------------------------
--- Table structure for `page_trl`
+-- Table structure for page_trl
 -- ----------------------------
 DROP TABLE IF EXISTS `page_trl`;
 CREATE TABLE `page_trl` (
@@ -771,7 +1016,7 @@ INSERT INTO `page_trl` VALUES ('5', 'Some page 2', null, null, '9', '1');
 INSERT INTO `page_trl` VALUES ('6', 'Какая-то страница 2', null, null, '9', '2');
 
 -- ----------------------------
--- Table structure for `product`
+-- Table structure for product
 -- ----------------------------
 DROP TABLE IF EXISTS `product`;
 CREATE TABLE `product` (
@@ -804,7 +1049,7 @@ INSERT INTO `product` VALUES ('14', '1', '0:1', 'Some title', 'default.php', '1'
 INSERT INTO `product` VALUES ('15', '2', '0:1:2', 'One more product', 'simple_item.php', '1', '1', '12800', '0', null, null, '1429708758', '1429708801', '1', 'PR46727164PR');
 
 -- ----------------------------
--- Table structure for `product_category`
+-- Table structure for product_category
 -- ----------------------------
 DROP TABLE IF EXISTS `product_category`;
 CREATE TABLE `product_category` (
@@ -830,7 +1075,7 @@ INSERT INTO `product_category` VALUES ('1', '0', 'simple_list.php', '0:1', 'Hote
 INSERT INTO `product_category` VALUES ('2', '1', 'simple_list.php', '0:1:2', 'Sub-cat', '1', '1', '1429703506', '1429703506', '1');
 
 -- ----------------------------
--- Table structure for `product_category_trl`
+-- Table structure for product_category_trl
 -- ----------------------------
 DROP TABLE IF EXISTS `product_category_trl`;
 CREATE TABLE `product_category_trl` (
@@ -856,7 +1101,7 @@ INSERT INTO `product_category_trl` VALUES ('3', 'Sub-cat', '', '', '2', '1');
 INSERT INTO `product_category_trl` VALUES ('4', 'Суб-категория', '', '', '2', '2');
 
 -- ----------------------------
--- Table structure for `product_fields`
+-- Table structure for product_fields
 -- ----------------------------
 DROP TABLE IF EXISTS `product_fields`;
 CREATE TABLE `product_fields` (
@@ -894,7 +1139,7 @@ INSERT INTO `product_fields` VALUES ('31', 'Date', '2', '16', '1', '1429540090',
 INSERT INTO `product_fields` VALUES ('32', 'Price for sale', '1', '16', '2', '1429542410', '1429542410', '1');
 
 -- ----------------------------
--- Table structure for `product_fields_trl`
+-- Table structure for product_fields_trl
 -- ----------------------------
 DROP TABLE IF EXISTS `product_fields_trl`;
 CREATE TABLE `product_fields_trl` (
@@ -943,7 +1188,7 @@ INSERT INTO `product_fields_trl` VALUES ('51', '32', '1', '', 'Price for sale');
 INSERT INTO `product_fields_trl` VALUES ('52', '32', '2', '', '');
 
 -- ----------------------------
--- Table structure for `product_field_groups`
+-- Table structure for product_field_groups
 -- ----------------------------
 DROP TABLE IF EXISTS `product_field_groups`;
 CREATE TABLE `product_field_groups` (
@@ -968,7 +1213,7 @@ INSERT INTO `product_field_groups` VALUES ('20', 'Services', '5', '1429515590', 
 INSERT INTO `product_field_groups` VALUES ('21', 'How to get', '1', '1429515590', '1428500858', '1');
 
 -- ----------------------------
--- Table structure for `product_field_groups_active`
+-- Table structure for product_field_groups_active
 -- ----------------------------
 DROP TABLE IF EXISTS `product_field_groups_active`;
 CREATE TABLE `product_field_groups_active` (
@@ -994,7 +1239,7 @@ INSERT INTO `product_field_groups_active` VALUES ('54', '15', '15', null);
 INSERT INTO `product_field_groups_active` VALUES ('55', '18', '15', null);
 
 -- ----------------------------
--- Table structure for `product_field_groups_trl`
+-- Table structure for product_field_groups_trl
 -- ----------------------------
 DROP TABLE IF EXISTS `product_field_groups_trl`;
 CREATE TABLE `product_field_groups_trl` (
@@ -1029,7 +1274,7 @@ INSERT INTO `product_field_groups_trl` VALUES ('31', '1', '21', 'How to get', ''
 INSERT INTO `product_field_groups_trl` VALUES ('32', '2', '21', 'Как добраться', '');
 
 -- ----------------------------
--- Table structure for `product_field_select_options`
+-- Table structure for product_field_select_options
 -- ----------------------------
 DROP TABLE IF EXISTS `product_field_select_options`;
 CREATE TABLE `product_field_select_options` (
@@ -1054,7 +1299,7 @@ INSERT INTO `product_field_select_options` VALUES ('33', '30', 'Второй', '
 INSERT INTO `product_field_select_options` VALUES ('34', '30', 'конец', '8');
 
 -- ----------------------------
--- Table structure for `product_field_types`
+-- Table structure for product_field_types
 -- ----------------------------
 DROP TABLE IF EXISTS `product_field_types`;
 CREATE TABLE `product_field_types` (
@@ -1074,7 +1319,7 @@ INSERT INTO `product_field_types` VALUES ('5', 'Images');
 INSERT INTO `product_field_types` VALUES ('6', 'Selectable value');
 
 -- ----------------------------
--- Table structure for `product_field_values`
+-- Table structure for product_field_values
 -- ----------------------------
 DROP TABLE IF EXISTS `product_field_values`;
 CREATE TABLE `product_field_values` (
@@ -1111,7 +1356,7 @@ INSERT INTO `product_field_values` VALUES ('15', '14', '31', null, null, null, '
 INSERT INTO `product_field_values` VALUES ('16', '14', '32', '10', null, null, null);
 
 -- ----------------------------
--- Table structure for `product_field_values_trl`
+-- Table structure for product_field_values_trl
 -- ----------------------------
 DROP TABLE IF EXISTS `product_field_values_trl`;
 CREATE TABLE `product_field_values_trl` (
@@ -1137,7 +1382,7 @@ INSERT INTO `product_field_values_trl` VALUES ('5', '1', '9', 'Header');
 INSERT INTO `product_field_values_trl` VALUES ('6', '2', '9', 'Заголовок');
 
 -- ----------------------------
--- Table structure for `product_trl`
+-- Table structure for product_trl
 -- ----------------------------
 DROP TABLE IF EXISTS `product_trl`;
 CREATE TABLE `product_trl` (
@@ -1165,7 +1410,7 @@ INSERT INTO `product_trl` VALUES ('17', 'One more product', null, null, null, nu
 INSERT INTO `product_trl` VALUES ('18', 'Еще продукт', null, null, null, null, '15', '2');
 
 -- ----------------------------
--- Table structure for `rating`
+-- Table structure for rating
 -- ----------------------------
 DROP TABLE IF EXISTS `rating`;
 CREATE TABLE `rating` (
@@ -1185,7 +1430,7 @@ CREATE TABLE `rating` (
 -- ----------------------------
 
 -- ----------------------------
--- Table structure for `settings`
+-- Table structure for settings
 -- ----------------------------
 DROP TABLE IF EXISTS `settings`;
 CREATE TABLE `settings` (
@@ -1210,7 +1455,7 @@ INSERT INTO `settings` VALUES ('8', 'smtp_password', 'yourpassword', '1');
 INSERT INTO `settings` VALUES ('9', 'smtp_enable', '1', '0');
 
 -- ----------------------------
--- Table structure for `status`
+-- Table structure for status
 -- ----------------------------
 DROP TABLE IF EXISTS `status`;
 CREATE TABLE `status` (
@@ -1229,7 +1474,7 @@ INSERT INTO `status` VALUES ('4', 'Suspended');
 INSERT INTO `status` VALUES ('5', 'Wait for activation');
 
 -- ----------------------------
--- Table structure for `system_widget`
+-- Table structure for system_widget
 -- ----------------------------
 DROP TABLE IF EXISTS `system_widget`;
 CREATE TABLE `system_widget` (
@@ -1250,7 +1495,7 @@ INSERT INTO `system_widget` VALUES ('3', 'Search widget', '1', '');
 INSERT INTO `system_widget` VALUES ('5', 'Language switcher', '4', '');
 
 -- ----------------------------
--- Table structure for `system_widget_trl`
+-- Table structure for system_widget_trl
 -- ----------------------------
 DROP TABLE IF EXISTS `system_widget_trl`;
 CREATE TABLE `system_widget_trl` (
@@ -1273,7 +1518,7 @@ INSERT INTO `system_widget_trl` VALUES ('3', '', '', '2', '1');
 INSERT INTO `system_widget_trl` VALUES ('4', '', '', '2', '2');
 
 -- ----------------------------
--- Table structure for `system_widget_type`
+-- Table structure for system_widget_type
 -- ----------------------------
 DROP TABLE IF EXISTS `system_widget_type`;
 CREATE TABLE `system_widget_type` (
@@ -1297,7 +1542,7 @@ INSERT INTO `system_widget_type` VALUES ('6', 'Custom HTML', 'SysCustom', 'defau
 INSERT INTO `system_widget_type` VALUES ('7', 'Banner', 'SysBanner', 'default.php', 'banner');
 
 -- ----------------------------
--- Table structure for `tag`
+-- Table structure for tag
 -- ----------------------------
 DROP TABLE IF EXISTS `tag`;
 CREATE TABLE `tag` (
@@ -1311,7 +1556,7 @@ CREATE TABLE `tag` (
 -- ----------------------------
 
 -- ----------------------------
--- Table structure for `tags_of_product`
+-- Table structure for tags_of_product
 -- ----------------------------
 DROP TABLE IF EXISTS `tags_of_product`;
 CREATE TABLE `tags_of_product` (
@@ -1330,7 +1575,7 @@ CREATE TABLE `tags_of_product` (
 -- ----------------------------
 
 -- ----------------------------
--- Table structure for `tag_trl`
+-- Table structure for tag_trl
 -- ----------------------------
 DROP TABLE IF EXISTS `tag_trl`;
 CREATE TABLE `tag_trl` (
@@ -1351,7 +1596,7 @@ CREATE TABLE `tag_trl` (
 -- ----------------------------
 
 -- ----------------------------
--- Table structure for `users`
+-- Table structure for users
 -- ----------------------------
 DROP TABLE IF EXISTS `users`;
 CREATE TABLE `users` (
@@ -1374,7 +1619,7 @@ CREATE TABLE `users` (
 INSERT INTO `users` VALUES ('1', 'admin', 'admin@email.com', '71c0106e3d8f4a870cb11a718af1d978', '54f96960d6093', 'Joe', 'Bloe', '1');
 
 -- ----------------------------
--- Table structure for `user_role`
+-- Table structure for user_role
 -- ----------------------------
 DROP TABLE IF EXISTS `user_role`;
 CREATE TABLE `user_role` (
@@ -1391,7 +1636,7 @@ INSERT INTO `user_role` VALUES ('1', 'root', 'root');
 INSERT INTO `user_role` VALUES ('2', 'admin', 'admin');
 
 -- ----------------------------
--- Table structure for `wid_registration`
+-- Table structure for wid_registration
 -- ----------------------------
 DROP TABLE IF EXISTS `wid_registration`;
 CREATE TABLE `wid_registration` (
@@ -1419,7 +1664,7 @@ INSERT INTO `wid_registration` VALUES ('54', null, '5', '2', '1', '1', '1');
 INSERT INTO `wid_registration` VALUES ('56', null, '6', '2', '1', '2', '1');
 
 -- ----------------------------
--- Table structure for `wid_registration_type`
+-- Table structure for wid_registration_type
 -- ----------------------------
 DROP TABLE IF EXISTS `wid_registration_type`;
 CREATE TABLE `wid_registration_type` (
