@@ -593,7 +593,7 @@ class ProductsController extends ControllerAdmin
                             $randomName = uniqid();
 
                             //if saved
-                            if($form_mdl->image->saveAs('uploads/images/'.$randomName.'.'.$form_mdl->image->extensionName))
+                            if($form_mdl->image->saveAs(Image::UPLOAD_DIR.DS.$randomName.'.'.$form_mdl->image->extensionName))
                             {
                                 //add image item to db (to site gallery)
                                 $image = new ExtImages();
