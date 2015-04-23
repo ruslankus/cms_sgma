@@ -1,3 +1,4 @@
+<?php $prefix = SiteLng::lng()->getCurrLng()->prefix ?>
 <main>
 	<div class="title-bar world">
 		<h1><?php echo ATrl::t()->getLabel('edit contact page')?></h1>
@@ -9,8 +10,8 @@
 	<div class="content page-content">
 		<div class="header">
 			<span><?php echo $arrPage['title'];?></span>
-			<a href="/<?php echo $prefix;?>/admin/contacts/contactsettings/<?php echo $arrPage->page->id;?>"><?php echo ATrl::t()->getLabel('contact form images')?></a>
-			<a href="#" class="active"><?php echo ATrl::t()->getLabel('contact settings')?></a>
+			<a href="/<?php echo $prefix;?>/admin/contacts/contactsettings/<?php echo $contact_id;?>"><?php echo ATrl::t()->getLabel('contact form images')?></a>
+			<a href="/<?php echo $prefix;?>/admin/contacts/editcontent/<?php echo $contact_id;?>" class="active"><?php echo ATrl::t()->getLabel('contact settings')?></a>
 		</div><!--/header-->
 		<div class="contact-img">
 		<?php

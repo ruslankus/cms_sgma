@@ -85,7 +85,7 @@ class ContactsController extends ControllerAdmin
     {
         $model = new SaveContactForm();
         $request = Yii::app()->request;
-        $prefix = Yii::app()->language;
+       
         if(isset($_POST['SaveContactForm']))
         {
             $siteLng = $_POST['SaveContactForm']['lngId'];
@@ -97,14 +97,21 @@ class ContactsController extends ControllerAdmin
             {
 
                 $contactTrlObj = ContactsPageTrl::model()->find(array('condition'=>'lng_id=:lng_id AND page_id=:page_id','params'=>array('lng_id'=>$siteLng,'page_id'=>$id)));
+                //if translation exist
+                if(empty($contactTrlObj)){
+                    $contactTrlObj = new ContactsPageTrl();
+                    $contactTrlObj->lng_id = $siteLng;
+                    $contactTrlObj->page_id = $id;
+                }
+                
                 $contactTrlObj->description=$_POST['SaveContactForm']['description'];
                 $contactTrlObj->title=$_POST['SaveContactForm']['title'];
                 $contactTrlObj->meta_description=$_POST['SaveContactForm']['meta'];
                 //$contactTrlObj->email=$_POST['SaveContactForm']['email'];
-                $contactTrlObj->update(); 
+                $contactTrlObj->save(); 
 
             }
-        } 
+        }//if isset post 
 
         Yii::app()->clientScript->registerScriptFile($this->assetsPath.'/ckeditor/ckeditor.js',CClientScript::POS_END);
         Yii::app()->clientScript->registerScriptFile($this->assetsPath.'/ckeditor/adapters/jquery.js',CClientScript::POS_END);
@@ -113,8 +120,6 @@ class ContactsController extends ControllerAdmin
         
         $objCurrLng = SiteLng::lng()->getCurrLng();  
         
-
-
         if(empty($siteLng))
         {
             $siteLng = $objCurrLng->id;
