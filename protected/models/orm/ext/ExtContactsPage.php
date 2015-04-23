@@ -109,7 +109,9 @@ class ExtContactsPage extends ContactsPage
            $param[":prefix"] = $prefix;
            
            $arrData['images'] = $con->createCommand($sql)->queryAll(true,$param);
-            
+           //adding block
+           
+           
         }
          
         return $arrData;
