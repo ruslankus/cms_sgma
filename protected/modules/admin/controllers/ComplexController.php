@@ -115,6 +115,135 @@ class ComplexController extends ControllerAdmin
 
 
     /**
+     * Edit (not translatable content, labels, images and etc.)
+     * @param $id
+     * @throws CHttpException
+     */
+    public function actionEdit($id)
+    {
+        //exclude jquery to avoid conflict between jquery from Yii core
+        Yii::app()->clientScript->scriptMap=array('jquery-1.11.2.min.js' => false);
+
+        //item
+        $item = ExtComplexPage::model()->findByPk($id);
+
+        if(empty($item))
+        {
+            throw new CHttpException(404);
+        }
+
+        //statuses
+        $arrStatuses = ExtStatus::model()->arrayForNewsAndProducts(true);
+        //templates
+        $theme = 'dark'; //TODO: get theme from db
+        $arrTemplates = ThemeHelper::getTemplatesFor($theme,'pages_complex');
+        //form
+        $form_mdl = new ComplexPageForm();
+
+
+        //ajax validation
+        if(Yii::app()->request->isAjaxRequest)
+        {
+            //if ajax validation
+            if(isset($_POST['ajax']))
+            {
+                if($_POST['ajax'] == 'edit-item-form')
+                {
+                    echo CActiveForm::validate($form_mdl);
+                }
+                Yii::app()->end();
+            }
+        }
+        else
+        {
+            if(isset($_POST['ComplexPageForm']))
+            {
+                $form_mdl -> attributes = $_POST['ComplexPageForm'];
+                $form_mdl -> image = CUploadedFile::getInstance($form_mdl,'image');
+
+                if($form_mdl->validate())
+                {
+                    //use transaction
+                    $con = Yii::app()->db;
+                    $transaction = $con->beginTransaction();
+
+                    try
+                    {
+
+                        $item->attributes = $form_mdl->attributes;
+                        $item->time_updated = time();
+                        $item->last_change_by = Yii::app()->user->id;
+                        $item->update();
+
+                        //if have image
+                        if(!empty($form_mdl->image))
+                        {
+                            //new name for our image
+                            $randomName = uniqid();
+
+                            //if saved
+                            if($form_mdl->image->saveAs(Image::UPLOAD_DIR.DS.$randomName.'.'.$form_mdl->image->extensionName))
+                            {
+                                //add image item to db (to site gallery)
+                                $image = new ExtImages();
+                                $image -> filename = $randomName.'.'.$form_mdl->image->extensionName;
+                                $image -> original_filename = $form_mdl->image->name;
+                                $image -> size = $form_mdl->image->size;
+                                $image -> mime_type = $form_mdl->image->type;
+                                $image -> label = 'Image of "'.$item->label.'"';
+                                $image -> status_id = ExtStatus::VISIBLE;
+                                $image -> save();
+
+                                //relate added image with this news item
+                                $imageOfComplexPage = new ImagesOfComplexPage();
+                                $imageOfComplexPage -> page_id = $item->id;
+                                $imageOfComplexPage -> image_id = $image->id;
+                                $imageOfComplexPage -> save();
+                            }
+                        }
+
+                        //commit changes
+                        $transaction->commit();
+                    }
+                    catch(Exception $ex)
+                    {
+                        $transaction->rollback();
+                    }
+                }
+            }
+        }
+
+        //get all related images of item
+        $images = array(null,null,null,null,null);
+
+        foreach($item->imagesOfComplexPages as $index => $ioc)
+        {
+            if($index+1 <= count($images))
+            {
+                $images[$index] = $ioc;
+            }
+        }
+
+        $this->render('edit_product_settings',array(
+            'statuses' => $arrStatuses,
+            'form_model' => $form_mdl,
+            'item' => $item,
+            'images' => $images,
+            'templates' => $arrTemplates
+        ));
+    }
+
+    /**
+     * Deletes image
+     * @param $id
+     */
+    public function actionDeleteImage($id)
+    {
+        ImagesOfComplexPage::model()->deleteByPk((int)$id);
+        $this->redirect(Yii::app()->request->urlReferrer);
+    }
+
+    /**
      * Delete page
      * @param $id
      * @param int $page
