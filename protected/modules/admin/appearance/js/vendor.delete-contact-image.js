@@ -21,4 +21,41 @@ $(document).ready(function() {
 		console.log(this);
         return false;
 	});
+    
+    
+    
+     $(".add-image").click(function(e)
+    {
+        
+        var page_id = $(this).data('page');
+        var prefix = $(this).data('prefix');
+        
+        $block = $(".lightbox");
+        $block.load('/'+ prefix +'/admin/contacts/addlocalimage/' + page_id);
+        console.log(page_id);
+        $block.fadeIn(300);
+        return false;
+    });//end add button  
+    
+    
+    
+    $(document).on("click", ":checkbox", function()
+    {
+        if( 1  >= $( "input:checked" ).length){
+            return true;
+        }else{
+            return false;
+        }
+        
+        
+    });
+    
+        $(document).on("click", ".cancel-images", function()
+  	{
+		$(".lightbox").fadeOut(300);
+		return false;
+	});//end cancel lightbox
+    
+    
+    
 });

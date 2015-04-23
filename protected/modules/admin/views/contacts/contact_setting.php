@@ -63,6 +63,7 @@
 						</div><!--/form-zone-->
 						<div class="image-zone">
 							<strong><?php echo ATrl::t()->getLabel('preview')?></strong>
+                             <a href="#"  data-page="<?php echo $page_id; ?>" data-prefix="<?php echo $prefix?>" class="add-image">Add local image</a>
 							<div class="list">
                             <?php foreach($arrImages as $item):?>
                                 <?php if(!empty($item)):?>

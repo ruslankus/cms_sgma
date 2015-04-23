@@ -83,6 +83,8 @@ class ContactsController extends ControllerAdmin
 
     public function actionEditContent($id = null)
     {
+              
+       
         $model = new SaveContactForm();
         $request = Yii::app()->request;
        
@@ -193,7 +195,8 @@ class ContactsController extends ControllerAdmin
         }//if post
 
         Yii::app()->clientScript->registerScriptFile($this->assetsPath.'/js/vendor.delete-contact-image.js',CClientScript::POS_END);      
-
+        Yii::app()->clientScript->registerCssFile($this->assetsPath.'/css/vendor.lightbox.css');
+        
         $lngObj = SiteLng::lng()->getCurrLng();
       
         $arrPage = ExtContactsPage::model()->getContactPageWithImage($id, $lngObj->prefix);
@@ -322,6 +325,43 @@ class ContactsController extends ControllerAdmin
         }
 
     }
+    
+    /**
+     * @param $id int page Id
+     */
+    public function actionAddLocalImage($id){
+        $request = Yii::app()->request;
+        $prefix = SiteLng::lng()->getCurrLng()->prefix;
+        
+        if($request->isAjaxRequest){
+            //ajax
+            $objPhotos = Images::model()->findAll();
+            
+            $this->renderPartial('_modal_load_local_files',array('objPhotos' => $objPhotos,
+            'page_id' => $id, 'prefix' => $prefix, ));            
+            Yii::app()->end();
+            
+        }elseif($request->isPostRequest){
+            //post
+            $imgObj = ImagesOfContacts::model()->findByAttributes(array('contact_page_id' => $id));
+            if(empty($imgObj)){
+                $imgObj = new ImagesOfContacts();
+                $imgObj->contact_page_id = $id;
+            }
+            $imgObj->image_id = key($_POST['image']);
+            if($imgObj->save()){
+                
+                Yii::app()->user->setFlash('error',"File has been added");
+                $this->redirect("/{$prefix}/admin/contacts/contactsettings/{$id}");
+                Yii::app()->end();
+            }else{
+                Yii::app()->user->setFlash('error',"Add file was failed");
+                $this->redirect("/{$prefix}/admin/contacts/contactsettings/{$id}");
+                Yii::app()->end(); 
+            }
+        }
+    }
+    
 
     /* ----------------------------- pages ajax section -------------------------------------- */
 

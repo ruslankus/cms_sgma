@@ -6,11 +6,11 @@
  * The followings are the available columns in table 'images_of_contacts':
  * @property integer $id
  * @property integer $image_id
- * @property integer $contacts_id
+ * @property integer $contact_page_id
  *
  * The followings are the available model relations:
- * @property Contacts $contacts
  * @property Images $image
+ * @property ContactsPage $contactPage
  */
 class ImagesOfContacts extends CActiveRecord
 {
@@ -30,10 +30,10 @@ class ImagesOfContacts extends CActiveRecord
 		// NOTE: you should only define rules for those attributes that
 		// will receive user inputs.
 		return array(
-			array('image_id, contacts_id', 'numerical', 'integerOnly'=>true),
+			array('image_id, contact_page_id', 'numerical', 'integerOnly'=>true),
 			// The following rule is used by search().
 			// @todo Please remove those attributes that should not be searched.
-			array('id, image_id, contacts_id', 'safe', 'on'=>'search'),
+			array('id, image_id, contact_page_id', 'safe', 'on'=>'search'),
 		);
 	}
 
@@ -45,8 +45,8 @@ class ImagesOfContacts extends CActiveRecord
 		// NOTE: you may need to adjust the relation name and the related
 		// class name for the relations automatically generated below.
 		return array(
-			'contacts' => array(self::BELONGS_TO, 'ContactsPage', 'contacts_id'),
 			'image' => array(self::BELONGS_TO, 'Images', 'image_id'),
+			'contactPage' => array(self::BELONGS_TO, 'ContactsPage', 'contact_page_id'),
 		);
 	}
 
@@ -58,7 +58,7 @@ class ImagesOfContacts extends CActiveRecord
 		return array(
 			'id' => 'ID',
 			'image_id' => 'Image',
-			'contacts_id' => 'Contacts',
+			'contact_page_id' => 'Contact Page',
 		);
 	}
 
@@ -82,7 +82,7 @@ class ImagesOfContacts extends CActiveRecord
 
 		$criteria->compare('id',$this->id);
 		$criteria->compare('image_id',$this->image_id);
-		$criteria->compare('contacts_id',$this->contacts_id);
+		$criteria->compare('contact_page_id',$this->contact_page_id);
 
 		return new CActiveDataProvider($this, array(
 			'criteria'=>$criteria,
