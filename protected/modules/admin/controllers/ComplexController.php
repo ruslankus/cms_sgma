@@ -39,7 +39,7 @@ class ComplexController extends ControllerAdmin
         $arrStatuses = ExtStatus::model()->arrayForNewsAndProducts(true);
         //templates
         $theme = 'dark'; //TODO: get theme from db
-        $arrTemplates = ThemeHelper::getTemplatesFor($theme,'pages_complex');
+        $arrTemplates = ThemeHelper::getTemplatesFor($theme,'complex');
         //form
         $form_mdl = new ComplexPageForm();
 
@@ -136,7 +136,7 @@ class ComplexController extends ControllerAdmin
         $arrStatuses = ExtStatus::model()->arrayForNewsAndProducts(true);
         //templates
         $theme = 'dark'; //TODO: get theme from db
-        $arrTemplates = ThemeHelper::getTemplatesFor($theme,'pages_complex');
+        $arrTemplates = ThemeHelper::getTemplatesFor($theme,'complex');
         //form
         $form_mdl = new ComplexPageForm();
 
@@ -879,6 +879,17 @@ class ComplexController extends ControllerAdmin
         $new = $orders['new'];
 
         Sort::ReorderItems("ExtComplexPageFieldGroups",$previous,$new);
+
+        /* @var $allActives ExtComplexPageFieldGroupsActive[]*/
+
+        $allActives = ExtComplexPageFieldGroupsActive::model()->findAll();
+
+        //update priorities of all active added groups
+        foreach($allActives as $active)
+        {
+            $active->priority = $active->group->priority;
+            $active->update();
+        }
 
         echo "OK";
     }
