@@ -2,7 +2,7 @@
 <?php /* @var $item ExtProduct */ ?>
 <?php /* @var $languages Languages[] */ ?>
 <?php /* @var $currentLng Languages */ ?>
-<?php /* @var $itemTrl NewsTrl */ ?>
+<?php /* @var $itemTrl ProductTrl */ ?>
 
 <style>
     .content .inner-editor textarea {
@@ -26,7 +26,7 @@
 
 <main>
     <div class="title-bar world">
-        <h1><?php echo ATrl::t()->getLabel('News'); ?></h1>
+        <h1><?php echo ATrl::t()->getLabel('Products'); ?></h1>
         <ul class="actions">
             <li><a href="<?php echo Yii::app()->createUrl('admin/products/list',array('cat' => $item->category_id)); ?>" class="action undo"></a></li>
         </ul>

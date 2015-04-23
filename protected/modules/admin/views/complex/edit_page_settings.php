@@ -10,7 +10,7 @@
 
 <main>
     <div class="title-bar world">
-        <h1><?php echo ATrl::t()->getLabel('News'); ?></h1>
+        <h1><?php echo ATrl::t()->getLabel('Custom pages'); ?></h1>
         <ul class="actions">
             <li><a href="<?php echo Yii::app()->createUrl('admin/complex/pages'); ?>" class="action undo"></a></li>
         </ul>
