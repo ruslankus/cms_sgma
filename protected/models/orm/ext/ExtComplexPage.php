@@ -81,6 +81,7 @@ class ExtComplexPage extends ComplexPage
         //relate with translation
         $lng = Yii::app()->language;
         $relations['trl'] = array(self::HAS_ONE, 'ComplexPageTrl', 'page_id', 'with' => array('lng' => array('condition' => "lng.prefix='{$lng}'")));
+        $relations['complexPageFieldGroupsActives'] = array(self::HAS_MANY, 'ExtComplexPageFieldGroupsActive', 'page_id', 'order' => 'priority DESC');
 
         //return modified relations
         return $relations;

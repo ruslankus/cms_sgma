@@ -391,6 +391,218 @@ class ComplexController extends ControllerAdmin
 
 
     /**
+     * Edit values of attribute-fields
+     * @param $id
+     * @throws CHttpException
+     */
+    public function actionEditPageFields($id)
+    {
+        //include menu necessary scripts
+        Yii::app()->clientScript->registerCssFile($this->assetsPath.'/css/vendor.lightbox.css');
+        Yii::app()->clientScript->registerCssFile($this->assetsPath.'/css/jquery-ui.min.css');
+        Yii::app()->clientScript->registerCssFile($this->assetsPath.'/css/vendor.dynamic-fields.css');
+        Yii::app()->clientScript->registerScriptFile($this->assetsPath.'/js/vendor.add-menu.js',CClientScript::POS_END);
+        Yii::app()->clientScript->registerScriptFile($this->assetsPath.'/js/vendor.dynamic-fields.js',CClientScript::POS_END);
+
+        //product item
+        $page = ExtComplexPage::model()->findByPk((int)$id);
+
+        if(empty($page))
+        {
+            throw new CHttpException(404);
+        }
+
+        //languages
+        $languages = SiteLng::lng()->getLngs();
+
+        //all selected groups of this item
+        $attributeGroupsOfPage = $page->complexPageFieldGroupsActives;
+
+        //if have POST request
+        if(isset($_POST['DynamicFields']))
+        {
+            //get all dynamic field data
+            $fieldData = $_POST['DynamicFields'];
+
+            //use transaction
+            $con = Yii::app()->db;
+            $transaction = $con->beginTransaction();
+
+            try
+            {
+                foreach ($fieldData as $fieldId => $valueData)
+                {
+                    $field = ExtComplexPageFields::model()->findByPk($fieldId);
+                    switch($field->type_id)
+                    {
+                        case ExtProductFieldTypes::TYPE_NUMERIC;
+                            $value = $field->getValueObjForItem($page->id);
+                            $value -> numeric_value = $valueData;
+                            $value -> saveOrUpdate();
+                            break;
+
+                        case ExtProductFieldTypes::TYPE_TEXT:
+                            $value = $field->getValueObjForItem($page->id);
+                            $value -> text_value = $valueData;
+                            $value -> saveOrUpdate();
+                            break;
+
+                        case ExtProductFieldTypes::TYPE_TRL_TEXT:
+                            $value = $field->getValueObjForItem($page->id);
+                            $value -> saveOrUpdate();
+
+                            foreach($valueData as $lngId => $trlData)
+                            {
+                                $trl = $value->getOrCreateTrl($lngId);
+                                $trl -> translatable_text = $trlData;
+                                $saved = $trl -> isNewRecord ? $trl->save() : $trl->update();
+                            }
+                            break;
+
+                        case ExtProductFieldTypes::TYPE_SELECTABLE:
+                            $value = $field->getValueObjForItem($page->id);
+                            $value -> selected_option_id = (int)$valueData;
+                            $value -> saveOrUpdate();
+                            break;
+
+                        case ExtProductFieldTypes::TYPE_DATE:
+                            $value = $field->getValueObjForItem($page->id);
+
+                            $dt = DateTime::createFromFormat('m/d/Y', $valueData);
+                            $time = $dt -> getTimestamp();
+
+                            $value -> time_value = $time;
+                            $value -> saveOrUpdate();
+                            break;
+
+                        default:
+                            //do nothing
+                            break;
+                    }
+                }
+
+                $transaction->commit();
+            }
+            catch(Exception $ex)
+            {
+                $transaction->rollback();
+            }
+        }
+
+        if(Yii::app()->request->isAjaxRequest)
+        {
+            echo "OK";
+            Yii::app()->end();
+        }
+        else
+        {
+            //render form
+            $this->render('edit_page_attr_values',
+                array(
+                    'active' => $attributeGroupsOfPage,
+                    'item' => $page,
+                    'languages' => $languages
+                ));
+        }
+
+    }
+
+    /**
+     * Just list images in partial image-selection-box
+     * @throws CHttpException
+     */
+    public function actionListImagesBox()
+    {
+        if(Yii::app()->request->isAjaxRequest)
+        {
+            $images = ExtImages::model()->findAll();
+            $this->renderPartial('_list_images_in_box',array('objPhotos' => $images));
+        }
+        else
+        {
+            throw new CHttpException(404);
+        }
+    }
+
+
+    /**
+     * Assign image to value for image-type field of page
+     * @param $id
+     * @param $fid
+     * @param $iid
+     * @throws CHttpException
+     */
+    public function actionAssignFieldImage($id,$fid,$iid)
+    {
+        //just found all necessary records in db
+        $field = ExtComplexPageFields::model()->findByPk((int)$fid);
+        $item = ExtComplexPage::model()->findByPk((int)$id);
+        $image = ExtImages::model()->findByPk((int)$iid);
+
+        //if something not found
+        if(empty($field) || empty($item) || empty($image))
+        {
+            throw new CHttpException(404);
+        }
+
+        //get value of item's field
+        $value = $field->getValueObjForItem((int)$id);
+
+        //if value is new - save it
+        if($value->isNewRecord)
+        {
+            $value->save();
+        }
+
+        //get all image-relations of this value (probably value already has them)
+        $imagesOfValue = $value->imagesOfComplexPageFieldValues;
+
+        //if found some image-relations
+        if(count($imagesOfValue) > 0)
+        {
+            //delete them all (this field can have only one image)
+            ExtImagesOfComplexPageFieldValues::model()->deleteAllByAttributes(array('field_value_id' => $value->id));
+        }
+
+        //relate field value with image
+        $imageOf = new  ExtImagesOfComplexPageFieldValues();
+        $imageOf -> field_value_id = $value->id;
+        $imageOf -> image_id = $image->id;
+        $imageOf -> save();
+
+        //OK for ajax - redirect for standard request
+        if(Yii::app()->request->isAjaxRequest)
+        {
+            echo $imageOf->id;
+        }
+        else
+        {
+            $this->redirect(Yii::app()->request->urlReferrer);
+        }
+    }
+
+
+    /**
+     * Delete image relation with field value
+     * @param $id
+     */
+    public function actionDelFieldImage($id)
+    {
+        ExtImagesOfComplexPageFieldValues::model()->deleteByPk((int)$id);
+
+        //OK for ajax - redirect for standard request
+        if(Yii::app()->request->isAjaxRequest)
+        {
+            echo "OK";
+        }
+        else
+        {
+            $this->redirect(Yii::app()->request->urlReferrer);
+        }
+    }
+
+
+    /**
      * Deletes image
      * @param $id
      */

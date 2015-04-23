@@ -1,8 +1,8 @@
 <?php
 /**
  * Class ExtImagesOfComplexPageFieldValues
- * @property Images $image
- * @property ComplexPageFieldValues $fieldValue
+ * @property ExtImages $image
+ * @property ExtComplexPageFieldValues $fieldValue
  */
 class ExtImagesOfComplexPageFieldValues extends ImagesOfComplexPageFieldValues
 {

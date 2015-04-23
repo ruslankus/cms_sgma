@@ -35,7 +35,7 @@
     <div class="content page-content">
         <div class="header">
             <span><?php echo ATrl::t()->getLabel('Edit item'); ?></span>
-            <a href="<?php echo Yii::app()->createUrl('admin/complex/editprodfields',array('id' => $item->id)); ?>"><?php echo ATrl::t()->getLabel('Attributes'); ?></a>
+            <a href="<?php echo Yii::app()->createUrl('admin/complex/editpagefields',array('id' => $item->id)); ?>"><?php echo ATrl::t()->getLabel('Attributes'); ?></a>
             <a href="<?php echo Yii::app()->createUrl('admin/complex/editpageattrgroup',array('id' => $item->id)); ?>"><?php echo ATrl::t()->getLabel('Attribute groups'); ?></a>
             <a href="<?php echo Yii::app()->createUrl('admin/complex/edititemtrl',array('id' => $item->id)); ?>" class="active"><?php echo ATrl::t()->getLabel('Content'); ?></a>
             <a href="<?php echo Yii::app()->createUrl('admin/complex/edit',array('id' => $item->id)); ?>"><?php echo ATrl::t()->getLabel('Settings'); ?></a>
