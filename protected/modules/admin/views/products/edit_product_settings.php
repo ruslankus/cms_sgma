@@ -1,16 +1,16 @@
 <?php /* @var $categories array */ ?>
 <?php /* @var $statuses array */ ?>
-<?php /* @var $form_model NewsForm */ ?>
+<?php /* @var $form_model ProductForm */ ?>
 <?php /* @var $form CActiveForm */ ?>
-<?php /* @var $this NewsController */ ?>
+<?php /* @var $this ProductsController */ ?>
 <?php /* @var $item ExtProduct */ ?>
-<?php /* @var $images ExtImagesOfNews[] */ ?>
+<?php /* @var $images ExtImagesOfProduct[] */ ?>
 <?php /* @var $templates array */ ?>
 
 
 <main>
     <div class="title-bar world">
-        <h1><?php echo ATrl::t()->getLabel('News'); ?></h1>
+        <h1><?php echo ATrl::t()->getLabel('Products'); ?></h1>
         <ul class="actions">
             <li><a href="<?php echo Yii::app()->createUrl('admin/products/list',array('cat' => $item->category_id)); ?>" class="action undo"></a></li>
         </ul>
