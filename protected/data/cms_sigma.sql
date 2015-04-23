@@ -10,7 +10,7 @@ Target Server Type    : MYSQL
 Target Server Version : 50538
 File Encoding         : 65001
 
-Date: 2015-04-23 11:29:47
+Date: 2015-04-23 12:50:13
 */
 
 SET FOREIGN_KEY_CHECKS=0;
@@ -100,12 +100,16 @@ CREATE TABLE `complex_page` (
   `time_created` int(11) DEFAULT NULL,
   `time_updated` int(11) DEFAULT NULL,
   `last_change_by` int(11) DEFAULT NULL,
-  PRIMARY KEY (`id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+  `priority` int(11) DEFAULT NULL,
+  PRIMARY KEY (`id`),
+  KEY `status_id` (`status_id`),
+  CONSTRAINT `complex_page_ibfk_1` FOREIGN KEY (`status_id`) REFERENCES `status` (`id`) ON DELETE NO ACTION ON UPDATE NO ACTION
+) ENGINE=InnoDB AUTO_INCREMENT=6 DEFAULT CHARSET=utf8;
 
 -- ----------------------------
 -- Records of complex_page
 -- ----------------------------
+INSERT INTO `complex_page` VALUES ('5', 'Testing', 'default.php', '1', '1429782601', '1429782601', '1', '1');
 
 -- ----------------------------
 -- Table structure for `complex_page_fields`
@@ -308,11 +312,13 @@ CREATE TABLE `complex_page_trl` (
   KEY `lng_id` (`lng_id`),
   CONSTRAINT `complex_page_trl_ibfk_2` FOREIGN KEY (`lng_id`) REFERENCES `languages` (`id`) ON DELETE CASCADE ON UPDATE NO ACTION,
   CONSTRAINT `complex_page_trl_ibfk_1` FOREIGN KEY (`page_id`) REFERENCES `complex_page` (`id`) ON DELETE CASCADE ON UPDATE NO ACTION
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=11 DEFAULT CHARSET=utf8;
 
 -- ----------------------------
 -- Records of complex_page_trl
 -- ----------------------------
+INSERT INTO `complex_page_trl` VALUES ('9', '5', '1', 'Testing', null, null);
+INSERT INTO `complex_page_trl` VALUES ('10', '5', '2', 'Тестинг', null, null);
 
 -- ----------------------------
 -- Table structure for `contacts_block`

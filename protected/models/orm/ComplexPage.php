@@ -11,8 +11,10 @@
  * @property integer $time_created
  * @property integer $time_updated
  * @property integer $last_change_by
+ * @property integer $priority
  *
  * The followings are the available model relations:
+ * @property Status $status
  * @property ComplexPageFieldGroupsActive[] $complexPageFieldGroupsActives
  * @property ComplexPageFieldValues[] $complexPageFieldValues
  * @property ComplexPageTrl[] $complexPageTrls
@@ -36,12 +38,12 @@ class ComplexPage extends CActiveRecord
 		// NOTE: you should only define rules for those attributes that
 		// will receive user inputs.
 		return array(
-			array('status_id, time_created, time_updated, last_change_by', 'numerical', 'integerOnly'=>true),
+			array('status_id, time_created, time_updated, last_change_by, priority', 'numerical', 'integerOnly'=>true),
 			array('label', 'length', 'max'=>128),
 			array('template_name', 'length', 'max'=>512),
 			// The following rule is used by search().
 			// @todo Please remove those attributes that should not be searched.
-			array('id, label, template_name, status_id, time_created, time_updated, last_change_by', 'safe', 'on'=>'search'),
+			array('id, label, template_name, status_id, time_created, time_updated, last_change_by, priority', 'safe', 'on'=>'search'),
 		);
 	}
 
@@ -53,6 +55,7 @@ class ComplexPage extends CActiveRecord
 		// NOTE: you may need to adjust the relation name and the related
 		// class name for the relations automatically generated below.
 		return array(
+			'status' => array(self::BELONGS_TO, 'Status', 'status_id'),
 			'complexPageFieldGroupsActives' => array(self::HAS_MANY, 'ComplexPageFieldGroupsActive', 'page_id'),
 			'complexPageFieldValues' => array(self::HAS_MANY, 'ComplexPageFieldValues', 'page_id'),
 			'complexPageTrls' => array(self::HAS_MANY, 'ComplexPageTrl', 'page_id'),
@@ -73,6 +76,7 @@ class ComplexPage extends CActiveRecord
 			'time_created' => 'Time Created',
 			'time_updated' => 'Time Updated',
 			'last_change_by' => 'Last Change By',
+			'priority' => 'Priority',
 		);
 	}
 
@@ -101,6 +105,7 @@ class ComplexPage extends CActiveRecord
 		$criteria->compare('time_created',$this->time_created);
 		$criteria->compare('time_updated',$this->time_updated);
 		$criteria->compare('last_change_by',$this->last_change_by);
+		$criteria->compare('priority',$this->priority);
 
 		return new CActiveDataProvider($this, array(
 			'criteria'=>$criteria,
