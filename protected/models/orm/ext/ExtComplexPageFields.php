@@ -1,12 +1,13 @@
 <?php
 /**
- * Class ExtProductFieldValues
- * @property ExtImagesOfProductFieldsValues[] $imagesOfProductFieldsValues
- * @property ExtProductFields $field
- * @property ExtProduct $product
- * @property ProductFieldValuesTrl $trl
+ * Class ExtComplexPageFields
+ * @property ExtComplexPageFieldSelectOptions[] $complexPageFieldSelectOptions
+ * @property ExtComplexPageFieldValues[] $complexPageFieldValues
+ * @property ExtComplexPageFieldTypes $type
+ * @property ExtComplexPageFieldGroups $group
+ * @property ComplexPageFieldsTrl $trl
  */
-class ExtProductFieldValues extends ProductFieldValues
+class ExtComplexPageFields extends ComplexPageFields
 {
     /**
      * @param string $className
@@ -17,15 +18,39 @@ class ExtProductFieldValues extends ProductFieldValues
         return parent::model($className);
     }
 
+    /**
+     * Get value for dynamic field of specified item
+     * @param $itemId
+     * @return ExtComplexPageFieldValues
+     */
+    public function getValueObjForItem($itemId)
+    {
+        $values = $this->complexPageFieldValues;
+
+        $resultValue = new ExtComplexPageFieldValues();
+
+        foreach($values as $value)
+        {
+            if($value->page_id == $itemId)
+            {
+                return $value;
+            }
+        }
+
+        $resultValue -> field_id = $this->id;
+        $resultValue -> page_id = $itemId;
+        return $resultValue;
+    }
+
 
     /**
      * Returns trl or creates it if not found
      * @param $lngId
-     * @return ProductFieldValuesTrl
+     * @return ComplexPageFieldsTrl
      */
     public function getOrCreateTrl($lngId)
     {
-        $all = $this->productFieldValuesTrls;
+        $all = $this->complexPageFieldsTrls;
 
         if(!empty($all))
         {
@@ -38,26 +63,11 @@ class ExtProductFieldValues extends ProductFieldValues
             }
         }
 
-        $trl = new ProductFieldValuesTrl();
-        $trl -> field_value_id = $this->id;
+        $trl = new ComplexPageFieldsTrl();
+        $trl -> page_field_id = $this->id;
         $trl -> lng_id = $lngId;
 
         return $trl;
-    }
-
-    /**
-     * Does saving or updating record if exist in db
-     */
-    public function saveOrUpdate()
-    {
-        if($this->isNewRecord)
-        {
-            $this->save();
-        }
-        else
-        {
-            $this->update();
-        }
     }
 
     /**
@@ -81,7 +91,7 @@ class ExtProductFieldValues extends ProductFieldValues
 
         //relate with translation
         $lng = Yii::app()->language;
-        $relations['trl'] = array(self::HAS_ONE, 'ProductFieldValuesTrl', 'field_value_id', 'with' => array('lng' => array('condition' => "lng.prefix='{$lng}'")));
+        $relations['trl'] = array(self::HAS_ONE, 'ComplexPageFieldsTrl', 'page_field_id', 'with' => array('lng' => array('condition' => "lng.prefix='{$lng}'")));
 
         //return modified relations
         return $relations;

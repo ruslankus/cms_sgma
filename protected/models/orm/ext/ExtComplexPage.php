@@ -1,12 +1,13 @@
 <?php
+
 /**
- * Class ExtProductFieldValues
- * @property ExtImagesOfProductFieldsValues[] $imagesOfProductFieldsValues
- * @property ExtProductFields $field
- * @property ExtProduct $product
- * @property ProductFieldValuesTrl $trl
+ * Class ExtComplexPage
+ * @property ExtComplexPageFieldGroupsActive[] $complexPageFieldGroupsActives
+ * @property ExtComplexPageFieldValues[] $complexPageFieldValues
+ * @property ExtImagesOfComplexPage[] $imagesOfComplexPages
+ * @property ComplexPageTrl $trl
  */
-class ExtProductFieldValues extends ProductFieldValues
+class ExtComplexPage extends ComplexPage
 {
     /**
      * @param string $className
@@ -17,15 +18,14 @@ class ExtProductFieldValues extends ProductFieldValues
         return parent::model($className);
     }
 
-
     /**
      * Returns trl or creates it if not found
      * @param $lngId
-     * @return ProductFieldValuesTrl
+     * @return ComplexPageTrl
      */
     public function getOrCreateTrl($lngId)
     {
-        $all = $this->productFieldValuesTrls;
+        $all = $this->complexPageTrls;
 
         if(!empty($all))
         {
@@ -38,26 +38,25 @@ class ExtProductFieldValues extends ProductFieldValues
             }
         }
 
-        $trl = new ProductFieldValuesTrl();
-        $trl -> field_value_id = $this->id;
+        $trl = new ComplexPageTrl();
+        $trl -> page_id = $this->id;
         $trl -> lng_id = $lngId;
 
         return $trl;
     }
 
     /**
-     * Does saving or updating record if exist in db
+     * Returns first image if exist
+     * @return ExtImages|null
      */
-    public function saveOrUpdate()
+    public function getFirstImage()
     {
-        if($this->isNewRecord)
+        if(count($this->imagesOfComplexPages) > 0)
         {
-            $this->save();
+            return $this->imagesOfComplexPages[0]->image;
         }
-        else
-        {
-            $this->update();
-        }
+
+        return null;
     }
 
     /**
@@ -81,9 +80,10 @@ class ExtProductFieldValues extends ProductFieldValues
 
         //relate with translation
         $lng = Yii::app()->language;
-        $relations['trl'] = array(self::HAS_ONE, 'ProductFieldValuesTrl', 'field_value_id', 'with' => array('lng' => array('condition' => "lng.prefix='{$lng}'")));
+        $relations['trl'] = array(self::HAS_ONE, 'ComplexPageTrl', 'page_id', 'with' => array('lng' => array('condition' => "lng.prefix='{$lng}'")));
 
         //return modified relations
         return $relations;
     }
+
 }

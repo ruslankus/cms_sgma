@@ -1,12 +1,11 @@
 <?php
 /**
- * Class ExtProductFieldValues
- * @property ExtImagesOfProductFieldsValues[] $imagesOfProductFieldsValues
- * @property ExtProductFields $field
- * @property ExtProduct $product
- * @property ProductFieldValuesTrl $trl
+ * Class ExtComplexPageFieldGroups
+ * @property ExtComplexPageFieldGroupsActive[] $complexPageFieldGroupsActives
+ * @property ExtComplexPageFields[] $complexPageFields
+ * @property ComplexPageFieldGroupsTrl $trl
  */
-class ExtProductFieldValues extends ProductFieldValues
+class ExtComplexPageFieldGroups extends ComplexPageFieldGroups
 {
     /**
      * @param string $className
@@ -21,11 +20,11 @@ class ExtProductFieldValues extends ProductFieldValues
     /**
      * Returns trl or creates it if not found
      * @param $lngId
-     * @return ProductFieldValuesTrl
+     * @return ComplexPageFieldGroupsTrl
      */
     public function getOrCreateTrl($lngId)
     {
-        $all = $this->productFieldValuesTrls;
+        $all = $this->complexPageFieldGroupsTrls;
 
         if(!empty($all))
         {
@@ -38,27 +37,36 @@ class ExtProductFieldValues extends ProductFieldValues
             }
         }
 
-        $trl = new ProductFieldValuesTrl();
-        $trl -> field_value_id = $this->id;
+        $trl = new ComplexPageFieldGroupsTrl();
+        $trl -> group_id = $this;
         $trl -> lng_id = $lngId;
 
         return $trl;
     }
 
     /**
-     * Does saving or updating record if exist in db
+     * Build array which looks like (id => label), special for form-use
+     * @return array
      */
-    public function saveOrUpdate()
+    public function arrayForMenuItemForm()
     {
-        if($this->isNewRecord)
+        /* @var $all self[] */
+
+        $result = array();
+
+        //get all items
+        $all = $this->findAll(array('order' => 'priority DESC'));
+
+        //pass through all
+        foreach($all as $item)
         {
-            $this->save();
+            //create label for each id
+            $result[$item->id] = $item->label;
         }
-        else
-        {
-            $this->update();
-        }
+
+        return $result;
     }
+
 
     /**
      * Override, relate with extended models
@@ -81,9 +89,11 @@ class ExtProductFieldValues extends ProductFieldValues
 
         //relate with translation
         $lng = Yii::app()->language;
-        $relations['trl'] = array(self::HAS_ONE, 'ProductFieldValuesTrl', 'field_value_id', 'with' => array('lng' => array('condition' => "lng.prefix='{$lng}'")));
+        $relations['trl'] = array(self::HAS_ONE, 'ComplexPageFieldGroupsTrl', 'group_id', 'with' => array('lng' => array('condition' => "lng.prefix='{$lng}'")));
+        $relations['complexPageFields'] = array(self::HAS_MANY, 'ComplexPageFields', 'group_id','order' => 'priority DESC');
 
         //return modified relations
         return $relations;
     }
+
 }

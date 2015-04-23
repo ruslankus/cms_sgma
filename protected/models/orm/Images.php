@@ -14,6 +14,7 @@
  *
  * The followings are the available model relations:
  * @property Status $status
+ * @property ImagesOfComplexPage[] $imagesOfComplexPages
  * @property ImagesOfComplexPageFieldValues[] $imagesOfComplexPageFieldValues
  * @property ImagesOfContacts[] $imagesOfContacts
  * @property ImagesOfNews[] $imagesOfNews
@@ -60,6 +61,7 @@ class Images extends CActiveRecord
 		// class name for the relations automatically generated below.
 		return array(
 			'status' => array(self::BELONGS_TO, 'Status', 'status_id'),
+			'imagesOfComplexPages' => array(self::HAS_MANY, 'ImagesOfComplexPage', 'image_id'),
 			'imagesOfComplexPageFieldValues' => array(self::HAS_MANY, 'ImagesOfComplexPageFieldValues', 'image_id'),
 			'imagesOfContacts' => array(self::HAS_MANY, 'ImagesOfContacts', 'image_id'),
 			'imagesOfNews' => array(self::HAS_MANY, 'ImagesOfNews', 'image_id'),

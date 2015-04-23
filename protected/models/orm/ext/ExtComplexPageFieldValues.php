@@ -1,12 +1,12 @@
 <?php
 /**
- * Class ExtProductFieldValues
- * @property ExtImagesOfProductFieldsValues[] $imagesOfProductFieldsValues
- * @property ExtProductFields $field
- * @property ExtProduct $product
- * @property ProductFieldValuesTrl $trl
+ * Class ExtComplexPageFieldValues
+ * @property ExtComplexPage $page
+ * @property ExtComplexPageFields $field
+ * @property ExtImagesOfComplexPageFieldValues[] $imagesOfComplexPageFieldValues
+ * @property ComplexPageFieldValuesTrl $trl
  */
-class ExtProductFieldValues extends ProductFieldValues
+class ExtComplexPageFieldValues extends ComplexPageFieldValues
 {
     /**
      * @param string $className
@@ -17,15 +17,14 @@ class ExtProductFieldValues extends ProductFieldValues
         return parent::model($className);
     }
 
-
     /**
      * Returns trl or creates it if not found
      * @param $lngId
-     * @return ProductFieldValuesTrl
+     * @return ComplexPageFieldValuesTrl
      */
     public function getOrCreateTrl($lngId)
     {
-        $all = $this->productFieldValuesTrls;
+        $all = $this->complexPageFieldValuesTrls;
 
         if(!empty($all))
         {
@@ -38,7 +37,7 @@ class ExtProductFieldValues extends ProductFieldValues
             }
         }
 
-        $trl = new ProductFieldValuesTrl();
+        $trl = new ComplexPageFieldValuesTrl();
         $trl -> field_value_id = $this->id;
         $trl -> lng_id = $lngId;
 
@@ -81,7 +80,7 @@ class ExtProductFieldValues extends ProductFieldValues
 
         //relate with translation
         $lng = Yii::app()->language;
-        $relations['trl'] = array(self::HAS_ONE, 'ProductFieldValuesTrl', 'field_value_id', 'with' => array('lng' => array('condition' => "lng.prefix='{$lng}'")));
+        $relations['trl'] = array(self::HAS_ONE, 'ComplexPageFieldValuesTrl', 'field_value_id', 'with' => array('lng' => array('condition' => "lng.prefix='{$lng}'")));
 
         //return modified relations
         return $relations;

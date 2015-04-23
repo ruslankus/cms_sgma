@@ -1,10 +1,10 @@
 <?php
 /**
- * Class ExtImagesOfPage
+ * Class ExtImagesOfComplexPage
+ * @property ExtComplexPage $page
  * @property ExtImages $image
- * @property ExtPage $page
  */
-class ExtImagesOfPage extends ImagesOfPage
+class ExtImagesOfComplexPage extends ImagesOfComplexPage
 {
     /**
      * @param string $className

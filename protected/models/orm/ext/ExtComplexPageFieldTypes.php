@@ -1,9 +1,9 @@
 <?php
 /**
- * Class ExtProductFieldTypes
+ * Class ExtComplexPageFieldTypes
  * @property ExtProductFields[] $productFields
  */
-class ExtProductFieldTypes extends ProductFieldTypes
+class ExtComplexPageFieldTypes extends ComplexPageFieldTypes
 {
 
     //all of this constants are correspond to ID's in table 'product_field_types'

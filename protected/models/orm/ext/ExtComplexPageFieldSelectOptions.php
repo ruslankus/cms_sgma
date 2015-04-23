@@ -1,10 +1,9 @@
 <?php
 /**
- * Class ExtImagesOfPage
- * @property ExtImages $image
- * @property ExtPage $page
+ * Class ExtComplexPageFieldSelectOptions
+ * @property ExtComplexPageFields $field
  */
-class ExtImagesOfPage extends ImagesOfPage
+class ExtComplexPageFieldSelectOptions extends ComplexPageFieldSelectOptions
 {
     /**
      * @param string $className
@@ -14,6 +13,7 @@ class ExtImagesOfPage extends ImagesOfPage
     {
         return parent::model($className);
     }
+
 
     /**
      * Override, relate with extended models
