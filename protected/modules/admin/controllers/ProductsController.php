@@ -760,12 +760,19 @@ class ProductsController extends ControllerAdmin
             {
                 $active = $_POST['active'];
 
-                foreach($active as $id => $status)
+                foreach($active as $iid => $status)
                 {
-                    $active = new ExtProductFieldGroupsActive();
-                    $active -> product_id = $product->id;
-                    $active -> group_id = $id;
-                    $active -> save();
+                    $group = ExtProductFieldGroups::model()->findByPk($iid);
+
+                    if(!empty($group))
+                    {
+                        $active = new ExtProductFieldGroupsActive();
+                        $active -> product_id = $product->id;
+                        $active -> group_id = $iid;
+                        $active -> priority = $group->priority;
+                        $active -> save();
+                    }
+
                 }
             }
         }

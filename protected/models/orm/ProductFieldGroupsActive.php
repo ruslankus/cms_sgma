@@ -7,10 +7,11 @@
  * @property integer $id
  * @property integer $group_id
  * @property integer $product_id
+ * @property integer $priority
  *
  * The followings are the available model relations:
- * @property Product $product
  * @property ProductFieldGroups $group
+ * @property Product $product
  */
 class ProductFieldGroupsActive extends CActiveRecord
 {
@@ -30,10 +31,10 @@ class ProductFieldGroupsActive extends CActiveRecord
 		// NOTE: you should only define rules for those attributes that
 		// will receive user inputs.
 		return array(
-			array('group_id, product_id', 'numerical', 'integerOnly'=>true),
+			array('group_id, product_id, priority', 'numerical', 'integerOnly'=>true),
 			// The following rule is used by search().
 			// @todo Please remove those attributes that should not be searched.
-			array('id, group_id, product_id', 'safe', 'on'=>'search'),
+			array('id, group_id, product_id, priority', 'safe', 'on'=>'search'),
 		);
 	}
 
@@ -45,8 +46,8 @@ class ProductFieldGroupsActive extends CActiveRecord
 		// NOTE: you may need to adjust the relation name and the related
 		// class name for the relations automatically generated below.
 		return array(
-			'product' => array(self::BELONGS_TO, 'Product', 'product_id'),
 			'group' => array(self::BELONGS_TO, 'ProductFieldGroups', 'group_id'),
+			'product' => array(self::BELONGS_TO, 'Product', 'product_id'),
 		);
 	}
 
@@ -59,6 +60,7 @@ class ProductFieldGroupsActive extends CActiveRecord
 			'id' => 'ID',
 			'group_id' => 'Group',
 			'product_id' => 'Product',
+			'priority' => 'Priority',
 		);
 	}
 
@@ -83,6 +85,7 @@ class ProductFieldGroupsActive extends CActiveRecord
 		$criteria->compare('id',$this->id);
 		$criteria->compare('group_id',$this->group_id);
 		$criteria->compare('product_id',$this->product_id);
+		$criteria->compare('priority',$this->priority);
 
 		return new CActiveDataProvider($this, array(
 			'criteria'=>$criteria,

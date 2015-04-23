@@ -324,6 +324,72 @@ class ComplexController extends ControllerAdmin
         }
     }
 
+
+    /**
+     * Select and deselect which groups of attributes you want in complex page to be displayed
+     * @param $id
+     * @throws CHttpException
+     */
+    public function actionEditPageAttrGroup($id)
+    {
+        //product item
+        $page = ExtComplexPage::model()->findByPk((int)$id);
+
+        if(empty($page))
+        {
+            throw new CHttpException(404);
+        }
+
+        //if checked any checkbox
+        if(Yii::app()->request->isPostRequest)
+        {
+            ExtComplexPageFieldGroupsActive::model()->deleteAllByAttributes(array('page_id' => $page->id));
+
+            if(isset($_POST['active']))
+            {
+                $active = $_POST['active'];
+
+                foreach($active as $iid => $status)
+                {
+                    $group = ExtComplexPageFieldGroups::model()->findByPk($iid);
+
+                    if(!empty($group))
+                    {
+                        $active = new ExtComplexPageFieldGroupsActive();
+                        $active -> page_id = $page->id;
+                        $active -> group_id = $iid;
+                        $active -> priority = $group->priority;
+                        $active -> save();
+                    }
+
+                }
+            }
+        }
+
+        //all field groups
+        $allGroups = ExtComplexPageFieldGroups::model()->findAll(array('order' => 'priority DESC'));
+
+        //active id's
+        $activeGroupIds = array();
+
+        //get active id's
+        foreach($page->complexPageFieldGroupsActives as $active)
+        {
+            $activeGroupIds[] = $active->group_id;
+        }
+
+        //render
+        $this->render('edit_page_attr_groups',
+            array(
+                'item' => $page,
+                'groups' => $allGroups,
+                'active_ids' => $activeGroupIds)
+        );
+
+
+    }
+
+
     /**
      * Deletes image
      * @param $id
