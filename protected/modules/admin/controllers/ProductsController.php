@@ -1099,8 +1099,6 @@ class ProductsController extends ControllerAdmin
 
                 if($form_mdl->validate())
                 {
-                    /* @var $parent ExtMenuItem */
-
                     //use transaction
                     $con = Yii::app()->db;
                     $transaction = $con->beginTransaction();
@@ -1201,7 +1199,6 @@ class ProductsController extends ControllerAdmin
                         $group -> time_updated = time();
                         $group -> time_created = time();
                         $group ->last_change_by = Yii::app()->user->id;
-                        $group->priority = Sort::GetNextPriority("ProductFieldGroups");
                         $group->save();
 
                         //translations

@@ -8,6 +8,7 @@
  * @property string $label
  *
  * The followings are the available model relations:
+ * @property ComplexPage[] $complexPages
  * @property Images[] $images
  * @property Menu[] $menus
  * @property MenuItem[] $menuItems
@@ -51,6 +52,7 @@ class Status extends CActiveRecord
 		// NOTE: you may need to adjust the relation name and the related
 		// class name for the relations automatically generated below.
 		return array(
+			'complexPages' => array(self::HAS_MANY, 'ComplexPage', 'status_id'),
 			'images' => array(self::HAS_MANY, 'Images', 'status_id'),
 			'menus' => array(self::HAS_MANY, 'Menu', 'status_id'),
 			'menuItems' => array(self::HAS_MANY, 'MenuItem', 'status_id'),

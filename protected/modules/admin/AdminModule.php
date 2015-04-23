@@ -37,16 +37,24 @@ class AdminModule extends CWebModule
             'icon' => '',
             'html_class' => 'pages',
             'title' => 'Pages',
+        ),
+
+        array(
+            'controller' => 'complex',
+            'action' => 'pages',
+            'icon' => '',
+            'html_class' => 'pages',
+            'title' => 'Custom Pages',
+
             'sub' => array(
-                array('controller' => 'pages', 'action' => 'index', 'title' => 'Single pages'),
-                array('controller' => 'complex' ,'action' => 'list', 'title' => 'Custom pages')
+                array('controller' => 'complex', 'action' => 'pages', 'title' => 'Page list'),
+                array('controller' => 'complex', 'action' => 'attrgroups', 'title' => 'Attributes')
             ),
-            
         ),
 
         array(
             'controller' => 'contacts',
-            'action' => 'Pages',
+            'action' => 'pages',
             'html_class' => 'pages',
             'title' => 'Contacts',
             /*
