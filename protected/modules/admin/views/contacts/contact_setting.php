@@ -65,11 +65,11 @@
 							<strong><?php echo ATrl::t()->getLabel('preview')?></strong>
                              <a href="#"  data-page="<?php echo $page_id; ?>" data-prefix="<?php echo $prefix?>" class="add-image">Add local image</a>
 							<div class="list">
-                            <?php foreach($arrImages as $item):?>
-                                <?php if(!empty($item)):?>
+                           
+                                <?php if(!empty($arrImage)):?>
                                     <div class="image">
-                                        <img src="/uploads/images/<?php echo $item['filename']?>" alt="" />
-                                        <a href="#" class="delete active" data-id="<?php echo $item['id']; ?>" data-contact_id="<?php echo $page_id; ?>" data-prefix="<?php echo $prefix; ?>"></a>
+                                        <img src="/uploads/images/<?php echo $arrImage['filename']?>" alt="" />
+                                        <a href="#" class="delete active" data-id="<?php echo $arrImage['id']; ?>" data-contact_id="<?php echo $page_id; ?>" data-prefix="<?php echo $prefix; ?>"></a>
                                     </div>
                                 <?php else:?>
                                     <div class="image">
@@ -77,7 +77,7 @@
                                         <a href="#" class="delete"></a>
                                     </div>                                
                                 <?php endif;?>
-                            <?php endforeach; ?>  						
+                          				
 							</div><!--/list-->
 						</div><!--/image-zone-->
 		</div><!--/inner-content-->

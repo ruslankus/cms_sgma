@@ -201,25 +201,13 @@ class ContactsController extends ControllerAdmin
       
         $arrPage = ExtContactsPage::model()->getContactPageWithImage($id, $lngObj->prefix);
         
-        $arrImages = $arrPage['images'];
-       
-        $elCount = count($arrImages);
-        /*
-        if($elCount < 5){          
-            $arrComb = array_pad($arrImages,5,'');           
-        }        
-        */
-
-        // limit for one
-        $arrComb = $arrImages;
-        if($elCount==0){
-            $arrComb[]='';
-        }
-        //$arrComb = $arrImages;
-        //Debug::d($arrComb);
+        //Debug::d($arrPage);
         
+        
+        $arrImage = $arrPage['images'];
+         
         $this->render('contact_setting',array('page_id' => $id, 'arrPage' => $arrPage,
-         'arrImages' => $arrComb, 'model' => $model));
+         'arrImage' => $arrImage, 'model' => $model));
          
     }
 
