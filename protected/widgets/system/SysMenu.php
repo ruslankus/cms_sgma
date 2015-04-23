@@ -19,7 +19,7 @@ class SysMenu extends CWidget
         ExtMenuItemType::TYPE_NEWS_CATALOG => 'news',
         ExtMenuItemType::TYPE_PRODUCTS_CATALOG => 'products',
         ExtMenuItemType::TYPE_CONTACT_FORM => 'contacts',
-        ExtMenuItemType::TYPE_COMPLEX_PAGE => 'custom'
+        ExtMenuItemType::TYPE_COMPLEX_PAGE => 'complex'
     );
 
     /**

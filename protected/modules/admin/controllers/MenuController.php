@@ -449,7 +449,7 @@ class MenuController extends ControllerAdmin
                     break;
 
                 case ExtMenuItemType::TYPE_COMPLEX_PAGE:
-                    $objItems = array();
+                    $objItems = ExtComplexPage::model()->findAll(array('order' => 'priority DESC'));
                     break;
 
                 default:

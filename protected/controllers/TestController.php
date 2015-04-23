@@ -1,16 +1,8 @@
 <?php
 
-class MainController extends Controller
+class TestController extends Controller
 {
-    /*
-    public function init(){
-        Yii::app()->theme = "new_theme";
-    }
-    */
 
-    /**
-     * Entry
-     */
 
     public function actionIndex()
     {
@@ -19,7 +11,8 @@ class MainController extends Controller
         $this->description = "Index Page";
         $model = new SendContactForm();
         //$this->renderText("Hello world");
-        $this->render('main',array('model'=>$model));
+        $this->render('test',array('model'=>$model));
         
     }
+
 }

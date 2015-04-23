@@ -1,4 +1,7 @@
 <?php
+/**
+ * Class ProductsController
+ */
 class ProductsController extends Controller
 {
 
