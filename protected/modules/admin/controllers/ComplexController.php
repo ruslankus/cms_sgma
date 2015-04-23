@@ -394,6 +394,328 @@ class ComplexController extends ControllerAdmin
      */
     public function actionFields($page = 1, $group = 0)
     {
-        $this->renderText('Under construction...');
+        //include js file for AJAX updating
+        Yii::app()->clientScript->registerScriptFile($this->assetsPath.'/js/vendor.trees.js',CClientScript::POS_END);
+        Yii::app()->clientScript->registerScriptFile($this->assetsPath.'/js/vendor.main-menu.js',CClientScript::POS_END);
+        Yii::app()->clientScript->registerCssFile($this->assetsPath.'/css/vendor.news.ext.css');
+
+        $fieldGroup = ExtComplexPageFieldGroups::model()->findByPk($group);
+
+        if(!empty($fieldGroup))
+        {
+            $fields = ExtComplexPageFields::model()->findAllByAttributes(array('group_id' => $group),array('order' => 'priority DESC'));
+        }
+        else
+        {
+            $fields = ExtComplexPageFields::model()->findAll(array('order' => 'priority DESC'));
+        }
+
+        $items = CPaginator::getInstance($fields,10,$page)->getPreparedArray();
+
+        if(Yii::app()->request->isAjaxRequest)
+        {
+            $this->renderPartial('_list_attr_fields',array('items' => $items, 'group' => $group, 'objGroup' => $fieldGroup));
+        }
+        else
+        {
+            $this->render('list_attr_fields',array('items' => $items, 'group' => $group, 'objGroup' => $fieldGroup));
+        }
+    }
+
+    /**
+     * Add attribute-field
+     * @param int $group
+     */
+    public function actionAddField($group = 0)
+    {
+        //include menu necessary scripts
+        Yii::app()->clientScript->registerScriptFile($this->assetsPath.'/js/vendor.add-menu.js',CClientScript::POS_END);
+        Yii::app()->clientScript->registerScriptFile($this->assetsPath.'/js/menu.edititem.js',CClientScript::POS_END);
+        Yii::app()->clientScript->registerScriptFile($this->assetsPath.'/js/vendor.add-field.js',CClientScript::POS_END);
+
+        //exclude jquery to avoid conflict between jquery from Yii core
+        Yii::app()->clientScript->scriptMap=array('jquery-1.11.2.min.js' => false);
+
+        //all languages
+        $objLanguages = SiteLng::lng()->getLngs();
+        //statuses
+        $arrTypes = ExtComplexPageFieldTypes::model()->arrayForMenuItemForm(true);
+        //parents
+        $arrGroupItems = ExtComplexPageFieldGroups::model()->arrayForMenuItemForm();
+
+        //form
+        $form_mdl = new AttrFieldForm();
+
+        //ajax validation
+        if(Yii::app()->request->isAjaxRequest)
+        {
+            //if ajax validation
+            if(isset($_POST['ajax']))
+            {
+                if($_POST['ajax'] == 'add-field-form')
+                {
+                    echo CActiveForm::validate($form_mdl);
+                }
+                Yii::app()->end();
+            }
+        }
+        else
+        {
+            if(isset($_POST['AttrFieldForm']))
+            {
+                $form_mdl->attributes = $_POST['AttrFieldForm'];
+
+                if($form_mdl->validate())
+                {
+
+                    //use transaction
+                    $con = Yii::app()->db;
+                    $transaction = $con->beginTransaction();
+
+                    try
+                    {
+                        //create field
+                        $field = new ExtComplexPageFields();
+                        $field -> attributes = $form_mdl->attributes;
+                        $field -> priority = Sort::GetNextPriority("ComplexPageFields",array('group_id' => $form_mdl->group_id));
+                        $field -> time_created = time();
+                        $field -> time_updated = time();
+                        $field -> last_change_by = Yii::app()->user->id;
+                        $field -> save();
+
+                        //translatable
+                        $titles = $_POST['AttrFieldForm']['field_titles'];
+                        $descriptions = $_POST['AttrFieldForm']['field_descriptions'];
+
+
+                        //create translations
+                        foreach($titles as $lngId => $title)
+                        {
+                            $trl = new ComplexPageFieldsTrl();
+                            $trl -> lng_id = $lngId;
+                            $trl -> page_field_id = $field->id;
+                            $trl -> field_title = $title;
+                            $trl -> field_description = $descriptions[$lngId];
+                            $trl -> save();
+                        }
+
+                        //variants for select box
+                        if($field -> type_id = ExtComplexPageFieldTypes::TYPE_SELECTABLE)
+                        {
+                            $variants_names = $_POST['AttrFieldForm']['variants']['option_name'];
+                            $variants_values = $_POST['AttrFieldForm']['variants']['option_value'];
+
+                            foreach($variants_names as $index => $variant_name)
+                            {
+                                if($variant_name != '' && $variants_values[$index] != '')
+                                {
+                                    $variantForSelectBox = new ExtComplexPageFieldSelectOptions();
+                                    $variantForSelectBox -> field_id = $field->id;
+                                    $variantForSelectBox -> option_name = $variant_name;
+                                    $variantForSelectBox -> option_value = $variants_values[$index];
+                                    $variantForSelectBox -> save();
+                                }
+                            }
+                        }
+
+                        $transaction->commit();
+
+                        $this->redirect(Yii::app()->createUrl('admin/complex/fields',array('group' => $field->group_id)));
+                    }
+                    catch(Exception $ex)
+                    {
+                        $transaction->rollback();
+                    }
+                }
+            }
+        }
+
+        //render form
+        $this->render('add_attribute_field',array(
+            'languages' => $objLanguages,
+            'types' => $arrTypes,
+            'groups' => $arrGroupItems,
+            'group' => $group,
+            'form_mdl' => $form_mdl
+        ));
+    }
+
+
+    /**
+     * Edit attribute-field
+     * @param $id
+     * @throws CHttpException
+     */
+    public function actionEditField($id)
+    {
+        //include menu necessary scripts
+        Yii::app()->clientScript->registerScriptFile($this->assetsPath.'/js/vendor.add-menu.js',CClientScript::POS_END);
+        Yii::app()->clientScript->registerScriptFile($this->assetsPath.'/js/menu.edititem.js',CClientScript::POS_END);
+        Yii::app()->clientScript->registerScriptFile($this->assetsPath.'/js/vendor.add-field.js',CClientScript::POS_END);
+
+        //exclude jquery to avoid conflict between jquery from Yii core
+        Yii::app()->clientScript->scriptMap=array('jquery-1.11.2.min.js' => false);
+
+        //field item
+        $field = ExtComplexPageFields::model()->findByPk($id);
+
+        if(empty($field))
+        {
+            throw new CHttpException(404);
+        }
+
+        //all languages
+        $objLanguages = SiteLng::lng()->getLngs();
+        //statuses
+        $arrTypes = ExtComplexPageFieldTypes::model()->arrayForMenuItemForm(true);
+        //parents
+        $arrGroupItems = ExtComplexPageFieldGroups::model()->arrayForMenuItemForm();
+        //form
+        $form_mdl = new AttrFieldForm();
+
+        //ajax validation
+        if(Yii::app()->request->isAjaxRequest)
+        {
+            //if ajax validation
+            if(isset($_POST['ajax']))
+            {
+                if($_POST['ajax'] == 'edit-field-form')
+                {
+                    echo CActiveForm::validate($form_mdl);
+                }
+                Yii::app()->end();
+            }
+        }
+        else
+        {
+            if(isset($_POST['AttrFieldForm']))
+            {
+                $form_mdl->attributes = $_POST['AttrFieldForm'];
+
+                if($form_mdl->validate())
+                {
+                    //use transaction
+                    $con = Yii::app()->db;
+                    $transaction = $con->beginTransaction();
+
+                    try
+                    {
+                        //do we need recalculate priority
+                        $needChangePriority = $form_mdl->group_id != $field->group_id;
+
+                        //update field
+                        $field -> attributes = $form_mdl->attributes;
+
+                        if($needChangePriority)
+                        {
+                            $field -> priority = Sort::GetNextPriority("ComplexPageFields",array('group_id' => $form_mdl->group_id));
+                        }
+
+                        $field -> time_updated = time();
+                        $field -> last_change_by = Yii::app()->user->id;
+                        $field -> update();
+
+                        //translatable
+                        $titles = $_POST['AttrFieldForm']['field_titles'];
+                        $descriptions = $_POST['AttrFieldForm']['field_descriptions'];
+
+
+                        //update translations
+                        foreach($titles as $lngId => $title)
+                        {
+                            $trl = $field->getOrCreateTrl($lngId);
+                            $trl -> field_title = $title;
+                            $trl -> field_description = $descriptions[$lngId];
+
+                            if($trl->isNewRecord)
+                            {
+                                $trl->save();
+                            }
+                            else
+                            {
+                                $trl->update();
+                            }
+                        }
+
+                        //clear all fields selectable variants
+                        ExtComplexPageFieldSelectOptions::model()->deleteAllByAttributes(array('field_id' => $field->id));
+
+                        //add variants for select box
+                        if($field -> type_id == ExtComplexPageFieldTypes::TYPE_SELECTABLE)
+                        {
+                            $variants_names = $_POST['AttrFieldForm']['variants']['option_name'];
+                            $variants_values = $_POST['AttrFieldForm']['variants']['option_value'];
+
+                            foreach($variants_names as $index => $variant_name)
+                            {
+                                if($variant_name != '' && $variants_values[$index] != '')
+                                {
+                                    $variantForSelectBox = new ExtComplexPageFieldSelectOptions();
+                                    $variantForSelectBox -> field_id = $field->id;
+                                    $variantForSelectBox -> option_name = $variant_name;
+                                    $variantForSelectBox -> option_value = $variants_values[$index];
+                                    $variantForSelectBox -> save();
+                                }
+                            }
+                        }
+
+                        $transaction->commit();
+
+                        $this->redirect(Yii::app()->createUrl('admin/complex/fields',array('group' => $field->group_id)));
+                    }
+                    catch(Exception $ex)
+                    {
+                        $transaction->rollback();
+                    }
+                }
+            }
+        }
+
+
+        //render form
+        $this->render('edit_attribute_field',array(
+            'languages' => $objLanguages,
+            'types' => $arrTypes,
+            'groups' => $arrGroupItems,
+            'group' => $field->group_id,
+            'form_mdl' => $form_mdl,
+            'field' => $field
+        ));
+    }
+
+
+    /**
+     * Ordering with drg-n-drop
+     */
+    public function actionAjaxOrderFields()
+    {
+        $ordersJson = Yii::app()->request->getParam('orders');
+        $orders = json_decode($ordersJson,true);
+
+        $previous = $orders['old'];
+        $new = $orders['new'];
+
+        Sort::ReorderItems("ComplexPageFields",$previous,$new);
+
+        echo "OK";
+    }
+
+    /**
+     * Delete attr group
+     * @param $id
+     */
+    public function actionDelField($id)
+    {
+        ExtComplexPageFields::model()->deleteByPk($id);
+
+        if(Yii::app()->request->isAjaxRequest)
+        {
+            echo "OK";
+            Yii::app()->end();
+        }
+        else
+        {
+            $this->redirect(Yii::app()->createUrl('admin/complex/fields'));
+        }
     }
 }
