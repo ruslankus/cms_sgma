@@ -8,11 +8,11 @@
  * @property integer $tag_id
  * @property integer $lng_id
  * @property string $name
- * @property string $descriptin
+ * @property string $description
  *
  * The followings are the available model relations:
- * @property Languages $lng
  * @property Tag $tag
+ * @property Languages $lng
  */
 class TagTrl extends CActiveRecord
 {
@@ -33,10 +33,11 @@ class TagTrl extends CActiveRecord
 		// will receive user inputs.
 		return array(
 			array('tag_id, lng_id', 'numerical', 'integerOnly'=>true),
-			array('name, descriptin', 'length', 'max'=>256),
+			array('name', 'length', 'max'=>256),
+			array('description', 'length', 'max'=>1024),
 			// The following rule is used by search().
 			// @todo Please remove those attributes that should not be searched.
-			array('id, tag_id, lng_id, name, descriptin', 'safe', 'on'=>'search'),
+			array('id, tag_id, lng_id, name, description', 'safe', 'on'=>'search'),
 		);
 	}
 
@@ -48,8 +49,8 @@ class TagTrl extends CActiveRecord
 		// NOTE: you may need to adjust the relation name and the related
 		// class name for the relations automatically generated below.
 		return array(
-			'lng' => array(self::BELONGS_TO, 'Languages', 'lng_id'),
 			'tag' => array(self::BELONGS_TO, 'Tag', 'tag_id'),
+			'lng' => array(self::BELONGS_TO, 'Languages', 'lng_id'),
 		);
 	}
 
@@ -63,7 +64,7 @@ class TagTrl extends CActiveRecord
 			'tag_id' => 'Tag',
 			'lng_id' => 'Lng',
 			'name' => 'Name',
-			'descriptin' => 'Descriptin',
+			'description' => 'Description',
 		);
 	}
 
@@ -89,7 +90,7 @@ class TagTrl extends CActiveRecord
 		$criteria->compare('tag_id',$this->tag_id);
 		$criteria->compare('lng_id',$this->lng_id);
 		$criteria->compare('name',$this->name,true);
-		$criteria->compare('descriptin',$this->descriptin,true);
+		$criteria->compare('description',$this->description,true);
 
 		return new CActiveDataProvider($this, array(
 			'criteria'=>$criteria,

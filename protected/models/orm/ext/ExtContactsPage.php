@@ -2,6 +2,7 @@
 /**
  * Class ExtContactsGroup
  * @property ExtContactsBlock[] $contacts
+ * @property ContactsPageTrl $trl
  */
 class ExtContactsPage extends ContactsPage
 {
@@ -30,6 +31,7 @@ class ExtContactsPage extends ContactsPage
             if(file_exists(dirname(__FILE__).DS.'Ext'.$relation[1].'.php'))
             {
                 $relations[$name][1] = 'Ext'.$relation[1];
+                $relations['trl'] = array(self::HAS_ONE, 'ContactsPageTrl', 'page_id', 'with' => array('lng' => array('condition' => "lng.prefix='{$lng}'")));
             }
         }
 

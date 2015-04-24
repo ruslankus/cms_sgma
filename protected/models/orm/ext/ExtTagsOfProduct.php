@@ -1,10 +1,8 @@
 <?php
 /**
- * Class ExtTag
- * @property TagTrl $trl
- * @property ExtTagsOfProduct[] $tagsOfProducts
+ * Class ExtTagsOfProduct
  */
-class ExtTag extends Tag
+class ExtTagsOfProduct extends TagsOfProduct
 {
     /**
      * @param string $className
@@ -33,10 +31,6 @@ class ExtTag extends Tag
                 $relations[$name][1] = 'Ext'.$relation[1];
             }
         }
-
-        //relate with translation
-        $lng = Yii::app()->language;
-        $relations['trl'] = array(self::HAS_ONE, 'TagTrl', 'tag_id', 'with' => array('lng' => array('condition' => "lng.prefix='{$lng}'")));
 
         //return modified relations
         return $relations;

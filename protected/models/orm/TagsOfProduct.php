@@ -9,8 +9,8 @@
  * @property integer $product_id
  *
  * The followings are the available model relations:
- * @property Product $product
  * @property Tag $tag
+ * @property Product $product
  */
 class TagsOfProduct extends CActiveRecord
 {
@@ -45,8 +45,8 @@ class TagsOfProduct extends CActiveRecord
 		// NOTE: you may need to adjust the relation name and the related
 		// class name for the relations automatically generated below.
 		return array(
-			'product' => array(self::BELONGS_TO, 'Product', 'product_id'),
 			'tag' => array(self::BELONGS_TO, 'Tag', 'tag_id'),
+			'product' => array(self::BELONGS_TO, 'Product', 'product_id'),
 		);
 	}
 
