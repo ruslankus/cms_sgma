@@ -1254,6 +1254,16 @@ class ProductsController extends ControllerAdmin
 
         Sort::ReorderItems("ProductFieldGroups",$previous,$new);
 
+        /* @var $allActiveGroups ExtProductFieldGroupsActive[] */
+
+        //update priority active groups (priority pf them must be as
+        $allActiveGroups = ExtProductFieldGroupsActive::model()->findAll();
+        foreach($allActiveGroups as $ag)
+        {
+            $ag->priority = $ag->group->priority;
+            $ag->update();
+        }
+
         echo "OK";
     }
 
