@@ -1,10 +1,10 @@
 <?php
 /**
- * Class ExtTagsOfProduct
- * @property ExtTag $tag
- * @property ExtProduct $product
+ * Class ExtImagesOfContacts
+ * @property ExtImages $image
+ * @property ExtContactsPage $contactPage
  */
-class ExtTagsOfProduct extends TagsOfProduct
+class ExtImagesOfContacts extends ImagesOfContacts
 {
     /**
      * @param string $className

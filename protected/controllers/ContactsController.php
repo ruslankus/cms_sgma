@@ -6,10 +6,10 @@ class ContactsController extends Controller
         $objCurrLng = SiteLng::lng()->getCurrLng();
         
         //$arrData = ExtContactsPage::model()->getContactFull($id, $objCurrLng->prefix);
-        $objData = ContactsPage::model()->findByPk($id);
+        $objData = ExtContactsPage::model()->findByPk($id);
         
         
-        Debug::d($objData->contactsBlocks[1]->contactsFields[0]->contactsBlockTrls);
+        Debug::d($objData->contactsBlocks);
         //Debug::d($arrData);
         $title = ($arrData['content']['title'])? $arrData['content']['title'] : "";  
         if(!empty($title)){
