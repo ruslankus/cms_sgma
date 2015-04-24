@@ -1611,6 +1611,7 @@ class ProductsController extends ControllerAdmin
     public function actionTags($page = 1)
     {
         //include js file for AJAX updating
+        Yii::app()->clientScript->registerScriptFile($this->assetsPath.'/js/vendor.menu-list.js',CClientScript::POS_END);
         Yii::app()->clientScript->registerScriptFile($this->assetsPath.'/js/vendor.products.js',CClientScript::POS_END);
         Yii::app()->clientScript->registerCssFile($this->assetsPath.'/css/vendor.lightbox.css');
 
@@ -1634,17 +1635,14 @@ class ProductsController extends ControllerAdmin
         else
         {
             //if have form
-            if($_POST['MenuForm'])
+            if($_POST['TagForm'])
             {
-                $form_mdl->attributes = $_POST['MenuForm'];
+                $form_mdl->attributes = $_POST['TagForm'];
 
                 if($form_mdl->validate())
                 {
-                    $menu = new ExtMenu();
+                    $menu = new ExtTag();
                     $menu->attributes = $form_mdl->attributes;
-                    $menu->time_updated = time();
-                    $menu->time_created = time();
-                    $menu->last_change_by = Yii::app()->user->getState('id');
                     $menu->save();
                 }
             }
@@ -1652,9 +1650,137 @@ class ProductsController extends ControllerAdmin
 
         $tags = ExtTag::model()->findAll();
         $items = CPaginator::getInstance($tags,10,$page)->getPreparedArray();
-        $this->render('list_tags', array('items' => $items));
+        $this->render('list_tags', array('items' => $items, 'form_mdl' => $form_mdl));
+    }
+
+    /**
+     * Deleting tags
+     * @param $id
+     * @param int $page
+     */
+    public function actionDeleteTag($id, $page = 1)
+    {
+        ExtTag::model()->deleteByPk($id);
+        $this->redirect(Yii::app()->createUrl('admin/products/tags',array('page' => $page)));
     }
 
 
+    /**
+     * Editing tags
+     * @param $id
+     */
+    public function actionEditTag($id)
+    {
+        //include menu necessary scripts
+        Yii::app()->clientScript->registerScriptFile($this->assetsPath.'/js/vendor.add-menu.js',CClientScript::POS_END);
+        Yii::app()->clientScript->registerScriptFile($this->assetsPath.'/js/menu.edititem.js',CClientScript::POS_END);
 
+        //exclude jquery to avoid conflict between jquery from Yii core
+        Yii::app()->clientScript->scriptMap=array('jquery-1.11.2.min.js' => false);
+
+        //all languages
+        $objLanguages = SiteLng::lng()->getLngs();
+        //menu item
+        $tagItem = ExtTag::model()->findByPk($id);
+
+        //form
+        $form_mdl = new TagForm();
+
+        if(Yii::app()->request->isAjaxRequest)
+        {
+            //if ajax validation
+            if(isset($_POST['ajax']))
+            {
+                if($_POST['ajax'] == 'add-item-form')
+                {
+                    echo CActiveForm::validate($form_mdl);
+                }
+                Yii::app()->end();
+            }
+        }
+        else
+        {
+            //if have form
+            if($_POST['TagForm'])
+            {
+                $form_mdl->attributes = $_POST['TagForm'];
+
+                if($form_mdl->validate())
+                {
+                    /* @var $parent ExtMenuItem */
+
+                    //use transaction
+                    $con = Yii::app()->db;
+                    $transaction = $con->beginTransaction();
+
+                    //try to update
+                    try
+                    {
+                        //menu item
+                        $tagItem->attributes = $form_mdl->attributes;
+                        $tagItem->update();
+
+                        $titles = $_POST['TagForm']['titles'];
+                        $descriptions = $_POST['TagForm']['descriptions'];
+
+                        //translations
+                        foreach($titles as $lngId => $title)
+                        {
+                            //try find translation
+                            $tagItemTrl = $tagItem->getTrl($lngId);
+
+                            //if not found - create
+                            if(empty($tagItemTrl))
+                            {
+                                $tagItemTrl = new TagTrl();
+                            }
+
+                            $tagItemTrl->name = $title;
+                            $tagItemTrl->description = $descriptions[$lngId];
+
+                            //save or update
+                            if($tagItemTrl->isNewRecord)
+                            {
+                                $tagItemTrl->save();
+                            }
+                            else
+                            {
+                                $tagItemTrl->update();
+                            }
+                        }
+                        $transaction->commit();
+                    }
+                    catch(Exception $ex)
+                    {
+                        $transaction->rollback();
+                    }
+
+                    //back to list
+                    $this->redirect(Yii::app()->createUrl('admin/products/tags'));
+                }
+            }
+        }
+
+        //render
+        $this->render('edit_tag_item',array('languages' => $objLanguages,'form_model' => $form_mdl, 'tag' => $tagItem));
+    }
+
+    /**
+     * Batch deleting (with check boxes)
+     * @param int $page
+     */
+    public function actionDeleteAllTags($page = 1)
+    {
+        $ids = array();
+        $deleteIds = Yii::app()->request->getParam('delete',array());
+        foreach($deleteIds as $id => $status)
+        {
+            $ids[] = $id;
+        }
+
+        Tag::model()->deleteByPk($ids);
+
+        //back to list
+        $this->redirect(Yii::app()->createUrl('admin/products/tags',array('page' => $page)));
+    }
 }
