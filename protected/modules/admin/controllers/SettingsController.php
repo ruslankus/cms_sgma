@@ -136,7 +136,7 @@ class SettingsController extends ControllerAdmin
         Yii::app()->clientScript->registerScriptFile($this->assetsPath.'/js/vendor.edit-widgets.js',CClientScript::POS_END);
         Yii::app()->clientScript->registerCssFile($this->assetsPath.'/css/vendor.edit-widgets.css');
 
-        $themeName = 'dark'; //TODO: get theme name form current settings
+        $themeName = $this->arrSettings['active_desktop_theme'];
 
         DynamicWidgets::init($themeName,$this);
         $registered = DynamicWidgets::get()->objWidgetsArr;

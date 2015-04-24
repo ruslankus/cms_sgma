@@ -46,7 +46,7 @@ class NewsController extends ControllerAdmin
         //parents
         $arrParentItems = ExtNewsCategory::model()->arrayForMenuItemForm();
         //templates
-        $theme = 'dark'; //TODO: get theme from db
+        $theme = $this->arrSettings['active_desktop_theme'];
         $arrTemplates = ThemeHelper::getTemplatesFor($theme,'news'.DS.'category');
 
         //form
@@ -161,7 +161,7 @@ class NewsController extends ControllerAdmin
         //parents
         $arrParentItems = ExtNewsCategory::model()->arrayForMenuItemForm();
         //templates
-        $theme = 'dark'; //TODO: get theme from db
+        $theme = $this->arrSettings['active_desktop_theme'];
         $arrTemplates = ThemeHelper::getTemplatesFor($theme,'news'.DS.'category');
 
         //form
@@ -393,7 +393,7 @@ class NewsController extends ControllerAdmin
         //parents
         $arrCategories = ExtNewsCategory::model()->arrayForMenuItemForm(0,true,false);
         //templates
-        $theme = 'dark'; //TODO: get theme from db
+        $theme = $this->arrSettings['active_desktop_theme'];
         $arrTemplates = ThemeHelper::getTemplatesFor($theme,'news'.DS.'item');
         //form
         $form_mdl = new NewsForm();
@@ -499,7 +499,7 @@ class NewsController extends ControllerAdmin
         //parents
         $arrCategories = ExtNewsCategory::model()->arrayForMenuItemForm(0,true,false);
         //templates
-        $theme = 'dark'; //TODO: get theme from db
+        $theme = $this->arrSettings['active_desktop_theme'];
         $arrTemplates = ThemeHelper::getTemplatesFor($theme,'news'.DS.'item');
         //form
         $form_mdl = new NewsForm();

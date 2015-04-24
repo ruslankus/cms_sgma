@@ -44,7 +44,7 @@ class ProductsController extends ControllerAdmin
         //parents
         $arrParentItems = ExtProductCategory::model()->arrayForMenuItemForm();
         //templates
-        $theme = 'dark'; //TODO: get theme from db
+        $theme = $this->arrSettings['active_desktop_theme'];
         $arrTemplates = ThemeHelper::getTemplatesFor($theme,'products'.DS.'category');
 
         //form
@@ -159,7 +159,7 @@ class ProductsController extends ControllerAdmin
         //parents
         $arrParentItems = ExtProductCategory::model()->arrayForMenuItemForm();
         //templates
-        $theme = 'dark'; //TODO: get theme from db
+        $theme = $this->arrSettings['active_desktop_theme'];
         $arrTemplates = ThemeHelper::getTemplatesFor($theme,'products'.DS.'category');
 
         //form
@@ -424,7 +424,7 @@ class ProductsController extends ControllerAdmin
         //parents
         $arrCategories = ExtProductCategory::model()->arrayForMenuItemForm(0,true,false);
         //templates
-        $theme = 'dark'; //TODO: get theme from db
+        $theme = $this->arrSettings['active_desktop_theme'];
         $arrTemplates = ThemeHelper::getTemplatesFor($theme,'products'.DS.'item');
         //form
         $form_mdl = new ProductForm();
@@ -538,7 +538,7 @@ class ProductsController extends ControllerAdmin
         //tags
         $arrTags = ExtTag::model()->getListForForms();
         //templates
-        $theme = 'dark'; //TODO: get theme from db
+        $theme = $this->arrSettings['active_desktop_theme'];
         $arrTemplates = ThemeHelper::getTemplatesFor($theme,'products'.DS.'item');
         //form
         $form_mdl = new ProductForm();

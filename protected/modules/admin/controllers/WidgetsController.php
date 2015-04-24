@@ -59,7 +59,7 @@ class WidgetsController extends ControllerAdmin
         }
 
         //special for form with-ajax validation
-        $form_params = array('templates' => $templates, 'types' => $types, 'form_model' => $form_mdl);
+        $form_params = array('types' => $types, 'form_model' => $form_mdl);
 
         //widgets
         $widgets = ExtSystemWidget::model()->findAll();
@@ -94,7 +94,7 @@ class WidgetsController extends ControllerAdmin
         $arrTypes = ExtSystemWidgetType::model()->getAllTypesForForm(true);
         
         //currently selected theme
-        $selectedTheme = 'dark'; //TODO: select theme from DB
+        $selectedTheme = $this->arrSettings['active_desktop_theme'];
         //get all templates for widgets
         $templates = ThemeHelper::getTemplatesForWidgets($selectedTheme,$widgetPrefix);
         
