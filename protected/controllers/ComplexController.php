@@ -20,6 +20,10 @@ class ComplexController extends Controller
 
         //firstly - add to content array of attributes
         $resultContents = $page->attributes;
+        $resultContents['images'] = array();
+        $resultContents['trl_name'] = '';
+        $resultContents['trl_text'] = '';
+        $resultContents['trl_meta_keywords'] = '';
 
         //if exist translation - add translatable texts
         if(!empty($page->trl))
@@ -32,11 +36,34 @@ class ComplexController extends Controller
             $resultContents['trl_meta_keywords'] = $page->trl->meta_keywords;
         }
 
+
+        if(!empty($page->imagesOfComplexPages))
+        {
+            $arrImages = array();
+            foreach($page->imagesOfComplexPages as $index => $iop)
+            {
+                $image = $iop->image;
+                $arrImage = $image->attributes;
+                $arrImage['url'] = $image->getUrl();
+                $arrImage['trl_caption'] = '';
+
+                if(!empty($image->tr))
+                {
+                    $arrImage['trl_caption'] = $image->trl->caption;
+                }
+
+                $arrImages[] = $arrImage;
+            }
+            $resultContents['images'] = $arrImages;
+        }
+
         //pass through all groups which are active in this page
         foreach($page->complexPageFieldGroupsActives as $ga)
         {
             //get array of attributes of group
             $groupArr = $ga->group->attributes;
+            $groupArr['trl_name'] = '';
+            $groupArr['trl_description'] = '';
 
             //if exist translation - add translatable texts
             if(!empty($ga->group->trl))
@@ -52,6 +79,8 @@ class ComplexController extends Controller
                 $fieldArr = $field->attributes;
                 $groupArr['fields'][$field->id] = $fieldArr;
                 $groupArr['fields'][$field->id]['type'] = $field->type->label;
+                $groupArr['fields'][$field->id]['trl_title'] = '';
+                $groupArr['fields'][$field->id]['trl_description'] = '';
 
                 //if exist translation - add translatable texts
                 if(!empty($field->trl))
