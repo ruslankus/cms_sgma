@@ -28,6 +28,7 @@
  * @property ProductFieldValues[] $productFieldValues
  * @property ProductTrl[] $productTrls
  * @property Rating[] $ratings
+ * @property TagsOfProduct[] $tagsOfProducts
  */
 class Product extends CActiveRecord
 {
@@ -72,6 +73,7 @@ class Product extends CActiveRecord
 			'productFieldValues' => array(self::HAS_MANY, 'ProductFieldValues', 'product_id'),
 			'productTrls' => array(self::HAS_MANY, 'ProductTrl', 'product_id'),
 			'ratings' => array(self::HAS_MANY, 'Rating', 'product_id'),
+			'tagsOfProducts' => array(self::HAS_MANY, 'TagsOfProduct', 'product_id'),
 		);
 	}
 

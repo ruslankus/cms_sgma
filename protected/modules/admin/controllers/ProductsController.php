@@ -543,7 +543,6 @@ class ProductsController extends ControllerAdmin
         //form
         $form_mdl = new ProductForm();
 
-
         //ajax validation
         if(Yii::app()->request->isAjaxRequest)
         {
@@ -573,13 +572,17 @@ class ProductsController extends ControllerAdmin
 
                     try
                     {
+                        //do we need recalculate priority (if category changed)
                         $needOtherPriority = $item->category_id != $form_mdl->category_id;
 
                         $item->attributes = $form_mdl->attributes;
                         $item->time_updated = time();
                         $item->last_change_by = Yii::app()->user->id;
 
+                        //delete all selected tags
                         TagsOfProduct::model()->deleteAllByAttributes(array('product_id' => $item->id));
+
+                        //add selected tags
                         if(!empty($_POST['ProductForm']['selected_tags']))
                         {
                             foreach($_POST['ProductForm']['selected_tags'] as $index => $tagId)
@@ -588,11 +591,8 @@ class ProductsController extends ControllerAdmin
                                 $top -> product_id = $item->id;
                                 $top -> tag_id = $tagId;
                                 $top -> save();
-
-                                $form_mdl->selected_tags[] = $tagId;
                             }
                         }
-
 
 
                         if($needOtherPriority)
@@ -652,6 +652,12 @@ class ProductsController extends ControllerAdmin
             {
                 $images[$index] = $iop;
             }
+        }
+
+        //store selected values to mark them in form
+        foreach($item->tagsOfProducts as $top)
+        {
+            $form_mdl->selected_tags[] = $top->tag_id;
         }
 
         $this->render('edit_product_settings',array(
