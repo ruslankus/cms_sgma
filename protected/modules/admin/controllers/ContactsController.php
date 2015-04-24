@@ -34,24 +34,8 @@ class ContactsController extends ControllerAdmin
             $this->render('index',array('pager' => $pager, 'currLng' => $currLng));
         }
 
-    }
-/*
-    public function actionPages_old($page = 1)
-    {
-        Yii::app()->clientScript->registerScriptFile($this->assetsPath.'/js/vendor.contacts.js',CClientScript::POS_END);
+    }//actionPages
 
-        $currLng = Yii::app()->language;
-        
-        if(empty($siteLng)){
-            $siteLng = Yii::app()->language; 
-        }
-        
-        $objContacts = ContactsPage::model()->with(array('contactsPageTrls.lng' => array('condition' => "lng.prefix='{$siteLng}'")))->findall();
-        
-        $pager = CPaginator::getInstance($objContacts,10,$page);
-        $this->render('index',array('pager' => $pager, 'currLng' => $currLng));
-    }
-*/
     public function actionCreate(){
         Yii::app()->clientScript->registerScriptFile($this->assetsPath.'/js/vendor.add-contact.js',CClientScript::POS_END);
         $model = new AddPageForm();
@@ -236,7 +220,12 @@ class ContactsController extends ControllerAdmin
 
         echo "OK";
     }
-
+    
+    
+    /**
+     * 
+     * @param int $id 
+     */
     public function actionEditContentAjax($id = null)
     {
         
@@ -256,7 +245,11 @@ class ContactsController extends ControllerAdmin
         }//ajax part
         
 
-    }
+    }//actionEditContentAjax
+    
+    
+    
+    
 
     public function actionIndexAjax($page = 1)
     {
@@ -277,7 +270,7 @@ class ContactsController extends ControllerAdmin
 
 	        Yii::app()->end();
     	}
-    }
+    }//actionIndexAjax
     
     public function actionDeleteContactAjax($id=null)
     {
@@ -297,7 +290,7 @@ class ContactsController extends ControllerAdmin
 
 	        Yii::app()->end();
     	}
-    }
+    }//actionDeleteContactAjax
 
     public function actionDelImageAjax($id=null)
     {
@@ -588,7 +581,7 @@ class ContactsController extends ControllerAdmin
         }
     }       
     
-    public function actionEditField($id = null)
+    public function actionEditField_old($id = null)
     {
         $objField = ContactsFields::model()->findByPk($id);
         $model = new SaveContactFieldForm();
@@ -638,5 +631,35 @@ class ContactsController extends ControllerAdmin
         //Debug::d($arrPage);
         $this->render('editField', array('arrPage' => $arrPage, 'model' => $model, 'contact_id' => $id, 'siteLng' => $siteLng, 'prefix' => $prefix, 'block_id'=>$objField->block_id));
     }//edit
-}
+    
+    /**
+     * 
+     * @param int $id contoct block field Id
+     */
+    public function actionEditField($id){
+        $request = Yii::app()->request;
+        $model = new SaveContactFieldForm();
+        if($request->isAjaxRequest){
+            //ajax
+        }else{
+            
+        }
+    }
+    
+    
+    
+    /*--------------------- fields ajax section ----------------------------------------*/
+    
+    /**
+     * 
+     * @param int $id contact block filed Id
+     */
+    public function actionEditContactFieldAjax($id){
+        
+        
+        
+        
+    }//actionEditContactFieldAjax
+    
+}//end classs
 
