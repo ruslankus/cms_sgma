@@ -28,7 +28,11 @@
 		?>
 
 		</div>
-			<?php echo Chtml::beginForm() ?>
+			<?php $form=$this->beginWidget('CActiveForm', array(
+				'id'=>'save-contact-form-SaveContactFieldForm-form',
+				'enableAjaxValidation'=>false,
+				'htmlOptions' => array('enctype' => 'multipart/form-data'),
+			));?>
 			<div class="inner-top">
 			<?php
 				if($_POST['SaveContactFieldForm']['lngId']){
@@ -81,6 +85,6 @@
 				</table>
 				<?php echo CHtml::submitButton('Save'); ?>
 			</div><!--/inner-editor-->
-			<?php echo CHtml::endForm(); ?>
+			<?php $this->endWidget(); ?>
 	</div><!--/content translate-->
 </main>

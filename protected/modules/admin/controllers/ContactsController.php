@@ -639,12 +639,20 @@ class ContactsController extends ControllerAdmin
     public function actionEditField($id){
         $request = Yii::app()->request;
         $model = new SaveContactFieldForm();
+        
         if($request->isAjaxRequest){
             //ajax
-        }else{
             
         }
-    }
+        
+        Yii::app()->clientScript->registerScriptFile($this->assetsPath.'/ckeditor/ckeditor.js',CClientScript::POS_END);
+        Yii::app()->clientScript->registerScriptFile($this->assetsPath.'/ckeditor/adapters/jquery.js',CClientScript::POS_END);
+        Yii::app()->clientScript->registerScriptFile($this->assetsPath.'/js/vendor.edit-contact-field.js',CClientScript::POS_END);
+        
+        $this->render('editField',array('model' => $model));
+        
+     
+    }//actionEditField
     
     
     
