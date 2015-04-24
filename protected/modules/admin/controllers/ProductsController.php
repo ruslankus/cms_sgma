@@ -1602,5 +1602,59 @@ class ProductsController extends ControllerAdmin
     }
 
 
+    /********************************************** T A G S **********************************************************/
+
+    /**
+     * Render list of tags
+     * @param int $page
+     */
+    public function actionTags($page = 1)
+    {
+        //include js file for AJAX updating
+        Yii::app()->clientScript->registerScriptFile($this->assetsPath.'/js/vendor.products.js',CClientScript::POS_END);
+        Yii::app()->clientScript->registerCssFile($this->assetsPath.'/css/vendor.lightbox.css');
+
+        //exclude jquery to avoid conflict between jquery from Yii core
+        Yii::app()->clientScript->scriptMap=array('jquery-1.11.2.min.js' => false);
+
+        $form_mdl = new TagForm();
+
+        if(Yii::app()->request->isAjaxRequest)
+        {
+            //if ajax validation
+            if(isset($_POST['ajax']))
+            {
+                if($_POST['ajax'] == 'add-form')
+                {
+                    echo CActiveForm::validate($form_mdl);
+                }
+                Yii::app()->end();
+            }
+        }
+        else
+        {
+            //if have form
+            if($_POST['MenuForm'])
+            {
+                $form_mdl->attributes = $_POST['MenuForm'];
+
+                if($form_mdl->validate())
+                {
+                    $menu = new ExtMenu();
+                    $menu->attributes = $form_mdl->attributes;
+                    $menu->time_updated = time();
+                    $menu->time_created = time();
+                    $menu->last_change_by = Yii::app()->user->getState('id');
+                    $menu->save();
+                }
+            }
+        }
+
+        $tags = ExtTag::model()->findAll();
+        $items = CPaginator::getInstance($tags,10,$page)->getPreparedArray();
+        $this->render('list_tags', array('items' => $items));
+    }
+
+
 
 }

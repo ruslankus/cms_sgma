@@ -1,6 +1,8 @@
 <?php
 /**
  * Class ExtTagsOfProduct
+ * @property ExtTag $tag
+ * @property ExtProduct $product
  */
 class ExtTagsOfProduct extends TagsOfProduct
 {
