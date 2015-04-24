@@ -14,7 +14,7 @@ class SendContactForm extends CFormModel
 	public function rules()
 	{
         return array(
-            array('verifyCode', 'captcha', 'message'=>'caPTCHA ERROT'),
+            array('verifyCode', 'captcha', 'allowEmpty'=>!CCaptcha::checkRequirements()),
             array('email,text', 'required'),
             array('email,text', 'safe'),      
         );
