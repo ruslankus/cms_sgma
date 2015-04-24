@@ -1,3 +1,4 @@
 .idea/
 protected/runtime/application.log
 assets/
+/nbproject/private/
