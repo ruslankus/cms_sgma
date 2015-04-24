@@ -16,6 +16,33 @@ class ExtTag extends Tag
     }
 
     /**
+     * Returns trl or creates it if not found
+     * @param $lngId
+     * @return TagTrl
+     */
+    public function getTrl($lngId)
+    {
+        $all = $this->tagTrls;
+
+        if(!empty($all))
+        {
+            foreach($all as $trl)
+            {
+                if($trl->lng_id == $lngId)
+                {
+                    return $trl;
+                }
+            }
+        }
+
+        $trl = new TagTrl();
+        $trl -> tag_id = $this->id;
+        $trl -> lng_id = $lngId;
+
+        return $trl;
+    }
+
+    /**
      * Override, relate with extended models
      * @return array relational rules.
      */

@@ -2,6 +2,7 @@
 <?php /* @var $this ProductsController */ ?>
 <?php /* @var $category int */ ?>
 <?php /* @var $breadcrumbs array */ ?>
+<?php /* @var $form_mdl TagForm */ ?>
 
 <?php $params = array(); ?>
 <?php $params['page'] = CPaginator::getInstance()->getCurrentPage(); ?>
@@ -10,7 +11,7 @@
     <div class="title-bar">
         <h1 class="breadcrumbs"><?php echo ATrl::t()->getLabel('All tags'); ?> </h1>
         <ul class="actions">
-            <li><a href="<?php echo Yii::app()->createUrl('admin/products/addtag'); ?>" class="action add"></a></li>
+            <li><a href="#" class="action add"></a></li>
             <li><a data-message="<?php echo ATrl::t()->getLabel('Delete all selected items ?'); ?>" data-yes="<?php echo ATrl::t()->getLabel('Delete'); ?>" data-no="<?php echo ATrl::t()->getLabel('Cancel'); ?>" href="<?php echo Yii::app()->createUrl('/admin/products/deletealltags',$params); ?>" class="action del delete-all" data-id="checkbox"></a></li>
         </ul>
     </div><!--/title-bar-->
@@ -51,5 +52,5 @@
     </div>
     <?php endif; ?>
 
-    <?php $this->renderPartial('_add_menu',$form_params); ?>
+    <?php $this->renderPartial('_add_tag',array('form_model' => $form_mdl)); ?>
 </main>
