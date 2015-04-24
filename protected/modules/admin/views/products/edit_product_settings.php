@@ -75,6 +75,7 @@
                                 <?php echo $form->error($form_model,'product_code',array('class'=>'float-right errorMessage', 'style' => 'display:block')); ?>
                                 <?php echo $form->error($form_model,'status_id',array('class'=>'float-right errorMessage', 'style' => 'display:block')); ?>
                                 <?php echo $form->error($form_model,'category_id',array('class'=>'float-right errorMessage', 'style' => 'display:block')); ?>
+                                <?php echo $form->error($form_model,'image',array('class'=>'float-right errorMessage', 'style' => 'display:block')); ?>
                             </td>
                         </tr>
                     </table>

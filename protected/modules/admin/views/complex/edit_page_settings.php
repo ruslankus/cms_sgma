@@ -51,6 +51,7 @@
                                 <?php echo $form->error($form_model,'label',array('class'=>'float-right errorMessage', 'style' => 'display:block')); ?>
                                 <?php echo $form->error($form_model,'status_id',array('class'=>'float-right errorMessage', 'style' => 'display:block')); ?>
                                 <?php echo $form->error($form_model,'template_name',array('class'=>'float-right errorMessage', 'style' => 'display:block')); ?>
+                                <?php echo $form->error($form_model,'image',array('class'=>'float-right errorMessage', 'style' => 'display:block')); ?>
                             </td>
                         </tr>
                     </table>
