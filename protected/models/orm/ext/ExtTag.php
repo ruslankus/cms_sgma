@@ -43,6 +43,33 @@ class ExtTag extends Tag
     }
 
     /**
+     * Returns list for select-boxes or list-check-boxes in forms
+     * @param bool $translate
+     * @return array
+     */
+    public function getListForForms($translate = false)
+    {
+        /* @var $all self[] */
+
+        $all = self::model()->findAll();
+        $result = array();
+
+        foreach($all as $tag)
+        {
+            if(!$translate)
+            {
+                $result[$tag->id] = $tag->label;
+            }
+            else
+            {
+                $result[$tag->id] = !empty($tag->trl) ? $tag->trl->name : '';
+            }
+        }
+
+        return $result;
+    }
+
+    /**
      * Override, relate with extended models
      * @return array relational rules.
      */

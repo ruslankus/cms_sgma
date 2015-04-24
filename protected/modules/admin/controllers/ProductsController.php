@@ -44,7 +44,7 @@ class ProductsController extends ControllerAdmin
         //parents
         $arrParentItems = ExtProductCategory::model()->arrayForMenuItemForm();
         //templates
-        $theme = 'dark'; //TODO: get theme from db
+        $theme = $this->arrSettings['active_desktop_theme'];
         $arrTemplates = ThemeHelper::getTemplatesFor($theme,'products'.DS.'category');
 
         //form
@@ -159,7 +159,7 @@ class ProductsController extends ControllerAdmin
         //parents
         $arrParentItems = ExtProductCategory::model()->arrayForMenuItemForm();
         //templates
-        $theme = 'dark'; //TODO: get theme from db
+        $theme = $this->arrSettings['active_desktop_theme'];
         $arrTemplates = ThemeHelper::getTemplatesFor($theme,'products'.DS.'category');
 
         //form
@@ -424,7 +424,7 @@ class ProductsController extends ControllerAdmin
         //parents
         $arrCategories = ExtProductCategory::model()->arrayForMenuItemForm(0,true,false);
         //templates
-        $theme = 'dark'; //TODO: get theme from db
+        $theme = $this->arrSettings['active_desktop_theme'];
         $arrTemplates = ThemeHelper::getTemplatesFor($theme,'products'.DS.'item');
         //form
         $form_mdl = new ProductForm();
@@ -535,12 +535,13 @@ class ProductsController extends ControllerAdmin
         $arrStatuses = ExtStatus::model()->arrayForNewsAndProducts(true);
         //parents
         $arrCategories = ExtProductCategory::model()->arrayForMenuItemForm(0,true,false);
+        //tags
+        $arrTags = ExtTag::model()->getListForForms();
         //templates
-        $theme = 'dark'; //TODO: get theme from db
+        $theme = $this->arrSettings['active_desktop_theme'];
         $arrTemplates = ThemeHelper::getTemplatesFor($theme,'products'.DS.'item');
         //form
         $form_mdl = new ProductForm();
-
 
         //ajax validation
         if(Yii::app()->request->isAjaxRequest)
@@ -559,6 +560,7 @@ class ProductsController extends ControllerAdmin
         {
             if(isset($_POST['ProductForm']))
             {
+
                 $form_mdl -> attributes = $_POST['ProductForm'];
                 $form_mdl -> image = CUploadedFile::getInstance($form_mdl,'image');
 
@@ -570,11 +572,28 @@ class ProductsController extends ControllerAdmin
 
                     try
                     {
+                        //do we need recalculate priority (if category changed)
                         $needOtherPriority = $item->category_id != $form_mdl->category_id;
 
                         $item->attributes = $form_mdl->attributes;
                         $item->time_updated = time();
                         $item->last_change_by = Yii::app()->user->id;
+
+                        //delete all selected tags
+                        TagsOfProduct::model()->deleteAllByAttributes(array('product_id' => $item->id));
+
+                        //add selected tags
+                        if(!empty($_POST['ProductForm']['selected_tags']))
+                        {
+                            foreach($_POST['ProductForm']['selected_tags'] as $index => $tagId)
+                            {
+                                $top = new TagsOfProduct();
+                                $top -> product_id = $item->id;
+                                $top -> tag_id = $tagId;
+                                $top -> save();
+                            }
+                        }
+
 
                         if($needOtherPriority)
                         {
@@ -635,13 +654,20 @@ class ProductsController extends ControllerAdmin
             }
         }
 
+        //store selected values to mark them in form
+        foreach($item->tagsOfProducts as $top)
+        {
+            $form_mdl->selected_tags[] = $top->tag_id;
+        }
+
         $this->render('edit_product_settings',array(
             'categories' => $arrCategories,
             'statuses' => $arrStatuses,
             'form_model' => $form_mdl,
             'item' => $item,
             'images' => $images,
-            'templates' => $arrTemplates
+            'templates' => $arrTemplates,
+            'tags' => $arrTags
         ));
     }
 

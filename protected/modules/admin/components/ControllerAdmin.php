@@ -2,12 +2,14 @@
 
 class ControllerAdmin extends CController
 {
-
     public $layout='/layouts/main';
     public $title = "SIGMA CMS";
     public $description = "Content Management System";
     public $keywords = "";
     public $assetsPath = "";
+
+
+    public $arrSettings = array();
 
     /**
      * Check if user allowed to admin's module controllers and actions
@@ -61,6 +63,9 @@ class ControllerAdmin extends CController
 
         $language = Yii::app()->request->getParam('language',Yii::app()->params['defaultLanguage']);
         $this->setLanguage($language);
+
+        //get all settings from db
+        $this->arrSettings = ExtSettings::model()->getSettings(true);
 
         parent::__construct($id,$module);
     }

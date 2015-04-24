@@ -38,7 +38,7 @@ class ComplexController extends ControllerAdmin
         //statuses
         $arrStatuses = ExtStatus::model()->arrayForNewsAndProducts(true);
         //templates
-        $theme = 'dark'; //TODO: get theme from db
+        $theme = $this->arrSettings['active_desktop_theme'];
         $arrTemplates = ThemeHelper::getTemplatesFor($theme,'complex');
         //form
         $form_mdl = new ComplexPageForm();
@@ -135,7 +135,7 @@ class ComplexController extends ControllerAdmin
         //statuses
         $arrStatuses = ExtStatus::model()->arrayForNewsAndProducts(true);
         //templates
-        $theme = 'dark'; //TODO: get theme from db
+        $theme = $this->arrSettings['active_desktop_theme'];
         $arrTemplates = ThemeHelper::getTemplatesFor($theme,'complex');
         //form
         $form_mdl = new ComplexPageForm();

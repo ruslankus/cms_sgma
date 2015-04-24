@@ -12,7 +12,9 @@ class SysMenu extends CWidget
      */
     public $menu;
     public $themeName;
+
     public $default_template = 'menu';
+    public $use_default_template = true;
 
     public $controllerMatches = array(
         ExtMenuItemType::TYPE_SINGLE_PAGE => 'pages',
@@ -27,18 +29,41 @@ class SysMenu extends CWidget
      * @param bool $checkTheme
      * @return string
      */
-     public function getViewPath($checkTheme=false)
+    public function getViewPath($checkTheme=false)
     {
-        
+
         $path = Yii::app()->getBasePath().DS.'widgets'.DS.'views';
-        $theme = Yii::app()->themeManager->getTheme($this->themeName);
-        
-        if(!empty($theme) && !empty($this->menu->template_name))
+
+        if(!$this->use_default_template)
         {
+            $theme = Yii::app()->themeManager->getTheme($this->themeName);
             $path = $theme->getBasePath().DS.'views'.DS.'menus';
         }
-        //Debug::d($path);
+
         return $path;
+    }
+
+    /**
+     * Check if we need use default template
+     * @return bool
+     */
+    public function isDefaultTemplate()
+    {
+        $theme = Yii::app()->themeManager->getTheme($this->themeName);
+
+        if(!empty($theme))
+        {
+            if(!empty($this->menu->template_name))
+            {
+                $themeViewPath = $theme->getBasePath().DS.'views'.DS.'menus';
+                if(file_exists($themeViewPath.DS.$this->menu->template_name))
+                {
+                    return false;
+                }
+            }
+        }
+
+        return true;
     }
 
 
@@ -101,11 +126,14 @@ class SysMenu extends CWidget
      */
     public function run()
     {
-        //Debug::d($this->menu);
-        $template = $this->default_template;
-        if(!empty($this->menu->template_name)){
-            $template = $this->menu->template_name;
-            $template = str_replace(".php","",$template);
+
+        $this->use_default_template = $this->isDefaultTemplate();
+
+        $template = $this->menu->template_name;
+        $template = str_replace(".php","",$template);
+
+        if($this->use_default_template){
+            $template = $this->default_template;
         }
 
         $items_inline = array();

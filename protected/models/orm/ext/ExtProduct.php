@@ -5,6 +5,7 @@
  * @property ProductTrl $trl
  * @property ExtImagesOfProduct[] $imagesOfProducts
  * @property ExtProductFieldGroupsActive[] $productFieldGroupsActives
+ * @property ExtTagsOfProduct[] $tagsOfProducts
  */
 class ExtProduct extends Product
 {

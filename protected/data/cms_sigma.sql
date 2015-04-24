@@ -10,7 +10,7 @@ Target Server Type    : MYSQL
 Target Server Version : 50538
 File Encoding         : 65001
 
-Date: 2015-04-24 11:39:41
+Date: 2015-04-24 14:44:56
 */
 
 SET FOREIGN_KEY_CHECKS=0;
@@ -500,7 +500,7 @@ CREATE TABLE `images` (
   PRIMARY KEY (`id`),
   KEY `status_id` (`status_id`),
   CONSTRAINT `images_ibfk_1` FOREIGN KEY (`status_id`) REFERENCES `status` (`id`) ON DELETE NO ACTION ON UPDATE NO ACTION
-) ENGINE=InnoDB AUTO_INCREMENT=28 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=29 DEFAULT CHARSET=utf8;
 
 -- ----------------------------
 -- Records of images
@@ -514,6 +514,7 @@ INSERT INTO `images` VALUES ('24', 'Image of \"Testing\"', '5538d2763fcde.jpg', 
 INSERT INTO `images` VALUES ('25', 'Image of \"Testing\"', '5539f49f8ec73.jpg', 'Koala.jpg', 'image/jpeg', '780831', '1');
 INSERT INTO `images` VALUES ('26', 'Image of \"Testing\"', '5539fe66372aa.jpg', 'Lighthouse.jpg', 'image/jpeg', '561276', '1');
 INSERT INTO `images` VALUES ('27', 'Image of \"Testing\"', '5539ff387cff6.jpg', 'Tulips.jpg', 'image/jpeg', '620888', '1');
+INSERT INTO `images` VALUES ('28', 'Image of \"One more product\"', '553a2ca56cac7.jpg', 'Tulips.jpg', 'image/jpeg', '620888', '1');
 
 -- ----------------------------
 -- Table structure for `images_of_complex_page`
@@ -548,12 +549,12 @@ CREATE TABLE `images_of_complex_page_field_values` (
   KEY `field_value_id` (`field_value_id`),
   CONSTRAINT `images_of_complex_page_field_values_ibfk_1` FOREIGN KEY (`image_id`) REFERENCES `images` (`id`) ON DELETE CASCADE ON UPDATE NO ACTION,
   CONSTRAINT `images_of_complex_page_field_values_ibfk_2` FOREIGN KEY (`field_value_id`) REFERENCES `complex_page_field_values` (`id`) ON DELETE CASCADE ON UPDATE NO ACTION
-) ENGINE=InnoDB AUTO_INCREMENT=4 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=5 DEFAULT CHARSET=utf8;
 
 -- ----------------------------
 -- Records of images_of_complex_page_field_values
 -- ----------------------------
-INSERT INTO `images_of_complex_page_field_values` VALUES ('3', '19', '5');
+INSERT INTO `images_of_complex_page_field_values` VALUES ('4', '19', '5');
 
 -- ----------------------------
 -- Table structure for `images_of_contacts`
@@ -625,7 +626,7 @@ CREATE TABLE `images_of_product` (
   KEY `product_id` (`product_id`),
   CONSTRAINT `images_of_product_ibfk_1` FOREIGN KEY (`image_id`) REFERENCES `images` (`id`) ON DELETE CASCADE ON UPDATE NO ACTION,
   CONSTRAINT `images_of_product_ibfk_2` FOREIGN KEY (`product_id`) REFERENCES `product` (`id`) ON DELETE CASCADE ON UPDATE NO ACTION
-) ENGINE=InnoDB AUTO_INCREMENT=6 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=7 DEFAULT CHARSET=utf8;
 
 -- ----------------------------
 -- Records of images_of_product
@@ -633,6 +634,7 @@ CREATE TABLE `images_of_product` (
 INSERT INTO `images_of_product` VALUES ('3', '19', '14');
 INSERT INTO `images_of_product` VALUES ('4', '20', '14');
 INSERT INTO `images_of_product` VALUES ('5', '21', '15');
+INSERT INTO `images_of_product` VALUES ('6', '28', '15');
 
 -- ----------------------------
 -- Table structure for `images_of_product_fields_values`
@@ -1115,7 +1117,7 @@ CREATE TABLE `product` (
 -- Records of product
 -- ----------------------------
 INSERT INTO `product` VALUES ('14', '1', '0:1', 'Some title', 'default.php', '1', '1', '15000', '0', null, '5', '1428672850', '1429689657', '1', 'PR20366592PR');
-INSERT INTO `product` VALUES ('15', '2', '0:1:2', 'One more product', 'simple_item.php', '1', '1', '12800', '0', null, null, '1429708758', '1429708801', '1', 'PR46727164PR');
+INSERT INTO `product` VALUES ('15', '2', '0:1:2', 'One more product', 'simple_item.php', '1', '1', '12800', '0', null, null, '1429708758', '1429875877', '1', 'PR46727164PR');
 
 -- ----------------------------
 -- Table structure for `product_category`
@@ -1630,11 +1632,14 @@ CREATE TABLE `tag` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
   `label` varchar(128) DEFAULT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=21 DEFAULT CHARSET=utf8;
 
 -- ----------------------------
 -- Records of tag
 -- ----------------------------
+INSERT INTO `tag` VALUES ('18', 'Demo tag');
+INSERT INTO `tag` VALUES ('19', 'One more tag');
+INSERT INTO `tag` VALUES ('20', 'And one more');
 
 -- ----------------------------
 -- Table structure for `tags_of_product`
@@ -1649,11 +1654,13 @@ CREATE TABLE `tags_of_product` (
   KEY `product_id` (`product_id`),
   CONSTRAINT `tags_of_product_ibfk_1` FOREIGN KEY (`tag_id`) REFERENCES `tag` (`id`) ON DELETE CASCADE ON UPDATE NO ACTION,
   CONSTRAINT `tags_of_product_ibfk_2` FOREIGN KEY (`product_id`) REFERENCES `product` (`id`) ON DELETE CASCADE ON UPDATE NO ACTION
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=21 DEFAULT CHARSET=utf8;
 
 -- ----------------------------
 -- Records of tags_of_product
 -- ----------------------------
+INSERT INTO `tags_of_product` VALUES ('19', '18', '15');
+INSERT INTO `tags_of_product` VALUES ('20', '20', '15');
 
 -- ----------------------------
 -- Table structure for `tag_trl`
@@ -1670,11 +1677,13 @@ CREATE TABLE `tag_trl` (
   KEY `lng_id` (`lng_id`),
   CONSTRAINT `tag_trl_ibfk_1` FOREIGN KEY (`tag_id`) REFERENCES `tag` (`id`) ON DELETE CASCADE ON UPDATE NO ACTION,
   CONSTRAINT `tag_trl_ibfk_2` FOREIGN KEY (`lng_id`) REFERENCES `languages` (`id`) ON DELETE CASCADE ON UPDATE NO ACTION
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=5 DEFAULT CHARSET=utf8;
 
 -- ----------------------------
 -- Records of tag_trl
 -- ----------------------------
+INSERT INTO `tag_trl` VALUES ('3', '18', '1', 'Demo tag', 'Just for test');
+INSERT INTO `tag_trl` VALUES ('4', '18', '2', 'Демо-тег', 'Для теста');
 
 -- ----------------------------
 -- Table structure for `users`

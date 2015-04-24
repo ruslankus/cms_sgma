@@ -5,18 +5,27 @@ $form=$this->beginWidget('CActiveForm',array(
    'enableAjaxValidation'=>false,
  ));
 ?>
-<?php if(extension_loaded('gd')): ?>
+
  <div class="row">
+
+<?php echo $form->textField($model,'email'); ?>
+<?php echo $form->error($model,'email'); ?>
+<br>
+
+<?php echo $form->textField($model,'text'); ?>
+<?php echo $form->error($model,'text'); ?>
+<br>
+
   <?php echo $form->labelEx($model,'verifyCode'); ?>
   <div>
-   <?php $this->widget('CCaptcha'); ?>
-   <?php echo $form->error($model,'verifyCode'); ?>
-   <?php echo $form->textField($model,'verifyCode'); ?>
+<?php echo $form->textField($model,'verifyCode'); ?>
+<?php $this->widget('CCaptcha'); ?>
+<?php echo $form->error($model,'verifyCode'); ?>
   </div>
  
  </div>
+<?php echo CHtml::submitButton('Save'); ?>
 
-<?php endif ?>
 <?php
 $this->endWidget();
 ?>

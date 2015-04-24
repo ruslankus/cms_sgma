@@ -14,6 +14,7 @@ class ProductForm extends CFormModel
     public $discount_price;
     public $stock_qnt;
     public $product_code;
+    public $selected_tags;
 
     /**
      * Declares the validation rules.
@@ -43,7 +44,9 @@ class ProductForm extends CFormModel
             'template_name' => ATrl::t()->getLabel('Template'),
             'price' => ATrl::t()->getLabel('Price'),
             'discount_price' => ATrl::t()->getLabel('Discount price'),
-            'stock_qnt' => ATrl::t()->getLabel('Quantity in stock')
+            'stock_qnt' => ATrl::t()->getLabel('Quantity in stock'),
+            'product_code' => ATrl::t()->getLabel('Product code'),
+            'selected_tags' => ATrl::t()->getLabel('Selected tags')
         );
     }
 }

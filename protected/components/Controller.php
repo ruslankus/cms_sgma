@@ -24,6 +24,7 @@ class Controller extends CController
         $this->setLanguage($language);
 
         //get all settings from db
+
         $this->arrSettings = ExtSettings::model()->getSettings(true);
 
         //if not empty theme name

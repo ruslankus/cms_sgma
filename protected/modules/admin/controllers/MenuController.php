@@ -21,7 +21,7 @@ class MenuController extends ControllerAdmin
         //menu form
         $form_mdl = new MenuForm();
         //currently selected theme
-        $selectedTheme = 'dark'; //TODO: select theme from DB
+        $selectedTheme = $this->arrSettings['active_desktop_theme'];
         //get all templates for menus
         $templates = ThemeHelper::getTemplatesForMenu($selectedTheme);
         //statuses
@@ -90,7 +90,7 @@ class MenuController extends ControllerAdmin
         //menu form
         $form_mdl = new MenuForm();
         //currently selected theme
-        $selectedTheme = 'dark'; //TODO: select theme from DB
+        $selectedTheme = $this->arrSettings['active_desktop_theme'];
         //get all templates for menus
         $templates = ThemeHelper::getTemplatesForMenu($selectedTheme);
         //statuses
@@ -109,7 +109,7 @@ class MenuController extends ControllerAdmin
                 $menu->update();
 
                 //back to list
-                $this->redirect(Yii::app()->createUrl('/admin/menu/list'));
+                $this->redirect(Yii::app()->createUrl('admin/menu/list'));
             }
         }
 
@@ -123,19 +123,11 @@ class MenuController extends ControllerAdmin
      */
     public function actionDeleteMenu($id)
     {
-        //find menu
-        $menu = ExtMenu::model()->findByPk($id);
-
-        //if not found
-        if(empty($menu))
-        {
-            throw new CHttpException(404);
-        }
-
-        $menu->delete();
+        //delete
+        ExtMenu::model()->deleteByPk((int)$id);
 
         //back to list
-        $this->redirect(Yii::app()->createUrl('/admin/menu/list'));
+        $this->redirect(Yii::app()->createUrl('admin/menu/list'));
     }
 
 

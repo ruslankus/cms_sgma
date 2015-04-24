@@ -6,6 +6,7 @@
 <?php /* @var $item ExtProduct */ ?>
 <?php /* @var $images ExtImagesOfProduct[] */ ?>
 <?php /* @var $templates array */ ?>
+<?php /* @var $tags array */ ?>
 
 
 <main>
@@ -65,6 +66,12 @@
                             <td class="label"><?php echo $form->labelEx($form_model,'product_code'); ?></td>
                             <td class="value"><?php echo $form->textField($form_model,'product_code',array('value' => $item->product_code)); ?></td>
                         </tr>
+                        <?php if(!empty($tags)): ?>
+                            <tr>
+                                <td class="label" style="vertical-align: top;"><?php echo $form->labelEx($form_model,'selected_tags'); ?></td>
+                                <td class="value"><?php echo $form->checkBoxList($form_model,'selected_tags',$tags,array('multiple' => true)); ?></td>
+                            </tr>
+                        <?php endif; ?>
                         <tr>
                             <td class="label">&nbsp;</td>
                             <td class="value">
