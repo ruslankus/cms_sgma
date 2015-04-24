@@ -9,7 +9,7 @@ $(document).ready(function() {
         $(this).parent().find('.lng-switcher').removeClass('active');
         $(this).addClass('active');
 
-        $(this).parent().parent().find('input').removeClass('active');
+        $(this).parent().parent().find('input, textarea').removeClass('active');
         $(this).parent().parent().find('#'+id).addClass('active');
 
         return false;

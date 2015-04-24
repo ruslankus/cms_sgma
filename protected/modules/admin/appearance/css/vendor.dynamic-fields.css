@@ -23,13 +23,19 @@
     color: #FFF;
     font-weight: bold;
 }
-.content.menu-content .inner-content input[type="text"], .content .inner-content .form-zone .trl.value input
+
+.content .inner-content .form-zone .trl.value textarea, .content .inner-content .form-zone .trl.value input
 {
     display: none;
 }
-.content.menu-content .inner-content input[type="text"], .content .inner-content .form-zone .trl.value input.active
+.content .inner-content .form-zone .trl.value textarea.active, .content .inner-content .form-zone .trl.value input.active
 {
     display: block;
+}
+
+.form-zone table tr td:last-child
+{
+    vertical-align: top;
 }
 
 .content.menu-content .inner-content table tr td.label

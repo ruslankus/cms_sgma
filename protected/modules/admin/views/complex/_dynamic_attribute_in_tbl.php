@@ -18,7 +18,7 @@
         <td class="value trl">
             <?php foreach($languages as $index => $lng): ?>
                 <?php $trl = $value->getOrCreateTrl($lng->id); ?>
-                <input id="<?php echo $field->id."_".$lng->id; ?>" <?php if($index == 0): ?>class="active"<?php endif; ?> type="text" value="<?php echo $trl->translatable_text; ?>" name="DynamicFields[<?php echo $field->id; ?>][<?php echo $lng->id; ?>]">
+                <textarea id="<?php echo $field->id."_".$lng->id; ?>" <?php if($index == 0): ?>class="active"<?php endif; ?> name="DynamicFields[<?php echo $field->id; ?>][<?php echo $lng->id; ?>]"><?php echo $trl->translatable_text; ?></textarea>
             <?php endforeach; ?>
         </td>
         <td class="value">
