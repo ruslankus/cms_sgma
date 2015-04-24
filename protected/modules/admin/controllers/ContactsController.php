@@ -638,8 +638,15 @@ class ContactsController extends ControllerAdmin
      */
     public function actionEditField($id){
         $request = Yii::app()->request;
-        $model = new SaveContactFieldForm();
+        $objLng = SiteLng::lng()->getCurrLng();
         
+        $model = new SaveContactFieldForm();
+        $objBlocks = ExtContactsBlock::model()->findAll();
+        
+        //$objField = ExtContactsFields::model()->findByPk($id);
+        
+        
+                
         if($request->isAjaxRequest){
             //ajax
             
@@ -649,7 +656,9 @@ class ContactsController extends ControllerAdmin
         Yii::app()->clientScript->registerScriptFile($this->assetsPath.'/ckeditor/adapters/jquery.js',CClientScript::POS_END);
         Yii::app()->clientScript->registerScriptFile($this->assetsPath.'/js/vendor.edit-contact-field.js',CClientScript::POS_END);
         
-        $this->render('editField',array('model' => $model));
+        $arrField = ExtContactsFields::model()->getFieldContent($id,$objLng->prefix); 
+        
+        $this->render('editField',array('model' => $model,'objBlocks' => $objBlocks, 'arrField' => $arrField));
         
      
     }//actionEditField

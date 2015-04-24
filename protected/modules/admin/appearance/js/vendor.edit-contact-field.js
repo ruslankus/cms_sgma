@@ -8,9 +8,10 @@ $(document).ready(function() {
     */
     $("#styled-language-editor").on('change',function(){
         var prefix = $(this).data('prefix');
-        var pageId = $(this).data("page");
+        var fieldId = $(this).data('field');
         var lngId = $(this).val();
-        getLangValues(pageId,lngId,prefix);
+        console.log(this)
+        //getLangValues(pageId,lngId,prefix);
       
         //$(document).find("textarea").textarea({width : "100%"}); // reattach editor to textarea after ajax load.done; 
     });

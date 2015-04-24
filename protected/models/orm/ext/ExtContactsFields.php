@@ -41,4 +41,19 @@ class ExtContactsFields extends ContactsFields
         //return modified relations
         return $relations;
     }
+    
+    
+    public function getFieldContent($id,$lng = 'en'){
+        $con = $this->dbConnection;
+            
+        $sql  = "SELECT t1.*, t2.name,t2.`value` FROM contacts_fields t1 " . PHP_EOL;
+        $sql .= "JOIN contacts_fields_trl t2 ON t1.id = t2.contacts_field_id " . PHP_EOL;
+        $sql .= "JOIN languages t3 ON t2.lng_id = t3.id " . PHP_EOL;
+        $sql .= "WHERE t3.prefix = :prefix AND t1.id =".(int)$id;
+        
+        $params[':prefix'] = $lng;
+        $arrData = $con->createCommand($sql)->queryRow(true, $params);
+        
+        return (!empty($arrData))? $arrData : false;
+    }//getFieldContent
 }
