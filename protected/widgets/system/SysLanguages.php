@@ -1,5 +1,4 @@
 <?php
-
 class SysLanguages extends CWidget
 {
     /**
@@ -7,27 +6,55 @@ class SysLanguages extends CWidget
      */
     public $widgetInfo;
     public $themeName;
-    public $defoult_template = 'languages';
+
+
+    public $default_template = 'languages';
+    public $use_default_template = true;
 
     /**
-    * Override of getting view dir for widget
-    * @param bool $checkTheme
-    * @return string
-    */
+     * Override of getting view dir for widget
+     * @param bool $checkTheme
+     * @return string
+     */
     public function getViewPath($checkTheme=false)
     {
-        
+
         $path = Yii::app()->getBasePath().DS.'widgets'.DS.'views';
-        $theme = Yii::app()->themeManager->getTheme($this->themeName);
-        $prefix = $this->widgetInfo->type->prefix;
-        
-        if(!empty($theme) && !empty($this->widgetInfo->template_name))
+
+        if(!$this->use_default_template)
         {
+            $theme = Yii::app()->themeManager->getTheme($this->themeName);
+            $prefix = $this->widgetInfo->type->prefix;
             $path = $theme->getBasePath().DS.'views'.DS.'widgets'.DS.$prefix;
         }
-        
+
         return $path;
     }
+
+    /**
+     * Check if we need use default template
+     * @return bool
+     */
+    public function isDefaultTemplate()
+    {
+        $theme = Yii::app()->themeManager->getTheme($this->themeName);
+
+        if(!empty($theme))
+        {
+            if(!empty($this->widgetInfo->template_name))
+            {
+                $themeViewPath = $theme->getBasePath().DS.'views'.DS.'menus';
+                if(file_exists($themeViewPath.DS.$this->widgetInfo->template_name))
+                {
+                    return false;
+                }
+            }
+        }
+
+        return true;
+    }
+
+    /******************************************************************************************************************/
 
     /**
      * Main entry
@@ -36,8 +63,8 @@ class SysLanguages extends CWidget
     {
         $arrayLanguages = array();
         $languages = SiteLng::lng()->getLngs();
-        $template = $this->defoult_template;
-        
+
+
         foreach($languages as $index => $language)
         {
             $url = Yii::app()->request->url;
@@ -49,10 +76,16 @@ class SysLanguages extends CWidget
             $arrayLanguages[$index]['url'] = $url;
         }
 
-        if(!empty($this->widgetInfo->template_name)){
-            $template = $this->widgetInfo->template_name;
-            $template = str_replace(".php","",$template);
+
+        $this->use_default_template = $this->isDefaultTemplate();
+
+        $template = $this->widgetInfo->template_name;
+        $template = str_replace(".php","",$template);
+
+        if($this->use_default_template){
+            $template = $this->default_template;
         }
+
 
         $this->render($template,array('languages' => $arrayLanguages));
     }
