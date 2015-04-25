@@ -645,11 +645,16 @@ class ContactsController extends ControllerAdmin
         
         //$objField = ExtContactsFields::model()->findByPk($id);
         
-        
-                
+               
         if($request->isAjaxRequest){
             //ajax
+            $siteLng = $request->getPost('lng');
             
+            $arrField = ExtContactsFields::model()->getFieldContent($id,$objLng->prefix); 
+            
+            $this->renderPartial("_edit_contact_block_field",array('model' => $model,
+                'objBlocks'=> $objBlocks,'lngPrefix' => $objLng->prefix, 'arrField' => $arrField));
+            Yii::app()->end();
         }
         
         Yii::app()->clientScript->registerScriptFile($this->assetsPath.'/ckeditor/ckeditor.js',CClientScript::POS_END);
@@ -658,7 +663,8 @@ class ContactsController extends ControllerAdmin
         
         $arrField = ExtContactsFields::model()->getFieldContent($id,$objLng->prefix); 
         
-        $this->render('editField',array('model' => $model,'objBlocks' => $objBlocks, 'arrField' => $arrField));
+        $this->render('editField',array('model' => $model,'objBlocks' => $objBlocks,
+            'arrField' => $arrField,'lngPrefix' => $objLng->prefix ));
         
      
     }//actionEditField
@@ -672,7 +678,14 @@ class ContactsController extends ControllerAdmin
      * @param int $id contact block filed Id
      */
     public function actionEditContactFieldAjax($id){
-        
+        $request = Yii::app()->request;
+        if($request->isAjaxRequest){
+            
+            Debug::d($_POST);
+            
+        }else{
+            //error
+        }
         
         
         

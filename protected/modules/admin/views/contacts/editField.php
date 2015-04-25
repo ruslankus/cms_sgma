@@ -15,27 +15,31 @@
 		<div class="contact-img">
 		
 		</div>
-			<?php echo CHtml::beginForm(); ?>
-			<div class="inner-top">
-                <select name="language" id="styled-language-editor" class="float-left">
+			<?php echo CHtml::beginForm("",'post',array('id'=>'content-form')); ?>
+                <div class="inner-top">
+                    <select name="language" id="styled-language-editor"
+                        data-field="<?php echo $arrField['id']?>"
+                        data-prefix="<?php echo $lngPrefix ?>" class="float-left">
                     <?php foreach(SiteLng::lng()->getLngs() as $objLng):?>
-                    <option value="<?php echo $objLng->id;?>" data-page="<?php echo $page_id ?>">
+                        <option value="<?php echo $objLng->prefix;?>" data-page="<?php echo $page_id ?>">
                         <?php echo  ucwords($objLng->name); ?> 
-                    </option>
+                        </option>
                     <?php endforeach;?>
-                </select>  
+                    </select>  
                 
-				<span><?php echo ATrl::t()->getLabel('save before switch lang')?></span>
-			</div><!--/inner-top-->
+                    <span><?php echo ATrl::t()->getLabel('save before switch lang')?></span>
+                </div><!--/inner-top-->
 
 
 			<div class="inner-editor inner-content">
-            <?php echo Chtml::activeHiddenField($model,'field_id',array('value' => $arrField['id']))?>
+                            <?php echo Chtml::hiddenField('field_id',$arrField['id'])?>
+                            <?php echo CHtml::hiddenField('prefix', $lngPrefix)?>
+
 				<table>
 					<tr>
 						<td class="label"><?php echo ATrl::t()->getLabel('block')?>:</td>
 						<td class="value">
-                        <select name="language" id="styled-language-editor" class="float-left">
+                        <select name="block" id="styled-language-editor" class="float-left">
                         <?php foreach($objBlocks as $block):?>
                             <?php if($block->id == $arrField['block_id']):?>
                             <option selected="true" value="<?php echo $block->id;?>"><?php echo $block->label?></option>                            

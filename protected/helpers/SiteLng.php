@@ -1,6 +1,6 @@
 <?php
 /**
- * Labels and messages translation
+ * Site Languages Helper
  */
 class SiteLng
 {
@@ -51,6 +51,20 @@ class SiteLng
     public function getCurrLng(){
         
         return $this->_currLngObj;
+    }
+    
+    /**
+     * @param $lng_prefix - Language prefix
+     * @return int Language ID
+     */
+    public function getIdFromPrefix($lng_prefix){
+        foreach ($this->_objLngs as $objLng){
+            if($objLng->prefix == $lng_prefix ){
+                return $objLng->id;
+            }
+        }
+        
+        return false;
     }
     
     
