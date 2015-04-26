@@ -648,11 +648,11 @@ class ContactsController extends ControllerAdmin
                
         if($request->isAjaxRequest){
             //ajax
-            $siteLng = $request->getPost('lng');
+            $siteLng = $request->getPost('lngPrefix');
             
             $arrField = ExtContactsFields::model()->getFieldContent($id,$siteLng); 
             
-            Debug::d($arrField);
+            //Debug::d($arrField);
             
             $this->renderPartial("_edit_contact_block_field",array('model' => $model,
                 'objBlocks'=> $objBlocks,'lngPrefix' => $objLng->prefix, 'arrField' => $arrField));
@@ -705,10 +705,10 @@ class ContactsController extends ControllerAdmin
                 
                 $objFieldTrl->attributes = $model->attributes;
                 if($objFieldTrl->save()){
-                   $this->renderPartial('_edit_contact_block_fiels_success', array(
+                   $this->renderPartial('_edit_contact_block_fields_success', array(
                         'lngPrefix' => $prefix,'field_id' => $field_id));
                 }else{
-                     $this->renderPartial('_edit_contact_block_field_failed', array(
+                     $this->renderPartial('_edit_contact_block_fields_failed', array(
                         'lngPrefix' => $prefix,'field_id' => $field_id));    
                 }
               

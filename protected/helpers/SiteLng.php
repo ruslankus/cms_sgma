@@ -9,6 +9,8 @@ class SiteLng
     private $_arrLng = array();
     private $_objLngs;
     private $_currLngObj;
+    //[id] => [prefix]
+    private $_arrAllLngsPrefix = array();
   
     
     public static function lng(){
@@ -32,6 +34,8 @@ class SiteLng
             if($lng->active == 1){
                 $this->_arrLng[] = $lng; 
             }
+            
+            $this->_arrAllLngsPrefix[$lng->id] = $lng->prefix;
         }
         //$this->_arrMessages = FormMessages::model()->getLabels();
     }
@@ -65,6 +69,15 @@ class SiteLng
         }
         
         return false;
+    }
+    
+    public function getPrefixFromId($id){
+        if(!empty($this->_arrAllLngsPrefix[$id])){
+            return $this->_arrAllLngsPrefix[$id];
+        }else{
+            false;
+        }
+                
     }
     
     

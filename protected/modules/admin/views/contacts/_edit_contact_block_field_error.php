@@ -4,12 +4,12 @@
     <tr>
         <td class="label"><?php echo ATrl::t()->getLabel('block')?>:</td>
         <td class="value">
-            <select name="language" id="styled-language-editor" class="float-left">
+            <select name="blocks" id="styled-language-editor" class="float-left">
             <?php foreach($objBlocks as $block):?>
             <?php if($block->id == $arrField['block_id']):?>
             <option selected="true" value="<?php echo $block->id;?>"><?php echo $block->label?></option>                            
             <?php else:?>
-            <option value="<?php echo $block->prefix;?>"><?php echo $block->label?></option>      
+            <option value="<?php echo $block->id;?>"><?php echo $block->label?></option>      
             <?php endif;?>
             <?php endforeach;?>
             </select>
@@ -32,4 +32,4 @@
     </tr>
 
 </table>
-<?php echo CHtml::submitButton('Save'); ?>
+<?php echo CHtml::submitButton('Save',array('id' => 'save-data')); ?>

@@ -67,7 +67,7 @@
 					</tr>
 
 				</table>
-				<?php echo CHtml::submitButton('Save'); ?>
+				<?php echo CHtml::submitButton('Save',array('id'=>'save-data')); ?>
 			</div><!--/inner-editor-->
 			<?php echo CHtml::endForm(); ?>
 	</div><!--/content translate-->
