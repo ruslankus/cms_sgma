@@ -5,8 +5,8 @@
 class ProductsController extends Controller
 {
 
-    public $default_item_tpl = "item";
-    public $default_list_tpl = "list";
+    public $default_item_tpl = "default";
+    public $default_list_tpl = "default";
 
     /**
      * Main entry point (default action) - show all items in catalog and also show sub-categories

@@ -70,18 +70,17 @@ class DynamicWidgets
 
     /**
      * Initialisation
-     * @param null $positions
      * @param null $controller
      * @param null $themeName
      * @return bool
      */
-    public static function init($positions = null, $controller = null, $themeName = null)
+    public static function init($themeName = null, $controller = null)
     {
         $success = true;
 
         try
         {
-            self::$_instance = new self($positions,$controller,$themeName);
+            self::$_instance = new self($themeName, $controller);
         }
         catch(Exception $ex)
         {
