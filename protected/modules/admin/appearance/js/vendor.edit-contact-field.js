@@ -7,8 +7,8 @@ $(document).ready(function() {
      * Language onchange event
     */
     $("#styled-language-editor").on('change',function(){
-        var prefix = $(this).data('prefix');
-        var fieldId = $(this).data('field');
+        var prefix = $('#prefix').val();
+        var fieldId = $('#field_id').val();
         var lngId = $(this).val();
         console.log(this)
         getLangValues(fieldId,lngId,prefix);

@@ -15,8 +15,8 @@ class SaveContactFieldForm extends CFormModel
 	public function rules()
 	{
         return array(
-            array('name,value,block_id', 'required'),
-            array('name,value,lngId', 'safe'),      
+            array('name,value', 'required'),
+            array('name,value', 'safe'),      
         );
 	}
    

@@ -650,7 +650,9 @@ class ContactsController extends ControllerAdmin
             //ajax
             $siteLng = $request->getPost('lng');
             
-            $arrField = ExtContactsFields::model()->getFieldContent($id,$objLng->prefix); 
+            $arrField = ExtContactsFields::model()->getFieldContent($id,$siteLng); 
+            
+            Debug::d($arrField);
             
             $this->renderPartial("_edit_contact_block_field",array('model' => $model,
                 'objBlocks'=> $objBlocks,'lngPrefix' => $objLng->prefix, 'arrField' => $arrField));
@@ -676,12 +678,47 @@ class ContactsController extends ControllerAdmin
     /**
      * 
      * @param int $id contact block filed Id
+     * @internal $prefix - admin panel language prefix,
+     * used for generete links
      */
     public function actionEditContactFieldAjax($id){
         $request = Yii::app()->request;
+         $objBlocks = ExtContactsBlock::model()->findAll();
+        
         if($request->isAjaxRequest){
-            
-            Debug::d($_POST);
+            //Debug::d($_POST);
+            $model = new SaveContactFieldForm();
+            $model->attributes = $_POST['SaveContactFieldForm'];
+            $field_id = $request->getPost('field_id');
+            $prefix = $request->getPost('prefix');
+            $fieldLng = $request->getPost('language');
+            $fieldLngId = SiteLng::lng()->getIdFromPrefix($fieldLng); 
+            if($model->validate()){
+                
+                $objFieldTrl = ContactsFieldsTrl::model()->findByAttributes(array('contacts_field_id' => $field_id,
+                'lng_id' => $fieldLngId ));
+                if(empty($objFieldTrl)){
+                    $objFieldTrl = new ContactsFieldsTrl();
+                    $objFieldTrl->lng_id = $fieldLngId;
+                    $objFieldTrl->contacts_field_id = $field_id;
+                }
+                
+                $objFieldTrl->attributes = $model->attributes;
+                if($objFieldTrl->save()){
+                   $this->renderPartial('_edit_contact_block_fiels_success', array(
+                        'lngPrefix' => $prefix,'field_id' => $field_id));
+                }else{
+                     $this->renderPartial('_edit_contact_block_field_failed', array(
+                        'lngPrefix' => $prefix,'field_id' => $field_id));    
+                }
+              
+                
+            }else{
+            //error
+                 $this->renderPartial("_edit_contact_block_field_error",array('model' => $model,
+                    'objBlocks'=> $objBlocks,'lngPrefix' => $prefix, 'field_id' => $field_id));
+                Yii::app()->end();
+            }
             
         }else{
             //error

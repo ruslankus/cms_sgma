@@ -1,4 +1,4 @@
-<?php echo CHtml::hiddenField('field_id', $arrField['id'])?>
+<?php echo CHtml::hiddenField('field_id', $field_id)?>
 <?php echo CHtml::hiddenField('prefix', $lngPrefix)?>
 <table>
     <tr>
@@ -9,7 +9,7 @@
             <?php if($block->id == $arrField['block_id']):?>
             <option selected="true" value="<?php echo $block->id;?>"><?php echo $block->label?></option>                            
             <?php else:?>
-            <option value="<?php echo $block->id;?>"><?php echo $block->label?></option>      
+            <option value="<?php echo $block->prefix;?>"><?php echo $block->label?></option>      
             <?php endif;?>
             <?php endforeach;?>
             </select>
