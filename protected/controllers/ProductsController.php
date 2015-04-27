@@ -7,63 +7,87 @@ class ProductsController extends Controller
 
     public $default_item_tpl = "default";
     public $default_list_tpl = "default";
+    public $on_page = 10;
 
     /**
-     * Main entry point (default action) - show all items in catalog and also show sub-categories
+     * Render list of all items in category
      * @param $id
      * @param int $page
      * @throws CHttpException
      */
     public function actionShow($id,$page = 1)
     {
-        //current category
-        $objProdCatalogCategory = ExtProductCategory::model()->findByPk($id);
+        $category = ExtProductCategory::model()->findByPk($id);
 
-        //if not found
-        if(empty($objProdCatalogCategory))
+        if(empty($category))
         {
             throw new CHttpException(404);
         }
 
-        //current category
-        $arrCategory = $this->objToAssoc($objProdCatalogCategory,true);
+        $contentArray = $category->attributes;
 
-        //all active(visible) sub-categories
-        $arrSubCats = ExtProductCategory::model()->buildMenuItemsArrayFromObjArr($id,true);
-        foreach($arrSubCats as $index => $subCat)
+        if(!empty($category->trl))
         {
-            $arrSubCats[$index]['link'] = Yii::app()->createUrl('products/show/',array('id' => $subCat['id']));
+            $this->title = $category->trl->header;
+            $this->keywords = $category->trl->meta_description;
+
+            $contentArray['trl_name'] = $category->trl->header;
+            $contentArray['trl_description'] = $category->trl->description;
+        }
+        else
+        {
+            $contentArray['trl_name'] = '';
+            $contentArray['trl_description'] = '';
         }
 
-        //bread-crumbs
-        $breadcrumbs = $objProdCatalogCategory->breadCrumbs(true,true);
-        $arrBreadCrumbs = array();
-        foreach($breadcrumbs as $id => $breadcrumb)
+        $contentArray['items'] = array();
+        if(!empty($category->products))
         {
-            $arrBreadCrumbs[] = array('link' => Yii::app()->createUrl('products/show/',array('id' => $id)),'name' => $breadcrumb);
+            /* @var $items ExtProduct[] */
+
+            $products = $category->allRelatedItems(true,true);
+            $items = CPaginator::getInstance($products,$this->on_page,$page)->getPreparedArray();
+
+            foreach($items as $i=> $product)
+            {
+                $contentArray['items'][$i] = $product->attributes;
+                $contentArray['items'][$i]['url'] = Yii::app()->createUrl('news/one',array('id' => $product->id));
+                $contentArray['items'][$i]['trl_name'] = !empty($product->trl) ? $product->trl->title : '';
+                $contentArray['items'][$i]['trl_text'] = !empty($product->trl) ? $product->trl->text : '';
+                $contentArray['items'][$i]['trl_summary'] = !empty($product->trl) ? $product->trl->summary : '';
+                $contentArray['items'][$i]['trl_meta_des'] = !empty($product->trl) ? $product->trl->meta_description : '';
+                $contentArray['items'][$i]['trl_meta_key'] = !empty($product->trl) ? $product->trl->meta_keywords : '';
+
+
+                $contentArray['items'][$i]['images'] = array();
+                if(!empty($product->imagesOfProducts))
+                {
+                    foreach($product->imagesOfProducts as $y => $iop)
+                    {
+                        $contentArray['items'][$i]['images'][$y] = $iop->image->attributes;
+                        $contentArray['items'][$i]['images'][$y]['url'] = $iop->image->getUrl();
+
+                        if(!empty($iop->image->trl))
+                        {
+                            $contentArray['items'][$i]['images'][$y]['trl_caption'] = $iop->image->trl->caption;
+                        }
+                        else
+                        {
+                            $contentArray['items'][$i]['images'][$y]['trl_caption'] = '';
+                        }
+                    }
+                }
+            }
         }
-
-        //all active(visible) items
-        $items = $objProdCatalogCategory->allRelatedItems(true,true);
-        $objItems = CPaginator::getInstance($items,10,$page)->getPreparedArray(true);
-        $arrItems = $this->objArrToAssoc($objItems,true);
-
-        //pagination links
-        $pagination = array();
-        for($i=0; $i < CPaginator::getInstance()->getTotalPages(); $i++)
-        {
-            $pagination[$i+1] = Yii::app()->createUrl('products/show/',array('id' => $id, 'page' => $i+1));
-        }
-
 
         //default template
         $template = $this->default_list_tpl;
 
         //if category has template name
-        if(!empty($objProdCatalogCategory->template_name))
+        if(!empty($category->template_name))
         {
             //remove php extension
-            $temp = $objProdCatalogCategory->template_name;
+            $temp = $category->template_name;
             $temp = str_replace(".php","",$temp);
 
             //if file exist
@@ -74,106 +98,75 @@ class ProductsController extends Controller
             }
         }
 
-        $this->title = $objProdCatalogCategory->trl->header;
-        $this->keywords = $objProdCatalogCategory->trl->meta_description;
-        $this->description = $objProdCatalogCategory->trl->description;
 
         //render list
-        $this->render('category/'.$template,array(
-            'products' => $arrItems,
-            'subcategories' => $arrSubCats,
-            'breadcrumbs' => $arrBreadCrumbs,
-            'category' => $arrCategory,
-            'page' => $page,
-            'pagination' => $pagination
-        ));
+        $this->render('category/'.$template,array('content' => $contentArray));
     }
 
+
+    /**
+     * Renders content of one item
+     * @param $id
+     * @throws CHttpException
+     */
     public function actionOne($id)
     {
-        $product = ExtProduct::model()->findByPk((int)$id);
+        $product = ExtProduct::model()->findByPk($id);
 
         if(empty($product))
         {
             throw new CHttpException(404);
         }
 
-        $arrProductAttributes = $product->attributes;
-        $arrProductTrl = $product->trl->attributes;
-        $images = array();
+        $contentArray = $product->attributes;
+        $contentArray['url'] = Yii::app()->createUrl('news/one',array('id' => $product->id));
+        $contentArray['trl_name'] = !empty($product->trl) ? $product->trl->title : '';
+        $contentArray['trl_text'] = !empty($product->trl) ? $product->trl->text : '';
+        $contentArray['trl_summary'] = !empty($product->trl) ? $product->trl->summary : '';
+        $contentArray['trl_meta_des'] = !empty($product->trl) ? $product->trl->meta_description : '';
+        $contentArray['trl_meta_key'] = !empty($product->trl) ? $product->trl->meta_keywords : '';
 
 
-        $arrObjIop = $product->imagesOfProducts;
-        foreach($arrObjIop as $objIop)
+        $contentArray['images'] = array();
+        if(!empty($product->imagesOfNews))
         {
-            $images[] = $objIop->image;
-        }
-
-        //$arrImages = $this->objArrToAssoc($images,true);
-
-        Debug::out($arrProductAttributes);
-        Debug::out($arrProductTrl);
-        //Debug::out($arrImages);
-
-        exit('Under construction...');
-    }
-
-
-    /****************************************** H E L P E R - M E T H O D S *******************************************/
-
-
-    /**
-     * Converts object array to associative array
-     * @param $objArr
-     * @param bool $trl
-     * @return array
-     */
-    public function objArrToAssoc($objArr,$trl = false)
-    {
-        /* @var $objArr CActiveRecord[] | ExtProduct[] | ExtNews[] | ExtProductCategory[] | ExtNewsCategory[] */
-
-        $result = array();
-
-        foreach($objArr as $index => $obj)
-        {
-            $attributes = $obj->attributes;
-            $result[] = $attributes;
-
-            if(isset($obj->imagesOfProducts))
+            foreach($product->imagesOfNews as $y => $ion)
             {
-                /* @var $first_img ExtImages */
-                $first_img = $obj->getFirstImage();
-                if(!empty($first_img))
+                $contentArray['images'][$y] = $ion->image->attributes;
+                $contentArray['images'][$y]['url'] = $ion->image->getUrl();
+
+                if(!empty($ion->image->trl))
                 {
-                    $result[$index]['first_image'] = $first_img->attributes;
+                    $contentArray['images'][$y]['trl_caption'] = $ion->image->trl->caption;
+                }
+                else
+                {
+                    $contentArray['images'][$y]['trl_caption'] = '';
                 }
             }
+        }
 
-            if($trl && isset($obj->trl))
+
+        //default template
+        $template = $this->default_item_tpl;
+
+        //if category has template name
+        if(!empty($product->template_name))
+        {
+            //remove php extension
+            $temp = $product->template_name;
+            $temp = str_replace(".php","",$temp);
+
+            //if file exist
+            if($this->getViewFile('category/'.$temp))
             {
-                $result[$index]['trl'] = $obj->trl->attributes;
+                //set this template
+                $template = $temp;
             }
         }
 
-        return $result;
-    }
-
-    /**
-     * Converts single object to associative array
-     * @param CActiveRecord | ExtProduct | ExtNews | ExtProductCategory | ExtNewsCategory $obj
-     * @param bool $trl
-     * @return mixed
-     */
-    public function objToAssoc($obj,$trl = false)
-    {
-        $attributes = $obj->attributes;
-
-        if($trl && isset($obj->trl))
-        {
-            $attributes['trl'] = $obj->trl->attributes;
-        }
-
-        return $attributes;
+        //render list
+        $this->render('item/'.$template,array('content' => $contentArray));
     }
 
 }

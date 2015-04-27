@@ -24,7 +24,6 @@
             <?php else: ?>
                 <?php echo $fieldArr['value'] ?>
             <?php endif; ?>
-
         </h4>
         <br>
     <?php endforeach; ?>
