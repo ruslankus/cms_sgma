@@ -5,7 +5,7 @@
  */
 class Controller extends CController
 {
-    public $layout='//layouts/main';
+    public $layoutFile = 'main';
     public $menu=array();
     public $breadcrumbs=array();
 
@@ -16,7 +16,10 @@ class Controller extends CController
     public $arrSettings = array();
 
     public function init(){
-        
+
+        //set layout
+        $this->layout = '//layouts/'.$this->layoutFile;
+
         //set default ime-zone
         date_default_timezone_set('Europe/Vilnius');
         
@@ -24,15 +27,33 @@ class Controller extends CController
         $this->setLanguage($language);
 
         //get all settings from db
-
         $this->arrSettings = ExtSettings::model()->getSettings(true);
 
         //if not empty theme name
         if(!empty($this->arrSettings['active_desktop_theme']))
         {
-            //set theme
-            Yii::app()->theme = $this->arrSettings['active_desktop_theme'];
-            //Yii::app()->theme = 'asddsf';
+            //get array of all themes
+            $arrThemes = Yii::app()->themeManager->themeNames;
+
+            //if array of themes not empty
+            if(!empty($arrThemes))
+            {
+                //set theme
+                Yii::app()->theme = $this->arrSettings['active_desktop_theme'];
+            }
+        }
+
+        //path to theme configuration file
+        $config_file = !empty(Yii::app()->theme) ?
+            Yii::app()->theme->basePath.DS.'theme.ini' : Yii::app()->basePath.DS.'theme.ini';
+        //path to main layout file
+        $layout_file = !empty(Yii::app()->theme) ?
+            Yii::app()->theme->basePath.DS.'views'.DS.'layouts'.DS.$this->layoutFile.'.php' : Yii::app()->basePath.DS.'views'.DS.'layouts'.DS.$this->layoutFile.'.php';
+
+        //if config file or layout file found
+        if(!is_file($config_file) || !is_file($layout_file))
+        {
+            throw new CHttpException('Theme corrupt. Configuration file or main layout not found. Make sure "theme.ini" exist, and layout file exist in layout dir');
         }
 
     }//init
@@ -46,6 +67,7 @@ class Controller extends CController
     protected function beforeAction($action) {
 
 
+
         /**
          * Init dynamic widgets
          */
@@ -55,7 +77,6 @@ class Controller extends CController
         /**
          * Appending JS and CSS files to the layout
          */
-
         //appearance from theme dir
         $appearance_dir_theme = Yii::app()->theme->basePath.DS.'appearance';
         //appearance from core dir
@@ -70,6 +91,7 @@ class Controller extends CController
         $published_dir = Yii::app()->assetManager->getBasePath().DS.$dir;
 
 
+        //if exist css folder - register all css scripts
         if(is_dir($published_dir.DS.'css'))
         {
             $arr = scandir($published_dir.DS.'css');
@@ -82,6 +104,7 @@ class Controller extends CController
             }
         }
 
+        //if exist js script - register all js scripts
         if(is_dir($published_dir.DS.'js'))
         {
             $arr = scandir($published_dir.DS.'js');

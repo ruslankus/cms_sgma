@@ -16,12 +16,15 @@ class ThemeHelper
     /**
      * Returns all widget templates for concrete theme
      * @param $selectedTheme
-     * @return array
+     * @param string $prefix
+     * @return array|null
      */
     public static function getTemplatesForWidgets($selectedTheme, $prefix = '')
     {
+        $path = '';
+
         if(!empty($prefix)){
-            $path = "widgets/{$prefix}";
+            $path = "widgets/".$prefix;
         }
         $retArr = self::getTemplatesFor($selectedTheme,$path);
         
