@@ -39,7 +39,8 @@ class NewsController extends Controller
         {
             /* @var $items ExtNews[] */
 
-            $items = CPaginator::getInstance($category->news,$this->on_page,$page)->getPreparedArray();
+            $news = $category->allRelatedItems(true,true);
+            $items = CPaginator::getInstance($news,$this->on_page,$page)->getPreparedArray();
             
             foreach($items as $i=> $newsItem)
             {
