@@ -31,7 +31,7 @@ class DynamicWidgets
      */
     public static function getArrayOfPositionsByThemeName($themeName)
     {
-        $theme = Yii::app()->themeManager->getTheme($themeName);
+        $theme = !empty($themeName) ? Yii::app()->themeManager->getTheme($themeName) : null;
         $path = !empty($theme) ? $theme->getBasePath() : Yii::app()->getBasePath();
         $themeConfigFile = $path.DS.'theme.ini';
         $arrThemeConfig = file_exists($themeConfigFile) ? parse_ini_file($themeConfigFile,true) : array();
