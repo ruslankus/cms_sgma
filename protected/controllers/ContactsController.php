@@ -10,6 +10,7 @@ class ContactsController extends Controller
         $arrData = ExtContactsPage::model()->getContactFull($id, $objCurrLng->prefix);
         //$objData = ExtContactsPage::model()->findByPk($id);
         
+        
         //contacts block
         foreach($arrData['blocks'] as $items){
             $arrBlocks[$items['block_id']][] = $items; 
@@ -21,8 +22,8 @@ class ContactsController extends Controller
             $this->title = $title;
         }
         
+        //Debug::d($arrBlocks);
         
-           
         $description  = ($arrData['content']['description'])? $arrData['content']['description'] : "";  
         //need meta
         //need meta description 

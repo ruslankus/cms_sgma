@@ -1,9 +1,11 @@
 <h2><?php echo $title?></h2>
+<h3>core render</h3>
 <div><?php echo $description ?></div>
 <?php if(!empty($imgs[0])): ?>
 <div>
     <?php echo Image::tag($imgs[0], array('class' => 'test','width' => '250'))?>
 </div>
+<?php endif; ?>
 <div>
     <?php foreach($arrBlocks as $block ):?>
     <div style="margin-bottom: 20px;">
@@ -13,4 +15,3 @@
     </div>    
     <?php endforeach;?>
 </div>
-<?php endif; ?>
