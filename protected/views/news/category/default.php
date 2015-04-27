@@ -12,5 +12,3 @@
     <?php endforeach ?>
     <hr>
 <?php endforeach; ?>
-
-<?php Debug::out($content); ?>

@@ -8,7 +8,13 @@ class NewsController extends Controller
     public $default_item_tpl = "default";
     public $default_list_tpl = "default";
     public $on_page = 10;
-    
+
+    /**
+     * Render list of all items in category
+     * @param $id
+     * @param int $page
+     * @throws CHttpException
+     */
     public function actionShow($id,$page = 1)
     {
         $category = ExtNewsCategory::model()->findByPk($id);
@@ -95,6 +101,72 @@ class NewsController extends Controller
 
         //render list
         $this->render('category/'.$template,array('content' => $contentArray));
+    }
+
+
+    /**
+     * Renders content of one item
+     * @param $id
+     * @throws CHttpException
+     */
+    public function actionOne($id)
+    {
+        $newsItem = ExtNews::model()->findByPk($id);
+
+        if(empty($newsItem))
+        {
+            throw new CHttpException(404);
+        }
+
+        $contentArray = $newsItem->attributes;
+        $contentArray['url'] = Yii::app()->createUrl('news/one',array('id' => $newsItem->id));
+        $contentArray['trl_name'] = !empty($newsItem->trl) ? $newsItem->trl->title : '';
+        $contentArray['trl_text'] = !empty($newsItem->trl) ? $newsItem->trl->text : '';
+        $contentArray['trl_summary'] = !empty($newsItem->trl) ? $newsItem->trl->summary : '';
+        $contentArray['trl_meta_des'] = !empty($newsItem->trl) ? $newsItem->trl->meta_description : '';
+        $contentArray['trl_meta_key'] = !empty($newsItem->trl) ? $newsItem->trl->meta_keywords : '';
+
+
+        $contentArray['images'] = array();
+        if(!empty($newsItem->imagesOfNews))
+        {
+            foreach($newsItem->imagesOfNews as $y => $ion)
+            {
+                $contentArray['images'][$y] = $ion->image->attributes;
+                $contentArray['images'][$y]['url'] = $ion->image->getUrl();
+
+                if(!empty($ion->image->trl))
+                {
+                    $contentArray['images'][$y]['trl_caption'] = $ion->image->trl->caption;
+                }
+                else
+                {
+                    $contentArray['images'][$y]['trl_caption'] = '';
+                }
+            }
+        }
+
+
+        //default template
+        $template = $this->default_item_tpl;
+
+        //if category has template name
+        if(!empty($newsItem->template_name))
+        {
+            //remove php extension
+            $temp = $newsItem->template_name;
+            $temp = str_replace(".php","",$temp);
+
+            //if file exist
+            if($this->getViewFile('category/'.$temp))
+            {
+                //set this template
+                $template = $temp;
+            }
+        }
+
+        //render list
+        $this->render('item/'.$template,array('content' => $contentArray));
     }
     
 }
