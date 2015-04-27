@@ -3,14 +3,19 @@ class ContactsController extends Controller
 {
     public function actionShow($id)
     {
+        $arrBlocks = array();
+            
         $objCurrLng = SiteLng::lng()->getCurrLng();
         
-        //$arrData = ExtContactsPage::model()->getContactFull($id, $objCurrLng->prefix);
-        $objData = ExtContactsPage::model()->findByPk($id);
+        $arrData = ExtContactsPage::model()->getContactFull($id, $objCurrLng->prefix);
+        //$objData = ExtContactsPage::model()->findByPk($id);
         
+        //contacts block
+        foreach($arrData['blocks'] as $items){
+            $arrBlocks[$items['block_id']][] = $items; 
+        }
+     
         
-        Debug::d($objData->contactsBlocks);
-        //Debug::d($arrData);
         $title = ($arrData['content']['title'])? $arrData['content']['title'] : "";  
         if(!empty($title)){
             $this->title = $title;
@@ -22,7 +27,8 @@ class ContactsController extends Controller
         //need meta
         //need meta description 
         
-        $this->render('contact_page', array('description' => $description, 'title' => $title, 'imgs' => $arrData['images']));   
+        $this->render('contact_page', array('description' => $description, 'title' => $title,
+        'imgs' => $arrData['images'], 'arrBlocks' => $arrBlocks));   
     }
     
 }//    

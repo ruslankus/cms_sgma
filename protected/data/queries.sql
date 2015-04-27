@@ -13,3 +13,10 @@ SELECT * FROM contacts_page_trl t2
 WHERE t2.page_id = 1 AND t2.lng_id = 2
 LIMIT 1
 
+SELECT A.*, T.* FROM contacts_fields as A
+LEFT JOIN contacts_fields_trl as T ON A.id = T.contacts_field_id AND T.lng_id = 2
+WHERE A.block_id IN ( SELECT id FROM contacts_block WHERE page_id = 1 )
+GROUP BY T.contacts_field_id;
+
+
+

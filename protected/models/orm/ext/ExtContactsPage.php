@@ -110,11 +110,20 @@ class ExtContactsPage extends ContactsPage
             //$sql .= "JOIN images t2 ON t1.image_id = t2.id ";
           
            
-           $param[":prefix"] = $prefix;
+           $param[":prefix"] = $lng;
            
            $arrData['images'] = $con->createCommand($sql)->queryAll(true,$param);
            //adding block
-           
+           $sql  = "SELECT A.*, T.`name`, T.value FROM contacts_fields as A ";
+           $sql .= "LEFT JOIN contacts_fields_trl as T ON A.id = T.contacts_field_id ";
+           $sql .= "JOIN languages as L ON T.lng_id = L.id AND L.prefix = :prefix " ;
+           $sql .= "WHERE A.block_id IN ( SELECT id FROM contacts_block WHERE page_id = :page_id ) ";
+           $sql .= "GROUP BY T.contacts_field_id";
+            
+           //Debug::d($sql);
+            
+           $param[":page_id"] = $page_id;
+           $arrData['blocks'] =  $con->createCommand($sql)->queryAll(true,$param);
            
         }
          
