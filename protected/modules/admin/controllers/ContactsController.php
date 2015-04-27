@@ -10,19 +10,19 @@ class ContactsController extends ControllerAdmin
         Yii::app()->clientScript->registerScriptFile($this->assetsPath.'/js/vendor.trees.js',CClientScript::POS_END);
         Yii::app()->clientScript->registerScriptFile($this->assetsPath.'/js/vendor.main-menu.js',CClientScript::POS_END);
         Yii::app()->clientScript->registerCssFile($this->assetsPath.'/css/vendor.news.ext.css');
-
+    
         $currLng = Yii::app()->language;
         
         if(empty($siteLng)){
             $siteLng = Yii::app()->language; 
         }
         
-        //$objContacts = ContactsPage::model()->with(array('contactsPageTrls.lng' => array('condition' => "lng.prefix='{$siteLng}'")))->findall(array('order' => 'priority DESC'));
-
-       $objContacts = ContactsPage::model()->findall(array('order' => 'priority DESC'));    
+        $objContacts = ContactsPage::model()->findall(array('order' => 'priority DESC'));
+        
+       
         
         $pager = CPaginator::getInstance($objContacts,100,$page);
-
+        
         if(Yii::app()->request->isAjaxRequest)
         {
             $pager = $pager->getPreparedArray();
@@ -30,10 +30,10 @@ class ContactsController extends ControllerAdmin
         }
         else
         {
-
+        
             $this->render('index',array('pager' => $pager, 'currLng' => $currLng));
         }
-
+    
     }//actionPages
 
     public function actionCreate(){
@@ -74,6 +74,8 @@ class ContactsController extends ControllerAdmin
        
         if(isset($_POST['SaveContactForm']))
         {
+            
+            
             $siteLng = $_POST['SaveContactForm']['lngId'];
             $langObj = Languages::model()->findByPk($siteLng);
             $curr_prefix = $langObj->prefix;
@@ -102,7 +104,18 @@ class ContactsController extends ControllerAdmin
         Yii::app()->clientScript->registerScriptFile($this->assetsPath.'/ckeditor/ckeditor.js',CClientScript::POS_END);
         Yii::app()->clientScript->registerScriptFile($this->assetsPath.'/ckeditor/adapters/jquery.js',CClientScript::POS_END);
         Yii::app()->clientScript->registerScriptFile($this->assetsPath.'/js/vendor.edit-contact.js',CClientScript::POS_END);
-       
+        
+        
+        $currTheme = $this->currentThemeName;
+        //getting tempates for page from theme if available
+        if(!empty($currTheme)){
+            $arrTemplates = ThemeHelper::getTemplatesFor($currTheme,'contacts');     
+        }else{
+            $arrTemplates = null;
+        }
+        
+        array_unshift($arrTemplates,'------------');
+          
         
         $objCurrLng = SiteLng::lng()->getCurrLng();  
         
@@ -117,8 +130,12 @@ class ContactsController extends ControllerAdmin
         //$arrPage = ExtContacts::model()->getContact($id,$curr_prefix);
         $arrPage = ContactsPageTrl::model()->find(array('condition'=>'Page_id=:id AND lng_id=:siteLng','params'=>array('id'=>$id,'siteLng'=>$siteLng)));
         //Debug::d($arrPage);
-        $this->render('editContact', array('arrPage' => $arrPage, 'model' => $model, 'contact_id' => $id, 'siteLng' => $siteLng, 'prefix' => $prefix ));
+        $this->render('editContact', array('arrPage' => $arrPage, 'model' => $model,
+         'contact_id' => $id, 'siteLng' => $siteLng, 'prefix' => $prefix,
+         'arrTemplates' => $arrTemplates ));
     }//edit
+    
+    
 
     public function actionDeleteContact($id=null){
         ContactsPage::model()->deleteByPk($id);
