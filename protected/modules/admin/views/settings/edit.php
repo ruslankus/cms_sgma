@@ -1,5 +1,5 @@
 <?php /* @var $arrData array */ ?>
-<?php /* @var $selectable array */ ?>
+<?php /* @var $selectable_items array */ ?>
 
 <main>
     <div class="title-bar">
@@ -26,9 +26,19 @@
             <form method="post">
                 <?php foreach($arrData as $key => $value ): ?>
                     <div class="gen-item">
-                        <span><?php echo $key; ?></span>
-                        <input type="submit" value="Save" name="save[<?php echo $key; ?>]" class="save float-right"/>
-                        <input type="text" name="settings[<?php echo $key; ?>]" value="<?php echo $value?>" />
+                        <?php if($key != 'home_page_item'): ?>
+                            <span><?php echo $key; ?></span>
+                            <input type="submit" value="Save" name="save[<?php echo $key; ?>]" class="save float-right"/>
+                            <input type="text" name="settings[<?php echo $key; ?>]" value="<?php echo $value?>" />
+                        <?php else: ?>
+                            <span><?php echo $key; ?></span>
+                            <input type="submit" value="Save" name="save[<?php echo $key; ?>]" class="save float-right"/>
+                            <select name="settings[<?php echo $key; ?>]">
+                                <?php foreach($selectable_items as $id => $option): ?>
+                                <option <?php if(!is_numeric($id)): ?> disabled <?php endif; ?> value="<?php echo $id ?>"><?php echo $option; ?></option>
+                                <?php endforeach; ?>
+                            </select>
+                        <?php endif; ?>
                     </div><!--/gen-item-->
                 <?php endforeach; ?>
             </form>

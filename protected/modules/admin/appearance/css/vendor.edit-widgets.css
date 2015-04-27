@@ -210,3 +210,18 @@
 
 .ficoned.arrow-up:before { content: "\f062"; }
 .ficoned.arrow-down:before { content: "\f063"; }
+
+
+.content.widget-content .inner-content .gen-item select {
+    width: 250px;
+    height: 30px;
+    border-radius: 3px;
+    color: #868686;
+    font-family: "Open_sans";
+    font-size: 15px;
+    border: 1px solid #DDD;
+    margin-top: 10px;
+    float: right;
+    margin-left: 10px;
+    padding: 0px 5px;
+}
