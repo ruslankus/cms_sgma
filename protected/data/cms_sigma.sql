@@ -10,7 +10,7 @@ Target Server Type    : MYSQL
 Target Server Version : 50538
 File Encoding         : 65001
 
-Date: 2015-04-27 16:57:16
+Date: 2015-04-27 18:16:22
 */
 
 SET FOREIGN_KEY_CHECKS=0;
@@ -129,7 +129,7 @@ CREATE TABLE `complex_page_fields` (
   KEY `type_id` (`type_id`),
   CONSTRAINT `complex_page_fields_ibfk_1` FOREIGN KEY (`group_id`) REFERENCES `complex_page_field_groups` (`id`) ON DELETE CASCADE ON UPDATE NO ACTION,
   CONSTRAINT `complex_page_fields_ibfk_2` FOREIGN KEY (`type_id`) REFERENCES `complex_page_field_types` (`id`) ON DELETE NO ACTION ON UPDATE NO ACTION
-) ENGINE=InnoDB AUTO_INCREMENT=7 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=8 DEFAULT CHARSET=utf8;
 
 -- ----------------------------
 -- Records of complex_page_fields
@@ -155,7 +155,7 @@ CREATE TABLE `complex_page_fields_trl` (
   KEY `lng_id` (`lng_id`),
   CONSTRAINT `complex_page_fields_trl_ibfk_1` FOREIGN KEY (`page_field_id`) REFERENCES `complex_page_fields` (`id`) ON DELETE CASCADE ON UPDATE NO ACTION,
   CONSTRAINT `complex_page_fields_trl_ibfk_2` FOREIGN KEY (`lng_id`) REFERENCES `languages` (`id`) ON DELETE CASCADE ON UPDATE NO ACTION
-) ENGINE=InnoDB AUTO_INCREMENT=13 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=15 DEFAULT CHARSET=utf8;
 
 -- ----------------------------
 -- Records of complex_page_fields_trl
@@ -296,7 +296,7 @@ CREATE TABLE `complex_page_field_values` (
   KEY `field_id` (`field_id`),
   CONSTRAINT `complex_page_field_values_ibfk_1` FOREIGN KEY (`page_id`) REFERENCES `complex_page` (`id`) ON DELETE CASCADE ON UPDATE NO ACTION,
   CONSTRAINT `complex_page_field_values_ibfk_2` FOREIGN KEY (`field_id`) REFERENCES `complex_page_fields` (`id`) ON DELETE CASCADE ON UPDATE NO ACTION
-) ENGINE=InnoDB AUTO_INCREMENT=6 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=7 DEFAULT CHARSET=utf8;
 
 -- ----------------------------
 -- Records of complex_page_field_values
@@ -321,7 +321,7 @@ CREATE TABLE `complex_page_field_values_trl` (
   KEY `field_value_id` (`field_value_id`),
   CONSTRAINT `complex_page_field_values_trl_ibfk_1` FOREIGN KEY (`lng_id`) REFERENCES `languages` (`id`) ON DELETE CASCADE ON UPDATE NO ACTION,
   CONSTRAINT `complex_page_field_values_trl_ibfk_2` FOREIGN KEY (`field_value_id`) REFERENCES `complex_page_field_values` (`id`) ON DELETE CASCADE ON UPDATE NO ACTION
-) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=5 DEFAULT CHARSET=utf8;
 
 -- ----------------------------
 -- Records of complex_page_field_values_trl
@@ -829,7 +829,7 @@ CREATE TABLE `menu_item` (
 -- Records of menu_item
 -- ----------------------------
 INSERT INTO `menu_item` VALUES ('31', '5', 'Home page', '0', '3', '1', '8', '1', '1427987229', '1429795369', '1');
-INSERT INTO `menu_item` VALUES ('32', '5', 'News', '0', '5', '2', '7', '1', '1427987311', '1429795369', '1');
+INSERT INTO `menu_item` VALUES ('32', '5', 'News', '0', '5', '2', '7', '1', '1427987311', '1430143127', '1');
 INSERT INTO `menu_item` VALUES ('33', '5', 'Products', '0', '4', '3', '1', '1', '1427987366', '1429795369', '1');
 INSERT INTO `menu_item` VALUES ('34', '5', 'Contacts', '0', '1', '1', '8', '1', '1427987474', '1429795369', '1');
 INSERT INTO `menu_item` VALUES ('35', '5', 'Complex page', '0', '2', '5', '5', '1', '1429795364', '1429795369', '1');
@@ -1039,10 +1039,10 @@ CREATE TABLE `news_trl` (
 -- ----------------------------
 -- Records of news_trl
 -- ----------------------------
-INSERT INTO `news_trl` VALUES ('29', 'sdf', null, null, null, null, '24', '1');
-INSERT INTO `news_trl` VALUES ('30', 'sdfsfd', null, null, null, null, '24', '2');
-INSERT INTO `news_trl` VALUES ('31', 'Some title', null, null, 'Some text', 'Some summary', '25', '1');
-INSERT INTO `news_trl` VALUES ('32', 'Название', null, null, 'Текст', 'Общее', '25', '2');
+INSERT INTO `news_trl` VALUES ('29', 'New two', null, null, 'Some long text', 'Summary text', '24', '1');
+INSERT INTO `news_trl` VALUES ('30', 'Новость два', null, null, 'Длинный текст', 'Какой-то текст вкратце', '24', '2');
+INSERT INTO `news_trl` VALUES ('31', 'New one', null, null, 'Some long text', 'Some summary text', '25', '1');
+INSERT INTO `news_trl` VALUES ('32', 'Новость 1', null, null, 'Длинный текст', 'Обобщенный текст', '25', '2');
 
 -- ----------------------------
 -- Table structure for `page`
