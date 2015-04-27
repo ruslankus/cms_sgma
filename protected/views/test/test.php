@@ -16,11 +16,11 @@ $form=$this->beginWidget('CActiveForm',array(
 <?php echo $form->error($model,'text'); ?>
 <br>
 
-  <?php echo $form->labelEx($model,'verifyCode'); ?>
+  <?php echo $form->labelEx($model,'code'); ?>
   <div>
-<?php echo $form->textField($model,'verifyCode'); ?>
+<?php echo $form->textField($model,'code'); ?>
 <?php $this->widget('CCaptcha'); ?>
-<?php echo $form->error($model,'verifyCode'); ?>
+<?php echo $form->error($model,'code'); ?>
   </div>
  
  </div>

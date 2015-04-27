@@ -12,6 +12,7 @@ class MainController extends Controller
      * Entry
      */
 
+    
     public function actionIndex()
     {
     	//$this->layout = "site";
@@ -22,4 +23,6 @@ class MainController extends Controller
         $this->render('main',array('model'=>$model));
         
     }
+
+
 }

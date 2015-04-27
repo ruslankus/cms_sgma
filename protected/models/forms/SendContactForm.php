@@ -7,18 +7,19 @@ class SendContactForm extends CFormModel
 {
    public $email;
    public $text;
-   public $verifyCode;
+   public $code;
    /**
-	 * Declares the validation rules.
-	 */
-	public function rules()
-	{
+   * Declares the validation rules.
+   */
+  public function rules()
+  {
         return array(
-            array('verifyCode', 'captcha', 'allowEmpty'=>!CCaptcha::checkRequirements()),
-            array('email,text', 'required'),
+           // array('code', 'captcha'),
+            array('email', 'email'),
+            array('text,email', 'required'),
             array('email,text', 'safe'),      
         );
-	}
+  }
    
     
     
