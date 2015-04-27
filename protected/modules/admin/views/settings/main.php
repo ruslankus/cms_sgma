@@ -1,3 +1,5 @@
+<?php /* @var $arrData array */ ?>
+
 <main>
 	<div class="title-bar">
 		<h1>Settings</h1>
@@ -21,9 +23,21 @@
 
 		<div class="inner-content">
 			<form method="post">
-				<?php foreach ($arrData as $item): ?>
-					<div class="template"><label for="a1"><?php echo $item['name'];?></label> <input type="radio" name="radio" value="<?php echo $item['folder_name'];?>" <?php if($item['active']) echo "checked";?>/></div>
+                <?php $themeUsed = false; ?>
+				<?php foreach ($arrData as $index => $item): ?>
+					<div class="template">
+                        <label for="<?php echo ($index+1).'_theme'; ?>"><?php echo $item['name'];?></label>
+                        <input id="<?php echo ($index+1).'_theme'; ?>" type="radio" name="radio" <?php if($item['active']): ?> <?php echo "checked"; $themeUsed = true; ?> <?php endif; ?> value="<?php echo $item['folder_name'];?>">
+                    </div>
 				<?php endforeach;?>
+
+                <div class="template">
+                    <label for="0_theme"><?php echo ATrl::t()->getLabel('No theme'); ;?></label>
+                    <input id="0_theme" type="radio" <?php if(!$themeUsed): ?> checked <?php endif; ?> name="radio" value=""/>
+                </div>
+
+<!--                --><?php //Debug::out($arrData); ?>
+                
 				<input type="submit" value="Save" name="save" class="save float-left action-save" style="margin-right: 5px;"/>
 
 				<input type="submit" value="Reset" name="save" data-prefix="<?php echo $prefix;?>" class="save float-left action-reset" />
