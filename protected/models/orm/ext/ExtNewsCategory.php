@@ -1,7 +1,7 @@
 <?php
 /**
  * Class ExtPage
- * @property News[] $news
+ * @property ExtNews[] $news
  * @property ExtMenuItem $menuItem
  * @property NewsCategoryTrl $trl
  */
