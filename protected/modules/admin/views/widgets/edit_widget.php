@@ -76,12 +76,12 @@
                     <td class="label"><?php echo $form->labelEx($form_model,'label'); ?></td>
                     <td class="value"><?php echo $form->textField($form_model,'label',array('placeholder' => ATrl::t()->getLabel('label'), 'value' => $widget->label)); ?></td>
                 </tr>
-                <tr>
-                    <td class="label"><?php echo $form->labelEx($form_model,'type_id'); ?></td>
-                    <td class="value">
-                        <?php echo $form->dropDownList($form_model,'type_id',$types,array('class'=>'load-items-selector','options' => array($widget->type_id =>array('selected'=>true))));?>
-                    </td>
-                </tr>
+<!--                <tr>-->
+<!--                    <td class="label">--><?php //echo $form->labelEx($form_model,'type_id'); ?><!--</td>-->
+<!--                    <td class="value">-->
+<!--                        --><?php //echo $form->dropDownList($form_model,'type_id',$types,array('class'=>'load-items-selector','options' => array($widget->type_id =>array('selected'=>true))));?>
+<!--                    </td>-->
+<!--                </tr>-->
                 <tr>
                     <td class="label"><?php echo $form->labelEx($form_model,'template_name'); ?></td>
                     <td class="value">

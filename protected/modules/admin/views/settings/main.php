@@ -2,7 +2,7 @@
 
 <main>
 	<div class="title-bar">
-		<h1>Settings</h1>
+		<h1><?php echo ATrl::t()->getLabel('Settings'); ?></h1>
 		<ul class="actions">
 			<li><a href="" class="action undo"></a></li>
 		</ul>

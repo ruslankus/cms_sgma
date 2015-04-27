@@ -21,7 +21,7 @@ class MenuController extends ControllerAdmin
         //menu form
         $form_mdl = new MenuForm();
         //currently selected theme
-        $selectedTheme = $this->arrSettings['active_desktop_theme'];
+        $selectedTheme = $this->currentThemeName;
         //get all templates for menus
         $templates = ThemeHelper::getTemplatesForMenu($selectedTheme);
         //statuses
@@ -90,7 +90,7 @@ class MenuController extends ControllerAdmin
         //menu form
         $form_mdl = new MenuForm();
         //currently selected theme
-        $selectedTheme = $this->arrSettings['active_desktop_theme'];
+        $selectedTheme = $this->currentThemeName;
         //get all templates for menus
         $templates = ThemeHelper::getTemplatesForMenu($selectedTheme);
         //statuses

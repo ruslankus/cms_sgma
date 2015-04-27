@@ -15,7 +15,7 @@ class MenuForm extends CFormModel
 	public function rules()
 	{
         return array(
-            array('label, status_id, template_name', 'required'),
+            array('label, status_id', 'required'),
             array('label, status_id, template_name', 'safe')
         );
 	}

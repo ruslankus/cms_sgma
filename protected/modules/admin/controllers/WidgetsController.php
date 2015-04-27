@@ -18,14 +18,8 @@ class WidgetsController extends ControllerAdmin
 
         //menu form
         $form_mdl = new WidgetForm();
-        //currently selected theme
-        $selectedTheme = 'dark'; //TODO: select theme from DB
-        //get all templates for widgets
-        //$templates = ThemeHelper::getTemplatesForWidgets($selectedTheme);
-        //types
         $types = ExtSystemWidgetType::model()->getAllTypesForForm(true);
         
-         
 
         if(Yii::app()->request->isAjaxRequest)
         {
@@ -94,7 +88,7 @@ class WidgetsController extends ControllerAdmin
         $arrTypes = ExtSystemWidgetType::model()->getAllTypesForForm(true);
         
         //currently selected theme
-        $selectedTheme = $this->arrSettings['active_desktop_theme'];
+        $selectedTheme = $this->currentThemeName;
         //get all templates for widgets
         $templates = ThemeHelper::getTemplatesForWidgets($selectedTheme,$widgetPrefix);
         

@@ -10,6 +10,7 @@ class ControllerAdmin extends CController
 
 
     public $arrSettings = array();
+    public $currentThemeName = null;
 
     /**
      * Check if user allowed to admin's module controllers and actions
@@ -66,6 +67,12 @@ class ControllerAdmin extends CController
 
         //get all settings from db
         $this->arrSettings = ExtSettings::model()->getSettings(true);
+
+        //if theme really exist and can be used - store it's name for easily access from controllers
+        if($this->arrSettings['active_desktop_theme'] != '' && Yii::app()->themeManager->getTheme($this->arrSettings['active_desktop_theme']) != null)
+        {
+            $this->currentThemeName = $this->arrSettings['active_desktop_theme'];
+        }
 
         parent::__construct($id,$module);
     }

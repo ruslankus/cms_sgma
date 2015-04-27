@@ -83,46 +83,52 @@ class SettingsController extends ControllerAdmin
     /*
         ajax reset widget position
     */
-        public function actionAjaxResetPositionsConfirm()
-        {
-            $lang_prefix = Yii::app()->language;
-            $resArr=array();
-            $resArr['html'] = $this->renderPartial('_reset-wid-positions',array('prefix'=>$lang_prefix),true);
-            echo json_encode($resArr);
-        }
-
-    /*
-        End ajax reset widget position
-    */    
-    public function actionEdit(){
-        Yii::app()->clientScript->registerCssFile($this->assetsPath.'/css/vendor.edit-widgets.css');
-        $request = Yii::app()->request;
-        
-        if(isset($_POST['save'])){
-        
-            $setName = $request->getPost('setting');
-            $setValue = $request->getPost('value');      
-            $objSet = Settings::model()->findByAttributes(array('value_name' => $setName)); 
-               
-            $objSet->setting = $setValue;
-            
-            if($objSet->save()){
-                
-            }else{
-                //error
-            }
-        
-       }
-        
-        $lngPrefix = SiteLng::lng()->getCurrLng()->prefix;
-        $arrData = ExtSettings::model()->getSettings();
-        
-        $this->render('edit',array('arrData' => $arrData, 'prefix' => $lngPrefix));
+    public function actionAjaxResetPositionsConfirm()
+    {
+        $lang_prefix = Yii::app()->language;
+        $resArr=array();
+        $resArr['html'] = $this->renderPartial('_reset-wid-positions',array('prefix'=>$lang_prefix),true);
+        echo json_encode($resArr);
     }
 
 
+    /**
+     * Edit general settings
+     */
+    public function actionEdit(){
 
+        Yii::app()->clientScript->registerCssFile($this->assetsPath.'/css/vendor.edit-widgets.css');
 
+        if(isset($_POST['settings']) && isset($_POST['save']))
+        {
+            $settings = $_POST['settings'];
+            $save = $_POST['save'];
+
+            $key = key($save);
+            $value = $settings[$key];
+
+            $objSet = Settings::model()->findByAttributes(array('value_name' => $key));
+            $objSet->setting = $value;
+            $objSet->update();
+        }
+
+        /* @var $menus ExtMenu[] */
+        $menus = ExtMenu::model()->findAll();
+        $items = array();
+
+        foreach($menus as $menu)
+        {
+            $items['menu_'.$menu->id] = $menu->label;
+            foreach($menu->arrayForMenuItemForm(0,true,false) as $id => $item)
+            {
+                $items[$id] = $item;
+            }
+        }
+
+        $arrData = ExtSettings::model()->getSettings();
+
+        $this->render('edit',array('arrData' => $arrData, 'selectable_items' => $items));
+    }
 
 
 /*************************************** W I D G E T  R E G I S T R A T I O N S ****************************************/

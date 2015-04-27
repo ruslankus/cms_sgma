@@ -9,7 +9,11 @@ class ThemeHelper
      */
     public static function getTemplatesForMenu($selectedTheme)
     {
-        return self::getTemplatesFor($selectedTheme,'menus');
+        if(!empty($selectedTheme) && Yii::app()->themeManager->getTheme($selectedTheme) != null)
+        {
+            return self::getTemplatesFor($selectedTheme,'menus',true);
+        }
+        return array('' => 'default');
     }
 
 
@@ -21,14 +25,13 @@ class ThemeHelper
      */
     public static function getTemplatesForWidgets($selectedTheme, $prefix = '')
     {
-        $path = '';
 
-        if(!empty($prefix)){
-            $path = "widgets/".$prefix;
+        if(!empty($selectedTheme) && Yii::app()->themeManager->getTheme($selectedTheme) != null)
+        {
+            return self::getTemplatesFor($selectedTheme,'widgets'.DS.$prefix,true);
         }
-        $retArr = self::getTemplatesFor($selectedTheme,$path);
-        
-        return (!empty($retArr))? $retArr : null; 
+
+        return array('' => 'default');
     }
 
 
@@ -42,25 +45,43 @@ class ThemeHelper
         return self::getTemplatesFor($selectedTheme,'pages');
     }
 
+
     /**
      * Returns all templates in specified dir for concrete theme
      * @param $selectedTheme
      * @param $dir
+     * @param bool $widgets
      * @return array
      */
-    public static function getTemplatesFor($selectedTheme,$dir)
+    public static function getTemplatesFor($selectedTheme,$dir,$widgets = false)
     {
-        $themeManager = Yii::app()->themeManager;
-        $dir = $themeManager->basePath.DS.$selectedTheme.DS.'views'.DS.$dir;
-        $files = scandir($dir);
+        if(!empty($selectedTheme) && Yii::app()->themeManager->getTheme($selectedTheme) != null)
+        {
+            $themeManager = Yii::app()->themeManager;
+            $dir = $themeManager->basePath.DS.$selectedTheme.DS.'views'.DS.$dir;
+        }
+        else
+        {
+            $dir = !$widgets ? Yii::app()->basePath.DS.'views'.DS.$dir : Yii::app()->basePath.DS.'widgets'.DS.'views';
+        }
+
+
         $templates = array();
 
-        foreach($files as $fileName)
+        if(is_dir($dir))
         {
-            if($fileName != ".." && $fileName != ".")
+            $files = scandir($dir);
+            foreach($files as $fileName)
             {
-                $templates[$fileName] = $fileName;
+                if($fileName != ".." && $fileName != ".")
+                {
+                    $templates[$fileName] = $fileName;
+                }
             }
+        }
+        else
+        {
+            $templates = array('' => 'default');
         }
 
         return $templates;

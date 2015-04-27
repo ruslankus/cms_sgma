@@ -51,7 +51,10 @@ class SiteLng
     public function getActLngs(){
         return $this->_arrLng;
     }
-    
+
+    /**
+     * @return Languages
+     */
     public function getCurrLng(){
         
         return $this->_currLngObj;
