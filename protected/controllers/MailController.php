@@ -41,17 +41,17 @@ class MailController extends Controller
         if($code != $entered_code)
         {
           $arrJson['error']=1;
-          $arrJson['result'] = 'BAD CODE';
+          $arrJson['result'] = Trl::t()->getLabel('wrong code');
         }
         if(!($model->validate())){
           $arrJson['email']=$model->email;
           $arrJson['text']=$model->text;
           $arrJson['error']=1;
-          $arrJson['result'] = 'BAD EMAIL OR EMPTY TEXT';
+          $arrJson['result'] = Trl::t()->getLabel('mail or text eincorect');
         }
 
         if(!$arrJson['error']){
-          $arrJson['result']="Your request send!";
+          $arrJson['result']=Trl::t()->getLabel('Your message send');
         }       
 
         echo json_encode($arrJson);

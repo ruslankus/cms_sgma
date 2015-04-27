@@ -21,6 +21,15 @@ class SendContactForm extends CFormModel
         );
   }
    
+  public function attributeLabels()
+  {
+    return array(
+      'email' => Trl::t()->getLabel('Your mail'),
+      'text' => Trl::t()->getLabel('Message text'),
+      'code' => Trl::t()->getLabel('Sequrity code')
+
+    );
+  }
     
     
 }//class    
