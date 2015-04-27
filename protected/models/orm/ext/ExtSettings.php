@@ -12,6 +12,22 @@ class ExtSettings extends Settings
         return parent::model($className);
     }
 
+    /**
+     * Returns setting value
+     * @param $settingName
+     * @return string
+     */
+    public function getSetting($settingName)
+    {
+        $setting = self::model()->findByAttributes(array('value_name' => $settingName));
+        return $setting->setting;
+    }
+
+    /**
+     * Returns array of settings
+     * @param bool $all
+     * @return array
+     */
     public function getSettings($all = false){
 
         $arrSettings = array();
