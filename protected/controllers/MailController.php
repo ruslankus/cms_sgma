@@ -51,6 +51,7 @@ class MailController extends Controller
         }
 
         if(!$arrJson['error']){
+         //$data = Mailer::sendMail(array('name'=>'Cms user', 'mail'=>'user@test.com','subject' => 'Test Mail','body' => 'mail text entered by user in textarea'));
           $arrJson['result']=Trl::t()->getLabel('Your message send');
         }       
 

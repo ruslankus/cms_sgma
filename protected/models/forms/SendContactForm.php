@@ -8,6 +8,7 @@ class SendContactForm extends CFormModel
    public $email;
    public $text;
    public $code;
+   public $name;
    /**
    * Declares the validation rules.
    */
@@ -16,7 +17,7 @@ class SendContactForm extends CFormModel
         return array(
            // array('code', 'captcha'),
             array('email', 'email'),
-            array('text,email', 'required'),
+            array('text,email,name', 'required'),
             array('email,text', 'safe'),      
         );
   }
@@ -24,6 +25,7 @@ class SendContactForm extends CFormModel
   public function attributeLabels()
   {
     return array(
+      'name' => Trl::t()->getLabel('Name'),
       'email' => Trl::t()->getLabel('Your mail'),
       'text' => Trl::t()->getLabel('Message text'),
       'code' => Trl::t()->getLabel('Sequrity code')

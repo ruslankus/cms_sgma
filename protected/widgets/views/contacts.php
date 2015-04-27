@@ -10,6 +10,13 @@ $form=$this->beginWidget('CActiveForm',array(
  <div class="form-result"></div>
 <input type="hidden" id="lang_prefix" value="<?php echo $lang_prefix;?>">
 
+<?php echo $form->labelEx($model,'name'); ?>
+<div>
+<?php echo $form->textField($model,'name', array('id'=>'name')); ?>
+<?php echo $form->error($model,'name'); ?>
+</div>
+
+
 <?php echo $form->labelEx($model,'email'); ?>
 <div>
 <?php echo $form->textField($model,'email', array('id'=>'email')); ?>
