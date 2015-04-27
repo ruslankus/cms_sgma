@@ -35,7 +35,7 @@
                             <input type="submit" value="Save" name="save[<?php echo $key; ?>]" class="save float-right"/>
                             <select name="settings[<?php echo $key; ?>]">
                                 <?php foreach($selectable_items as $id => $option): ?>
-                                <option <?php if(!is_numeric($id)): ?> disabled <?php endif; ?> value="<?php echo $id ?>"><?php echo $option; ?></option>
+                                <option <?php if(!is_numeric($id)): ?> disabled <?php endif; ?> <?php if($value == $id): ?> selected <?php endif; ?>  value="<?php echo $id ?>"><?php echo $option; ?></option>
                                 <?php endforeach; ?>
                             </select>
                         <?php endif; ?>
