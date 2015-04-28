@@ -137,7 +137,15 @@ class ContactsController extends ControllerAdmin
          'arrTemplates' => $arrTemplates ));
     }//edit
     
-    
+   public function actionEditSetup($id = null)
+   {
+        $objContactPage = ContactsPage::model()->findByPk($id);
+        if ($_POST['ContactsPage']) {
+            $objContactPage->save_form = $_POST['ContactsPage']['save_form'];
+            $objContactPage->update();
+        }
+        $this->render('contact_setup', array('model'=>$objContactPage, 'contact_id'=>$id));
+   } 
 
     public function actionDeleteContact($id=null){
         ContactsPage::model()->deleteByPk($id);
