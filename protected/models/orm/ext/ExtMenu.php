@@ -169,6 +169,8 @@ Class ExtMenu extends Menu
             $itemArr['name'] = $itemObj->trl->value;
             $itemArr['children_qnt'] = $itemObj->countOfChildren();
             $itemArr['has_children'] = (int)$itemObj->hasChildren();
+            $itemArr['url'] = $itemObj->getUrlForSite();
+            $itemArr['active'] = Yii::app()->controller->id == $itemObj->controllerMatches[$itemObj->type_id] ? 1 : 0;
 
             //add to result array
             $result[] = $itemArr;

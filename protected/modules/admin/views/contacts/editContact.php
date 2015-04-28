@@ -11,7 +11,8 @@
 		<div class="header">
 			<span><?php echo $arrPage['title'];?></span>
 			<a href="/<?php echo $prefix;?>/admin/contacts/contactsettings/<?php echo $contact_id;?>"><?php echo ATrl::t()->getLabel('contact form images')?></a>
-			<a href="/<?php echo $prefix;?>/admin/contacts/editcontent/<?php echo $contact_id;?>" class="active"><?php echo ATrl::t()->getLabel('contact settings')?></a>
+			<a href="/<?php echo $prefix;?>/admin/contacts/editcontent/<?php echo $contact_id;?>" class="active"><?php echo ATrl::t()->getLabel('contact page')?></a>
+			<a href="/<?php echo $prefix;?>/admin/contacts/editsetup/<?php echo $contact_id;?>"><?php echo ATrl::t()->getLabel('contact settings')?></a>
 		</div><!--/header-->
 		<div class="contact-img">
 		<?php
@@ -55,14 +56,6 @@
 
 			<div class="inner-editor inner-content">
 				<table> 
-                <?php if(!empty($arrTemplates)):?>
-					<tr>
-						<td class="label"><?php echo ATrl::t()->getLabel('template')?>:</td>
-						<td class="value">
-                            <?php echo CHtml::activeDropDownList($model,'templates',$arrTemplates);  ?>						
-						</td>
-					</tr>
-                    <?php endif; ?>
 					<tr>
 						<td class="label">Title</td>
 						<td class="value">

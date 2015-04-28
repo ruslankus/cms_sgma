@@ -108,18 +108,6 @@ class ContactsController extends ControllerAdmin
         Yii::app()->clientScript->registerScriptFile($this->assetsPath.'/js/vendor.edit-contact.js',CClientScript::POS_END);
         
         
-        $currTheme = $this->currentThemeName;
-        //getting tempates for page from theme if available
-        if(!empty($currTheme)){
-            $arrTemplates = ThemeHelper::getTemplatesFor($currTheme,'contacts');
-            array_unshift($arrTemplates,'------------');
-        }else{
-            $arrTemplates = null;
-        }
-        
-
-          
-        
         $objCurrLng = SiteLng::lng()->getCurrLng();  
         
         if(empty($siteLng))
@@ -134,11 +122,36 @@ class ContactsController extends ControllerAdmin
         $arrPage = ContactsPageTrl::model()->find(array('condition'=>'Page_id=:id AND lng_id=:siteLng','params'=>array('id'=>$id,'siteLng'=>$siteLng)));
         //Debug::d($arrPage);
         $this->render('editContact', array('arrPage' => $arrPage, 'model' => $model,
-         'contact_id' => $id, 'siteLng' => $siteLng, 'prefix' => $prefix,
-         'arrTemplates' => $arrTemplates ));
+         'contact_id' => $id, 'siteLng' => $siteLng, 'prefix' => $prefix
+          ));
     }//edit
     
-    
+   public function actionEditSetup($id = null)
+   {
+        $model = new SaveContactSetupForm();
+        $objContactPage = ContactsPage::model()->findByPk($id);
+        if ($_POST['SaveContactSetupForm']) {
+            if($model->validate()) {
+
+                $model->attributes=$_POST['SaveContactSetupForm'];
+                $objContactPage->attributes=$_POST['SaveContactSetupForm'];
+
+                $objContactPage->update();
+            }
+        }
+        
+        $currTheme = $this->currentThemeName;
+        //getting tempates for page from theme if available
+        if(!empty($currTheme)){
+            $arrTemplates = ThemeHelper::getTemplatesFor($currTheme,'contacts');
+            Debug::d($arrTemplates);
+            array_unshift($arrTemplates,'------------');
+        }else{
+            $arrTemplates = null;
+        }
+
+        $this->render('contact_setup', array('model'=>$model, 'objContact'=>$objContactPage, 'contact_id'=>$id, 'arrTemplates' => $arrTemplates));
+   } 
 
     public function actionDeleteContact($id=null){
         ContactsPage::model()->deleteByPk($id);
