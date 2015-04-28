@@ -84,7 +84,9 @@ class ContactsController extends ControllerAdmin
             if($model->validate())
             {
 
-                $contactTrlObj = ContactsPageTrl::model()->find(array('condition'=>'lng_id=:lng_id AND page_id=:page_id','params'=>array('lng_id'=>$siteLng,'page_id'=>$id)));
+                $contactTrlObj = ContactsPageTrl::model()->find(array(
+                    'condition'=>'lng_id=:lng_id AND page_id=:page_id',
+                    'params'=>array('lng_id'=>$siteLng,'page_id'=>$id)));
                 //if translation exist
                 if(empty($contactTrlObj)){
                     $contactTrlObj = new ContactsPageTrl();

@@ -1,4 +1,9 @@
 <?php
+
+/**
+ * Class GalleryController
+ * Controller for admin part gallery
+ */
 class GalleryController extends ControllerAdmin
 {
     
@@ -68,7 +73,13 @@ class GalleryController extends ControllerAdmin
            
         }
     }//actionUploadFile
-    
+
+
+    /**
+     * @param $id int - image Id
+     * @throws CDbException
+     * @throws CException
+     */
     public function actionDeleteFile($id){
         $prefix = SiteLng::lng()->getCurrLng()->prefix;
         $request = Yii::app()->request;
@@ -79,6 +90,7 @@ class GalleryController extends ControllerAdmin
         }elseif($request->isPostRequest){
             
             $objImg = Images::model()->findByPk($id);
+            // if images exist - delete them
             if(!empty($objImg)){
                 $fileName = $objImg->filename;
                 $path  = Yii::getPathOfAlias('webroot').'/uploads/images/';
@@ -94,13 +106,16 @@ class GalleryController extends ControllerAdmin
                 
             }else{
                 //error
+                throw new CHttpException('404   ');
             }
-            
-                  
+
         }
     }//actionDeleteFile
-    
-    
+
+    /**
+     * Deleting multiple images from gallery
+     * @throws CException
+     */
     public function actionDelMultFiles(){
         $prefix = SiteLng::lng()->getCurrLng()->prefix;
         $request = Yii::app()->request;
@@ -142,7 +157,8 @@ class GalleryController extends ControllerAdmin
                 $this->redirect("/{$prefix}/admin/gallery");   
                 
             }else{
-                //error    
+                //error
+                throw new CHttpException('404');
             }
           
         }//end: $request->isPostRequest
