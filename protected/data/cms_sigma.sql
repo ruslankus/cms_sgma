@@ -10,7 +10,7 @@ Target Server Type    : MYSQL
 Target Server Version : 50538
 File Encoding         : 65001
 
-Date: 2015-04-28 13:49:15
+Date: 2015-04-28 15:39:33
 */
 
 SET FOREIGN_KEY_CHECKS=0;
@@ -487,7 +487,7 @@ CREATE TABLE `contacts_page` (
   `time_updated` int(11) DEFAULT NULL,
   `last_change_by` int(11) DEFAULT NULL,
   `template_name` varchar(256) DEFAULT NULL,
-  `save_fom` int(11) DEFAULT NULL,
+  `save_form` int(11) DEFAULT NULL,
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=utf8;
 
@@ -693,11 +693,13 @@ CREATE TABLE `images_of_product_fields_values` (
   KEY `field_value_id` (`field_value_id`),
   CONSTRAINT `images_of_product_fields_values_ibfk_1` FOREIGN KEY (`image_id`) REFERENCES `images` (`id`) ON DELETE CASCADE ON UPDATE NO ACTION,
   CONSTRAINT `images_of_product_fields_values_ibfk_2` FOREIGN KEY (`field_value_id`) REFERENCES `product_field_values` (`id`) ON DELETE CASCADE ON UPDATE NO ACTION
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=utf8;
 
 -- ----------------------------
 -- Records of images_of_product_fields_values
 -- ----------------------------
+INSERT INTO `images_of_product_fields_values` VALUES ('1', '20', '12');
+INSERT INTO `images_of_product_fields_values` VALUES ('2', '26', '13');
 
 -- ----------------------------
 -- Table structure for `images_of_widget`
@@ -892,8 +894,6 @@ INSERT INTO `menu_item` VALUES ('34', '5', 'Contacts', '0', '1', '1', '8', '1', 
 INSERT INTO `menu_item` VALUES ('35', '5', 'Complex page', '0', '2', '5', '5', '1', '1429795364', '1430212185', '1');
 INSERT INTO `menu_item` VALUES ('36', '8', 'First item', '0', '2', '3', '1', '1', '1430130660', '1430212141', '1');
 INSERT INTO `menu_item` VALUES ('37', '8', 'Second item', '0', '1', '5', '5', '1', '1430130720', '1430212141', '1');
-INSERT INTO `menu_item` VALUES ('38', '5', 'Sub news', '32', '1', '3', '1', '1', '1430212030', '1430212109', '1');
-INSERT INTO `menu_item` VALUES ('39', '5', 'gggg', '32', '2', '1', '8', '1', '1430212165', '1430212165', '1');
 
 -- ----------------------------
 -- Table structure for `menu_item_trl`
@@ -928,10 +928,6 @@ INSERT INTO `menu_item_trl` VALUES ('101', 'First item', '36', '1');
 INSERT INTO `menu_item_trl` VALUES ('102', 'Первый пункт', '36', '2');
 INSERT INTO `menu_item_trl` VALUES ('103', 'Second item', '37', '1');
 INSERT INTO `menu_item_trl` VALUES ('104', 'Второй пункт', '37', '2');
-INSERT INTO `menu_item_trl` VALUES ('105', 'Sub news', '38', '1');
-INSERT INTO `menu_item_trl` VALUES ('106', 'Sub kkkkk', '38', '2');
-INSERT INTO `menu_item_trl` VALUES ('107', 'tgggg', '39', '1');
-INSERT INTO `menu_item_trl` VALUES ('108', '', '39', '2');
 
 -- ----------------------------
 -- Table structure for `menu_item_type`
@@ -1368,17 +1364,15 @@ CREATE TABLE `product_field_groups_active` (
   KEY `product_id` (`product_id`),
   CONSTRAINT `product_field_groups_active_ibfk_1` FOREIGN KEY (`group_id`) REFERENCES `product_field_groups` (`id`) ON DELETE CASCADE ON UPDATE NO ACTION,
   CONSTRAINT `product_field_groups_active_ibfk_2` FOREIGN KEY (`product_id`) REFERENCES `product` (`id`) ON DELETE CASCADE ON UPDATE NO ACTION
-) ENGINE=InnoDB AUTO_INCREMENT=58 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=61 DEFAULT CHARSET=utf8;
 
 -- ----------------------------
 -- Records of product_field_groups_active
 -- ----------------------------
-INSERT INTO `product_field_groups_active` VALUES ('50', '15', '14', '7');
-INSERT INTO `product_field_groups_active` VALUES ('51', '18', '14', '6');
-INSERT INTO `product_field_groups_active` VALUES ('52', '20', '14', '5');
-INSERT INTO `product_field_groups_active` VALUES ('53', '16', '14', '4');
 INSERT INTO `product_field_groups_active` VALUES ('56', '15', '15', '7');
 INSERT INTO `product_field_groups_active` VALUES ('57', '18', '15', '6');
+INSERT INTO `product_field_groups_active` VALUES ('59', '15', '14', '7');
+INSERT INTO `product_field_groups_active` VALUES ('60', '18', '14', '6');
 
 -- ----------------------------
 -- Table structure for `product_field_groups_trl`
@@ -1482,10 +1476,10 @@ CREATE TABLE `product_field_values` (
 -- ----------------------------
 -- Records of product_field_values
 -- ----------------------------
-INSERT INTO `product_field_values` VALUES ('3', '14', '19', null, null, 'Пиндостан', null);
-INSERT INTO `product_field_values` VALUES ('4', '14', '20', null, null, 'Мухосраньск Сити', null);
-INSERT INTO `product_field_values` VALUES ('5', '14', '21', null, null, 'Земля', null);
-INSERT INTO `product_field_values` VALUES ('6', '14', '22', null, '3', null, null);
+INSERT INTO `product_field_values` VALUES ('3', '14', '19', null, null, 'zzz', null);
+INSERT INTO `product_field_values` VALUES ('4', '14', '20', null, null, 'ggg', null);
+INSERT INTO `product_field_values` VALUES ('5', '14', '21', null, null, 'ff', null);
+INSERT INTO `product_field_values` VALUES ('6', '14', '22', null, '29', null, null);
 INSERT INTO `product_field_values` VALUES ('7', '14', '23', null, null, null, null);
 INSERT INTO `product_field_values` VALUES ('8', '14', '24', null, null, null, null);
 INSERT INTO `product_field_values` VALUES ('9', '14', '27', null, null, null, null);
@@ -1523,7 +1517,7 @@ CREATE TABLE `product_field_values_trl` (
 -- ----------------------------
 -- Records of product_field_values_trl
 -- ----------------------------
-INSERT INTO `product_field_values_trl` VALUES ('1', '1', '7', 'Header');
+INSERT INTO `product_field_values_trl` VALUES ('1', '1', '7', 'Headerz');
 INSERT INTO `product_field_values_trl` VALUES ('2', '2', '7', 'Заголовок');
 INSERT INTO `product_field_values_trl` VALUES ('3', '1', '8', 'Description');
 INSERT INTO `product_field_values_trl` VALUES ('4', '2', '8', 'Описание');
@@ -1592,12 +1586,12 @@ CREATE TABLE `settings` (
   `setting` varchar(255) DEFAULT NULL,
   `editable` int(11) DEFAULT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=12 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=14 DEFAULT CHARSET=utf8;
 
 -- ----------------------------
 -- Records of settings
 -- ----------------------------
-INSERT INTO `settings` VALUES ('1', 'active_desktop_theme', 'dark', '0');
+INSERT INTO `settings` VALUES ('1', 'active_desktop_theme', '', '0');
 INSERT INTO `settings` VALUES ('2', 'active_mobile_theme', 'light', '0');
 INSERT INTO `settings` VALUES ('3', 'email', '', '1');
 INSERT INTO `settings` VALUES ('4', 'home_page_item_id', null, '0');
@@ -1608,6 +1602,7 @@ INSERT INTO `settings` VALUES ('8', 'smtp_password', 'yourpassword', '1');
 INSERT INTO `settings` VALUES ('9', 'smtp_enable', '1', '0');
 INSERT INTO `settings` VALUES ('10', 'home_page_item', '32', '1');
 INSERT INTO `settings` VALUES ('11', 'per_page', '50', '1');
+INSERT INTO `settings` VALUES ('12', 'photo_per_page', '50', '1');
 
 -- ----------------------------
 -- Table structure for `status`
