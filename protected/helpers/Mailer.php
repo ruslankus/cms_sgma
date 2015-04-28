@@ -42,10 +42,11 @@ class Mailer {
 		$mail->MsgHTML($params['body']);
 		 
 		if(!$mail->Send()) {
-		return "Mailer Error: " . $mail->ErrorInfo;
+		return false;
 		} else {
-		return "Message sent!";
+		return true;
 		}
+		
 		//return "mail send to:".$to." subject:".$subject." body:".$body;
 	}
 

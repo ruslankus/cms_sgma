@@ -1,5 +1,7 @@
-<hr>
 <?php
+/**
+	* Contact widget template
+	*/
 $form=$this->beginWidget('CActiveForm',array(
    'id'=>'user-form',
    'enableAjaxValidation'=>false,
