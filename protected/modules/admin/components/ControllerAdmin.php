@@ -12,6 +12,8 @@ class ControllerAdmin extends CController
     public $arrSettings = array();
     public $currentThemeName = null;
 
+
+
     /**
      * Check if user allowed to admin's module controllers and actions
      * @param CWebUser $user

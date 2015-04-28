@@ -13,7 +13,6 @@ class PagesController extends ControllerAdmin
      */
     public function actionIndex($page=1){
 
-
         $currLng = Yii::app()->language;
        
         if(empty($siteLng)){
@@ -21,8 +20,8 @@ class PagesController extends ControllerAdmin
         }
         
         $objPages = Page::model()->with(array('pageTrls.lng' => array('condition' => "lng.prefix='{$siteLng}'")))->findall();
-       // Debug::d($objPages);
-        $objPaging = CPaginator::getInstance($objPages,2,$page);
+
+        $objPaging = CPaginator::getInstance($objPages,$this->arrSettings['per_page'],$page);
         $objPages = $objPaging->getPreparedArray();
         $totalPages = $objPaging->getTotalPages();
         $currentPage = $objPaging->getCurrentPage();
