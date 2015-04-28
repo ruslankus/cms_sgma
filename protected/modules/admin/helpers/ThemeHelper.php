@@ -81,7 +81,7 @@ class ThemeHelper
         }
         else
         {
-            $templates = array('' => 'default');
+            $templates = null;
         }
 
         return $templates;

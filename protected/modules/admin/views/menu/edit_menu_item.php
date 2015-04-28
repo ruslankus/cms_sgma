@@ -67,7 +67,7 @@
                 </tr>
                 <tr>
                     <td class="label"><?php echo ATrl::t()->getLabel('Link'); ?></td>
-                    <td class="value"><input type="text" name="link" class="link" /></td>
+                    <td class="value"><input value="<?php echo $menuItem->getUrl(true);?>" type="text" name="link" class="link" /></td>
                 </tr>
                 <tr>
                     <td class="label"><?php echo $form->labelEx($form_model,'parent_id'); ?></td>
