@@ -172,18 +172,78 @@ class ProductsController extends Controller
             {
                 $group = $gop->group;
                 $contentArray['attribute_groups'][$g] = $group->attributes;
-                $contentArray['attribute_groups'][$g]['trl_name'] = !empty($group->trl) ? $group->trl->title : '';
-                $contentArray['attribute_groups'][$g]['trl_text'] = !empty($group->trl) ? $group->trl->text : '';
+                $contentArray['attribute_groups'][$g]['trl_name'] = !empty($group->trl) ? $group->trl->name : '';
+                $contentArray['attribute_groups'][$g]['trl_text'] = !empty($group->trl) ? $group->trl->description : '';
 
                 $contentArray['attribute_groups'][$g]['attributes'] = array();
                 foreach($group->productFields as $a => $field)
                 {
-                    $field['attribute_group'][$g]['attributes'][$a] = $field->attributes;
-                    $field['attribute_group'][$g]['attributes'][$a]['trl_name'] = '';
+                    $contentArray['attribute_group'][$g]['attributes'][$a] = $field->attributes;
+                    $contentArray['attribute_group'][$g]['attributes'][$a]['trl_name'] = '';
+                    $contentArray['attribute_group'][$g]['attributes'][$a]['trl_description'] = '';
 
                     if(!empty($field->trl))
                     {
-                        $field['attribute_group'][$g]['attributes'][$a]['trl_name']
+                        $contentArray['attribute_group'][$g]['attributes'][$a]['trl_name'] = $field->trl->field_title;
+                        $contentArray['attribute_group'][$g]['attributes'][$a]['trl_description'] = $field->trl->field_description;
+                    }
+
+                    $contentArray['attribute_group'][$g]['attributes'][$a]['value'] = null;
+                    $contentArray['attribute_group'][$g]['attributes'][$a]['value_obj_attributes'] = array();
+
+                    //get value of this field for this product
+                    $value = $field->getValueObjForItem($product->id);
+
+                    if(!empty($value))
+                    {
+                        $valueField = '';
+                        switch($field->type_id)
+                        {
+                            case ExtComplexPageFieldTypes::TYPE_NUMERIC:
+                                $valueField = $value->numeric_value;
+                                break;
+
+                            case ExtComplexPageFieldTypes::TYPE_SELECTABLE:
+                                $options = $field->productFieldSelectOptions;
+
+                                foreach($options as $option)
+                                {
+                                    if($option->id == $value->selected_option_id)
+                                    {
+                                        $valueField = array('option_name' => $option->option_name, 'option_value' => $option->option_value);
+                                    }
+                                }
+                                break;
+
+                            case ExtComplexPageFieldTypes::TYPE_DATE:
+                                $valueField = $value->time_value;
+                                break;
+
+                            case ExtComplexPageFieldTypes::TYPE_TRL_TEXT:
+                                $valueField = !empty($value->trl) ? $value->trl->translatable_text : '';
+                                break;
+
+                            case ExtComplexPageFieldTypes::TYPE_TEXT:
+                                $valueField = $value->text_value;
+                                break;
+
+                            case ExtComplexPageFieldTypes::TYPE_IMAGES:
+                                $iof = $value->imagesOfProductFieldsValues;
+
+                                foreach($iof as $iofItem)
+                                {
+                                    /* @var $image ExtImages */
+
+                                    $image = $iofItem->image;
+                                    $valueField = !empty($image) ? $image->attributes : '';
+                                    $valueField['trl_caption'] = !empty($image->trl) ? $image->trl->caption : '';
+                                    $valueField['url'] = !empty($image) ? $image->getUrl() : '';
+                                }
+                                break;
+                        }
+
+                        $contentArray['attribute_group'][$g]['attributes'][$a]['value'] = $valueField;
+                        $contentArray['attribute_group'][$g]['attributes'][$a]['value_obj_attributes'] = $value->attributes;
                     }
 
                 }
