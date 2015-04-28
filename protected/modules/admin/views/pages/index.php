@@ -20,7 +20,11 @@
                     
 					<div class="list-row">
 						<div class="cell checkbox"><input type="checkbox"/></div>
-						<div class="cell"><a href="/<?php echo $currLng?>/admin/pages/editcontent/<?php echo $page->id?>" ><?php echo $page->pageTrls[0]->title ?> <?php echo $i ?></a></div>
+						<div class="cell">
+                            <a href="/<?php echo $currLng?>/admin/pages/editcontent/<?php echo $page->id?>" >
+                                <?php echo $page->pageTrls[0]->title ?> <?php echo $i ?>
+                            </a>
+                        </div>
 						<div class="cell action">
 							<a  href="/<?php echo $currLng?>/admin/pages/editcontent/<?php echo $page->id?>" class="action edit"></a>
 							<a href="index.html" class="action delete"></a>
@@ -31,11 +35,18 @@
 					
 					
 				</div><!--/content-->
-                
+                <?php if($showPaginator):?>
 				<div class="pagination">
-					<a href="pages.html" class="active">1</a>
-					<a href="pages.html">2</a>
-					<a href="pages.html">3</a>
-					<a href="pages.html">4</a>
+                    <?php for($p=1; $p <= $totalPages; $p++): ?>
+                        <?php if($p == $currentPage):?>
+                            <?php echo CHtml::link($p,array('/admin/pages/index',
+                                'page'=> $p),array('class'=>'active')); ?>
+                        <?php else:?>
+                            <?php echo CHtml::link($p,array('/admin/pages/index',
+                                'page'=> $p)); ?>
+                        <?php endif;?>
+                    <?php endfor;?>
+
 				</div><!--/pagination-->
+                <?php endif;?>
 			</main>

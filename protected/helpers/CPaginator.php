@@ -55,6 +55,15 @@ class CPaginator
     public function getNextPage(){
         return $this->_current_page + 1;
     }
+
+
+    public function showPaginator(){
+        if($this->_limit < $this->_total_pages){
+            return true;
+        }else{
+            return false;
+        }
+    }
     
     Public function getPreviousPage(){
         return $this->_current_page - 1;

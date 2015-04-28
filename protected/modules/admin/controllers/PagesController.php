@@ -7,10 +7,13 @@ class PagesController extends ControllerAdmin
         //Yii::app()->clientScript->registerCssFile($this->assetsPath.'/css/vendor.css'); 
         //Yii::app()->clientScript->registerCssFile($this->assetsPath.'/css/vendor.lighbox.css');  
     }
-    
-    
-    public function actionIndex($siteLng = null){
-        
+
+    /**
+     * @param $page
+     */
+    public function actionIndex($page=1){
+
+
         $currLng = Yii::app()->language;
        
         if(empty($siteLng)){
@@ -18,10 +21,15 @@ class PagesController extends ControllerAdmin
         }
         
         $objPages = Page::model()->with(array('pageTrls.lng' => array('condition' => "lng.prefix='{$siteLng}'")))->findall();
-        
-        //Debug::d($currLng);
-                
-        $this->render('index',array('objPages' => $objPages, 'currLng' => $currLng));
+       // Debug::d($objPages);
+        $objPaging = CPaginator::getInstance($objPages,2,$page);
+        $objPages = $objPaging->getPreparedArray();
+        $totalPages = $objPaging->getTotalPages();
+        $currentPage = $objPaging->getCurrentPage();
+        $showPaginator = $objPaging->showPaginator();
+
+        $this->render('index',array('objPages' => $objPages, 'currLng' => $currLng,
+            'totalPages' => $totalPages, 'currentPage' => $currentPage,'showPaginator' => $showPaginator));
         
     }//index
     
