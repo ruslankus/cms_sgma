@@ -7,14 +7,23 @@
 class GalleryController extends ControllerAdmin
 {
     
-    public function actionIndex(){
+    public function actionIndex($page = 1){
         
         Yii::app()->clientScript->registerCssFile($this->assetsPath.'/css/vendor.uploaded-images.css');
         Yii::app()->clientScript->registerCssFile($this->assetsPath.'/css/vendor.lightbox.css');
-        Yii::app()->clientScript->registerScriptFile($this->assetsPath.'/js/vendor.uploaded-images.js',CClientScript::POS_END);
+        Yii::app()->clientScript->registerScriptFile($this->assetsPath.'/js/vendor.uploaded-images.js',
+            CClientScript::POS_END);
         $objImgs = Images::model()->findAll();
+
+        //pagination
+        $objPaging = CPaginator::getInstance($objImgs,3,$page);
+        $objImgs = $objPaging->getPreparedArray();
+        $totalPages = $objPaging->getTotalPages();
+        $currentPage = $objPaging->getCurrentPage();
+        $showPaginator = $objPaging->showPaginator();
         
-        $this->render('image_list',array('objImgs' => $objImgs));
+        $this->render('image_list',array('objImgs' => $objImgs, 'totalPages'=>$totalPages,
+            'currentPage'=>$currentPage,'showPaginator' => $showPaginator));
     }//index
     
     

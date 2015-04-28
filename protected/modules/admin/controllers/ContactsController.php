@@ -111,12 +111,13 @@ class ContactsController extends ControllerAdmin
         $currTheme = $this->currentThemeName;
         //getting tempates for page from theme if available
         if(!empty($currTheme)){
-            $arrTemplates = ThemeHelper::getTemplatesFor($currTheme,'contacts');     
+            $arrTemplates = ThemeHelper::getTemplatesFor($currTheme,'contacts');
+            array_unshift($arrTemplates,'------------');
         }else{
             $arrTemplates = null;
         }
         
-        array_unshift($arrTemplates,'------------');
+
           
         
         $objCurrLng = SiteLng::lng()->getCurrLng();  

@@ -29,11 +29,28 @@
 							
 							
 						</div><!--/images-->
+
+
 						
 						<a href="#" class="add-images"></a>
 						<input type="submit" class="delete-images" disabled="disabled" value=" " />
                         </form>
 					</div><!--/inner-content-->
+
+                    <?php if($showPaginator):?>
+                    <div class="pagination" style="border:none">
+                        <?php for($p=1; $p <= $totalPages; $p++): ?>
+                            <?php if($p == $currentPage):?>
+                                <?php echo CHtml::link($p,array('/admin/gallery/index',
+                                    'page'=> $p),array('class'=>'active')); ?>
+                            <?php else:?>
+                                <?php echo CHtml::link($p,array('/admin/gallery/index',
+                                    'page'=> $p)); ?>
+                            <?php endif;?>
+                        <?php endfor;?>
+
+                    </div><!--/pagination-->
+                    <?php endif;?>
 				</div><!--/content editor-->
 			
 			</main>

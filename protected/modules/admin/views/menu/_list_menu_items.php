@@ -4,6 +4,7 @@
 <?php /* @var $templates array() */ ?>
 <?php /* @var $menu ExtMenu */ ?>
 <?php /* @var $current_page int */ ?>
+<?php /* @var $this ControllerAdmin */ ?>
 
 <?php foreach($items as $id => $item): ?>
 <div class="menu-table" data-menu="<?php echo $id; ?>">
@@ -16,6 +17,13 @@
                 <?php if(!$children->hasParent()): ?>
                     <div class="row root" data-id="<?php echo $children->id; ?>">
                         <div class="name"><?php echo $children->label; ?></div>
+                        <div class="sequen">
+                            <?php if($children->status_id == ExtStatus::VISIBLE): ?>
+                                <img src="<?php echo $this->assetsPath.'/images/eye-icon-on.png'; ?>">
+                            <?php else: ?>
+                                <img src="<?php echo $this->assetsPath.'/images/eye-icon-off.png'; ?>">
+                            <?php endif; ?>
+                        </div>
                         <div class="sequen"></div>
                         <div class="type"><?php echo Trl::t()->getLabel($children->type->label); ?></div>
                         <div class="action">
@@ -26,6 +34,13 @@
                 <?php else: ?>
                     <div class="row" data-id="<?php echo $children->id; ?>" data-parent="<?php echo $children->parent_id; ?>">
                         <div class="name"><?php echo $children->label; ?></div>
+                        <div class="sequen">
+                            <?php if($children->status_id == ExtStatus::VISIBLE): ?>
+                                <img src="<?php echo $this->assetsPath.'/images/eye-icon-on.png'; ?>">
+                            <?php else: ?>
+                                <img src="<?php echo $this->assetsPath.'/images/eye-icon-off.png'; ?>">
+                            <?php endif; ?>
+                        </div>
                         <div class="sequen">
                             <a href="<?php echo Yii::app()->createUrl('admin/menu/move',array('id' => $children->id,'dir' => 'up')); ?>" class="go-up move-item"><span class="ficoned arrow-up"></span></a>
                             <a href="<?php echo Yii::app()->createUrl('admin/menu/move',array('id' => $children->id,'dir' => 'down')); ?>" class="go-down move-item"><span class="ficoned arrow-down"></span></a>
