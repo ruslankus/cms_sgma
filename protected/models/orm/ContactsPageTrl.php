@@ -11,10 +11,11 @@
  * @property string $description
  * @property string $meta_keywords
  * @property string $meta_description
+ * @property string $email
  *
  * The followings are the available model relations:
- * @property ContactsPage $page
  * @property Languages $lng
+ * @property ContactsPage $page
  */
 class ContactsPageTrl extends CActiveRecord
 {
@@ -37,10 +38,11 @@ class ContactsPageTrl extends CActiveRecord
 			array('page_id, lng_id', 'numerical', 'integerOnly'=>true),
 			array('title', 'length', 'max'=>512),
 			array('meta_keywords, meta_description', 'length', 'max'=>256),
+			array('email', 'length', 'max'=>128),
 			array('description', 'safe'),
 			// The following rule is used by search().
 			// @todo Please remove those attributes that should not be searched.
-			array('id, page_id, lng_id, title, description, meta_keywords, meta_description', 'safe', 'on'=>'search'),
+			array('id, page_id, lng_id, title, description, meta_keywords, meta_description, email', 'safe', 'on'=>'search'),
 		);
 	}
 
@@ -52,8 +54,8 @@ class ContactsPageTrl extends CActiveRecord
 		// NOTE: you may need to adjust the relation name and the related
 		// class name for the relations automatically generated below.
 		return array(
-			'page' => array(self::BELONGS_TO, 'ContactsPage', 'page_id'),
 			'lng' => array(self::BELONGS_TO, 'Languages', 'lng_id'),
+			'page' => array(self::BELONGS_TO, 'ContactsPage', 'page_id'),
 		);
 	}
 
@@ -70,6 +72,7 @@ class ContactsPageTrl extends CActiveRecord
 			'description' => 'Description',
 			'meta_keywords' => 'Meta Keywords',
 			'meta_description' => 'Meta Description',
+			'email' => 'Email',
 		);
 	}
 
@@ -98,6 +101,7 @@ class ContactsPageTrl extends CActiveRecord
 		$criteria->compare('description',$this->description,true);
 		$criteria->compare('meta_keywords',$this->meta_keywords,true);
 		$criteria->compare('meta_description',$this->meta_description,true);
+		$criteria->compare('email',$this->email,true);
 
 		return new CActiveDataProvider($this, array(
 			'criteria'=>$criteria,

@@ -10,7 +10,7 @@ Target Server Type    : MYSQL
 Target Server Version : 50538
 File Encoding         : 65001
 
-Date: 2015-04-28 13:26:00
+Date: 2015-04-28 13:49:15
 */
 
 SET FOREIGN_KEY_CHECKS=0;
@@ -487,14 +487,15 @@ CREATE TABLE `contacts_page` (
   `time_updated` int(11) DEFAULT NULL,
   `last_change_by` int(11) DEFAULT NULL,
   `template_name` varchar(256) DEFAULT NULL,
+  `save_fom` int(11) DEFAULT NULL,
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=utf8;
 
 -- ----------------------------
 -- Records of contacts_page
 -- ----------------------------
-INSERT INTO `contacts_page` VALUES ('1', 'Contacts', '1', '1', '0', '1429171769', '1', 'default.php');
-INSERT INTO `contacts_page` VALUES ('2', 'Additional contacts', '1', '1', '0', '1429171769', '1', 'default.php');
+INSERT INTO `contacts_page` VALUES ('1', 'Contacts', '1', '1', '0', '1429171769', '1', 'default.php', '1');
+INSERT INTO `contacts_page` VALUES ('2', 'Additional contacts', '1', '1', '0', '1429171769', '1', 'default.php', '0');
 
 -- ----------------------------
 -- Table structure for `contacts_page_trl`
@@ -508,6 +509,7 @@ CREATE TABLE `contacts_page_trl` (
   `description` text,
   `meta_keywords` varchar(256) DEFAULT NULL,
   `meta_description` varchar(256) DEFAULT NULL,
+  `email` varchar(128) DEFAULT NULL,
   PRIMARY KEY (`id`),
   KEY `lng_id` (`lng_id`),
   KEY `page_id` (`page_id`),
