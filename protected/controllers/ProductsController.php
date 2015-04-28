@@ -51,7 +51,7 @@ class ProductsController extends Controller
             foreach($items as $i=> $product)
             {
                 $contentArray['items'][$i] = $product->attributes;
-                $contentArray['items'][$i]['url'] = Yii::app()->createUrl('news/one',array('id' => $product->id));
+                $contentArray['items'][$i]['url'] = Yii::app()->createUrl('products/one',array('id' => $product->id));
                 $contentArray['items'][$i]['trl_name'] = !empty($product->trl) ? $product->trl->title : '';
                 $contentArray['items'][$i]['trl_text'] = !empty($product->trl) ? $product->trl->text : '';
                 $contentArray['items'][$i]['trl_summary'] = !empty($product->trl) ? $product->trl->summary : '';
@@ -77,6 +77,16 @@ class ProductsController extends Controller
                         }
                     }
                 }
+
+                $contentArray['items'][$i]['tags'] = array();
+                if(!empty($product->tagsOfProducts))
+                {
+                    foreach($product->tagsOfProducts as $j => $top)
+                    {
+                        $contentArray['items'][$i]['tags'][$j] = $top->tag->attributes;
+                        $contentArray['items'][$i]['tags'][$j]['trl_name'] = !empty($top->tag->trl) ? $top->tag->trl->name : '';
+                    }
+                }
             }
         }
 
@@ -97,7 +107,6 @@ class ProductsController extends Controller
                 $template = $temp;
             }
         }
-
 
         //render list
         $this->render('category/'.$template,array('content' => $contentArray));
@@ -128,20 +137,55 @@ class ProductsController extends Controller
 
 
         $contentArray['images'] = array();
-        if(!empty($product->imagesOfNews))
+        if(!empty($product->imagesOfProducts))
         {
-            foreach($product->imagesOfNews as $y => $ion)
+            foreach($product->imagesOfProducts as $y => $iop)
             {
-                $contentArray['images'][$y] = $ion->image->attributes;
-                $contentArray['images'][$y]['url'] = $ion->image->getUrl();
+                $contentArray['images'][$y] = $iop->image->attributes;
+                $contentArray['images'][$y]['url'] = $iop->image->getUrl();
 
-                if(!empty($ion->image->trl))
+                if(!empty($iop->image->trl))
                 {
-                    $contentArray['images'][$y]['trl_caption'] = $ion->image->trl->caption;
+                    $contentArray['images'][$y]['trl_caption'] = $iop->image->trl->caption;
                 }
                 else
                 {
                     $contentArray['images'][$y]['trl_caption'] = '';
+                }
+            }
+        }
+
+        $contentArray['tags'] = array();
+        if(!empty($product->tagsOfProducts))
+        {
+            foreach($product->tagsOfProducts as $j => $top)
+            {
+                $contentArray['tags'][$j] = $top->tag->attributes;
+                $contentArray['tags'][$j]['trl_name'] = !empty($top->tag->trl) ? $top->tag->trl->name : '';
+            }
+        }
+
+        $contentArray['attribute_groups'] = array();
+        if(!empty($product->productFieldGroupsActives))
+        {
+            foreach($product->productFieldGroupsActives as $g => $gop)
+            {
+                $group = $gop->group;
+                $contentArray['attribute_groups'][$g] = $group->attributes;
+                $contentArray['attribute_groups'][$g]['trl_name'] = !empty($group->trl) ? $group->trl->title : '';
+                $contentArray['attribute_groups'][$g]['trl_text'] = !empty($group->trl) ? $group->trl->text : '';
+
+                $contentArray['attribute_groups'][$g]['attributes'] = array();
+                foreach($group->productFields as $a => $field)
+                {
+                    $field['attribute_group'][$g]['attributes'][$a] = $field->attributes;
+                    $field['attribute_group'][$g]['attributes'][$a]['trl_name'] = '';
+
+                    if(!empty($field->trl))
+                    {
+                        $field['attribute_group'][$g]['attributes'][$a]['trl_name']
+                    }
+
                 }
             }
         }
