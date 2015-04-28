@@ -41,7 +41,7 @@
         <td class="value">
             <select id="<?php echo $field->id; ?>" name="DynamicFields[<?php echo $field->id; ?>]">
                 <?php foreach($field->productFieldSelectOptions as $option): ?>
-                    <option <?php if($value->selected_option_id == $option->option_value): ?> selected <?php endif; ?> value="<?php echo $option->option_value; ?>"><?php echo $option->option_name; ?></option>
+                    <option <?php if($value->selected_option_id == $option->id): ?> selected <?php endif; ?> value="<?php echo $option->id; ?>"><?php echo $option->option_name; ?></option>
                 <?php endforeach; ?>
             </select>
         </td>

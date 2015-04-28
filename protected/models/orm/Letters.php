@@ -1,30 +1,22 @@
 <?php
 
 /**
- * This is the model class for table "contacts_page_trl".
+ * This is the model class for table "letters".
  *
- * The followings are the available columns in table 'contacts_page_trl':
+ * The followings are the available columns in table 'letters':
  * @property integer $id
- * @property integer $page_id
- * @property integer $lng_id
- * @property string $title
- * @property string $description
- * @property string $meta_keywords
- * @property string $meta_description
  * @property string $email
- *
- * The followings are the available model relations:
- * @property Languages $lng
- * @property ContactsPage $page
+ * @property string $email_from
+ * @property string $content
  */
-class ContactsPageTrl extends CActiveRecord
+class Letters extends CActiveRecord
 {
 	/**
 	 * @return string the associated database table name
 	 */
 	public function tableName()
 	{
-		return 'contacts_page_trl';
+		return 'letters';
 	}
 
 	/**
@@ -35,14 +27,11 @@ class ContactsPageTrl extends CActiveRecord
 		// NOTE: you should only define rules for those attributes that
 		// will receive user inputs.
 		return array(
-			array('page_id, lng_id', 'numerical', 'integerOnly'=>true),
-			array('title', 'length', 'max'=>512),
-			array('meta_keywords, meta_description', 'length', 'max'=>256),
-			array('email', 'length', 'max'=>128),
-			array('description', 'safe'),
+			array('email, email_from', 'length', 'max'=>128),
+			array('content', 'safe'),
 			// The following rule is used by search().
 			// @todo Please remove those attributes that should not be searched.
-			array('id, page_id, lng_id, title, description, meta_keywords, meta_description, email', 'safe', 'on'=>'search'),
+			array('id, email, email_from, content', 'safe', 'on'=>'search'),
 		);
 	}
 
@@ -54,8 +43,6 @@ class ContactsPageTrl extends CActiveRecord
 		// NOTE: you may need to adjust the relation name and the related
 		// class name for the relations automatically generated below.
 		return array(
-			'lng' => array(self::BELONGS_TO, 'Languages', 'lng_id'),
-			'page' => array(self::BELONGS_TO, 'ContactsPage', 'page_id'),
 		);
 	}
 
@@ -66,13 +53,9 @@ class ContactsPageTrl extends CActiveRecord
 	{
 		return array(
 			'id' => 'ID',
-			'page_id' => 'Page',
-			'lng_id' => 'Lng',
-			'title' => 'Title',
-			'description' => 'Description',
-			'meta_keywords' => 'Meta Keywords',
-			'meta_description' => 'Meta Description',
 			'email' => 'Email',
+			'email_from' => 'Email From',
+			'content' => 'Content',
 		);
 	}
 
@@ -95,13 +78,9 @@ class ContactsPageTrl extends CActiveRecord
 		$criteria=new CDbCriteria;
 
 		$criteria->compare('id',$this->id);
-		$criteria->compare('page_id',$this->page_id);
-		$criteria->compare('lng_id',$this->lng_id);
-		$criteria->compare('title',$this->title,true);
-		$criteria->compare('description',$this->description,true);
-		$criteria->compare('meta_keywords',$this->meta_keywords,true);
-		$criteria->compare('meta_description',$this->meta_description,true);
 		$criteria->compare('email',$this->email,true);
+		$criteria->compare('email_from',$this->email_from,true);
+		$criteria->compare('content',$this->content,true);
 
 		return new CActiveDataProvider($this, array(
 			'criteria'=>$criteria,
@@ -112,7 +91,7 @@ class ContactsPageTrl extends CActiveRecord
 	 * Returns the static model of the specified AR class.
 	 * Please note that you should have this exact method in all your CActiveRecord descendants!
 	 * @param string $className active record class name.
-	 * @return ContactsPageTrl the static model class
+	 * @return Letters the static model class
 	 */
 	public static function model($className=__CLASS__)
 	{

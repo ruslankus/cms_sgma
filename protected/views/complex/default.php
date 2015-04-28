@@ -27,7 +27,4 @@
         </h4>
         <br>
     <?php endforeach; ?>
-
 <?php endforeach; ?>
-
-<?php //Debug::out($content); ?>

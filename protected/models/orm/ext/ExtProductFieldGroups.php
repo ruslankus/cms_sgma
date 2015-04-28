@@ -3,7 +3,7 @@
  * Class ExtProductFieldGroups
  * @property ExtProductFieldGroupsActive[] $productFieldGroupsActives
  * @property ExtProductFields[] $productFields
- * @property ProductTrl $trl
+ * @property ProductFieldGroupsTrl $trl
  */
 class ExtProductFieldGroups extends ProductFieldGroups
 {

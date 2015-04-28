@@ -51,7 +51,7 @@ class ProductsController extends Controller
             foreach($items as $i=> $product)
             {
                 $contentArray['items'][$i] = $product->attributes;
-                $contentArray['items'][$i]['url'] = Yii::app()->createUrl('news/one',array('id' => $product->id));
+                $contentArray['items'][$i]['url'] = Yii::app()->createUrl('products/one',array('id' => $product->id));
                 $contentArray['items'][$i]['trl_name'] = !empty($product->trl) ? $product->trl->title : '';
                 $contentArray['items'][$i]['trl_text'] = !empty($product->trl) ? $product->trl->text : '';
                 $contentArray['items'][$i]['trl_summary'] = !empty($product->trl) ? $product->trl->summary : '';
@@ -77,6 +77,16 @@ class ProductsController extends Controller
                         }
                     }
                 }
+
+                $contentArray['items'][$i]['tags'] = array();
+                if(!empty($product->tagsOfProducts))
+                {
+                    foreach($product->tagsOfProducts as $j => $top)
+                    {
+                        $contentArray['items'][$i]['tags'][$j] = $top->tag->attributes;
+                        $contentArray['items'][$i]['tags'][$j]['trl_name'] = !empty($top->tag->trl) ? $top->tag->trl->name : '';
+                    }
+                }
             }
         }
 
@@ -97,7 +107,6 @@ class ProductsController extends Controller
                 $template = $temp;
             }
         }
-
 
         //render list
         $this->render('category/'.$template,array('content' => $contentArray));
@@ -120,28 +129,140 @@ class ProductsController extends Controller
 
         $contentArray = $product->attributes;
         $contentArray['url'] = Yii::app()->createUrl('news/one',array('id' => $product->id));
-        $contentArray['trl_name'] = !empty($product->trl) ? $product->trl->title : '';
-        $contentArray['trl_text'] = !empty($product->trl) ? $product->trl->text : '';
-        $contentArray['trl_summary'] = !empty($product->trl) ? $product->trl->summary : '';
-        $contentArray['trl_meta_des'] = !empty($product->trl) ? $product->trl->meta_description : '';
-        $contentArray['trl_meta_key'] = !empty($product->trl) ? $product->trl->meta_keywords : '';
 
+        if(!empty($product->trl))
+        {
+            $contentArray['trl_name'] = $product->trl->title;
+            $contentArray['trl_text'] = $product->trl->text;
+            $contentArray['trl_summary'] = $product->trl->summary;
+            $contentArray['trl_meta_des'] = $product->trl->meta_description;
+            $contentArray['trl_meta_key'] = $product->trl->meta_keywords;
+
+            $this->title = $product->trl->title;
+            $this->description = $product->trl->meta_description;
+            $this->keywords = $product->trl->meta_keywords;
+        }
+        else
+        {
+            $contentArray['trl_name'] = '';
+            $contentArray['trl_text'] = '';
+            $contentArray['trl_summary'] = '';
+            $contentArray['trl_meta_des'] = '';
+            $contentArray['trl_meta_key'] = '';
+        }
 
         $contentArray['images'] = array();
-        if(!empty($product->imagesOfNews))
+        if(!empty($product->imagesOfProducts))
         {
-            foreach($product->imagesOfNews as $y => $ion)
+            foreach($product->imagesOfProducts as $y => $iop)
             {
-                $contentArray['images'][$y] = $ion->image->attributes;
-                $contentArray['images'][$y]['url'] = $ion->image->getUrl();
+                $contentArray['images'][$y] = $iop->image->attributes;
+                $contentArray['images'][$y]['url'] = $iop->image->getUrl();
 
-                if(!empty($ion->image->trl))
+                if(!empty($iop->image->trl))
                 {
-                    $contentArray['images'][$y]['trl_caption'] = $ion->image->trl->caption;
+                    $contentArray['images'][$y]['trl_caption'] = $iop->image->trl->caption;
                 }
                 else
                 {
                     $contentArray['images'][$y]['trl_caption'] = '';
+                }
+            }
+        }
+
+        $contentArray['tags'] = array();
+        if(!empty($product->tagsOfProducts))
+        {
+            foreach($product->tagsOfProducts as $j => $top)
+            {
+                $contentArray['tags'][$j] = $top->tag->attributes;
+                $contentArray['tags'][$j]['trl_name'] = !empty($top->tag->trl) ? $top->tag->trl->name : '';
+            }
+        }
+
+        $contentArray['attribute_groups'] = array();
+        if(!empty($product->productFieldGroupsActives))
+        {
+            foreach($product->productFieldGroupsActives as $g => $gop)
+            {
+                $group = $gop->group;
+                $contentArray['attribute_groups'][$g] = $group->attributes;
+                $contentArray['attribute_groups'][$g]['trl_name'] = !empty($group->trl) ? $group->trl->name : '';
+                $contentArray['attribute_groups'][$g]['trl_text'] = !empty($group->trl) ? $group->trl->description : '';
+
+                $contentArray['attribute_groups'][$g]['attributes'] = array();
+                foreach($group->productFields as $a => $field)
+                {
+                    $contentArray['attribute_groups'][$g]['attributes'][$a] = $field->attributes;
+                    $contentArray['attribute_groups'][$g]['attributes'][$a]['trl_name'] = '';
+                    $contentArray['attribute_groups'][$g]['attributes'][$a]['trl_description'] = '';
+
+                    if(!empty($field->trl))
+                    {
+                        $contentArray['attribute_groups'][$g]['attributes'][$a]['trl_name'] = $field->trl->field_title;
+                        $contentArray['attribute_groups'][$g]['attributes'][$a]['trl_description'] = $field->trl->field_description;
+                    }
+
+                    $contentArray['attribute_groups'][$g]['attributes'][$a]['type'] = $field->type->label;
+                    $contentArray['attribute_groups'][$g]['attributes'][$a]['value'] = null;
+                    $contentArray['attribute_groups'][$g]['attributes'][$a]['value_obj_attributes'] = array();
+
+                    //get value of this field for this product
+                    $value = $field->getValueObjForItem($product->id);
+
+                    if(!empty($value))
+                    {
+                        $valueField = '';
+                        switch($field->type_id)
+                        {
+                            case ExtProductFieldTypes::TYPE_NUMERIC:
+                                $valueField = $value->numeric_value;
+                                break;
+
+                            case ExtProductFieldTypes::TYPE_SELECTABLE:
+                                $options = $field->productFieldSelectOptions;
+
+                                foreach($options as $option)
+                                {
+                                    if($option->id == $value->selected_option_id)
+                                    {
+                                        $valueField = array('option_name' => $option->option_name, 'option_value' => $option->option_value);
+                                    }
+                                }
+                                break;
+
+                            case ExtProductFieldTypes::TYPE_DATE:
+                                $valueField = $value->time_value;
+                                break;
+
+                            case ExtProductFieldTypes::TYPE_TRL_TEXT:
+                                $valueField = !empty($value->trl) ? $value->trl->translatable_text : '';
+                                break;
+
+                            case ExtProductFieldTypes::TYPE_TEXT:
+                                $valueField = $value->text_value;
+                                break;
+
+                            case ExtProductFieldTypes::TYPE_IMAGES:
+                                $iof = $value->imagesOfProductFieldsValues;
+
+                                foreach($iof as $iofItem)
+                                {
+                                    /* @var $image ExtImages */
+
+                                    $image = $iofItem->image;
+                                    $valueField = !empty($image) ? $image->attributes : '';
+                                    $valueField['trl_caption'] = !empty($image->trl) ? $image->trl->caption : '';
+                                    $valueField['url'] = !empty($image) ? $image->getUrl() : '';
+                                }
+                                break;
+                        }
+
+
+                        $contentArray['attribute_groups'][$g]['attributes'][$a]['value'] = $valueField;
+                        $contentArray['attribute_groups'][$g]['attributes'][$a]['value_obj_attributes'] = $value->attributes;
+                    }
+
                 }
             }
         }

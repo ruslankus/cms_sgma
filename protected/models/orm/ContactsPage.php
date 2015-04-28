@@ -12,6 +12,7 @@
  * @property integer $time_updated
  * @property integer $last_change_by
  * @property string $template_name
+ * @property integer $save_form
  *
  * The followings are the available model relations:
  * @property ContactsBlock[] $contactsBlocks
@@ -36,12 +37,12 @@ class ContactsPage extends CActiveRecord
 		// NOTE: you should only define rules for those attributes that
 		// will receive user inputs.
 		return array(
-			array('status_id, priority, time_created, time_updated, last_change_by', 'numerical', 'integerOnly'=>true),
+			array('status_id, priority, time_created, time_updated, last_change_by, save_form', 'numerical', 'integerOnly'=>true),
 			array('label', 'length', 'max'=>128),
 			array('template_name', 'length', 'max'=>256),
 			// The following rule is used by search().
 			// @todo Please remove those attributes that should not be searched.
-			array('id, label, status_id, priority, time_created, time_updated, last_change_by, template_name', 'safe', 'on'=>'search'),
+			array('id, label, status_id, priority, time_created, time_updated, last_change_by, template_name, save_form', 'safe', 'on'=>'search'),
 		);
 	}
 
@@ -73,6 +74,7 @@ class ContactsPage extends CActiveRecord
 			'time_updated' => 'Time Updated',
 			'last_change_by' => 'Last Change By',
 			'template_name' => 'Template Name',
+			'save_form' => 'Save Form',
 		);
 	}
 
@@ -102,6 +104,7 @@ class ContactsPage extends CActiveRecord
 		$criteria->compare('time_updated',$this->time_updated);
 		$criteria->compare('last_change_by',$this->last_change_by);
 		$criteria->compare('template_name',$this->template_name,true);
+		$criteria->compare('save_form',$this->save_form);
 
 		return new CActiveDataProvider($this, array(
 			'criteria'=>$criteria,
