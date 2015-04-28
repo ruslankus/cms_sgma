@@ -298,6 +298,38 @@ class ExtImages extends Images
     }//saveGalleryImage
 
 
+    public function checkAvailable($id){
+
+        $con = $this->dbConnection;
+        $images = array();
+        //checking contact
+        $sql  = "SELECT * FROM images_of_contacts t1 ";
+        $sql .= "WHERE id=".(int)$id;
+        $contacts = $con->createCommand($sql)->execute();
+        if(!empty($contacts)){
+            $images['contacts'] = $contacts;
+        }
+
+        //checking page
+        $sql  = "SELECT * FROM images_of_page t1 ";
+        $sql .= "WHERE id=".(int)$id;
+        $news = $con->createCommand($sql)->execute();
+        if(!empty($pages)){
+            $images['pages'] = $news;
+        }
+
+        //checking news
+        $sql  = "SELECT * FROM images_of_news t1 ";
+        $sql .= "WHERE id=".(int)$id;
+        $pages = $con->createCommand($sql)->execute();
+        if(!empty($pages)){
+            $images['news'] = $pages;
+        }
+
+     
+    }//checkAvailable
+
+
     /**
      * Override, relate with extended models
      * @return array relational rules.
