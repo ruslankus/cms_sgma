@@ -129,12 +129,27 @@ class ProductsController extends Controller
 
         $contentArray = $product->attributes;
         $contentArray['url'] = Yii::app()->createUrl('news/one',array('id' => $product->id));
-        $contentArray['trl_name'] = !empty($product->trl) ? $product->trl->title : '';
-        $contentArray['trl_text'] = !empty($product->trl) ? $product->trl->text : '';
-        $contentArray['trl_summary'] = !empty($product->trl) ? $product->trl->summary : '';
-        $contentArray['trl_meta_des'] = !empty($product->trl) ? $product->trl->meta_description : '';
-        $contentArray['trl_meta_key'] = !empty($product->trl) ? $product->trl->meta_keywords : '';
 
+        if(!empty($product->trl))
+        {
+            $contentArray['trl_name'] = $product->trl->title;
+            $contentArray['trl_text'] = $product->trl->text;
+            $contentArray['trl_summary'] = $product->trl->summary;
+            $contentArray['trl_meta_des'] = $product->trl->meta_description;
+            $contentArray['trl_meta_key'] = $product->trl->meta_keywords;
+
+            $this->title = $product->trl->title;
+            $this->description = $product->trl->meta_description;
+            $this->keywords = $product->trl->meta_keywords;
+        }
+        else
+        {
+            $contentArray['trl_name'] = '';
+            $contentArray['trl_text'] = '';
+            $contentArray['trl_summary'] = '';
+            $contentArray['trl_meta_des'] = '';
+            $contentArray['trl_meta_key'] = '';
+        }
 
         $contentArray['images'] = array();
         if(!empty($product->imagesOfProducts))
@@ -178,18 +193,19 @@ class ProductsController extends Controller
                 $contentArray['attribute_groups'][$g]['attributes'] = array();
                 foreach($group->productFields as $a => $field)
                 {
-                    $contentArray['attribute_group'][$g]['attributes'][$a] = $field->attributes;
-                    $contentArray['attribute_group'][$g]['attributes'][$a]['trl_name'] = '';
-                    $contentArray['attribute_group'][$g]['attributes'][$a]['trl_description'] = '';
+                    $contentArray['attribute_groups'][$g]['attributes'][$a] = $field->attributes;
+                    $contentArray['attribute_groups'][$g]['attributes'][$a]['trl_name'] = '';
+                    $contentArray['attribute_groups'][$g]['attributes'][$a]['trl_description'] = '';
 
                     if(!empty($field->trl))
                     {
-                        $contentArray['attribute_group'][$g]['attributes'][$a]['trl_name'] = $field->trl->field_title;
-                        $contentArray['attribute_group'][$g]['attributes'][$a]['trl_description'] = $field->trl->field_description;
+                        $contentArray['attribute_groups'][$g]['attributes'][$a]['trl_name'] = $field->trl->field_title;
+                        $contentArray['attribute_groups'][$g]['attributes'][$a]['trl_description'] = $field->trl->field_description;
                     }
 
-                    $contentArray['attribute_group'][$g]['attributes'][$a]['value'] = null;
-                    $contentArray['attribute_group'][$g]['attributes'][$a]['value_obj_attributes'] = array();
+                    $contentArray['attribute_groups'][$g]['attributes'][$a]['type'] = $field->type->label;
+                    $contentArray['attribute_groups'][$g]['attributes'][$a]['value'] = null;
+                    $contentArray['attribute_groups'][$g]['attributes'][$a]['value_obj_attributes'] = array();
 
                     //get value of this field for this product
                     $value = $field->getValueObjForItem($product->id);
@@ -199,11 +215,11 @@ class ProductsController extends Controller
                         $valueField = '';
                         switch($field->type_id)
                         {
-                            case ExtComplexPageFieldTypes::TYPE_NUMERIC:
+                            case ExtProductFieldTypes::TYPE_NUMERIC:
                                 $valueField = $value->numeric_value;
                                 break;
 
-                            case ExtComplexPageFieldTypes::TYPE_SELECTABLE:
+                            case ExtProductFieldTypes::TYPE_SELECTABLE:
                                 $options = $field->productFieldSelectOptions;
 
                                 foreach($options as $option)
@@ -215,19 +231,19 @@ class ProductsController extends Controller
                                 }
                                 break;
 
-                            case ExtComplexPageFieldTypes::TYPE_DATE:
+                            case ExtProductFieldTypes::TYPE_DATE:
                                 $valueField = $value->time_value;
                                 break;
 
-                            case ExtComplexPageFieldTypes::TYPE_TRL_TEXT:
+                            case ExtProductFieldTypes::TYPE_TRL_TEXT:
                                 $valueField = !empty($value->trl) ? $value->trl->translatable_text : '';
                                 break;
 
-                            case ExtComplexPageFieldTypes::TYPE_TEXT:
+                            case ExtProductFieldTypes::TYPE_TEXT:
                                 $valueField = $value->text_value;
                                 break;
 
-                            case ExtComplexPageFieldTypes::TYPE_IMAGES:
+                            case ExtProductFieldTypes::TYPE_IMAGES:
                                 $iof = $value->imagesOfProductFieldsValues;
 
                                 foreach($iof as $iofItem)
@@ -242,8 +258,9 @@ class ProductsController extends Controller
                                 break;
                         }
 
-                        $contentArray['attribute_group'][$g]['attributes'][$a]['value'] = $valueField;
-                        $contentArray['attribute_group'][$g]['attributes'][$a]['value_obj_attributes'] = $value->attributes;
+
+                        $contentArray['attribute_groups'][$g]['attributes'][$a]['value'] = $valueField;
+                        $contentArray['attribute_groups'][$g]['attributes'][$a]['value_obj_attributes'] = $value->attributes;
                     }
 
                 }
