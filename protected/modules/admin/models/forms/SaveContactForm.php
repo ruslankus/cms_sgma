@@ -8,7 +8,7 @@ class SaveContactForm extends CFormModel
    public $lngId;
    public $title;
    public $description;
-   public $templates;
+   //public $templates;
    public $meta;
    /**
 	 * Declares the validation rules.
@@ -17,7 +17,7 @@ class SaveContactForm extends CFormModel
 	{
         return array(
             array('title,description,lngId', 'required'),
-            array('title,description,lngId,meta,templates', 'safe'),      
+            array('title,description,lngId,meta', 'safe'),      
         );
 	}
    

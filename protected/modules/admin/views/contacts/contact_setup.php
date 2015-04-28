@@ -34,13 +34,21 @@
 			<?php $form=$this->beginWidget('CActiveForm', array(
 				'enableAjaxValidation'=>false,
 			)); ?>
-
+<?php print_r($arrTemplates); ?>
 			<div class="inner-editor inner-content">
 				<table> 
+                <?php if(!empty($arrTemplates)):?>
 					<tr>
 						<td class="label"><?php echo ATrl::t()->getLabel('template')?>:</td>
 						<td class="value">
-                            <?php echo $form->checkBox($model,'save_form',$model->save_form=='ACTIVE', array('uncheckValue' => 0)); ?>		
+                            <?php echo CHtml::activeDropDownList($model,'template_name',$arrTemplates);  ?>						
+						</td>
+					</tr>
+                    <?php endif; ?>
+					<tr>
+						<td class="label"><?php echo ATrl::t()->getLabel('template')?>:</td>
+						<td class="value">
+                            <?php echo $form->checkBox($model,'save_form'); ?>		
 						</td>
 					</tr>
 				</table>

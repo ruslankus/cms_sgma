@@ -56,14 +56,6 @@
 
 			<div class="inner-editor inner-content">
 				<table> 
-                <?php if(!empty($arrTemplates)):?>
-					<tr>
-						<td class="label"><?php echo ATrl::t()->getLabel('template')?>:</td>
-						<td class="value">
-                            <?php echo CHtml::activeDropDownList($model,'templates',$arrTemplates);  ?>						
-						</td>
-					</tr>
-                    <?php endif; ?>
 					<tr>
 						<td class="label">Title</td>
 						<td class="value">
