@@ -131,11 +131,11 @@ class ContactsController extends ControllerAdmin
         $model = new SaveContactSetupForm();
         $objContactPage = ContactsPage::model()->findByPk($id);
         if ($_POST['SaveContactSetupForm']) {
-            if($model->validate()) {
-
+            if ($model->validate()) {
                 $model->attributes=$_POST['SaveContactSetupForm'];
                 $objContactPage->attributes=$_POST['SaveContactSetupForm'];
                 if(!$objContactPage->template_name) {
+                    // if $arrTemplates is empty write default.php
                     $objContactPage->template_name = 'default.php';
                 }
                 $objContactPage->update();
@@ -144,11 +144,9 @@ class ContactsController extends ControllerAdmin
         
         $currTheme = $this->currentThemeName;
         //getting tempates for page from theme if available
-        if(!empty($currTheme)){
-            $arrTemplates = ThemeHelper::getTemplatesFor($currTheme,'contacts');
-            //Debug::d($arrTemplates);
-           // array_unshift($arrTemplates,'------------');
-        }else{
+        if (!empty($currTheme)) {
+            $arrTemplates = ThemeHelper::getTemplatesFor($currTheme, 'contacts');
+        } else {
             $arrTemplates = null;
         }
         $this->render('contact_setup', array('model'=>$model, 'objContact'=>$objContactPage, 'contact_id'=>$id, 'arrTemplates' => $arrTemplates));

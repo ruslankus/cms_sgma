@@ -11,7 +11,11 @@ class ThemeHelper
     {
         if(!empty($selectedTheme) && Yii::app()->themeManager->getTheme($selectedTheme) != null)
         {
-            return self::getTemplatesFor($selectedTheme,'menus',true);
+            $templates = self::getTemplatesFor($selectedTheme,'menus',true);
+            if(!empty($templates))
+            {
+                return $templates;
+            }
         }
         return array('' => 'default');
     }
@@ -28,7 +32,11 @@ class ThemeHelper
 
         if(!empty($selectedTheme) && Yii::app()->themeManager->getTheme($selectedTheme) != null)
         {
-            return self::getTemplatesFor($selectedTheme,'widgets'.DS.$prefix,true);
+            $templates = self::getTemplatesFor($selectedTheme,'widgets'.DS.$prefix,true);
+            if(!empty($templates))
+            {
+                return $templates;
+            }
         }
 
         return array('' => 'default');

@@ -3,7 +3,7 @@
 /**
  * Class AddPageForm
  */
-class SendContactForm extends CFormModel
+class SendContactWidgetForm extends CFormModel
 {
    public $email;
    public $text;
