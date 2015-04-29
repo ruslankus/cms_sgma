@@ -25,13 +25,14 @@ class MailController extends Controller
 		//$this -> renderText('mail setting');
 	}
 
-    public function actionAjaxMailCheck()
+    public function actionAjaxMailWidgetCheck()
     {
         $request = Yii::app()->request;
-        $model = new SendContactForm();
+        $model = new SendContactWidgetForm();
         $model->email = $request->getPost('email');
         $model->text = $request->getPost('text');
         $model->code = $request->getPost('code');
+        $model->name = $request->getPost('name');
         $captcha=Yii::app()->getController()->createAction("captcha");
         $code = $captcha->verifyCode;
         $entered_code =  $request->getPost('code');
