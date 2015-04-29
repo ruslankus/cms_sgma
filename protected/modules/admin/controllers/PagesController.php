@@ -2,7 +2,11 @@
 
 class PagesController extends ControllerAdmin
 {
-    
+
+    public $default_headers = array(
+        'Type' => 'Type template',
+    );
+
     public function init(){
         //Yii::app()->clientScript->registerCssFile($this->assetsPath.'/css/vendor.css'); 
         //Yii::app()->clientScript->registerCssFile($this->assetsPath.'/css/vendor.lighbox.css');  
@@ -142,7 +146,10 @@ class PagesController extends ControllerAdmin
     
     
     public function actionPageSetting($id = null){
-        
+        //template in selected for type 'page' for select box
+        $arrThemeFilesSelect = array();
+
+
         Yii::app()->clientScript->registerCssFile($this->assetsPath.'/css/vendor.lightbox.css');
         Yii::app()->clientScript->registerScriptFile($this->assetsPath.'/js/vendor.edit-page-content.js',CClientScript::POS_END);
         
@@ -188,7 +195,23 @@ class PagesController extends ControllerAdmin
         $arrPage = ExtPage::model()->getPageImaageNoCaption($id);
         //Debug::d($arrPage);
         if(!empty($arrPage)){
-        
+
+            //checking all template for page;
+            $selectedTheme = $this->currentThemeName;
+            if(!empty($selectedTheme)){
+                $arrThemeFiles = ThemeHelper::getTemplatesFor($selectedTheme,'pages');
+                $themePath = Yii::app()->themeManager->getTheme($selectedTheme)->basePath .DS ."views".DS .'pages'.DS;
+                foreach($arrThemeFiles as $key => $value){
+                    $file = $themePath . $value;
+                    $filtered = Meta::get_file_data($file,$this->default_headers);
+                    if($filtered['Type'] == 'Page'){
+                        $arrThemeFilesSelect[$key] = $value;
+                    }
+                }
+            }//if(!empty($selectedTheme))
+
+            Debug::d($arrThemeFilesSelect);
+
             $arrImages = $arrPage['images'];
            
             $elCount = count($arrImages);
