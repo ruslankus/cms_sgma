@@ -4,10 +4,9 @@ $(document).ready(function(e) {
     	var email = $('#email').val();
     	var text = $('#text').val();
     	var code = $('#code').val();
-        var name = $('#name').val();
-        var link = '/'+ prefix +'/mail/AjaxMailWidgetCheck';
+        var link = '/'+ prefix +'/mail/AjaxMailCheck';
         $.ajaxSetup({async:false});
-        $.ajax({ type: "post",url:link,data:{email:email,text:text,code:code,name:name}}).done(function(data){
+        $.ajax({ type: "post",url:link,data:{email:email,text:text,code:code}}).done(function(data){
             
             obj = jQuery.parseJSON(data);
             console.log(obj);
