@@ -303,29 +303,29 @@ class ExtImages extends Images
         $con = $this->dbConnection;
         $images = array();
         //checking contact
-        $sql  = "SELECT * FROM images_of_contacts t1 ";
-        $sql .= "WHERE id=".(int)$id;
-        $contacts = $con->createCommand($sql)->execute();
+        $sql  = "SELECT t1.contact_page_id as page_id FROM images_of_contacts t1 ";
+        $sql .= "WHERE image_id=".(int)$id;
+        $contacts = $con->createCommand($sql)->queryAll();
         if(!empty($contacts)){
             $images['contacts'] = $contacts;
         }
 
         //checking page
-        $sql  = "SELECT * FROM images_of_page t1 ";
-        $sql .= "WHERE id=".(int)$id;
-        $news = $con->createCommand($sql)->execute();
+        $sql  = "SELECT t1.page_id FROM images_of_page t1 ";
+        $sql .= "WHERE image_id=".(int)$id;
+        $pages = $con->createCommand($sql)->queryAll();
         if(!empty($pages)){
-            $images['pages'] = $news;
+            $images['pages'] = $pages;
         }
 
         //checking news
-        $sql  = "SELECT * FROM images_of_news t1 ";
-        $sql .= "WHERE id=".(int)$id;
-        $pages = $con->createCommand($sql)->execute();
-        if(!empty($pages)){
-            $images['news'] = $pages;
+        $sql  = "SELECT t1.news_id as page_id FROM images_of_news t1 ";
+        $sql .= "WHERE image_id=".(int)$id;
+        $news = $con->createCommand($sql)->queryAll();
+        if(!empty($news)){
+            $images['news'] = $news;
         }
-
+        return $images;
      
     }//checkAvailable
 
