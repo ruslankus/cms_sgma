@@ -14,7 +14,9 @@ class NewsController extends ControllerAdmin
         Yii::app()->clientScript->registerScriptFile($this->assetsPath.'/js/vendor.main-menu.js',CClientScript::POS_END);
 
         $categories = ExtNewsCategory::model()->rootGroups();
-        $array = CPaginator::getInstance($categories,10,$page)->getPreparedArray();
+
+        $perPage = ExtSettings::model()->getSetting('per_page',10,true);
+        $array = CPaginator::getInstance($categories,$perPage,$page)->getPreparedArray();
 
         if(Yii::app()->request->isAjaxRequest)
         {
@@ -360,7 +362,8 @@ class NewsController extends ControllerAdmin
             $objects = ExtNews::model()->findAll(array('order' => 'priority DESC'));
         }
 
-        $array = CPaginator::getInstance($objects,10,$page)->getPreparedArray();
+        $perPage = ExtSettings::model()->getSetting('per_page',10,true);
+        $array = CPaginator::getInstance($objects,$perPage,$page)->getPreparedArray();
 
         if(Yii::app()->request->isAjaxRequest)
         {
