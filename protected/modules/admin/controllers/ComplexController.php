@@ -13,7 +13,8 @@ class ComplexController extends ControllerAdmin
 
         $objects = ExtComplexPage::model()->findAll(array('order' => 'priority DESC'));
 
-        $array = CPaginator::getInstance($objects,10,$page)->getPreparedArray();
+        $perPage = ExtSettings::model()->getSetting('per_page',10,true);
+        $array = CPaginator::getInstance($objects,$perPage,$page)->getPreparedArray();
 
         $this->render('list_items',array('items' => $array));
     }
@@ -659,7 +660,9 @@ class ComplexController extends ControllerAdmin
         Yii::app()->clientScript->registerCssFile($this->assetsPath.'/css/vendor.news.ext.css');
 
         $groups = ExtComplexPageFieldGroups::model()->findAll(array('order' => 'priority DESC'));
-        $items = CPaginator::getInstance($groups,10,$page)->getPreparedArray();
+
+        $perPage = ExtSettings::model()->getSetting('per_page',10,true);
+        $items = CPaginator::getInstance($groups,$perPage,$page)->getPreparedArray();
 
         if(Yii::app()->request->isAjaxRequest)
         {
@@ -919,7 +922,8 @@ class ComplexController extends ControllerAdmin
             $fields = ExtComplexPageFields::model()->findAll(array('order' => 'priority DESC'));
         }
 
-        $items = CPaginator::getInstance($fields,10,$page)->getPreparedArray();
+        $perPage = ExtSettings::model()->getSetting('per_page',10,true);
+        $items = CPaginator::getInstance($fields,$perPage,$page)->getPreparedArray();
 
         if(Yii::app()->request->isAjaxRequest)
         {

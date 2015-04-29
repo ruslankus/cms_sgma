@@ -12,15 +12,26 @@ class ExtSettings extends Settings
         return parent::model($className);
     }
 
+
     /**
-     * Returns setting value
      * @param $settingName
+     * @param bool $numericOnly
+     * @param null $default
      * @return string
      */
-    public function getSetting($settingName)
+    public function getSetting($settingName, $default = null, $numericOnly = false)
     {
         $setting = self::model()->findByAttributes(array('value_name' => $settingName));
-        return $setting->setting;
+
+        $value = $default;
+        if(!$numericOnly){
+            $value = !empty($setting->setting) ? $setting->setting : $default;
+        }
+        else{
+            $value = is_numeric($setting->setting) ? $setting->setting : $default;
+        }
+
+        return $value;
     }
 
     /**
