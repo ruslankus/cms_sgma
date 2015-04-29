@@ -9,11 +9,7 @@ $(".menu-content > .tab-line > span").bind("click", function(e){
 		cont.fadeIn(300);
 	cont.siblings().hide();
 });
-$(".undo").click(function()
-	{
-		console.log("undo");
-		return false;
-	});
+
 $(".del").click(function()
 	{
 		data_id = $(this).attr("data-id");

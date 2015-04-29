@@ -14,12 +14,7 @@ $(document).ready(function() {
       
         //$(document).find("textarea").textarea({width : "100%"}); // reattach editor to textarea after ajax load.done; 
     });
-    // Undo event
-    $(".undo").click(function(){
-    
-        console.log("undo");
-        return false;
-    });
+
 // On submit event
 
     $(document).on("click", "#save-content", function()

@@ -38,6 +38,7 @@ class ContactsController extends ControllerAdmin
 
     public function actionCreate(){
         Yii::app()->clientScript->registerScriptFile($this->assetsPath.'/js/vendor.add-contact.js',CClientScript::POS_END);
+        $prefix = Yii::app()->language;
         $model = new AddPageForm();
         
         if(isset($_POST['AddPageForm'])){
@@ -61,7 +62,7 @@ class ContactsController extends ControllerAdmin
        
         }
         
-        $this->render('new_contact', array('model' => $model));
+        $this->render('new_contact', array('model' => $model, 'prefix' => $prefix));
         
     }//create
 

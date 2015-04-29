@@ -15,13 +15,7 @@ $(document).ready(function() {
       
         //$(document).find("textarea").textarea({width : "100%"}); // reattach editor to textarea after ajax load.done; 
     });
-    // Undo event
-    $(".undo").click(function(){
-    
-        console.log("undo");
-        return false;
-    });
-    
+
     
      $(document).on('click','#edit-more',function(){
       

@@ -2,7 +2,7 @@
 				<div class="title-bar world">
 					<h1><?php echo ATrl::t()->getLabel('add new page block')?></h1>
 					<ul class="actions">
-						<li><a href="" class="action undo"></a></li>					
+						<li><a href="/<?php echo $prefix;?>/admin/contacts/pages" class="action undo"></a></li>				
 					</ul>
 				</div><!--/title-bar-->
 				
