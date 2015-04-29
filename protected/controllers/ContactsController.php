@@ -1,6 +1,18 @@
 <?php
 class ContactsController extends Controller
 {
+    public function actions()
+    {
+        return array(
+        // captcha action renders the CAPTCHA image displayed on the contact page
+            'captcha'=>array(
+             'class'=>'CCaptchaAction',
+             'backColor'=>0xFFFFFF,
+             'testLimit'=>1
+            ),
+        );
+    }
+    
     public function actionShow($id)
     {
         $arrBlocks = array();
@@ -28,8 +40,10 @@ class ContactsController extends Controller
         //need meta
         //need meta description 
         
+        $model = new SendContactPageForm();
+
         $this->render('contact_page', array('description' => $description, 'title' => $title,
-        'imgs' => $arrData['images'], 'arrBlocks' => $arrBlocks));   
+        'imgs' => $arrData['images'], 'arrBlocks' => $arrBlocks, 'model'=>$model));   
     }
     
 }//    
