@@ -325,6 +325,55 @@ class ExtImages extends Images
         if(!empty($news)){
             $images['news'] = $news;
         }
+
+        //checking products
+        $sql  = "SELECT t1.product_id as page_id ";
+        $sql .= "FROM images_of_product t1 ";
+        $sql .= "WHERE image_id=".(int)$id;
+        $products = $con->createCommand($sql)->queryAll();
+        if(!empty($products)){
+            $images['products'] = $products;
+        }
+
+        //checking complex page fields
+        //checking products
+        $sql  = "SELECT t1.page_id ";
+        $sql .= "FROM images_of_complex_page t1 ";
+        $sql .= "WHERE image_id=".(int)$id;
+        $complex = $con->createCommand($sql)->queryAll();
+        if(!empty($complex)){
+            $images['complex'] = $complex;
+        }
+
+        //checking complex page fields
+        $sql  = "SELECT t2.page_id FROM images_of_complex_page_field_values t1 ";
+        $sql .= "JOIN complex_page_field_values t2 ON t1.field_value_id = t2.id ";
+        $sql .= "WHERE image_id=".(int)$id;
+        $complex_fields = $con->createCommand($sql)->queryAll();
+        if(!empty($complex_fields)){
+            $images['complex_fields'] = $complex_fields;
+        }
+
+        //checking widgets images
+        $sql  = "SELECT t1.widget_id as page_id ";
+        $sql .= "FROM images_of_widget t1 ";
+        $sql .= "WHERE image_id =".(int)$id;
+        $widgets = $con->createCommand($sql)->queryAll();
+        if(!empty($widgets)){
+            $images['widgets'] = $widgets;
+        }
+
+        //checking product fields images
+        $sql  = "SELECT t2.product_id as page_id " ;
+        $sql .= "FROM images_of_product_fields_values t1 ";
+        $sql .= "JOIN product_field_values t2 ON t2.id = t1.field_value_id ";
+        $sql .= "WHERE t1.image_id = ".(int)$id;
+
+        $product_fields = $con->createCommand($sql)->queryAll();
+        if(!empty($product_fields)){
+            $images['product_fields'] = $product_fields;
+        }
+
         return $images;
      
     }//checkAvailable
@@ -351,7 +400,8 @@ class ExtImages extends Images
 
         //relate with translation
         $lng = Yii::app()->language;
-        $relations['trl'] = array(self::HAS_ONE, 'ImagesTrl', 'image_id', 'with' => array('lng' => array('condition' => "lng.prefix='{$lng}'")));
+        $relations['trl'] = array(self::HAS_ONE, 'ImagesTrl', 'image_id',
+            'with' => array('lng' => array('condition' => "lng.prefix='{$lng}'")));
 
         //return modified relations
         return $relations;

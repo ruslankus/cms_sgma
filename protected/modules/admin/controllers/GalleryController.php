@@ -92,9 +92,14 @@ class GalleryController extends ControllerAdmin
     public function actionDeleteFile($id){
         $links = array();
         $controllers = array(
-            'news' => '/admin/news/edit/',
-            'pages'=> '/admin/pages/pagesetting/',
-            'contacts'=> '/admin/contacts/contactsettings/'
+            'news'              => '/admin/news/edit/',
+            'pages'             => '/admin/pages/pagesetting/',
+            'contacts'          => '/admin/contacts/contactsettings/',
+            'products'          => '/admin/products/edit/',
+            'complex_fields'    => '/admin/complex/editpagefields/',
+            'complex'           => '/admin/complex/edit/',
+            'widgets'           => '/admin/widgets/bannerimages/',
+            'product_fields'    => '/admin/products/editprodfields/'
         );
 
         $prefix = SiteLng::lng()->getCurrLng()->prefix;
