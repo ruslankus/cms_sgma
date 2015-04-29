@@ -64,7 +64,9 @@ class MenuController extends ControllerAdmin
 
         /* @var $menus ExtMenu[] */
         $menus = ExtMenu::model()->findAll();
-        $array = CPaginator::getInstance($menus,10,$page)->getPreparedArray();
+
+        $perPage = ExtSettings::model()->getSetting('per_page',10,true);
+        $array = CPaginator::getInstance($menus,$perPage,$page)->getPreparedArray();
 
         $this->render('list_menu',array('menus' => $array,'form_params' => $form_params));
     }
@@ -158,7 +160,9 @@ class MenuController extends ControllerAdmin
         //get all items
         $items = $menu->buildObjArrRecursive();
         $items = ExtMenu::model()->divideToRootGroups($items);
-        $array = CPaginator::getInstance($items,10,$page)->getPreparedArray();
+
+        $perPage = ExtSettings::model()->getSetting('per_page',10,true);
+        $array = CPaginator::getInstance($items,$perPage,$page)->getPreparedArray();
 
         
         if(Yii::app()->request->isAjaxRequest)
@@ -465,6 +469,27 @@ class MenuController extends ControllerAdmin
         $type = ExtMenuItemType::model()->findByPk($id);
         $objItems = $this->getContentsByType($type);
         $this->renderPartial('_ajax_content_items',array('objContentItems' => $objItems, 'type' => $type, 'selected' => $selected));
+    }
+
+
+    /**
+     * Returns created link
+     * @param $id
+     * @param $type
+     * @param $obj
+     * @throws CHttpException
+     */
+    public function actionAjaxCreateUrlFor($id,$type,$obj)
+    {
+        $menuItem = ExtMenuItem::model()->findByPk($id);
+
+        if(empty($menuItem))
+        {
+            throw new CHttpException(404);
+        }
+
+        $url = $menuItem->getUrl(true,'show',(int)$type,(int)$obj);
+        echo $url;
     }
 
 

@@ -46,12 +46,14 @@
 
     </div><!--/content-->
 
-    <div class="pagination">
-        <?php for($i = 0; $i < CPaginator::getInstance()->getTotalPages(); $i++): ?>
-            <?php $params['page'] = $i + 1; ?>
-            <a href="<?php echo Yii::app()->createUrl('admin/news/list/',$params); ?>" <?php if(CPaginator::getInstance()->getCurrentPage() == $i+1): ?> class="active" <?php endif; ?>><?php echo $i+1; ?></a>
-        <?php endfor; ?>
-    </div><!--/pagination-->
+    <?php if(CPaginator::getInstance()->getTotalPages() > 1): ?>
+        <div class="pagination">
+            <?php for($i = 0; $i < CPaginator::getInstance()->getTotalPages(); $i++): ?>
+                <?php $params['page'] = $i + 1; ?>
+                <a href="<?php echo Yii::app()->createUrl('admin/news/list/',$params); ?>" <?php if(CPaginator::getInstance()->getCurrentPage() == $i+1): ?> class="active" <?php endif; ?>><?php echo $i+1; ?></a>
+            <?php endfor; ?>
+        </div><!--/pagination-->
+    <?php endif; ?>
 
     <?php $params['page'] = CPaginator::getInstance()->getCurrentPage(); ?>
     <input type="hidden" id="ajax-refresh-link" value="<?php echo Yii::app()->createUrl('admin/news/list',$params); ?>">

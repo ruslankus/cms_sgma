@@ -18,6 +18,7 @@
  * @property ContactsBlock[] $contactsBlocks
  * @property ContactsPageTrl[] $contactsPageTrls
  * @property ImagesOfContacts[] $imagesOfContacts
+ * @property Letters[] $letters
  */
 class ContactsPage extends CActiveRecord
 {
@@ -57,6 +58,7 @@ class ContactsPage extends CActiveRecord
 			'contactsBlocks' => array(self::HAS_MANY, 'ContactsBlock', 'page_id'),
 			'contactsPageTrls' => array(self::HAS_MANY, 'ContactsPageTrl', 'page_id'),
 			'imagesOfContacts' => array(self::HAS_MANY, 'ImagesOfContacts', 'contact_page_id'),
+			'letters' => array(self::HAS_MANY, 'Letters', 'page_id'),
 		);
 	}
 

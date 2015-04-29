@@ -67,7 +67,7 @@
                 </tr>
                 <tr>
                     <td class="label"><?php echo ATrl::t()->getLabel('Link'); ?></td>
-                    <td class="value"><input value="<?php echo $menuItem->getUrl(true);?>" type="text" name="link" class="link" /></td>
+                    <td class="value"><input id="link_field_ajax" value="<?php echo $menuItem->getUrl(true);?>" type="text" name="link" class="link" /></td>
                 </tr>
                 <tr>
                     <td class="label"><?php echo $form->labelEx($form_model,'parent_id'); ?></td>
@@ -100,6 +100,8 @@
                     </td>
                 </tr>
             </table>
+            <input type="hidden" id="idem_id" value="<?php echo $menuItem->id; ?>">
+            <input type="hidden" id="get_link_id" value="<?php echo Yii::app()->createUrl('admin/menu/ajaxcreateurlfor'); ?>">
             <?php echo $form->hiddenField($form_model,'menu_id',array('value' => $menu->id)); ?>
             <?php $this->endWidget(); ?>
 

@@ -64,10 +64,6 @@
                         <?php $this->renderPartial('_ajax_content_items',array('objContentItems' => $content_items, 'type' => $first_type)); ?>
                     </tr>
                     <tr>
-                        <td class="label"><?php echo ATrl::t()->getLabel('Link'); ?></td>
-                        <td class="value"><input type="text" name="link" class="link" /></td>
-                    </tr>
-                    <tr>
                         <td class="label"><?php echo $form->labelEx($form_model,'parent_id'); ?></td>
                         <td class="value">
                             <?php echo $form->dropDownList($form_model,'parent_id',$parent_items,array('class'=>''));?>
