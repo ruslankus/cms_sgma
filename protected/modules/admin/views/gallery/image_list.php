@@ -38,7 +38,7 @@
 					</div><!--/inner-content-->
 
                     <?php if($showPaginator):?>
-                    <div class="pagination" style="border:none">
+                    <div class="pagination" style="border:none  ">
                         <?php for($p=1; $p <= $totalPages; $p++): ?>
                             <?php if($p == $currentPage):?>
                                 <?php echo CHtml::link($p,array('/admin/gallery/index',

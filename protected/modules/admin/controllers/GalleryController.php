@@ -97,7 +97,11 @@ class GalleryController extends ControllerAdmin
             $this->renderPartial('_delete_file');
       
         }elseif($request->isPostRequest){
-            
+
+            //check available in another pages
+            $arrCount = ExtImages::model()->checkAvailabe($id);
+
+
             $objImg = Images::model()->findByPk($id);
             // if images exist - delete them
             if(!empty($objImg)){
