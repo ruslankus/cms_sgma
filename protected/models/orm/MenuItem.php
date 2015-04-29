@@ -15,11 +15,12 @@
  * @property integer $time_created
  * @property integer $time_updated
  * @property integer $last_change_by
+ * @property integer $link_target
  *
  * The followings are the available model relations:
- * @property Status $status
  * @property MenuItemType $type
  * @property Menu $menu
+ * @property Status $status
  * @property MenuItemTrl[] $menuItemTrls
  */
 class MenuItem extends CActiveRecord
@@ -40,11 +41,11 @@ class MenuItem extends CActiveRecord
 		// NOTE: you should only define rules for those attributes that
 		// will receive user inputs.
 		return array(
-			array('menu_id, parent_id, priority, type_id, content_item_id, status_id, time_created, time_updated, last_change_by', 'numerical', 'integerOnly'=>true),
+			array('menu_id, parent_id, priority, type_id, content_item_id, status_id, time_created, time_updated, last_change_by, link_target', 'numerical', 'integerOnly'=>true),
 			array('label', 'length', 'max'=>128),
 			// The following rule is used by search().
 			// @todo Please remove those attributes that should not be searched.
-			array('id, menu_id, label, parent_id, priority, type_id, content_item_id, status_id, time_created, time_updated, last_change_by', 'safe', 'on'=>'search'),
+			array('id, menu_id, label, parent_id, priority, type_id, content_item_id, status_id, time_created, time_updated, last_change_by, link_target', 'safe', 'on'=>'search'),
 		);
 	}
 
@@ -56,9 +57,9 @@ class MenuItem extends CActiveRecord
 		// NOTE: you may need to adjust the relation name and the related
 		// class name for the relations automatically generated below.
 		return array(
-			'status' => array(self::BELONGS_TO, 'Status', 'status_id'),
 			'type' => array(self::BELONGS_TO, 'MenuItemType', 'type_id'),
 			'menu' => array(self::BELONGS_TO, 'Menu', 'menu_id'),
+			'status' => array(self::BELONGS_TO, 'Status', 'status_id'),
 			'menuItemTrls' => array(self::HAS_MANY, 'MenuItemTrl', 'menu_item_id'),
 		);
 	}
@@ -80,6 +81,7 @@ class MenuItem extends CActiveRecord
 			'time_created' => 'Time Created',
 			'time_updated' => 'Time Updated',
 			'last_change_by' => 'Last Change By',
+			'link_target' => 'Link Target',
 		);
 	}
 
@@ -112,6 +114,7 @@ class MenuItem extends CActiveRecord
 		$criteria->compare('time_created',$this->time_created);
 		$criteria->compare('time_updated',$this->time_updated);
 		$criteria->compare('last_change_by',$this->last_change_by);
+		$criteria->compare('link_target',$this->link_target);
 
 		return new CActiveDataProvider($this, array(
 			'criteria'=>$criteria,

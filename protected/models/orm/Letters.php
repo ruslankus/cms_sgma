@@ -5,9 +5,13 @@
  *
  * The followings are the available columns in table 'letters':
  * @property integer $id
+ * @property integer $page_id
  * @property string $email
  * @property string $email_from
  * @property string $content
+ *
+ * The followings are the available model relations:
+ * @property ContactsPage $page
  */
 class Letters extends CActiveRecord
 {
@@ -27,11 +31,12 @@ class Letters extends CActiveRecord
 		// NOTE: you should only define rules for those attributes that
 		// will receive user inputs.
 		return array(
+			array('page_id', 'numerical', 'integerOnly'=>true),
 			array('email, email_from', 'length', 'max'=>128),
 			array('content', 'safe'),
 			// The following rule is used by search().
 			// @todo Please remove those attributes that should not be searched.
-			array('id, email, email_from, content', 'safe', 'on'=>'search'),
+			array('id, page_id, email, email_from, content', 'safe', 'on'=>'search'),
 		);
 	}
 
@@ -43,6 +48,7 @@ class Letters extends CActiveRecord
 		// NOTE: you may need to adjust the relation name and the related
 		// class name for the relations automatically generated below.
 		return array(
+			'page' => array(self::BELONGS_TO, 'ContactsPage', 'page_id'),
 		);
 	}
 
@@ -53,6 +59,7 @@ class Letters extends CActiveRecord
 	{
 		return array(
 			'id' => 'ID',
+			'page_id' => 'Page',
 			'email' => 'Email',
 			'email_from' => 'Email From',
 			'content' => 'Content',
@@ -78,6 +85,7 @@ class Letters extends CActiveRecord
 		$criteria=new CDbCriteria;
 
 		$criteria->compare('id',$this->id);
+		$criteria->compare('page_id',$this->page_id);
 		$criteria->compare('email',$this->email,true);
 		$criteria->compare('email_from',$this->email_from,true);
 		$criteria->compare('content',$this->content,true);
