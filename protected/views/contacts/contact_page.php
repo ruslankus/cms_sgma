@@ -17,7 +17,11 @@
 </div>
 <h2>Testing Form</h2>
 <?php
-print_r($_POST);
+    foreach(Yii::app()->user->getFlashes() as $key => $message) {
+        echo '<div class="flash-' . $key . '">' . $message . "</div>\n";
+    }
+?>
+<?php
 $form=$this->beginWidget('CActiveForm',array(
    'enableAjaxValidation'=>false,
  ));
@@ -27,16 +31,23 @@ $form=$this->beginWidget('CActiveForm',array(
  <div class="form-result"></div>
 <input type="hidden" id="lang_prefix" value="<?php echo $lang_prefix;?>">
 
-<?php echo $form->labelEx($model,'email'); ?>
+<?php echo $form->labelEx($model,'name'); ?>
 <div>
-<?php echo $form->textField($model,'email'); ?>
-<?php echo $form->error($model,'email'); ?>
+<?php echo $form->textField($model,'name'); ?>
+<?php echo $form->error($model,'name'); ?>
 </div>
 
-<?php echo $form->labelEx($model,'text'); ?>
+
+<?php echo $form->labelEx($model,'email_from'); ?>
 <div>
-	<?php echo $form->textArea($model,'text'); ?>
-	<?php echo $form->error($model,'text'); ?>
+<?php echo $form->textField($model,'email_from'); ?>
+<?php echo $form->error($model,'email_from'); ?>
+</div>
+
+<?php echo $form->labelEx($model,'content'); ?>
+<div>
+	<?php echo $form->textArea($model,'content'); ?>
+	<?php echo $form->error($model,'content'); ?>
 </div>
 
   <?php echo $form->labelEx($model,'code'); ?>

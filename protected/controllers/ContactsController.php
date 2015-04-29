@@ -49,13 +49,22 @@ class ContactsController extends Controller
         $model->attributes = $_POST['SendContactPageForm'];
         if ($_POST['SendContactPageForm']) {
             // send mail or write db
-            if (!($model->validate())) {
+            if (($model->validate())) {
                 // is write to db checked
                 if ($objContactPage->save_form) {
                     // is write to db checked
-
+                    $objLetter = new Letters();
+                    $objLetter->page_id = $id;
+                    $objLetter->email = "cms@cms.com";
+                    $objLetter->email_from = $_POST['SendContactPageForm']['name']." <".$_POST['SendContactPageForm']['email_from'].">";
+                    $objLetter->content = $_POST['SendContactPageForm']['content'];
+                    if ($objLetter->save()) {
+                        Yii::app()->user->setFlash('success', Trl::t()->getLabel('Your message send'));
+                    }
                 } else {
-                    // send mail    
+                    // send mail
+                    $data = Mailer::sendMail(array($_POST['SendContactPageForm']['name'], 'mail'=>$_POST['SendContactPageForm']['email_from'],'subject' => Trl::t()->getLabel('New message from page form'),'body' => $_POST['SendContactPageForm']['content']));
+                    Yii::app()->user->setFlash('success', $data);
 
                 }
             }

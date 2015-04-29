@@ -5,8 +5,9 @@
  */
 class SendContactPageForm extends CFormModel
 {
-   public $email;
-   public $text;
+   public $name;
+   public $email_from;
+   public $content;
    public $code;
    /**
    * Declares the validation rules.
@@ -15,19 +16,19 @@ class SendContactPageForm extends CFormModel
   {
         return array(
             array('code', 'captcha'),
-            array('email', 'email'),
-            array('text,email', 'required'),
-            array('email,text', 'safe'),      
+            array('email_from', 'email'),
+            array('content,email_from,name', 'required'),
+            array('email_from,content,name', 'safe'),      
         );
   }
    
   public function attributeLabels()
   {
     return array(
-      'email' => Trl::t()->getLabel('Your mail'),
-      'text' => Trl::t()->getLabel('Message text'),
+      'name' => Trl::t()->getLabel('Your name'),
+      'email_from' => Trl::t()->getLabel('Your mail'),
+      'content' => Trl::t()->getLabel('Message'),
       'code' => Trl::t()->getLabel('Sequrity code')
-
     );
   }
     
