@@ -469,6 +469,27 @@ class MenuController extends ControllerAdmin
 
 
     /**
+     * Returns created link
+     * @param $id
+     * @param $type
+     * @param $obj
+     * @throws CHttpException
+     */
+    public function actionAjaxCreateUrlFor($id,$type,$obj)
+    {
+        $menuItem = ExtMenuItem::model()->findByPk($id);
+
+        if(empty($menuItem))
+        {
+            throw new CHttpException(404);
+        }
+
+        $url = $menuItem->getUrl(true,'show',(int)$type,(int)$obj);
+        echo $url;
+    }
+
+
+    /**
      * Changes order (for draggable items)
      */
     public function actionAjaxOrderItems()
