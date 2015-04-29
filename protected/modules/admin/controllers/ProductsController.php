@@ -13,7 +13,9 @@ class ProductsController extends ControllerAdmin
         Yii::app()->clientScript->registerScriptFile($this->assetsPath.'/js/vendor.main-menu.js',CClientScript::POS_END);
 
         $categories = ExtProductCategory::model()->rootGroups();
-        $array = CPaginator::getInstance($categories,10,$page)->getPreparedArray();
+
+        $perPage = ExtSettings::model()->getSetting('per_page',10,true);
+        $array = CPaginator::getInstance($categories,$perPage,$page)->getPreparedArray();
 
         if(Yii::app()->request->isAjaxRequest)
         {
@@ -355,7 +357,8 @@ class ProductsController extends ControllerAdmin
             $objects = ExtProduct::model()->findAll(array('order' => 'priority DESC'));
         }
 
-        $array = CPaginator::getInstance($objects,10,$page)->getPreparedArray();
+        $perPage = ExtSettings::model()->getSetting('per_page',10,true);
+        $array = CPaginator::getInstance($objects,$perPage,$page)->getPreparedArray();
 
         if(Yii::app()->request->isAjaxRequest)
         {
@@ -1061,7 +1064,9 @@ class ProductsController extends ControllerAdmin
         Yii::app()->clientScript->registerCssFile($this->assetsPath.'/css/vendor.news.ext.css');
 
         $groups = ExtProductFieldGroups::model()->findAll(array('order' => 'priority DESC'));
-        $items = CPaginator::getInstance($groups,10,$page)->getPreparedArray();
+
+        $perPage = ExtSettings::model()->getSetting('per_page',10,true);
+        $items = CPaginator::getInstance($groups,$perPage,$page)->getPreparedArray();
 
         if(Yii::app()->request->isAjaxRequest)
         {
@@ -1319,7 +1324,8 @@ class ProductsController extends ControllerAdmin
             $fields = ExtProductFields::model()->findAll(array('order' => 'priority DESC'));
         }
 
-        $items = CPaginator::getInstance($fields,10,$page)->getPreparedArray();
+        $perPage = ExtSettings::model()->getSetting('per_page',10,true);
+        $items = CPaginator::getInstance($fields,$perPage,$page)->getPreparedArray();
 
         if(Yii::app()->request->isAjaxRequest)
         {
@@ -1675,7 +1681,10 @@ class ProductsController extends ControllerAdmin
         }
 
         $tags = ExtTag::model()->findAll();
-        $items = CPaginator::getInstance($tags,10,$page)->getPreparedArray();
+
+        $perPage = ExtSettings::model()->getSetting('per_page',10,true);
+        $items = CPaginator::getInstance($tags,$perPage,$page)->getPreparedArray();
+
         $this->render('list_tags', array('items' => $items, 'form_mdl' => $form_mdl));
     }
 
