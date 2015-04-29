@@ -10,7 +10,7 @@ $currentPage = $pager->getCurrentPage();
 	<div class="title-bar world">
 		<h1><?php echo ATrl::t()->getLabel('Settings')?></h1>
 		<ul class="actions">
-			<li><a href="" class="action undo"></a></li>
+			<li><a href="/<?php echo $lang_prefix?>/admin/translation/admin" class="action undo"></a></li>
 		</ul>
 	</div><!--/title-bar-->
 

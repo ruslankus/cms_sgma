@@ -10,16 +10,16 @@ $currentPage = $pager->getCurrentPage();
 	<div class="title-bar world">
 		<h1><?php echo ATrl::t()->getLabel('Settings')?></h1>
 		<ul class="actions">
-			<li><a href="" class="action undo"></a></li>
+			<li><a href="/<?php echo $lang_prefix?>/admin/translation/admin" class="action undo"></a></li>
 		</ul>
 	</div><!--/title-bar-->
 
 	<div class="content translation">
 		<div class="header">
 			<span><?php echo ATrl::t()->getLabel('Languages')?></span>
-			<a href="/<?php echo $lang_prefix?>/admin/Translation/AdminLanguages" class="languages active"><?php echo ATrl::t()->getLabel('Languages')?></a>
-			<a href="/<?php echo $lang_prefix?>/admin/Translation/AdminMessages" class="messages"><?php echo ATrl::t()->getLabel('Messages')?></a>
-			<a href="/<?php echo $lang_prefix?>/admin/Translation/Admin" class="labels"><?php echo ATrl::t()->getLabel('Labels')?></a>
+			<a href="/<?php echo $lang_prefix?>/admin/translation/AdminLanguages" class="languages active"><?php echo ATrl::t()->getLabel('Languages')?></a>
+			<a href="/<?php echo $lang_prefix?>/admin/translation/AdminMessages" class="messages"><?php echo ATrl::t()->getLabel('Messages')?></a>
+			<a href="/<?php echo $lang_prefix?>/admin/translation/Admin" class="labels"><?php echo ATrl::t()->getLabel('Labels')?></a>
 		</div><!--/header-->
 		<div class="translate-actions">
 				<input type="submit" data-prefix="<?php echo $lang_prefix?>" class="add-label" value="<?php echo ATrl::t()->getLabel('Add language');?>" />
