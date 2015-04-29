@@ -19,24 +19,27 @@
         </div><!--/list-row-->
 
         <?php foreach($menus as $menu): ?>
-        <div class="list-row">
-            <div class="cell id"><?php echo $menu->id; ?></div>
-            <div class="cell"><a href="<?php echo Yii::app()->createUrl('admin/menu/menuitems',array('id' => $menu->id)); ?>"><?php echo $menu->label; ?></a></div>
-            <div class="cell item-qnt"><?php echo count($menu->menuItems); ?></div>
-            <div class="cell template"><?php echo !empty($this->currentThemeName) ? $menu->template_name : 'default'; ?></div>
-            <div class="cell action">
-                <a href="<?php echo Yii::app()->createUrl('admin/menu/editmenu',array('id' => $menu->id)); ?>" class="action edit" data-id="<?php echo $menu->id; ?>"></a>
-                <a data-message="<?php echo ATrl::t()->getLabel('Are your sure ?'); ?>" data-yes="<?php echo ATrl::t()->getLabel('Delete'); ?>" data-no="<?php echo ATrl::t()->getLabel('Cancel'); ?>" href="<?php echo Yii::app()->createUrl('admin/menu/deletemenu',array('id' => $menu->id)); ?>" class="action delete" data-id="<?php echo $menu->id; ?>"></a>
-            </div>
-        </div><!--/list-row-->
+            <div class="list-row">
+                <div class="cell id"><?php echo $menu->id; ?></div>
+                <div class="cell"><a href="<?php echo Yii::app()->createUrl('admin/menu/menuitems',array('id' => $menu->id)); ?>"><?php echo $menu->label; ?></a></div>
+                <div class="cell item-qnt"><?php echo count($menu->menuItems); ?></div>
+                <div class="cell template"><?php echo !empty($this->currentThemeName) ? $menu->template_name : 'default'; ?></div>
+                <div class="cell action">
+                    <a href="<?php echo Yii::app()->createUrl('admin/menu/editmenu',array('id' => $menu->id)); ?>" class="action edit" data-id="<?php echo $menu->id; ?>"></a>
+                    <a data-message="<?php echo ATrl::t()->getLabel('Are your sure ?'); ?>" data-yes="<?php echo ATrl::t()->getLabel('Delete'); ?>" data-no="<?php echo ATrl::t()->getLabel('Cancel'); ?>" href="<?php echo Yii::app()->createUrl('admin/menu/deletemenu',array('id' => $menu->id)); ?>" class="action delete" data-id="<?php echo $menu->id; ?>"></a>
+                </div>
+            </div><!--/list-row-->
         <?php endforeach; ?>
 
     </div><!--/content-->
-    <div class="pagination">
-        <?php for($i = 0; $i < CPaginator::getInstance()->getTotalPages(); $i++): ?>
-            <a href="<?php echo Yii::app()->createUrl('admin/menu/list/',array('page' => $i+1)) ?>" <?php if(CPaginator::getInstance()->getCurrentPage() == $i+1): ?> class="active" <?php endif; ?>><?php echo $i+1; ?></a>
-        <?php endfor; ?>
-    </div><!--/pagination-->
+
+    <?php if(CPaginator::getInstance()->getTotalPages() > 1): ?>
+        <div class="pagination">
+            <?php for($i = 0; $i < CPaginator::getInstance()->getTotalPages(); $i++): ?>
+                <a href="<?php echo Yii::app()->createUrl('admin/menu/list/',array('page' => $i+1)) ?>" <?php if(CPaginator::getInstance()->getCurrentPage() == $i+1): ?> class="active" <?php endif; ?>><?php echo $i+1; ?></a>
+            <?php endfor; ?>
+        </div><!--/pagination-->
+    <?php endif; ?>
 
     <?php $this->renderPartial('_add_menu',$form_params); ?>
 </main>

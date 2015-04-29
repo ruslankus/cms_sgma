@@ -64,7 +64,9 @@ class MenuController extends ControllerAdmin
 
         /* @var $menus ExtMenu[] */
         $menus = ExtMenu::model()->findAll();
-        $array = CPaginator::getInstance($menus,10,$page)->getPreparedArray();
+
+        $perPage = ExtSettings::model()->getSetting('per_page',10,true);
+        $array = CPaginator::getInstance($menus,$perPage,$page)->getPreparedArray();
 
         $this->render('list_menu',array('menus' => $array,'form_params' => $form_params));
     }
@@ -158,7 +160,9 @@ class MenuController extends ControllerAdmin
         //get all items
         $items = $menu->buildObjArrRecursive();
         $items = ExtMenu::model()->divideToRootGroups($items);
-        $array = CPaginator::getInstance($items,10,$page)->getPreparedArray();
+
+        $perPage = ExtSettings::model()->getSetting('per_page',10,true);
+        $array = CPaginator::getInstance($items,$perPage,$page)->getPreparedArray();
 
         
         if(Yii::app()->request->isAjaxRequest)
