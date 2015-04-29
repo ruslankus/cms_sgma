@@ -90,16 +90,36 @@ class GalleryController extends ControllerAdmin
      * @throws CException
      */
     public function actionDeleteFile($id){
+        $links = array();
+        $controllers = array(
+            'news' => '/admin/news/edit/',
+            'pages'=> '/admin/pages/pagesetting/',
+            'contacts'=> '/admin/contacts/contactsettings/'
+        );
+
         $prefix = SiteLng::lng()->getCurrLng()->prefix;
         $request = Yii::app()->request;
         if($request->isAjaxRequest){
-            
-            $this->renderPartial('_delete_file');
-      
-        }elseif($request->isPostRequest){
 
             //check available in another pages
-            $arrCount = ExtImages::model()->checkAvailabe($id);
+            $arrCount = ExtImages::model()->checkAvailable($id);
+            
+            if(!empty($arrCount)){
+
+                foreach($arrCount as $key => $value){
+                    if(!empty($value)){
+                        foreach($value as $val){
+                            $links[] = "/{$prefix}".$controllers[$key].$val['page_id'];
+                        }
+                    }
+                }
+
+                $this->renderPartial('_delete_file_restrict', array('links'=> $links));
+            }
+
+            $this->renderPartial('_delete_file');
+            Yii::app()->end;
+        }elseif($request->isPostRequest){
 
 
             $objImg = Images::model()->findByPk($id);
