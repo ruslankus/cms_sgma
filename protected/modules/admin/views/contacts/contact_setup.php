@@ -34,7 +34,7 @@
 			<?php $form=$this->beginWidget('CActiveForm', array(
 				'enableAjaxValidation'=>false,
 			)); ?>
-<?php print_r($arrTemplates); ?>
+
 			<div class="inner-editor inner-content">
 				<table> 
                 <?php if(!empty($arrTemplates)):?>
@@ -46,9 +46,9 @@
 					</tr>
                     <?php endif; ?>
 					<tr>
-						<td class="label"><?php echo ATrl::t()->getLabel('template')?>:</td>
+						<td class="label"><?php echo ATrl::t()->getLabel('Save in db');?>:</td>
 						<td class="value">
-                            <?php echo $form->checkBox($model,'save_form'); ?>		
+                            <?php echo $form->checkBox($model,'save_form',array("checked"=>($objContact->save_form==1)?"checked":"")); ?>		
 						</td>
 					</tr>
 				</table>

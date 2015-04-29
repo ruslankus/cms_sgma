@@ -13,6 +13,7 @@
 			<span><?php echo $arrPage['label'];?></span>
 				<a href="#" class="active"><?php echo ATrl::t()->getLabel('contact form images')?></a>
 				<a href="/<?php echo $prefix;?>/admin/contacts/editcontent/<?php echo $page_id;?>"><?php echo ATrl::t()->getLabel('contact settings')?></a>
+				<a href="/<?php echo $prefix;?>/admin/contacts/editsetup/<?php echo $contact_id;?>"><?php echo ATrl::t()->getLabel('contact settings')?></a>
 		</div><!--/header-->
 		
 		<div class="inner-content">
@@ -20,17 +21,6 @@
 						<!--/ <form enctype="multipart/form-data"> -->
                                                 <?php echo CHtml::beginForm('','post',array('enctype'=>'multipart/form-data'));?>
 							<table>
-								<tr>
-									<td class="label">Template:</td>
-									<td class="value">
-										<select name="template">
-                                            <option value="">------------</option>
-                                            <option value="template.php">template.php</option>
-                                            <option value="template.php">template.php</option>
-                                            <option value="template.php">template.php</option>
-										</select>
-									</td>
-								</tr>
 								<tr>
 									<td class="label">Choose image:</td>
 									<td class="value">

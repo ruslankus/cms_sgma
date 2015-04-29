@@ -135,7 +135,9 @@ class ContactsController extends ControllerAdmin
 
                 $model->attributes=$_POST['SaveContactSetupForm'];
                 $objContactPage->attributes=$_POST['SaveContactSetupForm'];
-
+                if(!$objContactPage->template_name) {
+                    $objContactPage->template_name = 'default.php';
+                }
                 $objContactPage->update();
             }
         }
@@ -144,12 +146,11 @@ class ContactsController extends ControllerAdmin
         //getting tempates for page from theme if available
         if(!empty($currTheme)){
             $arrTemplates = ThemeHelper::getTemplatesFor($currTheme,'contacts');
-            Debug::d($arrTemplates);
-            array_unshift($arrTemplates,'------------');
+            //Debug::d($arrTemplates);
+           // array_unshift($arrTemplates,'------------');
         }else{
             $arrTemplates = null;
         }
-
         $this->render('contact_setup', array('model'=>$model, 'objContact'=>$objContactPage, 'contact_id'=>$id, 'arrTemplates' => $arrTemplates));
    } 
 
