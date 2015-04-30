@@ -52,7 +52,7 @@ Class ExtMessages extends Messages
         }
         
         //add order
-        $sql .= " ORDER BY t1.id DESC"; 
+        $sql .= " ORDER BY t1.id ASC";
         
         
         $param[':prefix'] = $lng;

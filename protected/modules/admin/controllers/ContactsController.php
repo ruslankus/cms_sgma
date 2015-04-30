@@ -17,7 +17,7 @@ class ContactsController extends ControllerAdmin
             $siteLng = Yii::app()->language; 
         }
         
-        $objContacts = ContactsPage::model()->findall(array('order' => 'priority DESC'));
+        $objContacts = ContactsPage::model()->findall(array('order' => 'priority ASC'));
         
        
         
@@ -395,12 +395,12 @@ class ContactsController extends ControllerAdmin
 
         if(!empty($fieldGroup))
         {
-            $fields = ContactsBlock::model()->findAllByAttributes(array('page_id' => $group),array('order' => 'priority DESC'));
+            $fields = ContactsBlock::model()->findAllByAttributes(array('page_id' => $group),array('order' => 'priority ASC'));
             $per_page = 100;
         }
         else
         {
-            $fields = ContactsBlock::model()->findAll(array('order' => 'priority DESC'));
+            $fields = ContactsBlock::model()->findAll(array('order' => 'priority ASC'));
             $per_page = 10;
         }
 

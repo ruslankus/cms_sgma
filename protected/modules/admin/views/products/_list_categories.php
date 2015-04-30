@@ -14,7 +14,7 @@
                         <div class="type"><?php echo $children->countOfItems(); ?></div>
                         <div class="action">
                             <a href="<?php echo Yii::app()->createUrl('admin/products/editcat',array('id' => $children->id)); ?>" class="edit"><span class="ficoned pencil"></span></a>
-                            <a data-message="<?php echo ATrl::t()->getLabel('Are your sure ?'); ?>" data-yes="<?php echo ATrl::t()->getLabel('Delete'); ?>" data-no="<?php echo ATrl::t()->getLabel('Cancel'); ?>" href="<?php echo Yii::app()->createUrl('/admin/news/deletecat',array('id' => $children->id)); ?>" class="delete"><span class="ficoned trash-can"></span></a>
+                            <a data-message="<?php echo ATrl::t()->getLabel('Are your sure ?'); ?>" data-yes="<?php echo ATrl::t()->getLabel('Delete'); ?>" data-no="<?php echo ATrl::t()->getLabel('Cancel'); ?>" href="<?php echo Yii::app()->createUrl('/admin/products/deletecat',array('id' => $children->id)); ?>" class="delete"><span class="ficoned trash-can"></span></a>
                         </div>
                     </div><!--/row root-->
                 <?php else: ?>
@@ -27,7 +27,7 @@
                         <div class="type"><?php echo $children->countOfItems(); ?></div>
                         <div class="action">
                             <a href="<?php echo Yii::app()->createUrl('admin/products/editcat',array('id' => $children->id)); ?>" class="edit"><span class="ficoned pencil"></span></a>
-                            <a data-message="<?php echo ATrl::t()->getLabel('Are your sure ?'); ?>" data-yes="<?php echo ATrl::t()->getLabel('Delete'); ?>" data-no="<?php echo ATrl::t()->getLabel('Cancel'); ?>" href="<?php echo Yii::app()->createUrl('/admin/news/deletecat',array('id' => $children->id)); ?>" class="delete"><span class="ficoned trash-can"></span></a>
+                            <a data-message="<?php echo ATrl::t()->getLabel('Are your sure ?'); ?>" data-yes="<?php echo ATrl::t()->getLabel('Delete'); ?>" data-no="<?php echo ATrl::t()->getLabel('Cancel'); ?>" href="<?php echo Yii::app()->createUrl('/admin/products/deletecat',array('id' => $children->id)); ?>" class="delete"><span class="ficoned trash-can"></span></a>
                         </div>
                     </div><!--/row-->
                 <?php endif; ?>

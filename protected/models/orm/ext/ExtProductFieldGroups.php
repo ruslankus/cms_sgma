@@ -56,7 +56,7 @@ class ExtProductFieldGroups extends ProductFieldGroups
         $result = array();
 
         //get all items
-        $all = $this->findAll(array('order' => 'priority DESC'));
+        $all = $this->findAll(array('order' => 'priority ASC'));
 
         //pass through all
         foreach($all as $item)
@@ -91,7 +91,7 @@ class ExtProductFieldGroups extends ProductFieldGroups
         //relate with translation
         $lng = Yii::app()->language;
         $relations['trl'] = array(self::HAS_ONE, 'ProductFieldGroupsTrl', 'group_id', 'with' => array('lng' => array('condition' => "lng.prefix='{$lng}'")));
-        $relations['productFields'] = array(self::HAS_MANY, 'ExtProductFields', 'group_id','order' => 'priority DESC');
+        $relations['productFields'] = array(self::HAS_MANY, 'ExtProductFields', 'group_id','order' => 'priority ASC');
 
         //return modified relations
         return $relations;

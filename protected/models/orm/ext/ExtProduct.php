@@ -113,7 +113,7 @@ class ExtProduct extends Product
         //relate with translation
         $lng = Yii::app()->language;
         $relations['trl'] = array(self::HAS_ONE, 'ProductTrl', 'product_id', 'with' => array('lng' => array('condition' => "lng.prefix='{$lng}'")));
-        $relations['productFieldGroupsActives'] = array(self::HAS_MANY, 'ExtProductFieldGroupsActive', 'product_id', 'order' => 'priority DESC');
+        $relations['productFieldGroupsActives'] = array(self::HAS_MANY, 'ExtProductFieldGroupsActive', 'product_id', 'order' => 'priority ASC');
 
         //return modified relations
         return $relations;

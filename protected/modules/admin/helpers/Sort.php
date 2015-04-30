@@ -81,7 +81,7 @@ class Sort
      * @param array $newOrder
      * @param string $sortOrder
      */
-    public static function ReorderItems($className,$oldOrder,$newOrder,$sortOrder = 'priority DESC')
+    public static function ReorderItems($className,$oldOrder,$newOrder,$sortOrder = 'priority ASC')
     {
         if(!empty($oldOrder) && !empty($newOrder) && count($oldOrder) == count($newOrder))
         {
@@ -95,11 +95,11 @@ class Sort
             if(!empty($items))
             {
                 //get max and min priorities
-                $maxPriority = $items[0]->priority;
-                $minPriority = $items[count($items)-1]->priority;
+                $minPriority = $items[0]->priority;
+                $maxPriority = $items[count($items)-1]->priority;
 
                 //current iteration priority
-                $current_priority = $maxPriority;
+                $current_priority = $minPriority;
 
                 //foreach ID in new order sequence
                 foreach($newOrder as $id)
@@ -112,9 +112,9 @@ class Sort
                     $item->update();
 
                     //decrease if not reached min
-                    if($current_priority-1 >= $minPriority)
+                    if($current_priority < $maxPriority)
                     {
-                        $current_priority--;
+                        $current_priority++;
                     }
                 }
             }
@@ -164,7 +164,7 @@ class Sort
      * @param array $condition
      * @param string $order_by
      */
-    public static function Move($movingObject,$direction,$className,$condition = array(),$order_by = 'priority DESC')
+    public static function Move($movingObject,$direction,$className,$condition = array(),$order_by = 'priority ASC')
     {
         /* @var $className CActiveRecord */
         if(!empty($condition))
