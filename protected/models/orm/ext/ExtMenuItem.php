@@ -118,13 +118,20 @@ class ExtMenuItem extends MenuItem
         return $this->countOfChildren() > 0;
     }
 
+
     /**
      * Has parent or not
+     * @param int $ignoreParentId
      * @return bool
      */
-    public function hasParent()
+    public function hasParent($ignoreParentId = 0)
     {
-        $count = self::model()->countByAttributes(array('id' => $this->parent_id, 'menu_id' => $this->menu_id));
+        $count = 0;
+        if($this->parent_id != $ignoreParentId)
+        {
+            $count = self::model()->countByAttributes(array('id' => $this->parent_id, 'menu_id' => $this->menu_id));
+        }
+
         return $count > 0;
     }
 
@@ -162,6 +169,44 @@ class ExtMenuItem extends MenuItem
         }
 
         return $level;
+    }
+
+    /**
+     * Build array with bread-crumbs path links
+     * @param bool $translate
+     * @param bool $systemLinks
+     * @param bool $includeRoot
+     * @param null $rootTitle
+     * @param null $rootLink
+     * @return array
+     */
+    public function buildBreadCrumbs($translate = false, $systemLinks = true, $includeRoot = false, $rootTitle = null, $rootLink = null)
+    {
+        $array = array();
+        $current = $this;
+
+        $menu = $this->menu;
+
+        while(!empty($current))
+        {
+            $link = $systemLinks ? Yii::app()->createUrl('admin/menu/menuitems',array('id' => $current->menu_id, 'pid' => $current->id)) : $current->getUrlForSite();
+            $array[$link] = !$translate ? $current->label : $current->trl->value;
+            $current = $current->getParent();
+        }
+
+        if($includeRoot)
+        {
+            if($rootTitle == null || $rootLink == null)
+            {
+                $array[Yii::app()->createUrl('admin/menu/menuitems',array('id' => $menu->id))] = $menu->label;
+            }
+            else
+            {
+                $array[$rootLink] = $rootTitle;
+            }
+        }
+
+        return array_reverse($array);
     }
 
 

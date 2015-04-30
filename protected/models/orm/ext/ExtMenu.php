@@ -123,12 +123,14 @@ Class ExtMenu extends Menu
         return $result;
     }
 
+
     /**
      * Groups array by root-categories (to build blocks easier in template)
      * @param $array
+     * @param int $ignoreParentId
      * @return array
      */
-    public function divideToRootGroups($array)
+    public function divideToRootGroups($array,$ignoreParentId = 0)
     {
         /* @var $array ExtMenuItem[] */
 
@@ -137,7 +139,7 @@ Class ExtMenu extends Menu
 
         foreach($array as $item)
         {
-            if(!$item->hasParent())
+            if(!$item->hasParent($ignoreParentId))
             {
                 $currentIndex = $item->id;
             }
@@ -178,6 +180,7 @@ Class ExtMenu extends Menu
 
         return $result;
     }
+
 
     /**
      * Override, relate with extended models
