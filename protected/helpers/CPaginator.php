@@ -58,11 +58,7 @@ class CPaginator
 
 
     public function showPaginator(){
-        if($this->_limit < $this->_total_pages){
-            return true;
-        }else{
-            return false;
-        }
+        return $this->_total_pages > 1;
     }
     
     Public function getPreviousPage(){
