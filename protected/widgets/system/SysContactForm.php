@@ -73,8 +73,8 @@ class SysContactForm extends CWidget
 
         $model = new SendContactWidgetForm();
         $lang_prefix = Yii::app()->language;
-
+        $model_id = $this->widgetInfo->id;
         Yii::app()->clientScript->registerScriptFile('/js/send-form-widget.js',CClientScript::POS_END);
-        $this->render($template, array('model'=>$model, 'lang_prefix' => $lang_prefix));
+        $this->render($template, array('model'=>$model, 'lang_prefix' => $lang_prefix, 'model_id' => $model_id));
     }
 }

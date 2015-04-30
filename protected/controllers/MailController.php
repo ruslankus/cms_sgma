@@ -37,6 +37,7 @@ class MailController extends Controller
         $code = $captcha->verifyCode;
         $entered_code =  $request->getPost('code');
         $arrJson = array();
+        $arrJson['captcha']=$captcha;
         $arrJson['code']=$code;
         $arrJson['entered_code']=$entered_code;
         if($code != $entered_code)
