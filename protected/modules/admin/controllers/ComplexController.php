@@ -11,7 +11,7 @@ class ComplexController extends ControllerAdmin
         //include js file for AJAX updating
         Yii::app()->clientScript->registerScriptFile($this->assetsPath.'/js/vendor.products.js',CClientScript::POS_END);
 
-        $objects = ExtComplexPage::model()->findAll(array('order' => 'priority DESC'));
+        $objects = ExtComplexPage::model()->findAll(array('order' => 'priority ASC'));
 
         $perPage = ExtSettings::model()->getSetting('per_page',10,true);
         $array = CPaginator::getInstance($objects,$perPage,$page)->getPreparedArray();
@@ -368,7 +368,7 @@ class ComplexController extends ControllerAdmin
         }
 
         //all field groups
-        $allGroups = ExtComplexPageFieldGroups::model()->findAll(array('order' => 'priority DESC'));
+        $allGroups = ExtComplexPageFieldGroups::model()->findAll(array('order' => 'priority ASC'));
 
         //active id's
         $activeGroupIds = array();
@@ -758,7 +758,7 @@ class ComplexController extends ControllerAdmin
         Yii::app()->clientScript->registerScriptFile($this->assetsPath.'/js/vendor.main-menu.js',CClientScript::POS_END);
         Yii::app()->clientScript->registerCssFile($this->assetsPath.'/css/vendor.news.ext.css');
 
-        $groups = ExtComplexPageFieldGroups::model()->findAll(array('order' => 'priority DESC'));
+        $groups = ExtComplexPageFieldGroups::model()->findAll(array('order' => 'priority ASC'));
 
         $perPage = ExtSettings::model()->getSetting('per_page',10,true);
         $items = CPaginator::getInstance($groups,$perPage,$page)->getPreparedArray();
@@ -1014,11 +1014,11 @@ class ComplexController extends ControllerAdmin
 
         if(!empty($fieldGroup))
         {
-            $fields = ExtComplexPageFields::model()->findAllByAttributes(array('group_id' => $group),array('order' => 'priority DESC'));
+            $fields = ExtComplexPageFields::model()->findAllByAttributes(array('group_id' => $group),array('order' => 'priority ASC'));
         }
         else
         {
-            $fields = ExtComplexPageFields::model()->findAll(array('order' => 'priority DESC'));
+            $fields = ExtComplexPageFields::model()->findAll(array('order' => 'priority ASC'));
         }
 
         $perPage = ExtSettings::model()->getSetting('per_page',10,true);

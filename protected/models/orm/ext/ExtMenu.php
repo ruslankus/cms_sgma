@@ -60,7 +60,7 @@ Class ExtMenu extends Menu
             $conditions['status_id'] = ExtStatus::VISIBLE;
         }
 
-        $all = ExtMenuItem::model()->findAllByAttributes($conditions,array('order' => 'priority DESC'));
+        $all = ExtMenuItem::model()->findAllByAttributes($conditions,array('order' => 'priority ASC'));
 
         foreach($all as $item)
         {

@@ -437,15 +437,15 @@ class MenuController extends ControllerAdmin
             switch($type->id)
             {
                 case ExtMenuItemType::TYPE_SINGLE_PAGE:
-                    $objItems = ExtPage::model()->findAll(array('order' => 'priority DESC'));
+                    $objItems = ExtPage::model()->findAll(array('order' => 'priority ASC'));
                     break;
 
                 case ExtMenuItemType::TYPE_NEWS_CATALOG:
-                    $objItems = ExtNewsCategory::model()->findAll(array('order' => 'priority DESC'));
+                    $objItems = ExtNewsCategory::model()->findAll(array('order' => 'priority ASC'));
                     break;
 
                 case ExtMenuItemType::TYPE_PRODUCTS_CATALOG:
-                    $objItems = ExtProductCategory::model()->findAll(array('order' => 'priority DESC'));
+                    $objItems = ExtProductCategory::model()->findAll(array('order' => 'priority ASC'));
                     break;
 
                 case ExtMenuItemType::TYPE_CONTACT_FORM:
@@ -453,7 +453,7 @@ class MenuController extends ControllerAdmin
                     break;
 
                 case ExtMenuItemType::TYPE_COMPLEX_PAGE:
-                    $objItems = ExtComplexPage::model()->findAll(array('order' => 'priority DESC'));
+                    $objItems = ExtComplexPage::model()->findAll(array('order' => 'priority ASC'));
                     break;
 
                 default:

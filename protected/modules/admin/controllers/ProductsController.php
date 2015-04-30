@@ -349,7 +349,7 @@ class ProductsController extends ControllerAdmin
 
         if(!empty($category))
         {
-            $objects = ExtProduct::model()->findAllByAttributes(array('category_id' => (int)$cat),array('order' => 'priority DESC'));
+            $objects = ExtProduct::model()->findAllByAttributes(array('category_id' => (int)$cat),array('order' => 'priority ASC'));
             $breadCrumbs = $category->breadCrumbs(false);
         }
         else

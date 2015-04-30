@@ -354,12 +354,12 @@ class NewsController extends ControllerAdmin
 
         if(!empty($category))
         {
-            $objects = ExtNews::model()->findAllByAttributes(array('category_id' => (int)$cat),array('order' => 'priority DESC'));
+            $objects = ExtNews::model()->findAllByAttributes(array('category_id' => (int)$cat),array('order' => 'priority ASC'));
             $breadCrumbs = $category->breadCrumbs(false);
         }
         else
         {
-            $objects = ExtNews::model()->findAll(array('order' => 'priority DESC'));
+            $objects = ExtNews::model()->findAll(array('order' => 'priority ASC'));
         }
 
         $perPage = ExtSettings::model()->getSetting('per_page',10,true);

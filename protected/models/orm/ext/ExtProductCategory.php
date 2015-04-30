@@ -88,7 +88,7 @@ class ExtProductCategory extends ProductCategory
      * @param string $order
      * @return array
      */
-    public function buildObjArrRecursive($parent_id = 0, $only_active = false, $order = 'priority DESC')
+    public function buildObjArrRecursive($parent_id = 0, $only_active = false, $order = 'priority ASC')
     {
         /* @var $all ExtMenuItem[] */
         /* @var $tmp ExtMenuItem[] */
@@ -131,7 +131,7 @@ class ExtProductCategory extends ProductCategory
      * @param string $order
      * @return array
      */
-    public function buildMenuItemsArrayFromObjArr($parent_id = 0, $only_active = false, $order = 'priority DESC')
+    public function buildMenuItemsArrayFromObjArr($parent_id = 0, $only_active = false, $order = 'priority ASC')
     {
         /* @var $arrayOfObj self[] */
 
@@ -160,7 +160,7 @@ class ExtProductCategory extends ProductCategory
      * @param string $order
      * @return ExtProduct[]
      */
-    public function allRelatedItems($allFromNested = false, $only_active = false, $order = 'priority DESC')
+    public function allRelatedItems($allFromNested = false, $only_active = false, $order = 'priority ASC')
     {
         $items = array();
 
@@ -213,7 +213,7 @@ class ExtProductCategory extends ProductCategory
      * @param string $order
      * @return array
      */
-    public function rootGroups($parent_id = 0, $order = 'priority DESC')
+    public function rootGroups($parent_id = 0, $order = 'priority ASC')
     {
         /* @var $array self[] */
 

@@ -55,7 +55,7 @@ class ExtComplexPageFieldGroups extends ComplexPageFieldGroups
         $result = array();
 
         //get all items
-        $all = $this->findAll(array('order' => 'priority DESC'));
+        $all = $this->findAll(array('order' => 'priority ASC'));
 
         //pass through all
         foreach($all as $item)
@@ -90,7 +90,7 @@ class ExtComplexPageFieldGroups extends ComplexPageFieldGroups
         //relate with translation
         $lng = Yii::app()->language;
         $relations['trl'] = array(self::HAS_ONE, 'ComplexPageFieldGroupsTrl', 'group_id', 'with' => array('lng' => array('condition' => "lng.prefix='{$lng}'")));
-        $relations['complexPageFields'] = array(self::HAS_MANY, 'ExtComplexPageFields', 'group_id','order' => 'priority DESC');
+        $relations['complexPageFields'] = array(self::HAS_MANY, 'ExtComplexPageFields', 'group_id','order' => 'priority ASC');
 
         //return modified relations
         return $relations;
