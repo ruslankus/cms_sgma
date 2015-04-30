@@ -139,10 +139,11 @@ class MenuController extends ControllerAdmin
     /**
      * List all items of menu
      * @param $id
+     * @param int $pid
      * @param int $page
      * @throws CHttpException
      */
-    public function actionMenuItems($id,$page = 1)
+    public function actionMenuItems($id,$pid = 0,$page = 1)
     {
         //include js file for AJAX updating
         Yii::app()->clientScript->registerScriptFile($this->assetsPath.'/js/vendor.trees.js',CClientScript::POS_END);
@@ -150,6 +151,13 @@ class MenuController extends ControllerAdmin
 
         //find menu
         $menu = ExtMenu::model()->findByPk((int)$id);
+        $parent = ExtMenuItem::model()->findByPk((int)$pid);
+        $breadcrumbs = array();
+
+        if(!empty($parent))
+        {
+            $breadcrumbs = $parent->buildBreadCrumbs();
+        }
 
         //if not found
         if(empty($menu))
@@ -158,8 +166,8 @@ class MenuController extends ControllerAdmin
         }
 
         //get all items
-        $items = $menu->buildObjArrRecursive();
-        $items = ExtMenu::model()->divideToRootGroups($items);
+        $items = $menu->buildObjArrRecursive($pid);
+        $items = ExtMenu::model()->divideToRootGroups($items,$pid);
 
         $perPage = ExtSettings::model()->getSetting('per_page',10,true);
         $array = CPaginator::getInstance($items,$perPage,$page)->getPreparedArray();
@@ -167,11 +175,11 @@ class MenuController extends ControllerAdmin
         
         if(Yii::app()->request->isAjaxRequest)
         {
-            $this->renderPartial('_list_menu_items',array('items' => $array,'menu' => $menu));
+            $this->renderPartial('_list_menu_items',array('items' => $array,'menu' => $menu, 'parent_id' => $pid));
         }
         else
         {
-            $this->render('list_menu_items',array('items' => $array,'menu' => $menu));
+            $this->render('list_menu_items',array('items' => $array,'menu' => $menu, 'parent_id' => $pid, 'breadcrumbs' => $breadcrumbs));
         }
     }
 
