@@ -60,7 +60,8 @@
         <td class="label"><label for="<?php echo $field->id; ?>"><?php echo $field->field_name; ?></label></td>
         <td class="value">
             <div class="image-zone">
-                <a href="#" data-delete="<?php echo Yii::app()->createUrl('admin/complex/delfieldimage'); ?>" data-update="<?php echo Yii::app()->createUrl('admin/complex/assignfieldimage'); ?>" data-field="<?php echo $field->id; ?>" data-item="<?php echo $item->id ?>" data-images="<?php echo Yii::app()->createUrl('admin/complex/listimagesbox'); ?>" class="add-image"><?php echo ATrl::t()->getLabel('Assign local image'); ?></a>
+                <input type="file" data-delete="<?php echo Yii::app()->createUrl('admin/complex/delfieldimage'); ?>" data-upload="<?php echo Yii::app()->createUrl('admin/complex/uploadfieldimage',array('id' => $item->id, 'fid' => $field->id)); ?>" class="add-remote-image" name="DynamicFields[<?php echo $field->id; ?>]" data-label="<?php echo ATrl::t()->getLabel('Browse'); ?>">
+                <a href="#" data-delete="<?php echo Yii::app()->createUrl('admin/complex/delfieldimage'); ?>" data-update="<?php echo Yii::app()->createUrl('admin/complex/assignfieldimage'); ?>" data-field="<?php echo $field->id; ?>" data-item="<?php echo $item->id ?>" data-images="<?php echo Yii::app()->createUrl('admin/complex/listimagesbox'); ?>" class="add-image"><?php echo ATrl::t()->getLabel('Local'); ?></a>
                 <div class="list">
                     <div class="image">
 

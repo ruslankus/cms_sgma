@@ -5,7 +5,7 @@
 
 <main xmlns="http://www.w3.org/1999/html">
     <div class="title-bar world">
-        <h1><?php echo ATrl::t()->getLabel('News'); ?></h1>
+        <h1><?php echo ATrl::t()->getLabel('Products'); ?></h1>
         <ul class="actions">
             <li><a href="<?php echo Yii::app()->createUrl('admin/products/list',array('cat' => $item->category_id)); ?>" class="action undo"></a></li>
         </ul>

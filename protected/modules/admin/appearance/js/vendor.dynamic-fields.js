@@ -25,6 +25,69 @@ $(document).ready(function() {
         return false;
     });
 
+
+    /**
+     * When browsed filed
+     */
+    $(document).on('change','.add-remote-image',function(e){
+
+        //uploading files
+        var files = e.target.files;
+
+        //urls for upload and delete
+        var url = $(this).data('upload');
+        var del_url = $(this).data('delete');
+
+        //find image on form related with this button
+        var imageRelated = $(this).parent().find('img');
+        var deleteButton = $(this).parent().find('.delete');
+
+        var data = new FormData();
+
+        $.each(files, function(key,value){
+            data.append('field_image',value);
+        });
+
+        //show pre-loader
+        $.preLoader.show();
+
+        //upload by ajax
+        $.ajax({
+            url : url,
+            type: 'POST',
+            data : data,
+            cache: false,
+            processData : false,
+            contentType : '',
+
+            //if success
+            success: function(data, textStatus, jqXHR)
+            {
+                var info = JSON.parse(data);
+                if(info.success)
+                {
+                    //get thumbnail url and relation id
+                    var thumbnail_url = info['thumbnail_url'];
+                    var rel_id = info['rel_id'];
+
+                    //related image stuff (change image instantly)
+                    $(imageRelated).attr('src',thumbnail_url);
+                    $(deleteButton).addClass('active');
+
+                    //change deleting url
+                    $(deleteButton).attr('href',del_url+'/id/'+rel_id);
+                }
+                $.preLoader.hide();
+            },
+            error: function(jqXHR, textStatus, errorThrown)
+            {
+                alert('error');
+                console.log('ERRORS: ' + textStatus);
+                $.preLoader.hide();
+            }
+        });
+    });
+
     /**
      * When clicked on 'add local image'
      */

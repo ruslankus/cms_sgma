@@ -11,7 +11,7 @@ class ThemeHelper
     {
         if(!empty($selectedTheme) && Yii::app()->themeManager->getTheme($selectedTheme) != null)
         {
-            $templates = self::getTemplatesFor($selectedTheme,'menus',true);
+            $templates = self::getTemplatesFor($selectedTheme,'menus',false,true);
             if(!empty($templates))
             {
                 return $templates;
@@ -32,7 +32,7 @@ class ThemeHelper
 
         if(!empty($selectedTheme) && Yii::app()->themeManager->getTheme($selectedTheme) != null)
         {
-            $templates = self::getTemplatesFor($selectedTheme,'widgets'.DS.$prefix,true);
+            $templates = self::getTemplatesFor($selectedTheme,'widgets'.DS.$prefix,false,true);
             if(!empty($templates))
             {
                 return $templates;
@@ -58,10 +58,11 @@ class ThemeHelper
      * Returns all templates in specified dir for concrete theme
      * @param $selectedTheme
      * @param $dir
+     * @param bool $returnNullForEmpty
      * @param bool $widgets
-     * @return array
+     * @return array|null
      */
-    public static function getTemplatesFor($selectedTheme,$dir,$widgets = false)
+    public static function getTemplatesFor($selectedTheme,$dir,$returnNullForEmpty = false, $widgets = false)
     {
         if(!empty($selectedTheme) && Yii::app()->themeManager->getTheme($selectedTheme) != null)
         {
@@ -89,7 +90,7 @@ class ThemeHelper
         }
         else
         {
-            $templates = null;
+            $templates = $returnNullForEmpty ? null : array('' => ATrl::t()->getLabel('Default'));
         }
 
         return $templates;
