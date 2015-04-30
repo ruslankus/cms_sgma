@@ -1,5 +1,5 @@
 /*
-Type template:Page 4545
+Type template:Page
 */
 
 <div><?php echo $content?></div>

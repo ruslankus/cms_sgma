@@ -208,9 +208,12 @@ class PagesController extends ControllerAdmin
                         $arrThemeFilesSelect[$key] = $value;
                     }
                 }
-            }//if(!empty($selectedTheme))
 
-            Debug::d($arrThemeFilesSelect);
+                if(!empty($arrThemeFilesSelect)){
+                    array_unshift($arrThemeFilesSelect,'-----------');
+                }
+
+            }//if(!empty($selectedTheme))
 
             $arrImages = $arrPage['images'];
            
@@ -222,7 +225,8 @@ class PagesController extends ControllerAdmin
             }        
             //Debug::d($arrComb);
             $this->render('page_setting',array('page_id' => $id, 'arrPage' => $arrPage,
-             'arrImages' => $arrComb, 'model' => $model, 'lngPrefix' => $lngObj->prefix,'elCount' => $elCount));    
+             'arrImages' => $arrComb, 'model' => $model, 'lngPrefix' => $lngObj->prefix,'elCount' => $elCount,
+                'arrSelect' => $arrThemeFilesSelect));
         
         }else{
             $prefix = $lngObj->prefix;

@@ -25,17 +25,14 @@
                 <!--/ <form enctype="multipart/form-data"> -->
                 <?php echo CHtml::beginForm('','post',array('enctype'=>'multipart/form-data')); ?>
                 <table>
+                    <?php if(!empty($arrSelect)): ?>
                     <tr>
                         <td class="label">Template:</td>
                         <td class="value">
-                            <select name="template">
-                                <option value="">------------</option>
-                                <option value="template.php">template.php</option>
-                                <option value="template.php">template.php</option>
-                                <option value="template.php">template.php</option>
-                            </select>
+                            <?php echo Chtml::dropDownList('template','',$arrSelect);?>
                         </td>
                     </tr>
+                    <?php endif; ?>
                     <tr>
                         <td class="label">Choose image:</td>
                         <td class="value">
