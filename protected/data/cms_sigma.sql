@@ -10,7 +10,7 @@ Target Server Type    : MYSQL
 Target Server Version : 50538
 File Encoding         : 65001
 
-Date: 2015-04-29 12:18:26
+Date: 2015-05-04 16:29:41
 */
 
 SET FOREIGN_KEY_CHECKS=0;
@@ -95,6 +95,7 @@ DROP TABLE IF EXISTS `complex_page`;
 CREATE TABLE `complex_page` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
   `label` varchar(128) DEFAULT NULL,
+  `branch` varchar(256) DEFAULT NULL,
   `template_name` varchar(512) DEFAULT NULL,
   `status_id` int(11) DEFAULT NULL,
   `time_created` int(11) DEFAULT NULL,
@@ -104,13 +105,11 @@ CREATE TABLE `complex_page` (
   PRIMARY KEY (`id`),
   KEY `status_id` (`status_id`),
   CONSTRAINT `complex_page_ibfk_1` FOREIGN KEY (`status_id`) REFERENCES `status` (`id`) ON DELETE NO ACTION ON UPDATE NO ACTION
-) ENGINE=InnoDB AUTO_INCREMENT=7 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8;
 
 -- ----------------------------
 -- Records of complex_page
 -- ----------------------------
-INSERT INTO `complex_page` VALUES ('5', 'Testing', 'page.php', '1', '1429782601', '1429864248', '1', '1');
-INSERT INTO `complex_page` VALUES ('6', 'News', 'page.php', '1', '1430213132', '1430213398', '1', '2');
 
 -- ----------------------------
 -- Table structure for `complex_page_fields`
@@ -125,26 +124,17 @@ CREATE TABLE `complex_page_fields` (
   `time_created` int(11) DEFAULT NULL,
   `time_updated` int(11) DEFAULT NULL,
   `last_change_by` int(11) DEFAULT NULL,
+  `use_editor` int(11) DEFAULT NULL,
   PRIMARY KEY (`id`),
   KEY `group_id` (`group_id`),
   KEY `type_id` (`type_id`),
   CONSTRAINT `complex_page_fields_ibfk_1` FOREIGN KEY (`group_id`) REFERENCES `complex_page_field_groups` (`id`) ON DELETE CASCADE ON UPDATE NO ACTION,
   CONSTRAINT `complex_page_fields_ibfk_2` FOREIGN KEY (`type_id`) REFERENCES `complex_page_field_types` (`id`) ON DELETE NO ACTION ON UPDATE NO ACTION
-) ENGINE=InnoDB AUTO_INCREMENT=12 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=6 DEFAULT CHARSET=utf8;
 
 -- ----------------------------
 -- Records of complex_page_fields
 -- ----------------------------
-INSERT INTO `complex_page_fields` VALUES ('1', 'Name', '3', '1', '1', '1429785664', '1430132466', '1');
-INSERT INTO `complex_page_fields` VALUES ('2', 'About', '4', '1', '2', '1429785716', '1430132466', '1');
-INSERT INTO `complex_page_fields` VALUES ('4', 'Some numeric val', '1', '3', '1', '1429786323', '1429786323', '1');
-INSERT INTO `complex_page_fields` VALUES ('5', 'Selector', '6', '3', '2', '1429792204', '1429801348', '1');
-INSERT INTO `complex_page_fields` VALUES ('6', 'Image', '5', '3', '3', '1429792249', '1429792249', '1');
-INSERT INTO `complex_page_fields` VALUES ('7', 'Name', '3', '4', '5', '1430213185', '1430213267', '1');
-INSERT INTO `complex_page_fields` VALUES ('8', 'Short text', '4', '4', '4', '1430213206', '1430213267', '1');
-INSERT INTO `complex_page_fields` VALUES ('9', 'Long text', '4', '4', '3', '1430213220', '1430213267', '1');
-INSERT INTO `complex_page_fields` VALUES ('10', 'Image', '5', '4', '2', '1430213233', '1430213267', '1');
-INSERT INTO `complex_page_fields` VALUES ('11', 'Date', '2', '4', '1', '1430213245', '1430213267', '1');
 
 -- ----------------------------
 -- Table structure for `complex_page_fields_trl`
@@ -161,31 +151,11 @@ CREATE TABLE `complex_page_fields_trl` (
   KEY `lng_id` (`lng_id`),
   CONSTRAINT `complex_page_fields_trl_ibfk_1` FOREIGN KEY (`page_field_id`) REFERENCES `complex_page_fields` (`id`) ON DELETE CASCADE ON UPDATE NO ACTION,
   CONSTRAINT `complex_page_fields_trl_ibfk_2` FOREIGN KEY (`lng_id`) REFERENCES `languages` (`id`) ON DELETE CASCADE ON UPDATE NO ACTION
-) ENGINE=InnoDB AUTO_INCREMENT=23 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=11 DEFAULT CHARSET=utf8;
 
 -- ----------------------------
 -- Records of complex_page_fields_trl
 -- ----------------------------
-INSERT INTO `complex_page_fields_trl` VALUES ('1', '1', '1', 'Some description', 'Name');
-INSERT INTO `complex_page_fields_trl` VALUES ('2', '1', '2', 'Какое-то описание', 'Имя');
-INSERT INTO `complex_page_fields_trl` VALUES ('3', '2', '1', '', 'About');
-INSERT INTO `complex_page_fields_trl` VALUES ('4', '2', '2', '', 'О нас');
-INSERT INTO `complex_page_fields_trl` VALUES ('7', '4', '1', '', 'Some numeric val');
-INSERT INTO `complex_page_fields_trl` VALUES ('8', '4', '2', '', '');
-INSERT INTO `complex_page_fields_trl` VALUES ('9', '5', '1', '', 'Selector');
-INSERT INTO `complex_page_fields_trl` VALUES ('10', '5', '2', '', '');
-INSERT INTO `complex_page_fields_trl` VALUES ('11', '6', '1', '', 'Image');
-INSERT INTO `complex_page_fields_trl` VALUES ('12', '6', '2', '', '');
-INSERT INTO `complex_page_fields_trl` VALUES ('13', '7', '1', '', 'Name');
-INSERT INTO `complex_page_fields_trl` VALUES ('14', '7', '2', '', '');
-INSERT INTO `complex_page_fields_trl` VALUES ('15', '8', '1', 'Short text', 'Short text');
-INSERT INTO `complex_page_fields_trl` VALUES ('16', '8', '2', '', '');
-INSERT INTO `complex_page_fields_trl` VALUES ('17', '9', '1', 'Long text', 'Long text');
-INSERT INTO `complex_page_fields_trl` VALUES ('18', '9', '2', '', '');
-INSERT INTO `complex_page_fields_trl` VALUES ('19', '10', '1', 'Image', 'Image');
-INSERT INTO `complex_page_fields_trl` VALUES ('20', '10', '2', '', '');
-INSERT INTO `complex_page_fields_trl` VALUES ('21', '11', '1', 'Date', 'Date');
-INSERT INTO `complex_page_fields_trl` VALUES ('22', '11', '2', '', '');
 
 -- ----------------------------
 -- Table structure for `complex_page_field_groups`
@@ -199,14 +169,11 @@ CREATE TABLE `complex_page_field_groups` (
   `time_created` int(11) DEFAULT NULL,
   `last_change_by` int(11) DEFAULT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=5 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=6 DEFAULT CHARSET=utf8;
 
 -- ----------------------------
 -- Records of complex_page_field_groups
 -- ----------------------------
-INSERT INTO `complex_page_field_groups` VALUES ('1', 'Group one', '2', '1429795825', '1429783985', '1');
-INSERT INTO `complex_page_field_groups` VALUES ('3', 'Group two', '1', '1429795825', '1429786305', '1');
-INSERT INTO `complex_page_field_groups` VALUES ('4', 'Test group', '3', '1430213164', '1430213164', '1');
 
 -- ----------------------------
 -- Table structure for `complex_page_field_groups_active`
@@ -222,14 +189,11 @@ CREATE TABLE `complex_page_field_groups_active` (
   KEY `page_id` (`page_id`),
   CONSTRAINT `complex_page_field_groups_active_ibfk_1` FOREIGN KEY (`group_id`) REFERENCES `complex_page_field_groups` (`id`) ON DELETE CASCADE ON UPDATE NO ACTION,
   CONSTRAINT `complex_page_field_groups_active_ibfk_2` FOREIGN KEY (`page_id`) REFERENCES `complex_page` (`id`) ON DELETE CASCADE ON UPDATE NO ACTION
-) ENGINE=InnoDB AUTO_INCREMENT=8 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8;
 
 -- ----------------------------
 -- Records of complex_page_field_groups_active
 -- ----------------------------
-INSERT INTO `complex_page_field_groups_active` VALUES ('5', '3', '5', '1');
-INSERT INTO `complex_page_field_groups_active` VALUES ('6', '1', '5', '2');
-INSERT INTO `complex_page_field_groups_active` VALUES ('7', '4', '6', '3');
 
 -- ----------------------------
 -- Table structure for `complex_page_field_groups_trl`
@@ -246,17 +210,11 @@ CREATE TABLE `complex_page_field_groups_trl` (
   KEY `group_id` (`group_id`),
   CONSTRAINT `complex_page_field_groups_trl_ibfk_1` FOREIGN KEY (`lng_id`) REFERENCES `languages` (`id`) ON DELETE CASCADE ON UPDATE NO ACTION,
   CONSTRAINT `complex_page_field_groups_trl_ibfk_2` FOREIGN KEY (`group_id`) REFERENCES `complex_page_field_groups` (`id`) ON DELETE CASCADE ON UPDATE NO ACTION
-) ENGINE=InnoDB AUTO_INCREMENT=9 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=utf8;
 
 -- ----------------------------
 -- Records of complex_page_field_groups_trl
 -- ----------------------------
-INSERT INTO `complex_page_field_groups_trl` VALUES ('1', '1', '1', 'Group one', 'Group description');
-INSERT INTO `complex_page_field_groups_trl` VALUES ('2', '2', '1', 'Группа один', 'Описание');
-INSERT INTO `complex_page_field_groups_trl` VALUES ('5', '1', '3', 'Group two', '');
-INSERT INTO `complex_page_field_groups_trl` VALUES ('6', '2', '3', '', '');
-INSERT INTO `complex_page_field_groups_trl` VALUES ('7', '1', '4', 'Test group', 'Test group');
-INSERT INTO `complex_page_field_groups_trl` VALUES ('8', '2', '4', '', '');
 
 -- ----------------------------
 -- Table structure for `complex_page_field_select_options`
@@ -270,14 +228,11 @@ CREATE TABLE `complex_page_field_select_options` (
   PRIMARY KEY (`id`),
   KEY `field_id` (`field_id`),
   CONSTRAINT `complex_page_field_select_options_ibfk_1` FOREIGN KEY (`field_id`) REFERENCES `complex_page_fields` (`id`) ON DELETE CASCADE ON UPDATE NO ACTION
-) ENGINE=InnoDB AUTO_INCREMENT=11 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 -- ----------------------------
 -- Records of complex_page_field_select_options
 -- ----------------------------
-INSERT INTO `complex_page_field_select_options` VALUES ('8', '5', 'Sel1', 'hh');
-INSERT INTO `complex_page_field_select_options` VALUES ('9', '5', 'Sel2', 'gg');
-INSERT INTO `complex_page_field_select_options` VALUES ('10', '5', 'Sel3', 'tt');
 
 -- ----------------------------
 -- Table structure for `complex_page_field_types`
@@ -316,21 +271,11 @@ CREATE TABLE `complex_page_field_values` (
   KEY `field_id` (`field_id`),
   CONSTRAINT `complex_page_field_values_ibfk_1` FOREIGN KEY (`page_id`) REFERENCES `complex_page` (`id`) ON DELETE CASCADE ON UPDATE NO ACTION,
   CONSTRAINT `complex_page_field_values_ibfk_2` FOREIGN KEY (`field_id`) REFERENCES `complex_page_fields` (`id`) ON DELETE CASCADE ON UPDATE NO ACTION
-) ENGINE=InnoDB AUTO_INCREMENT=11 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=5 DEFAULT CHARSET=utf8;
 
 -- ----------------------------
 -- Records of complex_page_field_values
 -- ----------------------------
-INSERT INTO `complex_page_field_values` VALUES ('1', '5', '2', null, null, null, null);
-INSERT INTO `complex_page_field_values` VALUES ('2', '5', '1', null, null, 'My name is', null);
-INSERT INTO `complex_page_field_values` VALUES ('3', '5', '4', '5998', null, null, null);
-INSERT INTO `complex_page_field_values` VALUES ('4', '5', '5', null, '9', null, null);
-INSERT INTO `complex_page_field_values` VALUES ('5', '5', '6', null, null, null, null);
-INSERT INTO `complex_page_field_values` VALUES ('6', '6', '10', null, null, null, null);
-INSERT INTO `complex_page_field_values` VALUES ('7', '6', '7', null, null, 'Test', null);
-INSERT INTO `complex_page_field_values` VALUES ('8', '6', '8', null, null, null, null);
-INSERT INTO `complex_page_field_values` VALUES ('9', '6', '9', null, null, null, null);
-INSERT INTO `complex_page_field_values` VALUES ('10', '6', '11', null, null, null, '34170');
 
 -- ----------------------------
 -- Table structure for `complex_page_field_values_trl`
@@ -346,17 +291,11 @@ CREATE TABLE `complex_page_field_values_trl` (
   KEY `field_value_id` (`field_value_id`),
   CONSTRAINT `complex_page_field_values_trl_ibfk_1` FOREIGN KEY (`lng_id`) REFERENCES `languages` (`id`) ON DELETE CASCADE ON UPDATE NO ACTION,
   CONSTRAINT `complex_page_field_values_trl_ibfk_2` FOREIGN KEY (`field_value_id`) REFERENCES `complex_page_field_values` (`id`) ON DELETE CASCADE ON UPDATE NO ACTION
-) ENGINE=InnoDB AUTO_INCREMENT=7 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=utf8;
 
 -- ----------------------------
 -- Records of complex_page_field_values_trl
 -- ----------------------------
-INSERT INTO `complex_page_field_values_trl` VALUES ('1', '1', '1', 'Test');
-INSERT INTO `complex_page_field_values_trl` VALUES ('2', '2', '1', 'Тест');
-INSERT INTO `complex_page_field_values_trl` VALUES ('3', '1', '8', 'Test');
-INSERT INTO `complex_page_field_values_trl` VALUES ('4', '2', '8', 'gggg');
-INSERT INTO `complex_page_field_values_trl` VALUES ('5', '1', '9', 'Test');
-INSERT INTO `complex_page_field_values_trl` VALUES ('6', '2', '9', 'gggg');
 
 -- ----------------------------
 -- Table structure for `complex_page_trl`
@@ -374,15 +313,11 @@ CREATE TABLE `complex_page_trl` (
   KEY `lng_id` (`lng_id`),
   CONSTRAINT `complex_page_trl_ibfk_1` FOREIGN KEY (`page_id`) REFERENCES `complex_page` (`id`) ON DELETE CASCADE ON UPDATE NO ACTION,
   CONSTRAINT `complex_page_trl_ibfk_2` FOREIGN KEY (`lng_id`) REFERENCES `languages` (`id`) ON DELETE CASCADE ON UPDATE NO ACTION
-) ENGINE=InnoDB AUTO_INCREMENT=13 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=utf8;
 
 -- ----------------------------
 -- Records of complex_page_trl
 -- ----------------------------
-INSERT INTO `complex_page_trl` VALUES ('9', '5', '1', 'Testing', 'Text text text, lots of text, text text text text Text text text, lots of text, text text text textText text text, lots of text, text text text textText text text, lots of text, text text text textText text text, lots of text, text text text textText text text, lots of text, text text text textText text text, lots of text, text text text text', 'Keyword1, keyword2, keyword3');
-INSERT INTO `complex_page_trl` VALUES ('10', '5', '2', 'Тестинг', '', '');
-INSERT INTO `complex_page_trl` VALUES ('11', '6', '1', 'News', null, null);
-INSERT INTO `complex_page_trl` VALUES ('12', '6', '2', '', null, null);
 
 -- ----------------------------
 -- Table structure for `contacts_block`
@@ -536,25 +471,11 @@ CREATE TABLE `images` (
   PRIMARY KEY (`id`),
   KEY `status_id` (`status_id`),
   CONSTRAINT `images_ibfk_1` FOREIGN KEY (`status_id`) REFERENCES `status` (`id`) ON DELETE NO ACTION ON UPDATE NO ACTION
-) ENGINE=InnoDB AUTO_INCREMENT=33 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=9 DEFAULT CHARSET=utf8;
 
 -- ----------------------------
 -- Records of images
 -- ----------------------------
-INSERT INTO `images` VALUES ('19', 'Image of \"Some title\"', '553753bd1de4a.jpg', 'Koala.jpg', 'image/jpeg', '780831', '1');
-INSERT INTO `images` VALUES ('20', 'Image of \"Some title\"', '553755397403d.jpg', 'Jellyfish.jpg', 'image/jpeg', '775702', '1');
-INSERT INTO `images` VALUES ('21', 'Image of \"One more product\"', '55379ffb0d22c.jpg', 'Chrysanthemum.jpg', 'image/jpeg', '879394', '1');
-INSERT INTO `images` VALUES ('22', 'Image of \"Testing\"', '5538d1df8c8eb.jpg', 'Tulips.jpg', 'image/jpeg', '620888', '1');
-INSERT INTO `images` VALUES ('23', 'Image of \"Testing\"', '5538d2712751a.jpg', 'Koala.jpg', 'image/jpeg', '780831', '1');
-INSERT INTO `images` VALUES ('24', 'Image of \"Testing\"', '5538d2763fcde.jpg', 'Jellyfish.jpg', 'image/jpeg', '775702', '1');
-INSERT INTO `images` VALUES ('25', 'Image of \"Testing\"', '5539f49f8ec73.jpg', 'Koala.jpg', 'image/jpeg', '780831', '1');
-INSERT INTO `images` VALUES ('26', 'Image of \"Testing\"', '5539fe66372aa.jpg', 'Lighthouse.jpg', 'image/jpeg', '561276', '1');
-INSERT INTO `images` VALUES ('27', 'Image of \"Testing\"', '5539ff387cff6.jpg', 'Tulips.jpg', 'image/jpeg', '620888', '1');
-INSERT INTO `images` VALUES ('28', 'Image of \"One more product\"', '553a2ca56cac7.jpg', 'Tulips.jpg', 'image/jpeg', '620888', '1');
-INSERT INTO `images` VALUES ('29', 'Image of \"Item 1\"', '553e37243a260.jpg', 'Hydrangeas.jpg', 'image/jpeg', '595284', '1');
-INSERT INTO `images` VALUES ('30', 'Image of \"Item 1\"', '553e37ae5306b.jpg', 'Desert.jpg', 'image/jpeg', '845941', '1');
-INSERT INTO `images` VALUES ('31', 'Image of \"News\"', '553f5310621a8.jpg', 'Hydrangeas.jpg', 'image/jpeg', '595284', '1');
-INSERT INTO `images` VALUES ('32', 'Image of \"News\"', '553f531640bd0.jpg', 'Koala.jpg', 'image/jpeg', '780831', '1');
 
 -- ----------------------------
 -- Table structure for `images_of_complex_page`
@@ -569,14 +490,11 @@ CREATE TABLE `images_of_complex_page` (
   KEY `page_id` (`page_id`),
   CONSTRAINT `images_of_complex_page_ibfk_1` FOREIGN KEY (`image_id`) REFERENCES `images` (`id`) ON DELETE CASCADE ON UPDATE NO ACTION,
   CONSTRAINT `images_of_complex_page_ibfk_2` FOREIGN KEY (`page_id`) REFERENCES `complex_page` (`id`) ON DELETE CASCADE ON UPDATE NO ACTION
-) ENGINE=InnoDB AUTO_INCREMENT=4 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 -- ----------------------------
 -- Records of images_of_complex_page
 -- ----------------------------
-INSERT INTO `images_of_complex_page` VALUES ('1', '25', '5');
-INSERT INTO `images_of_complex_page` VALUES ('2', '31', '6');
-INSERT INTO `images_of_complex_page` VALUES ('3', '32', '6');
 
 -- ----------------------------
 -- Table structure for `images_of_complex_page_field_values`
@@ -591,13 +509,11 @@ CREATE TABLE `images_of_complex_page_field_values` (
   KEY `field_value_id` (`field_value_id`),
   CONSTRAINT `images_of_complex_page_field_values_ibfk_1` FOREIGN KEY (`image_id`) REFERENCES `images` (`id`) ON DELETE CASCADE ON UPDATE NO ACTION,
   CONSTRAINT `images_of_complex_page_field_values_ibfk_2` FOREIGN KEY (`field_value_id`) REFERENCES `complex_page_field_values` (`id`) ON DELETE CASCADE ON UPDATE NO ACTION
-) ENGINE=InnoDB AUTO_INCREMENT=7 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8;
 
 -- ----------------------------
 -- Records of images_of_complex_page_field_values
 -- ----------------------------
-INSERT INTO `images_of_complex_page_field_values` VALUES ('4', '19', '5');
-INSERT INTO `images_of_complex_page_field_values` VALUES ('6', '25', '6');
 
 -- ----------------------------
 -- Table structure for `images_of_contacts`
@@ -636,8 +552,6 @@ CREATE TABLE `images_of_news` (
 -- ----------------------------
 -- Records of images_of_news
 -- ----------------------------
-INSERT INTO `images_of_news` VALUES ('1', '25', '29');
-INSERT INTO `images_of_news` VALUES ('2', '25', '30');
 
 -- ----------------------------
 -- Table structure for `images_of_page`
@@ -671,14 +585,11 @@ CREATE TABLE `images_of_product` (
   KEY `product_id` (`product_id`),
   CONSTRAINT `images_of_product_ibfk_1` FOREIGN KEY (`image_id`) REFERENCES `images` (`id`) ON DELETE CASCADE ON UPDATE NO ACTION,
   CONSTRAINT `images_of_product_ibfk_2` FOREIGN KEY (`product_id`) REFERENCES `product` (`id`) ON DELETE CASCADE ON UPDATE NO ACTION
-) ENGINE=InnoDB AUTO_INCREMENT=6 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 -- ----------------------------
 -- Records of images_of_product
 -- ----------------------------
-INSERT INTO `images_of_product` VALUES ('3', '19', '14');
-INSERT INTO `images_of_product` VALUES ('4', '20', '14');
-INSERT INTO `images_of_product` VALUES ('5', '21', '15');
 
 -- ----------------------------
 -- Table structure for `images_of_product_fields_values`
@@ -693,13 +604,11 @@ CREATE TABLE `images_of_product_fields_values` (
   KEY `field_value_id` (`field_value_id`),
   CONSTRAINT `images_of_product_fields_values_ibfk_1` FOREIGN KEY (`image_id`) REFERENCES `images` (`id`) ON DELETE CASCADE ON UPDATE NO ACTION,
   CONSTRAINT `images_of_product_fields_values_ibfk_2` FOREIGN KEY (`field_value_id`) REFERENCES `product_field_values` (`id`) ON DELETE CASCADE ON UPDATE NO ACTION
-) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=5 DEFAULT CHARSET=utf8;
 
 -- ----------------------------
 -- Records of images_of_product_fields_values
 -- ----------------------------
-INSERT INTO `images_of_product_fields_values` VALUES ('1', '20', '12');
-INSERT INTO `images_of_product_fields_values` VALUES ('2', '26', '13');
 
 -- ----------------------------
 -- Table structure for `images_of_widget`
@@ -735,7 +644,7 @@ CREATE TABLE `images_trl` (
   KEY `lng_id` (`lng_id`),
   CONSTRAINT `images_trl_ibfk_1` FOREIGN KEY (`image_id`) REFERENCES `images` (`id`) ON DELETE CASCADE ON UPDATE NO ACTION,
   CONSTRAINT `images_trl_ibfk_2` FOREIGN KEY (`lng_id`) REFERENCES `languages` (`id`) ON DELETE CASCADE ON UPDATE NO ACTION
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=utf8;
 
 -- ----------------------------
 -- Records of images_trl
@@ -853,13 +762,13 @@ CREATE TABLE `menu` (
   PRIMARY KEY (`id`),
   KEY `status_id` (`status_id`),
   CONSTRAINT `menu_ibfk_1` FOREIGN KEY (`status_id`) REFERENCES `status` (`id`) ON DELETE NO ACTION ON UPDATE NO ACTION
-) ENGINE=InnoDB AUTO_INCREMENT=9 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=11 DEFAULT CHARSET=utf8;
 
 -- ----------------------------
 -- Records of menu
 -- ----------------------------
-INSERT INTO `menu` VALUES ('5', 'Main menu', '1', '1427987138', '1430131723', '1', '');
-INSERT INTO `menu` VALUES ('8', 'Additional Menu', '1', '1430130594', '1430131727', '1', '');
+INSERT INTO `menu` VALUES ('9', 'Main menu', '1', '1430400170', '1430400170', '1', '');
+INSERT INTO `menu` VALUES ('10', 'Additional menu', '1', '1430400193', '1430400193', '1', '');
 
 -- ----------------------------
 -- Table structure for `menu_item`
@@ -886,18 +795,14 @@ CREATE TABLE `menu_item` (
   CONSTRAINT `menu_item_ibfk_1` FOREIGN KEY (`type_id`) REFERENCES `menu_item_type` (`id`) ON DELETE NO ACTION ON UPDATE NO ACTION,
   CONSTRAINT `menu_item_ibfk_2` FOREIGN KEY (`menu_id`) REFERENCES `menu` (`id`) ON DELETE CASCADE ON UPDATE NO ACTION,
   CONSTRAINT `menu_item_ibfk_3` FOREIGN KEY (`status_id`) REFERENCES `status` (`id`) ON DELETE NO ACTION ON UPDATE NO ACTION
-) ENGINE=InnoDB AUTO_INCREMENT=38 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=48 DEFAULT CHARSET=utf8;
 
 -- ----------------------------
 -- Records of menu_item
 -- ----------------------------
-INSERT INTO `menu_item` VALUES ('31', '5', 'Home page', '0', '3', '1', '8', '1', '1427987229', '1430212185', '1', '1');
-INSERT INTO `menu_item` VALUES ('32', '5', 'News', '0', '5', '2', '7', '1', '1427987311', '1430228824', '1', '1');
-INSERT INTO `menu_item` VALUES ('33', '5', 'Products', '0', '4', '3', '1', '1', '1427987366', '1430225078', '1', '1');
-INSERT INTO `menu_item` VALUES ('34', '5', 'Contacts', '0', '1', '1', '8', '1', '1427987474', '1430212185', '1', '1');
-INSERT INTO `menu_item` VALUES ('35', '5', 'Complex page', '0', '2', '5', '5', '1', '1429795364', '1430212185', '1', '1');
-INSERT INTO `menu_item` VALUES ('36', '8', 'First item', '0', '2', '3', '1', '1', '1430130660', '1430212141', '1', '1');
-INSERT INTO `menu_item` VALUES ('37', '8', 'Second item', '0', '1', '5', '5', '1', '1430130720', '1430212141', '1', '1');
+INSERT INTO `menu_item` VALUES ('45', '9', 'About us', '0', '1', '1', '8', '1', '1430404806', '1430407419', '1', null);
+INSERT INTO `menu_item` VALUES ('46', '9', 'News', '0', '2', '1', '8', '1', '1430404957', '1430407419', '1', null);
+INSERT INTO `menu_item` VALUES ('47', '9', 'Products', '0', '3', '1', '8', '1', '1430404996', '1430407419', '1', null);
 
 -- ----------------------------
 -- Table structure for `menu_item_trl`
@@ -913,25 +818,17 @@ CREATE TABLE `menu_item_trl` (
   KEY `menu_item_trl_ibfk_2` (`lng_id`),
   CONSTRAINT `menu_item_trl_ibfk_1` FOREIGN KEY (`lng_id`) REFERENCES `languages` (`id`) ON DELETE CASCADE ON UPDATE NO ACTION,
   CONSTRAINT `menu_item_trl_ibfk_2` FOREIGN KEY (`menu_item_id`) REFERENCES `menu_item` (`id`) ON DELETE CASCADE ON UPDATE NO ACTION
-) ENGINE=InnoDB AUTO_INCREMENT=105 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=125 DEFAULT CHARSET=utf8;
 
 -- ----------------------------
 -- Records of menu_item_trl
 -- ----------------------------
-INSERT INTO `menu_item_trl` VALUES ('91', 'Home page', '31', '1');
-INSERT INTO `menu_item_trl` VALUES ('92', 'Главная', '31', '2');
-INSERT INTO `menu_item_trl` VALUES ('93', 'News', '32', '1');
-INSERT INTO `menu_item_trl` VALUES ('94', 'Новости', '32', '2');
-INSERT INTO `menu_item_trl` VALUES ('95', 'Products', '33', '1');
-INSERT INTO `menu_item_trl` VALUES ('96', 'Продукты', '33', '2');
-INSERT INTO `menu_item_trl` VALUES ('97', 'Contacts', '34', '1');
-INSERT INTO `menu_item_trl` VALUES ('98', 'Контакты', '34', '2');
-INSERT INTO `menu_item_trl` VALUES ('99', 'Complex page', '35', '1');
-INSERT INTO `menu_item_trl` VALUES ('100', 'Составная страница', '35', '2');
-INSERT INTO `menu_item_trl` VALUES ('101', 'First item', '36', '1');
-INSERT INTO `menu_item_trl` VALUES ('102', 'Первый пункт', '36', '2');
-INSERT INTO `menu_item_trl` VALUES ('103', 'Second item', '37', '1');
-INSERT INTO `menu_item_trl` VALUES ('104', 'Второй пункт', '37', '2');
+INSERT INTO `menu_item_trl` VALUES ('119', 'About us', '45', '1');
+INSERT INTO `menu_item_trl` VALUES ('120', 'О нас', '45', '2');
+INSERT INTO `menu_item_trl` VALUES ('121', 'News', '46', '1');
+INSERT INTO `menu_item_trl` VALUES ('122', 'Новости', '46', '2');
+INSERT INTO `menu_item_trl` VALUES ('123', 'Products', '47', '1');
+INSERT INTO `menu_item_trl` VALUES ('124', 'Прдукты', '47', '2');
 
 -- ----------------------------
 -- Table structure for `menu_item_type`
@@ -1010,13 +907,11 @@ CREATE TABLE `news` (
   KEY `status_id` (`status_id`),
   CONSTRAINT `news_ibfk_1` FOREIGN KEY (`category_id`) REFERENCES `news_category` (`id`) ON DELETE CASCADE ON UPDATE NO ACTION,
   CONSTRAINT `news_ibfk_2` FOREIGN KEY (`status_id`) REFERENCES `status` (`id`) ON DELETE NO ACTION ON UPDATE NO ACTION
-) ENGINE=InnoDB AUTO_INCREMENT=26 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8;
 
 -- ----------------------------
 -- Records of news
 -- ----------------------------
-INSERT INTO `news` VALUES ('24', '7', '0:7', 'Item 2', null, '1', '2', '1428062683', '1428408085', '1');
-INSERT INTO `news` VALUES ('25', '7', '0:7', 'Item 1', null, '1', '3', '1428062690', '1430140846', '1');
 
 -- ----------------------------
 -- Table structure for `news_category`
@@ -1036,16 +931,11 @@ CREATE TABLE `news_category` (
   PRIMARY KEY (`id`),
   KEY `status_id` (`status_id`),
   CONSTRAINT `news_category_ibfk_1` FOREIGN KEY (`status_id`) REFERENCES `status` (`id`) ON DELETE NO ACTION ON UPDATE NO ACTION
-) ENGINE=InnoDB AUTO_INCREMENT=11 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8;
 
 -- ----------------------------
 -- Records of news_category
 -- ----------------------------
-INSERT INTO `news_category` VALUES ('6', '0', 'main_category.php', '0:6', 'Politics', '1', '4', '1428394939', '1428407607', '1');
-INSERT INTO `news_category` VALUES ('7', '0', 'main_category.php', '0:7', 'Science', '1', '5', '1428394965', '1428407606', '1');
-INSERT INTO `news_category` VALUES ('8', '7', 'main_category.php', '0:7:8', 'Space', '1', '5', '1428394944', '1428394944', '1');
-INSERT INTO `news_category` VALUES ('9', '7', 'main_category.php', '0:7:9', 'Technologies', '1', '4', '1428394932', '1428394932', '1');
-INSERT INTO `news_category` VALUES ('10', '6', 'main_category.php', '0:6:10', 'Geopolitics', '1', '2', '1428394909', '1428394909', '1');
 
 -- ----------------------------
 -- Table structure for `news_category_trl`
@@ -1063,21 +953,11 @@ CREATE TABLE `news_category_trl` (
   KEY `lng_id` (`lng_id`),
   CONSTRAINT `news_category_trl_ibfk_1` FOREIGN KEY (`news_category_id`) REFERENCES `news_category` (`id`) ON DELETE CASCADE ON UPDATE NO ACTION,
   CONSTRAINT `news_category_trl_ibfk_2` FOREIGN KEY (`lng_id`) REFERENCES `languages` (`id`) ON DELETE CASCADE ON UPDATE NO ACTION
-) ENGINE=InnoDB AUTO_INCREMENT=21 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=utf8;
 
 -- ----------------------------
 -- Records of news_category_trl
 -- ----------------------------
-INSERT INTO `news_category_trl` VALUES ('11', 'Politics', 'Politics, Putin, Obama', 'Last news about politics', '6', '1');
-INSERT INTO `news_category_trl` VALUES ('12', 'Политика', 'Политика, Путин, Обама', 'Последние новости из мира политики', '6', '2');
-INSERT INTO `news_category_trl` VALUES ('13', 'Science', 'Science, physics, discovery', 'Last news about science', '7', '1');
-INSERT INTO `news_category_trl` VALUES ('14', 'Наука', 'Наука, физика, открытия', 'Последние новости из мира науки', '7', '2');
-INSERT INTO `news_category_trl` VALUES ('15', 'Space', 'Sapce, astronauts', 'All about space', '8', '1');
-INSERT INTO `news_category_trl` VALUES ('16', 'Космос', 'Космос, астронавты', 'Все о космосе', '8', '2');
-INSERT INTO `news_category_trl` VALUES ('17', 'Technologies', 'Technologies, IT', 'All about technologies', '9', '1');
-INSERT INTO `news_category_trl` VALUES ('18', 'Технологии', 'Технологии, ИТ', 'Все  новости о технологиях', '9', '2');
-INSERT INTO `news_category_trl` VALUES ('19', 'Geopolitics', 'geo, world, politics', 'All about geopolitics', '10', '1');
-INSERT INTO `news_category_trl` VALUES ('20', 'Геополитика', 'мир, политика', 'Все новости мира геополитики', '10', '2');
 
 -- ----------------------------
 -- Table structure for `news_trl`
@@ -1097,15 +977,11 @@ CREATE TABLE `news_trl` (
   KEY `lng_id` (`lng_id`),
   CONSTRAINT `news_trl_ibfk_1` FOREIGN KEY (`lng_id`) REFERENCES `languages` (`id`) ON DELETE CASCADE ON UPDATE NO ACTION,
   CONSTRAINT `news_trl_ibfk_2` FOREIGN KEY (`news_id`) REFERENCES `news` (`id`) ON DELETE CASCADE ON UPDATE NO ACTION
-) ENGINE=InnoDB AUTO_INCREMENT=33 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=utf8;
 
 -- ----------------------------
 -- Records of news_trl
 -- ----------------------------
-INSERT INTO `news_trl` VALUES ('29', 'New two', null, null, 'Some long text', 'Summary text', '24', '1');
-INSERT INTO `news_trl` VALUES ('30', 'Новость два', null, null, 'Длинный текст', 'Какой-то текст вкратце', '24', '2');
-INSERT INTO `news_trl` VALUES ('31', 'New one', null, null, 'Some long text', 'Some summary text', '25', '1');
-INSERT INTO `news_trl` VALUES ('32', 'Новость 1', null, null, 'Длинный текст', 'Обобщенный текст', '25', '2');
 
 -- ----------------------------
 -- Table structure for `page`
@@ -1182,13 +1058,11 @@ CREATE TABLE `product` (
   KEY `status_id` (`status_id`),
   CONSTRAINT `product_ibfk_1` FOREIGN KEY (`category_id`) REFERENCES `product_category` (`id`) ON DELETE CASCADE ON UPDATE NO ACTION,
   CONSTRAINT `product_ibfk_2` FOREIGN KEY (`status_id`) REFERENCES `status` (`id`) ON DELETE NO ACTION ON UPDATE NO ACTION
-) ENGINE=InnoDB AUTO_INCREMENT=16 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=4 DEFAULT CHARSET=utf8;
 
 -- ----------------------------
 -- Records of product
 -- ----------------------------
-INSERT INTO `product` VALUES ('14', '1', '0:1', 'Some title', 'default.php', '1', '1', '15000', '5000', null, '5', '1428672850', '1430209267', '1', 'PR20366592PR');
-INSERT INTO `product` VALUES ('15', '2', '0:1:2', 'One more product', 'default.php', '1', '1', '12800', '0', null, '5', '1429708758', '1430208759', '1', 'PR46727164PR');
 
 -- ----------------------------
 -- Table structure for `product_category`
@@ -1208,13 +1082,11 @@ CREATE TABLE `product_category` (
   PRIMARY KEY (`id`),
   KEY `status_id` (`status_id`),
   CONSTRAINT `product_category_ibfk_1` FOREIGN KEY (`status_id`) REFERENCES `status` (`id`) ON DELETE NO ACTION ON UPDATE NO ACTION
-) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=7 DEFAULT CHARSET=utf8;
 
 -- ----------------------------
 -- Records of product_category
 -- ----------------------------
-INSERT INTO `product_category` VALUES ('1', '0', 'simple_list.php', '0:1', 'Hotels', '1', '5', '1429703458', '1429703458', '1');
-INSERT INTO `product_category` VALUES ('2', '1', 'simple_list.php', '0:1:2', 'Sub-cat', '1', '1', '1429703506', '1429703506', '1');
 
 -- ----------------------------
 -- Table structure for `product_category_trl`
@@ -1232,15 +1104,11 @@ CREATE TABLE `product_category_trl` (
   KEY `lng_id` (`lng_id`),
   CONSTRAINT `product_category_trl_ibfk_1` FOREIGN KEY (`lng_id`) REFERENCES `languages` (`id`) ON DELETE CASCADE ON UPDATE NO ACTION,
   CONSTRAINT `product_category_trl_ibfk_2` FOREIGN KEY (`product_category_id`) REFERENCES `product_category` (`id`) ON DELETE CASCADE ON UPDATE NO ACTION
-) ENGINE=InnoDB AUTO_INCREMENT=5 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=13 DEFAULT CHARSET=utf8;
 
 -- ----------------------------
 -- Records of product_category_trl
 -- ----------------------------
-INSERT INTO `product_category_trl` VALUES ('1', 'Hotels', 'Products, keywords', 'Description', '1', '1');
-INSERT INTO `product_category_trl` VALUES ('2', 'Гостиницы', 'Продукты, ключ-слова', 'Описание', '1', '2');
-INSERT INTO `product_category_trl` VALUES ('3', 'Sub-cat', '', '', '2', '1');
-INSERT INTO `product_category_trl` VALUES ('4', 'Суб-категория', '', '', '2', '2');
 
 -- ----------------------------
 -- Table structure for `product_fields`
@@ -1260,25 +1128,11 @@ CREATE TABLE `product_fields` (
   KEY `product_fields_ibfk_2` (`type_id`),
   CONSTRAINT `product_fields_ibfk_1` FOREIGN KEY (`group_id`) REFERENCES `product_field_groups` (`id`) ON DELETE CASCADE ON UPDATE NO ACTION,
   CONSTRAINT `product_fields_ibfk_2` FOREIGN KEY (`type_id`) REFERENCES `product_field_types` (`id`) ON DELETE NO ACTION ON UPDATE NO ACTION
-) ENGINE=InnoDB AUTO_INCREMENT=33 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=4 DEFAULT CHARSET=utf8;
 
 -- ----------------------------
 -- Records of product_fields
 -- ----------------------------
-INSERT INTO `product_fields` VALUES ('19', 'Country', '3', '15', '3', '1428927022', '1429863911', '1');
-INSERT INTO `product_fields` VALUES ('20', 'City', '3', '15', '2', '1428927056', '1429863911', '1');
-INSERT INTO `product_fields` VALUES ('21', 'Placement', '3', '15', '4', '1428927092', '1429863911', '1');
-INSERT INTO `product_fields` VALUES ('22', 'Children', '6', '15', '1', '1428927432', '1429863911', '1');
-INSERT INTO `product_fields` VALUES ('23', 'Header', '4', '18', '4', '1428927481', '1429004591', '1');
-INSERT INTO `product_fields` VALUES ('24', 'Description', '4', '18', '3', '1428927512', '1429004591', '1');
-INSERT INTO `product_fields` VALUES ('25', 'Image 1', '5', '18', '2', '1428927611', '1429004591', '1');
-INSERT INTO `product_fields` VALUES ('26', 'Image 2', '5', '18', '1', '1428927637', '1429004591', '1');
-INSERT INTO `product_fields` VALUES ('27', 'Header', '4', '20', '5', '1428938670', '1429004612', '1');
-INSERT INTO `product_fields` VALUES ('28', 'Text', '3', '20', '4', '1428938688', '1429004612', '1');
-INSERT INTO `product_fields` VALUES ('29', 'Image', '5', '20', '3', '1428938704', '1429004612', '1');
-INSERT INTO `product_fields` VALUES ('30', 'Selector', '6', '20', '2', '1428938743', '1429004612', '1');
-INSERT INTO `product_fields` VALUES ('31', 'Date', '2', '16', '1', '1429540090', '1429540090', '1');
-INSERT INTO `product_fields` VALUES ('32', 'Price for sale', '1', '16', '2', '1429542410', '1429542410', '1');
 
 -- ----------------------------
 -- Table structure for `product_fields_trl`
@@ -1295,39 +1149,11 @@ CREATE TABLE `product_fields_trl` (
   KEY `lng_id` (`lng_id`),
   CONSTRAINT `product_fields_trl_ibfk_1` FOREIGN KEY (`product_field_id`) REFERENCES `product_fields` (`id`) ON DELETE CASCADE ON UPDATE NO ACTION,
   CONSTRAINT `product_fields_trl_ibfk_2` FOREIGN KEY (`lng_id`) REFERENCES `languages` (`id`) ON DELETE CASCADE ON UPDATE NO ACTION
-) ENGINE=InnoDB AUTO_INCREMENT=53 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=7 DEFAULT CHARSET=utf8;
 
 -- ----------------------------
 -- Records of product_fields_trl
 -- ----------------------------
-INSERT INTO `product_fields_trl` VALUES ('25', '19', '1', '', 'Country');
-INSERT INTO `product_fields_trl` VALUES ('26', '19', '2', '', 'Страна');
-INSERT INTO `product_fields_trl` VALUES ('27', '20', '1', '', 'City');
-INSERT INTO `product_fields_trl` VALUES ('28', '20', '2', '', 'Город');
-INSERT INTO `product_fields_trl` VALUES ('29', '21', '1', '', 'Placement');
-INSERT INTO `product_fields_trl` VALUES ('30', '21', '2', '', 'Местонахождение');
-INSERT INTO `product_fields_trl` VALUES ('31', '22', '1', '', 'Children');
-INSERT INTO `product_fields_trl` VALUES ('32', '22', '2', '', 'Дети');
-INSERT INTO `product_fields_trl` VALUES ('33', '23', '1', '', 'Header');
-INSERT INTO `product_fields_trl` VALUES ('34', '23', '2', '', 'Заголовок');
-INSERT INTO `product_fields_trl` VALUES ('35', '24', '1', '', 'Description');
-INSERT INTO `product_fields_trl` VALUES ('36', '24', '2', '', 'Описание');
-INSERT INTO `product_fields_trl` VALUES ('37', '25', '1', '', 'Image 1');
-INSERT INTO `product_fields_trl` VALUES ('38', '25', '2', '', 'Картинка 1');
-INSERT INTO `product_fields_trl` VALUES ('39', '26', '1', '', 'Image 2');
-INSERT INTO `product_fields_trl` VALUES ('40', '26', '2', '', 'Картинка 2');
-INSERT INTO `product_fields_trl` VALUES ('41', '27', '1', '', 'Header');
-INSERT INTO `product_fields_trl` VALUES ('42', '27', '2', '', 'Заголовок');
-INSERT INTO `product_fields_trl` VALUES ('43', '28', '1', '', 'Text');
-INSERT INTO `product_fields_trl` VALUES ('44', '28', '2', '', '');
-INSERT INTO `product_fields_trl` VALUES ('45', '29', '1', '', 'Image');
-INSERT INTO `product_fields_trl` VALUES ('46', '29', '2', '', '');
-INSERT INTO `product_fields_trl` VALUES ('47', '30', '1', '', 'Selector');
-INSERT INTO `product_fields_trl` VALUES ('48', '30', '2', '', '');
-INSERT INTO `product_fields_trl` VALUES ('49', '31', '1', '', 'Date');
-INSERT INTO `product_fields_trl` VALUES ('50', '31', '2', '', 'Дата');
-INSERT INTO `product_fields_trl` VALUES ('51', '32', '1', '', 'Price for sale');
-INSERT INTO `product_fields_trl` VALUES ('52', '32', '2', '', '');
 
 -- ----------------------------
 -- Table structure for `product_field_groups`
@@ -1341,18 +1167,11 @@ CREATE TABLE `product_field_groups` (
   `time_created` int(11) DEFAULT NULL,
   `last_change_by` int(11) DEFAULT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=22 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=4 DEFAULT CHARSET=utf8;
 
 -- ----------------------------
 -- Records of product_field_groups
 -- ----------------------------
-INSERT INTO `product_field_groups` VALUES ('15', 'Description', '7', '1429863881', '1428500592', '1');
-INSERT INTO `product_field_groups` VALUES ('16', 'Prices', '4', '1429863881', '1428500636', '1');
-INSERT INTO `product_field_groups` VALUES ('17', 'Medicine', '3', '1429863881', '1428500677', '1');
-INSERT INTO `product_field_groups` VALUES ('18', 'Food', '6', '1429863881', '1428500761', '1');
-INSERT INTO `product_field_groups` VALUES ('19', 'The room fund', '2', '1429863881', '1428500806', '1');
-INSERT INTO `product_field_groups` VALUES ('20', 'Services', '5', '1429863881', '1428500828', '1');
-INSERT INTO `product_field_groups` VALUES ('21', 'How to get', '1', '1429863881', '1428500858', '1');
 
 -- ----------------------------
 -- Table structure for `product_field_groups_active`
@@ -1368,15 +1187,11 @@ CREATE TABLE `product_field_groups_active` (
   KEY `product_id` (`product_id`),
   CONSTRAINT `product_field_groups_active_ibfk_1` FOREIGN KEY (`group_id`) REFERENCES `product_field_groups` (`id`) ON DELETE CASCADE ON UPDATE NO ACTION,
   CONSTRAINT `product_field_groups_active_ibfk_2` FOREIGN KEY (`product_id`) REFERENCES `product` (`id`) ON DELETE CASCADE ON UPDATE NO ACTION
-) ENGINE=InnoDB AUTO_INCREMENT=61 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=4 DEFAULT CHARSET=utf8;
 
 -- ----------------------------
 -- Records of product_field_groups_active
 -- ----------------------------
-INSERT INTO `product_field_groups_active` VALUES ('56', '15', '15', '7');
-INSERT INTO `product_field_groups_active` VALUES ('57', '18', '15', '6');
-INSERT INTO `product_field_groups_active` VALUES ('59', '15', '14', '7');
-INSERT INTO `product_field_groups_active` VALUES ('60', '18', '14', '6');
 
 -- ----------------------------
 -- Table structure for `product_field_groups_trl`
@@ -1393,25 +1208,11 @@ CREATE TABLE `product_field_groups_trl` (
   KEY `lng_id` (`lng_id`),
   CONSTRAINT `product_field_groups_trl_ibfk_1` FOREIGN KEY (`group_id`) REFERENCES `product_field_groups` (`id`) ON DELETE CASCADE ON UPDATE NO ACTION,
   CONSTRAINT `product_field_groups_trl_ibfk_2` FOREIGN KEY (`lng_id`) REFERENCES `languages` (`id`) ON DELETE CASCADE ON UPDATE NO ACTION
-) ENGINE=InnoDB AUTO_INCREMENT=33 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=7 DEFAULT CHARSET=utf8;
 
 -- ----------------------------
 -- Records of product_field_groups_trl
 -- ----------------------------
-INSERT INTO `product_field_groups_trl` VALUES ('19', '1', '15', 'Description', '');
-INSERT INTO `product_field_groups_trl` VALUES ('20', '2', '15', 'Описание', '');
-INSERT INTO `product_field_groups_trl` VALUES ('21', '1', '16', 'Prices', '');
-INSERT INTO `product_field_groups_trl` VALUES ('22', '2', '16', 'Цены', '');
-INSERT INTO `product_field_groups_trl` VALUES ('23', '1', '17', 'Medicine', '');
-INSERT INTO `product_field_groups_trl` VALUES ('24', '2', '17', 'Лечение', '');
-INSERT INTO `product_field_groups_trl` VALUES ('25', '1', '18', 'Food', '');
-INSERT INTO `product_field_groups_trl` VALUES ('26', '2', '18', 'Питание', '');
-INSERT INTO `product_field_groups_trl` VALUES ('27', '1', '19', 'The room fund', '');
-INSERT INTO `product_field_groups_trl` VALUES ('28', '2', '19', 'Номерной фонд', '');
-INSERT INTO `product_field_groups_trl` VALUES ('29', '1', '20', 'Services', '');
-INSERT INTO `product_field_groups_trl` VALUES ('30', '2', '20', 'Услуги', '');
-INSERT INTO `product_field_groups_trl` VALUES ('31', '1', '21', 'How to get', '');
-INSERT INTO `product_field_groups_trl` VALUES ('32', '2', '21', 'Как добраться', '');
 
 -- ----------------------------
 -- Table structure for `product_field_select_options`
@@ -1425,18 +1226,11 @@ CREATE TABLE `product_field_select_options` (
   PRIMARY KEY (`id`),
   KEY `field_id` (`field_id`),
   CONSTRAINT `product_field_select_options_ibfk_1` FOREIGN KEY (`field_id`) REFERENCES `product_fields` (`id`) ON DELETE CASCADE ON UPDATE NO ACTION
-) ENGINE=InnoDB AUTO_INCREMENT=35 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 -- ----------------------------
 -- Records of product_field_select_options
 -- ----------------------------
-INSERT INTO `product_field_select_options` VALUES ('28', '22', 'С любого возраста', '1');
-INSERT INTO `product_field_select_options` VALUES ('29', '22', 'С 3-ех лет', '2');
-INSERT INTO `product_field_select_options` VALUES ('30', '22', 'С 5 лет', '3');
-INSERT INTO `product_field_select_options` VALUES ('31', '22', 'Не принимаются', '4');
-INSERT INTO `product_field_select_options` VALUES ('32', '30', 'Первый', '1');
-INSERT INTO `product_field_select_options` VALUES ('33', '30', 'Второй', '2');
-INSERT INTO `product_field_select_options` VALUES ('34', '30', 'конец', '8');
 
 -- ----------------------------
 -- Table structure for `product_field_types`
@@ -1475,32 +1269,11 @@ CREATE TABLE `product_field_values` (
   KEY `field_id` (`field_id`),
   CONSTRAINT `product_field_values_ibfk_1` FOREIGN KEY (`product_id`) REFERENCES `product` (`id`) ON DELETE CASCADE ON UPDATE NO ACTION,
   CONSTRAINT `product_field_values_ibfk_2` FOREIGN KEY (`field_id`) REFERENCES `product_fields` (`id`) ON DELETE CASCADE ON UPDATE NO ACTION
-) ENGINE=InnoDB AUTO_INCREMENT=24 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=4 DEFAULT CHARSET=utf8;
 
 -- ----------------------------
 -- Records of product_field_values
 -- ----------------------------
-INSERT INTO `product_field_values` VALUES ('3', '14', '19', null, null, 'zzz', null);
-INSERT INTO `product_field_values` VALUES ('4', '14', '20', null, null, 'ggg', null);
-INSERT INTO `product_field_values` VALUES ('5', '14', '21', null, null, 'ff', null);
-INSERT INTO `product_field_values` VALUES ('6', '14', '22', null, '29', null, null);
-INSERT INTO `product_field_values` VALUES ('7', '14', '23', null, null, null, null);
-INSERT INTO `product_field_values` VALUES ('8', '14', '24', null, null, null, null);
-INSERT INTO `product_field_values` VALUES ('9', '14', '27', null, null, null, null);
-INSERT INTO `product_field_values` VALUES ('10', '14', '28', null, null, 'Текст', null);
-INSERT INTO `product_field_values` VALUES ('11', '14', '30', null, '2', null, null);
-INSERT INTO `product_field_values` VALUES ('12', '14', '25', null, null, null, null);
-INSERT INTO `product_field_values` VALUES ('13', '14', '26', null, null, null, null);
-INSERT INTO `product_field_values` VALUES ('14', '14', '29', null, null, null, null);
-INSERT INTO `product_field_values` VALUES ('15', '14', '31', null, null, null, '1444118329');
-INSERT INTO `product_field_values` VALUES ('16', '14', '32', '10', null, null, null);
-INSERT INTO `product_field_values` VALUES ('17', '15', '21', null, null, '', null);
-INSERT INTO `product_field_values` VALUES ('18', '15', '19', null, null, '', null);
-INSERT INTO `product_field_values` VALUES ('19', '15', '20', null, null, '', null);
-INSERT INTO `product_field_values` VALUES ('20', '15', '22', null, '3', null, null);
-INSERT INTO `product_field_values` VALUES ('21', '15', '23', null, null, null, null);
-INSERT INTO `product_field_values` VALUES ('22', '15', '24', null, null, null, null);
-INSERT INTO `product_field_values` VALUES ('23', '15', '25', null, null, null, null);
 
 -- ----------------------------
 -- Table structure for `product_field_values_trl`
@@ -1516,21 +1289,11 @@ CREATE TABLE `product_field_values_trl` (
   KEY `field_value_id` (`field_value_id`),
   CONSTRAINT `product_field_values_trl_ibfk_1` FOREIGN KEY (`lng_id`) REFERENCES `languages` (`id`) ON DELETE CASCADE ON UPDATE NO ACTION,
   CONSTRAINT `product_field_values_trl_ibfk_2` FOREIGN KEY (`field_value_id`) REFERENCES `product_field_values` (`id`) ON DELETE CASCADE ON UPDATE NO ACTION
-) ENGINE=InnoDB AUTO_INCREMENT=11 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=utf8;
 
 -- ----------------------------
 -- Records of product_field_values_trl
 -- ----------------------------
-INSERT INTO `product_field_values_trl` VALUES ('1', '1', '7', 'Headerz');
-INSERT INTO `product_field_values_trl` VALUES ('2', '2', '7', 'Заголовок');
-INSERT INTO `product_field_values_trl` VALUES ('3', '1', '8', 'Description');
-INSERT INTO `product_field_values_trl` VALUES ('4', '2', '8', 'Описание');
-INSERT INTO `product_field_values_trl` VALUES ('5', '1', '9', 'Header');
-INSERT INTO `product_field_values_trl` VALUES ('6', '2', '9', 'Заголовок');
-INSERT INTO `product_field_values_trl` VALUES ('7', '1', '21', '');
-INSERT INTO `product_field_values_trl` VALUES ('8', '2', '21', '');
-INSERT INTO `product_field_values_trl` VALUES ('9', '1', '22', '');
-INSERT INTO `product_field_values_trl` VALUES ('10', '2', '22', '');
 
 -- ----------------------------
 -- Table structure for `product_trl`
@@ -1550,15 +1313,11 @@ CREATE TABLE `product_trl` (
   KEY `lng_id` (`lng_id`),
   CONSTRAINT `product_trl_ibfk_1` FOREIGN KEY (`lng_id`) REFERENCES `languages` (`id`) ON DELETE CASCADE ON UPDATE NO ACTION,
   CONSTRAINT `product_trl_ibfk_2` FOREIGN KEY (`product_id`) REFERENCES `product` (`id`) ON DELETE CASCADE ON UPDATE NO ACTION
-) ENGINE=InnoDB AUTO_INCREMENT=19 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=7 DEFAULT CHARSET=utf8;
 
 -- ----------------------------
 -- Records of product_trl
 -- ----------------------------
-INSERT INTO `product_trl` VALUES ('15', 'Some title', null, null, '', '', '14', '1');
-INSERT INTO `product_trl` VALUES ('16', 'Какое-то название', null, null, '', '', '14', '2');
-INSERT INTO `product_trl` VALUES ('17', 'One more product', null, null, null, null, '15', '1');
-INSERT INTO `product_trl` VALUES ('18', 'Еще продукт', null, null, null, null, '15', '2');
 
 -- ----------------------------
 -- Table structure for `rating`
@@ -1604,7 +1363,7 @@ INSERT INTO `settings` VALUES ('6', 'smtp_port', '25', '1');
 INSERT INTO `settings` VALUES ('7', 'smtp_username', 'yourname@yourdomain\"', '1');
 INSERT INTO `settings` VALUES ('8', 'smtp_password', 'yourpassword', '1');
 INSERT INTO `settings` VALUES ('9', 'smtp_enable', '1', '0');
-INSERT INTO `settings` VALUES ('10', 'home_page_item', '32', '1');
+INSERT INTO `settings` VALUES ('10', 'home_page_item', '45', '1');
 INSERT INTO `settings` VALUES ('11', 'per_page', '50', '1');
 INSERT INTO `settings` VALUES ('12', 'photo_per_page', '50', '1');
 
@@ -1639,15 +1398,12 @@ CREATE TABLE `system_widget` (
   PRIMARY KEY (`id`),
   KEY `system_widget_ibfk_1` (`type_id`),
   CONSTRAINT `system_widget_ibfk_1` FOREIGN KEY (`type_id`) REFERENCES `system_widget_type` (`id`) ON DELETE NO ACTION ON UPDATE NO ACTION
-) ENGINE=InnoDB AUTO_INCREMENT=7 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=9 DEFAULT CHARSET=utf8;
 
 -- ----------------------------
 -- Records of system_widget
 -- ----------------------------
-INSERT INTO `system_widget` VALUES ('2', 'Login widget', '2', '');
-INSERT INTO `system_widget` VALUES ('3', 'Search widget', '1', '');
-INSERT INTO `system_widget` VALUES ('5', 'Language switcher', '4', '');
-INSERT INTO `system_widget` VALUES ('6', 'Test', '8', null);
+INSERT INTO `system_widget` VALUES ('8', 'Languages', '4', null);
 
 -- ----------------------------
 -- Table structure for `system_widget_trl`
@@ -1664,15 +1420,11 @@ CREATE TABLE `system_widget_trl` (
   KEY `widget_id` (`widget_id`),
   CONSTRAINT `system_widget_trl_ibfk_1` FOREIGN KEY (`widget_id`) REFERENCES `system_widget` (`id`) ON DELETE CASCADE ON UPDATE NO ACTION,
   CONSTRAINT `system_widget_trl_ibfk_2` FOREIGN KEY (`lng_id`) REFERENCES `languages` (`id`) ON DELETE CASCADE ON UPDATE NO ACTION
-) ENGINE=InnoDB AUTO_INCREMENT=7 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 -- ----------------------------
 -- Records of system_widget_trl
 -- ----------------------------
-INSERT INTO `system_widget_trl` VALUES ('3', '', '', '2', '1');
-INSERT INTO `system_widget_trl` VALUES ('4', '', '', '2', '2');
-INSERT INTO `system_widget_trl` VALUES ('5', '', '', '5', '1');
-INSERT INTO `system_widget_trl` VALUES ('6', '', '', '5', '2');
 
 -- ----------------------------
 -- Table structure for `system_widget_type`
@@ -1707,14 +1459,11 @@ CREATE TABLE `tag` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
   `label` varchar(128) DEFAULT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=24 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 -- ----------------------------
 -- Records of tag
 -- ----------------------------
-INSERT INTO `tag` VALUES ('21', 'Test tag');
-INSERT INTO `tag` VALUES ('22', 'Other tag');
-INSERT INTO `tag` VALUES ('23', 'Super tag');
 
 -- ----------------------------
 -- Table structure for `tags_of_product`
@@ -1729,16 +1478,11 @@ CREATE TABLE `tags_of_product` (
   KEY `product_id` (`product_id`),
   CONSTRAINT `tags_of_product_ibfk_1` FOREIGN KEY (`tag_id`) REFERENCES `tag` (`id`) ON DELETE CASCADE ON UPDATE NO ACTION,
   CONSTRAINT `tags_of_product_ibfk_2` FOREIGN KEY (`product_id`) REFERENCES `product` (`id`) ON DELETE CASCADE ON UPDATE NO ACTION
-) ENGINE=InnoDB AUTO_INCREMENT=61 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 -- ----------------------------
 -- Records of tags_of_product
 -- ----------------------------
-INSERT INTO `tags_of_product` VALUES ('53', '21', '15');
-INSERT INTO `tags_of_product` VALUES ('54', '22', '15');
-INSERT INTO `tags_of_product` VALUES ('58', '21', '14');
-INSERT INTO `tags_of_product` VALUES ('59', '22', '14');
-INSERT INTO `tags_of_product` VALUES ('60', '23', '14');
 
 -- ----------------------------
 -- Table structure for `tag_trl`
@@ -1755,17 +1499,11 @@ CREATE TABLE `tag_trl` (
   KEY `lng_id` (`lng_id`),
   CONSTRAINT `tag_trl_ibfk_1` FOREIGN KEY (`tag_id`) REFERENCES `tag` (`id`) ON DELETE CASCADE ON UPDATE NO ACTION,
   CONSTRAINT `tag_trl_ibfk_2` FOREIGN KEY (`lng_id`) REFERENCES `languages` (`id`) ON DELETE CASCADE ON UPDATE NO ACTION
-) ENGINE=InnoDB AUTO_INCREMENT=11 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 -- ----------------------------
 -- Records of tag_trl
 -- ----------------------------
-INSERT INTO `tag_trl` VALUES ('5', '21', '1', 'Test tag', '');
-INSERT INTO `tag_trl` VALUES ('6', '21', '2', 'Тестовый тег', '');
-INSERT INTO `tag_trl` VALUES ('7', '22', '1', 'Other tag', '');
-INSERT INTO `tag_trl` VALUES ('8', '22', '2', 'Другой тег', '');
-INSERT INTO `tag_trl` VALUES ('9', '23', '1', 'Super tag', '');
-INSERT INTO `tag_trl` VALUES ('10', '23', '2', 'Супер тег', '');
 
 -- ----------------------------
 -- Table structure for `users`
@@ -1826,13 +1564,13 @@ CREATE TABLE `wid_registration` (
   CONSTRAINT `wid_registration_ibfk_1` FOREIGN KEY (`type_id`) REFERENCES `wid_registration_type` (`id`) ON DELETE NO ACTION ON UPDATE NO ACTION,
   CONSTRAINT `wid_registration_ibfk_2` FOREIGN KEY (`menu_id`) REFERENCES `menu` (`id`) ON DELETE CASCADE ON UPDATE NO ACTION,
   CONSTRAINT `wid_registration_ibfk_3` FOREIGN KEY (`widget_id`) REFERENCES `system_widget` (`id`) ON DELETE CASCADE ON UPDATE NO ACTION
-) ENGINE=InnoDB AUTO_INCREMENT=64 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=58 DEFAULT CHARSET=utf8;
 
 -- ----------------------------
 -- Records of wid_registration
 -- ----------------------------
-INSERT INTO `wid_registration` VALUES ('53', '5', null, '1', '2', '1', '1');
-INSERT INTO `wid_registration` VALUES ('54', null, '5', '2', '1', '2', '1');
+INSERT INTO `wid_registration` VALUES ('55', null, '9', '2', '1', '1', '1');
+INSERT INTO `wid_registration` VALUES ('57', '8', null, '1', '2', '1', '1');
 
 -- ----------------------------
 -- Table structure for `wid_registration_type`
