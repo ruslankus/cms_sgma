@@ -64,6 +64,30 @@ class ExtImages extends Images
     }
 
     /**
+     * Returns URL to cached file (caches - if not already cached)
+     * @param int $w
+     * @param int $h
+     * @param bool $fit
+     * @return string
+     */
+    public function getCachedUrl($w = 0,$h = 0,$fit = false)
+    {
+        return Image::getCachedUrl($this->filename,$w,$h,$fit);
+    }
+
+    /**
+     * Returns path to cached file (caches - if not already cached)
+     * @param int $w
+     * @param int $h
+     * @param bool $fit
+     * @return string
+     */
+    public function getCachedPath($w = 0,$h = 0,$fit = false)
+    {
+        return Image::getCachedPath($this->filename,$w,$h,$fit);
+    }
+
+    /**
      * Save image for pages
      * @param $fileName
      * @param $page_id
