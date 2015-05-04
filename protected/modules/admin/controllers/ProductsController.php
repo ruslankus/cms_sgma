@@ -1032,6 +1032,105 @@ class ProductsController extends ControllerAdmin
 
 
     /**
+     * Uploads an image via ajax and assigns image to value of field
+     * @param $id
+     * @param $fid
+     * @throws CHttpException
+     */
+    public function actionUploadFieldImage($id,$fid)
+    {
+        $product = ExtProduct::model()->findByPk((int)$id);
+        $productFiled = ExtProductFields::model()->findByPk((int)$fid);
+
+        if(empty($product) || empty($productFiled))
+        {
+            throw new CHttpException(404);
+        }
+
+        //get image instance
+        $imageFromRequest = CUploadedFile::getInstanceByName('field_image');
+        $validation = new MediaUploadFormValidation();
+        $validation->image = $imageFromRequest;
+
+        //if image is correct
+        if($validation->validate())
+        {
+            //new name for our image
+            $randomName = uniqid();
+
+            //if saved
+            if($validation->image->saveAs(Image::UPLOAD_DIR.DS.$randomName.'.'.$validation->image->extensionName))
+            {
+                //use transaction
+                $con = Yii::app()->db;
+                $transaction = $con->beginTransaction();
+
+                try
+                {
+                    //add image item to db (to site gallery)
+                    $image = new ExtImages();
+                    $image -> filename = $randomName.'.'.$validation->image->extensionName;
+                    $image -> original_filename = $validation->image->name;
+                    $image -> size = $validation->image->size;
+                    $image -> mime_type = $validation->image->type;
+                    $image -> label = 'Image of "'.$productFiled->field_name.'" field value of page "'.$product->label.'"';
+                    $image -> status_id = ExtStatus::VISIBLE;
+                    $image -> save();
+
+                    //get value
+                    $value = $productFiled->getValueObjForItem($product->id);
+
+                    if($value->isNewRecord)
+                    {
+                        $value->save();
+                    }
+
+                    //clean all old images
+                    ExtImagesOfProductFieldsValues::model()->deleteAllByAttributes(array('field_value_id' => $value->id));
+
+                    //add new relation
+                    $iop = new ExtImagesOfProductFieldsValues();
+                    $iop -> image_id = $image->id;
+                    $iop -> field_value_id = $value->id;
+                    $iop -> save();
+
+                    //apply changes in DB
+                    $transaction->commit();
+
+                    //response back to JS script
+                    $response = array(
+                        'relation_id' => $iop->id,
+                        'image_id' => $image->id,
+                        'original_url' => $image->getUrl(),
+                        'thumbnail_url' => $image->getUrl(), //TODO: get url for thumbnail
+                        'success' => '1'
+                    );
+
+                    echo json_encode($response);
+                }
+                catch(Exception $ex)
+                {
+                    //discard all changes in DB
+                    $transaction->rollback();
+
+                    //response back to JS script
+                    $response = array(
+                        'relation_id' => '',
+                        'image_id' => '',
+                        'original_url' => '',
+                        'thumbnail_url' => '',
+                        'success' => '0'
+                    );
+
+                    echo json_encode($response);
+                }
+            }
+        }
+        Yii::app()->end();
+    }
+
+
+    /**
      * Delete image relation with field value
      * @param $id
      */

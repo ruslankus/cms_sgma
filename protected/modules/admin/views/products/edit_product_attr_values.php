@@ -3,6 +3,24 @@
 <?php /* @var $active ExtProductFieldGroupsActive[] */ ?>
 <?php /* @var $languages Languages[] */ ?>
 
+<style>
+    .add-image
+    {
+        margin-right: 0;
+        float: left;
+    }
+    .content .inner-content .form-zone span.file, .lightbox span.file
+    {
+        float: left;
+        margin-right: 5px;
+    }
+    .content .inner-content .form-zone input.file
+    {
+        width: 183px;
+        margin-right: 5px;
+    }
+</style>
+
 <main xmlns="http://www.w3.org/1999/html">
     <div class="title-bar world">
         <h1><?php echo ATrl::t()->getLabel('Products'); ?></h1>
