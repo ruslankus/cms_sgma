@@ -6,7 +6,7 @@
             <div class="images">
                 <?php foreach ($objPhotos as $image):?>
                     <div class="image">
-                        <img class="selectable-image" data-id="<?php echo $image->id; ?>" src="<?php echo $image->getUrl(); ?>" alt="<?php $image->label; ?>"/>
+                        <img class="selectable-image" data-id="<?php echo $image->id; ?>" src="<?php echo $image->getCachedUrl(120,90); ?>" alt="<?php $image->label; ?>"/>
                     </div><!--/image-->
                 <?php endforeach;?>
             </div><!--/images-->

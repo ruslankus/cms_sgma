@@ -1102,7 +1102,7 @@ class ProductsController extends ControllerAdmin
                         'relation_id' => $iop->id,
                         'image_id' => $image->id,
                         'original_url' => $image->getUrl(),
-                        'thumbnail_url' => $image->getUrl(), //TODO: get url for thumbnail
+                        'thumbnail_url' => $image->getCachedUrl(160,120),
                         'success' => '1'
                     );
 

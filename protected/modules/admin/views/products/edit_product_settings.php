@@ -97,7 +97,7 @@
                     <?php foreach($images as $ion): ?>
                         <?php if(!empty($ion)): ?>
                             <div class="image">
-                                <img src="<?php echo $ion->image->getUrl(); ?>" alt="" />
+                                <img src="<?php echo $ion->image->getCachedUrl(160,120); ?>" alt="" />
                                 <a href="<?php echo Yii::app()->createUrl('admin/products/deleteimage',array('id' => $ion->id)) ?>" class="delete active" data-id="1"></a>
                             </div>
                         <?php else: ?>
