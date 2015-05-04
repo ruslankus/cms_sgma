@@ -114,21 +114,20 @@ class WidgetsController extends ControllerAdmin
             //if have form
             if($_POST['WidgetForm'])
             {
-                
-                
+
                 //attributes
                 $form_mdl->attributes = $_POST['WidgetForm'];
 
                 if($form_mdl->validate())
                 {
-                    
                     $con = Yii::app()->db;
                     $transaction = $con->beginTransaction();
 
                     try
                     {
                         //update
-                        $objWidget->attributes = $form_mdl->attributes;
+                        $objWidget->template_name = $_POST['WidgetForm']['template_name'];
+                        $objWidget->label = $_POST['WidgetForm']['label'];
                         $objWidget->update();
 
                         //multi-language fields
@@ -171,10 +170,12 @@ class WidgetsController extends ControllerAdmin
                     {
                         $transaction->rollback();
                     }
+
+                    //back to list
+                    $this->redirect('/admin/widgets/list');
                 }
 
-                //back to list
-                $this->redirect('/admin/widgets/list');
+
             }
         }
 
