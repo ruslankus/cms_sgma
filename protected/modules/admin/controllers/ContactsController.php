@@ -98,7 +98,7 @@ class ContactsController extends ControllerAdmin
                 $contactTrlObj->description=$_POST['SaveContactForm']['description'];
                 $contactTrlObj->title=$_POST['SaveContactForm']['title'];
                 $contactTrlObj->meta_description=$_POST['SaveContactForm']['meta'];
-                //$contactTrlObj->email=$_POST['SaveContactForm']['email'];
+                $contactTrlObj->email=$_POST['SaveContactForm']['email'];
                 $contactTrlObj->save(); 
 
             }
@@ -273,7 +273,7 @@ class ContactsController extends ControllerAdmin
             $arrJson['title'] = $objPage->title;
             $arrJson['meta'] = $objPage->meta_description;
             $arrJson['description'] = $objPage->description;
-            //$arrJson['email'] = $objPage->email;
+            $arrJson['email'] = $objPage->email;
             echo json_encode($arrJson);
             Yii::app()->end();
         }//ajax part

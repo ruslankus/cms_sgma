@@ -63,9 +63,7 @@
 							<?php echo $form->error($model,'title'); ?>
 						</td>
 					</tr>
-					<?php
-					/*
-					?>
+
 					<tr>
 						<td class="label">Email</td>
 						<td class="value">
@@ -73,9 +71,7 @@
 							<?php echo $form->error($model,'email'); ?>
 						</td>
 					</tr>
-					<?php
-					*/
-					?>
+
 				</table>
 				<?php echo $form->textArea($model,'description',array('id'=>'edit','value'=>$arrPage['description'])); ?>
 				<?php echo $form->error($model,'description'); ?>

@@ -4,9 +4,12 @@ class MailController extends Controller
 
     public function actions()
     {
+      /**
+        * generates captcsas actions for contact widgets
+        *
+      */
         $captchas = array();
-        $arrWidForm = SystemWidget::model()->findAll('type_id=8');
-        
+        $arrWidForm = SystemWidget::model()->findAll('type_id=8');  
         foreach($arrWidForm as $wid):
             $captchas['captcha'.$wid->id]=array(
                'class'=>'CCaptchaAction',

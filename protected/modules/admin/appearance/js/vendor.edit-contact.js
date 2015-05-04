@@ -66,16 +66,16 @@ function getLangValues(pageId,lngId,prefix){
         {
             meta = obj.meta; 
         }
-        /*
+        
         if(obj.email)
         {
             email = obj.email; 
         }
-        */
+        
         $('#title').val(title);
         $('#edit').val(description);
         $('#meta').val(meta);
-        //$('#email').val(email);
+        $('#email').val(email);
         console.log(obj);
 
     });    

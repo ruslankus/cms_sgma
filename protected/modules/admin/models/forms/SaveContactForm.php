@@ -10,13 +10,15 @@ class SaveContactForm extends CFormModel
    public $description;
    //public $templates;
    public $meta;
+   public $email;
    /**
 	 * Declares the validation rules.
 	 */
 	public function rules()
 	{
         return array(
-            array('title,description,lngId', 'required'),
+            array('email', 'email'),
+            array('title,description,lngId,email', 'required'),
             array('title,description,lngId,meta', 'safe'),      
         );
 	}
