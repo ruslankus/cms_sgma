@@ -166,6 +166,7 @@ class GalleryController extends ControllerAdmin
                 }
 
                 //checking for avialiable in others pages
+                /*
                 foreach($arrKeys as $key){
                     $arrImg = ExtImages::model()->checkAvailable($key);
                     if(!empty($arrImg)){
@@ -173,6 +174,7 @@ class GalleryController extends ControllerAdmin
                         Yii::app()->end();
                     }
                 }
+                */
                 
                 $objImages = Images::model()->findAllByPk($arrKeys);
                 
