@@ -12,7 +12,7 @@ $form=$this->beginWidget('CActiveForm',array(
  <div class="row">
  <div class="form-result"></div>
 <input type="hidden" class="lang_prefix" value="<?php echo $lang_prefix;?>">
-
+<input type="hidden" class="wid-id" value="<?php echo $model_id;?>">
 <?php echo $form->labelEx($model,'name'); ?>
 <div>
 <?php echo $form->textField($model,'name', array('class'=>'name')); ?>
