@@ -9,7 +9,7 @@ $(document).ready(function(e) {
         $.ajax({ type: "post",url:link,data:{email:email,text:text,code:code}}).done(function(data){
             
             obj = jQuery.parseJSON(data);
-            console.log(obj);
+            //console.log(obj);
             $('.form-result').html(obj.result);
             $('#code').val('');
             $("#yw0_button").click();

@@ -13,7 +13,7 @@ $(document).ready(function(e) {
         $.ajax({ type: "post",url:link,data:{email:email,text:text,code:code,name:name}}).done(function(data){
             
             obj = jQuery.parseJSON(data);
-            console.log(obj);
+            //console.log(obj);
             $(id_q+' .form-result').html(obj.result);
             $(id_q+' #code').val('');
             $(id_q+' a ').click();
