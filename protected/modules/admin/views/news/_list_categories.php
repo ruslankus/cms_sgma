@@ -21,8 +21,10 @@
                     <div class="row" data-id="<?php echo $children->id; ?>" data-parent="<?php echo $children->parent_id; ?>">
                         <div class="name"><a href="<?php echo Yii::app()->createUrl('admin/news/list',array('cat' => $children->id)); ?>"><?php echo $children->label; ?></a></div>
                         <div class="sequen">
-                            <a href="<?php echo Yii::app()->createUrl('admin/news/move',array('id' => $children->id,'dir' => 'up')); ?>" class="go-up move-item"><span class="ficoned arrow-up"></span></a>
-                            <a href="<?php echo Yii::app()->createUrl('admin/news/move',array('id' => $children->id,'dir' => 'down')); ?>" class="go-down move-item"><span class="ficoned arrow-down"></span></a>
+                            <?php if($children->getParent()->countOfChildren() > 1): ?>
+                                <a href="<?php echo Yii::app()->createUrl('admin/news/move',array('id' => $children->id,'dir' => 'up')); ?>" class="go-up move-item"><span class="ficoned arrow-up"></span></a>
+                                <a href="<?php echo Yii::app()->createUrl('admin/news/move',array('id' => $children->id,'dir' => 'down')); ?>" class="go-down move-item"><span class="ficoned arrow-down"></span></a>
+                            <?php endif; ?>
                         </div><!--/sequen-->
                         <div class="type"><?php echo $children->countOfItems(); ?></div>
                         <div class="action">

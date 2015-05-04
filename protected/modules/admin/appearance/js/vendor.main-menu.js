@@ -45,7 +45,7 @@ $(document).on("click", ".delete", function()
                 //confirm button settings
                 {label:yesLabel,click:function(){
                     var request = $.ajax({url: href});
-//                    $.preLoader.show();
+                    $.preLoader.show();
                     request.done(function(msg){
                         if(msg == 'OK')
                         {
@@ -62,6 +62,8 @@ $(document).on("click", ".delete", function()
                         alert( "Request failed: " + textStatus);
                         $.preLoader.hide();
                     });
+
+                    return false;
 
                 },classes:'button confirm'}
 
