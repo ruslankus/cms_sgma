@@ -28,6 +28,7 @@
         </ul>
     </div><!--/title-bar-->
 
+    <?php if(!empty($items)): ?>
     <div class="content">
         <div class="title-table">
 
@@ -43,8 +44,14 @@
         <div class="sortable">
             <?php echo $this->renderPartial('_list_items',array('items' => $items, 'category' => $category)); ?>
         </div><!--/sortable-->
-
     </div><!--/content-->
+    <?php else: ?>
+        <div class="content list">
+            <div class="list-row">
+                <div class="cell"><?php echo ATrl::t()->getLabel('List is empty'); ?></div>
+            </div><!--/list-row-->
+        </div>
+    <?php endif; ?>
 
     <?php if(CPaginator::getInstance()->getTotalPages() > 1): ?>
         <div class="pagination">

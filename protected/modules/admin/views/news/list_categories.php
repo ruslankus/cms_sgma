@@ -11,6 +11,7 @@
         </ul>
     </div><!--/title-bar-->
 
+    <?php if(!empty($items)): ?>
     <div class="content">
         <div class="title-table">
             <div class="cell drag-drop"><?php echo ATrl::t()->getLabel('Drag and Drop'); ?></div>
@@ -25,6 +26,13 @@
         </div><!--/sortable-->
 
     </div><!--/content-->
+    <?php else: ?>
+        <div class="content list">
+            <div class="list-row">
+                <div class="cell"><?php echo ATrl::t()->getLabel('List is empty'); ?></div>
+            </div><!--/list-row-->
+        </div>
+    <?php endif; ?>
 
     <?php if(CPaginator::getInstance()->getTotalPages() > 1): ?>
         <div class="pagination">

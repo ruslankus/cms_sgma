@@ -9,6 +9,8 @@
             <li><a href="#" class="action add"></a></li>
         </ul>
     </div><!--/title-bar-->
+
+    <?php if(!empty($menus)): ?>
     <div class="content list">
         <div class="list-row title">
             <div class="cell drag-drop"></div>
@@ -30,8 +32,14 @@
                 </div>
             </div><!--/list-row-->
         <?php endforeach; ?>
-
     </div><!--/content-->
+    <?php else: ?>
+        <div class="content list">
+            <div class="list-row">
+                <div class="cell"><?php echo ATrl::t()->getLabel('List is empty'); ?></div>
+            </div><!--/list-row-->
+        </div>
+    <?php endif; ?>
 
     <?php if(CPaginator::getInstance()->getTotalPages() > 1): ?>
         <div class="pagination">
