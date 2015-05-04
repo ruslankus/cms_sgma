@@ -4,14 +4,17 @@ class MailController extends Controller
 
     public function actions()
     {
-        return array(
-        // captcha action renders the CAPTCHA image displayed on the contact page
-            'captcha'=>array(
-             'class'=>'CCaptchaAction',
-             'backColor'=>0xFFFFFF,
-             'testLimit'=>1
-            ),
-        );
+        $captchas = array();
+        $arrWidForm = SystemWidget::model()->findAll('type_id=8');
+        
+        foreach($arrWidForm as $wid):
+            $captchas['captcha'.$wid->id]=array(
+               'class'=>'CCaptchaAction',
+               'backColor'=>0xFFFFFF,
+               'testLimit'=>1
+            );
+        endforeach;
+        return($captchas); 
     }
 
 	public function actionIndex()

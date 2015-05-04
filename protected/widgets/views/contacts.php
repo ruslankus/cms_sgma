@@ -35,7 +35,7 @@ $form=$this->beginWidget('CActiveForm',array(
   <?php echo $form->labelEx($model,'code'); ?>
   <div>
 	<?php echo $form->textField($model,'code', array('class'=>'code', 'data-id'=>'form-'.$model_id)); ?>
-	<?php $this->widget('CCaptcha',array('captchaAction'=>'/'.$lang_prefix.'/mail/captcha')); ?>
+	<?php $this->widget('CCaptcha',array('captchaAction'=>'/'.$lang_prefix.'/mail/captcha'.$model_id)); ?>
 	<?php echo $form->error($model,'code'); ?>
   </div>
  <?php
