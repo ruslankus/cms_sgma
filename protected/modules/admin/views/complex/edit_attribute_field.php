@@ -42,14 +42,14 @@
     <div class="title-bar world">
         <h1><?php echo ATrl::t()->getLabel('Attribute fields'); ?></h1>
         <ul class="actions">
-            <li><a href="<?php echo Yii::app()->createUrl('admin/products/fields',$params) ?>" class="action undo"></a></li>
+            <li><a href="<?php echo Yii::app()->createUrl('admin/complex/fields',$params) ?>" class="action undo"></a></li>
         </ul>
     </div><!--/title-bar-->
 
     <div class="content menu-content">
 
         <div class="header">
-            <span><?php echo ATrl::t()->getLabel('Add attribute field'); ?></span>
+            <span><?php echo ATrl::t()->getLabel('Edit attribute field'); ?></span>
         </div><!--/header-->
 
         <div class="tab-line">
@@ -114,6 +114,15 @@
                             </div>
                         </td>
                     </tr>
+
+                    <tr class="for-text-item">
+                        <td class="label"><?php echo $form->labelEx($form_mdl,'use_editor'); ?></td>
+                        <td class="value">
+                            <?php $form_mdl->use_editor = $field->use_editor; ?>
+                            <?php echo $form->checkBox($form_mdl,'use_editor'); ?>
+                        </td>
+                    </tr>
+
                     <tr>
                         <td class="label">&nbsp;</td>
                         <td class="value">

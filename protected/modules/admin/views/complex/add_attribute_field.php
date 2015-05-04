@@ -101,6 +101,14 @@
                             </div>
                         </td>
                     </tr>
+
+                    <tr class="for-text-item">
+                        <td class="label"><?php echo $form->labelEx($form_mdl,'use_editor'); ?></td>
+                        <td class="value">
+                            <?php echo $form->checkBox($form_mdl,'use_editor'); ?>
+                        </td>
+                    </tr>
+
                     <tr>
                         <td class="label">&nbsp;</td>
                         <td class="value">

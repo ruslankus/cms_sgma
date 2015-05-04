@@ -57,7 +57,9 @@ class WidgetsController extends ControllerAdmin
 
         //widgets
         $widgets = ExtSystemWidget::model()->findAll();
-        $array = CPaginator::getInstance($widgets,10,$page)->getPreparedArray();
+
+        $perPage = ExtSettings::model()->getSetting('per_page',10,true);
+        $array = CPaginator::getInstance($widgets,$perPage,$page)->getPreparedArray();
 
         $this->render('list_widgets',array('widgets' => $array, 'form_params' => $form_params));
     }

@@ -32,11 +32,14 @@
         <?php endforeach; ?>
 
     </div><!--/content-->
-    <div class="pagination">
-        <?php for($i = 0; $i < CPaginator::getInstance()->getTotalPages(); $i++): ?>
-            <a href="<?php echo Yii::app()->createUrl('admin/widgets/list/',array('page' => $i+1)) ?>" <?php if(CPaginator::getInstance()->getCurrentPage() == $i+1): ?> class="active" <?php endif; ?>><?php echo $i+1; ?></a>
-        <?php endfor; ?>
-    </div><!--/pagination-->
+
+    <?php if(CPaginator::getInstance()->getTotalPages() > 1): ?>
+        <div class="pagination">
+            <?php for($i = 0; $i < CPaginator::getInstance()->getTotalPages(); $i++): ?>
+                <a href="<?php echo Yii::app()->createUrl('admin/widgets/list/',array('page' => $i+1)) ?>" <?php if(CPaginator::getInstance()->getCurrentPage() == $i+1): ?> class="active" <?php endif; ?>><?php echo $i+1; ?></a>
+            <?php endfor; ?>
+        </div><!--/pagination-->
+    <?php endif; ?>
 
     <?php $this->renderPartial('_add_widget',$form_params); ?>
 </main>

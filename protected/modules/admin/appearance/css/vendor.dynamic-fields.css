@@ -24,11 +24,21 @@
     font-weight: bold;
 }
 
-.content .inner-content .form-zone .trl.value textarea, .content .inner-content .form-zone .trl.value input
+/*.content .inner-content .form-zone .trl.value textarea, .content .inner-content .form-zone .trl.value input, .content .inner-content .form-zone .trl.value div*/
+/*{*/
+    /*display: none;*/
+/*}*/
+/*.content .inner-content .form-zone .trl.value textarea.active, .content .inner-content .form-zone .trl.value input.active, .content .inner-content .form-zone .trl.value div.active*/
+/*{*/
+    /*display: block;*/
+/*}*/
+
+
+.content .inner-content .form-zone .trl.value > div
 {
     display: none;
 }
-.content .inner-content .form-zone .trl.value textarea.active, .content .inner-content .form-zone .trl.value input.active
+.content .inner-content .form-zone .trl.value > div.active
 {
     display: block;
 }

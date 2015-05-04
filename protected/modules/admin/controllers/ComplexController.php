@@ -399,11 +399,15 @@ class ComplexController extends ControllerAdmin
     public function actionEditPageFields($id)
     {
         //include menu necessary scripts
+
         Yii::app()->clientScript->registerCssFile($this->assetsPath.'/css/vendor.lightbox.css');
         Yii::app()->clientScript->registerCssFile($this->assetsPath.'/css/jquery-ui.min.css');
         Yii::app()->clientScript->registerCssFile($this->assetsPath.'/css/vendor.dynamic-fields.css');
+
+        Yii::app()->clientScript->registerScriptFile($this->assetsPath.'/ckeditor/ckeditor.js');
         Yii::app()->clientScript->registerScriptFile($this->assetsPath.'/js/vendor.add-menu.js',CClientScript::POS_END);
         Yii::app()->clientScript->registerScriptFile($this->assetsPath.'/js/vendor.dynamic-fields.js',CClientScript::POS_END);
+
 
         //product item
         $page = ExtComplexPage::model()->findByPk((int)$id);

@@ -12,12 +12,13 @@
  * @property integer $time_created
  * @property integer $time_updated
  * @property integer $last_change_by
+ * @property integer $use_editor
  *
  * The followings are the available model relations:
  * @property ComplexPageFieldSelectOptions[] $complexPageFieldSelectOptions
  * @property ComplexPageFieldValues[] $complexPageFieldValues
- * @property ComplexPageFieldTypes $type
  * @property ComplexPageFieldGroups $group
+ * @property ComplexPageFieldTypes $type
  * @property ComplexPageFieldsTrl[] $complexPageFieldsTrls
  */
 class ComplexPageFields extends CActiveRecord
@@ -38,11 +39,11 @@ class ComplexPageFields extends CActiveRecord
 		// NOTE: you should only define rules for those attributes that
 		// will receive user inputs.
 		return array(
-			array('type_id, group_id, priority, time_created, time_updated, last_change_by', 'numerical', 'integerOnly'=>true),
+			array('type_id, group_id, priority, time_created, time_updated, last_change_by, use_editor', 'numerical', 'integerOnly'=>true),
 			array('field_name', 'length', 'max'=>256),
 			// The following rule is used by search().
 			// @todo Please remove those attributes that should not be searched.
-			array('id, field_name, type_id, group_id, priority, time_created, time_updated, last_change_by', 'safe', 'on'=>'search'),
+			array('id, field_name, type_id, group_id, priority, time_created, time_updated, last_change_by, use_editor', 'safe', 'on'=>'search'),
 		);
 	}
 
@@ -56,8 +57,8 @@ class ComplexPageFields extends CActiveRecord
 		return array(
 			'complexPageFieldSelectOptions' => array(self::HAS_MANY, 'ComplexPageFieldSelectOptions', 'field_id'),
 			'complexPageFieldValues' => array(self::HAS_MANY, 'ComplexPageFieldValues', 'field_id'),
-			'type' => array(self::BELONGS_TO, 'ComplexPageFieldTypes', 'type_id'),
 			'group' => array(self::BELONGS_TO, 'ComplexPageFieldGroups', 'group_id'),
+			'type' => array(self::BELONGS_TO, 'ComplexPageFieldTypes', 'type_id'),
 			'complexPageFieldsTrls' => array(self::HAS_MANY, 'ComplexPageFieldsTrl', 'page_field_id'),
 		);
 	}
@@ -76,6 +77,7 @@ class ComplexPageFields extends CActiveRecord
 			'time_created' => 'Time Created',
 			'time_updated' => 'Time Updated',
 			'last_change_by' => 'Last Change By',
+			'use_editor' => 'Use Editor',
 		);
 	}
 
@@ -105,6 +107,7 @@ class ComplexPageFields extends CActiveRecord
 		$criteria->compare('time_created',$this->time_created);
 		$criteria->compare('time_updated',$this->time_updated);
 		$criteria->compare('last_change_by',$this->last_change_by);
+		$criteria->compare('use_editor',$this->use_editor);
 
 		return new CActiveDataProvider($this, array(
 			'criteria'=>$criteria,

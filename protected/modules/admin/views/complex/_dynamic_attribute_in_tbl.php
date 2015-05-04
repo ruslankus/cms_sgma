@@ -8,6 +8,7 @@
         <td class="value">
             <?php $value = $field->getValueObjForItem($item->id); ?>
             <textarea id="<?php echo $field->id; ?>" name="DynamicFields[<?php echo $field->id ?>]"><?php echo $value->text_value; ?></textarea>
+            <?php if($field->use_editor): ?><script>CKEDITOR.replace('<?php echo "DynamicFields[".$field->id."]"; ?>');</script><?php endif; ?>
         </td>
         <td class="value"></td>
     </tr>
@@ -18,7 +19,10 @@
         <td class="value trl">
             <?php foreach($languages as $index => $lng): ?>
                 <?php $trl = $value->getOrCreateTrl($lng->id); ?>
-                <textarea id="<?php echo $field->id."_".$lng->id; ?>" <?php if($index == 0): ?>class="active"<?php endif; ?> name="DynamicFields[<?php echo $field->id; ?>][<?php echo $lng->id; ?>]"><?php echo $trl->translatable_text; ?></textarea>
+                <div id="<?php echo $field->id."_".$lng->id; ?>" <?php if($index == 0): ?>class="active"<?php endif; ?>>
+                    <textarea name="DynamicFields[<?php echo $field->id; ?>][<?php echo $lng->id; ?>]"><?php echo $trl->translatable_text; ?></textarea>
+                    <?php if($field->use_editor): ?><script>CKEDITOR.replace('<?php echo "DynamicFields[".$field->id."][".$lng->id."]"?>');</script><?php endif; ?>
+                </div>
             <?php endforeach; ?>
         </td>
         <td class="value">
