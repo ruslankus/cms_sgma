@@ -403,6 +403,10 @@ class ExtImages extends Images
     }//checkAvailable
 
 
+
+
+
+
     /**
      * Override, relate with extended models
      * @return array relational rules.

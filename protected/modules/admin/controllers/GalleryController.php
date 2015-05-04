@@ -123,7 +123,7 @@ class GalleryController extends ControllerAdmin
             }
 
             $this->renderPartial('_delete_file');
-            Yii::app()->end;
+            Yii::app()->end();
         }elseif($request->isPostRequest){
 
 
@@ -163,6 +163,15 @@ class GalleryController extends ControllerAdmin
                 $arrKeys = array();
                 foreach($_POST['image'] as $key => $value){
                     $arrKeys[] = $key;
+                }
+
+                //checking for avialiable in others pages
+                foreach($arrKeys as $key){
+                    $arrImg = ExtImages::model()->checkAvailable($key);
+                    if(!empty($arrImg)){
+                        $this->renderPartial('_delete_mult_file_restrict');
+                        Yii::app()->end();
+                    }
                 }
                 
                 $objImages = Images::model()->findAllByPk($arrKeys);
