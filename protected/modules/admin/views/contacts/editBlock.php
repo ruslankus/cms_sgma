@@ -99,8 +99,8 @@
 					*/
 					?>
 				</table>
-				<?php echo $form->textArea($model,'description',array('id'=>'edit','value'=>$arrPage['description'])); ?>
-				<?php echo $form->error($model,'description'); ?>
+				<?php echo $form->textArea($model,'text',array('id'=>'edit','value'=>$arrPage['text'])); ?>
+				<?php echo $form->error($model,'text'); ?>
 				<table>
 					<tr>
 						<td class="label">Meta</td>

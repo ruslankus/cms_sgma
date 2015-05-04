@@ -1,6 +1,7 @@
 $(document).ready(function() {
 // Add to main menu
 $(".menu-content > .tab-line > span").bind("click", function(e){
+		alert(123);
 	$(this).addClass("active");
 	$(this).siblings().removeClass("active");
 	var tab_id = $(this).attr("data-lang");

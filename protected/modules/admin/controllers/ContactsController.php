@@ -282,7 +282,26 @@ class ContactsController extends ControllerAdmin
     }//actionEditContentAjax
     
     
-    
+    public function actionEditContentBlockAjax($id = null)
+    {
+        
+        $request = Yii::app()->request;
+        if($request->isAjaxRequest){
+            
+            $lngId = $request->getPost('lngId');
+            
+            $objPage = ContactsBlockTrl::model()->findByAttributes(array('lng_id' => $lngId, 'block_id' => $id));
+            $arrJson = array();
+            $arrJson['title'] = $objPage->title;
+            $arrJson['meta'] = $objPage->meta_description;
+            $arrJson['text'] = $objPage->text;
+            //$arrJson['email'] = $objPage->email;
+            echo json_encode($arrJson);
+            Yii::app()->end();
+        }//ajax part
+        
+
+    }//actionEditContentAjax
     
 
     public function actionIndexAjax($page = 1)
@@ -419,7 +438,7 @@ class ContactsController extends ControllerAdmin
 
 
     public function actionAddBlock($group=0){
-        Yii::app()->clientScript->registerScriptFile($this->assetsPath.'/js/vendor.add-contact-block.js',CClientScript::POS_END);
+        Yii::app()->clientScript->registerScriptFile($this->assetsPath.'/js/vendor.add-block.js',CClientScript::POS_END);
         $model = new AddPageBlockForm();
         
         if(isset($_POST['AddPageBlockForm'])){
@@ -469,7 +488,7 @@ class ContactsController extends ControllerAdmin
         $model = new SaveContactBlockForm();
         $request = Yii::app()->request;
         $prefix = Yii::app()->language;
-        if(isset($_POST['SaveContactBlockForm']))
+        if($_POST['SaveContactBlockForm'])
         {
             $siteLng = $_POST['SaveContactBlockForm']['lngId'];
             $langObj = Languages::model()->findByPk($siteLng);
@@ -479,10 +498,13 @@ class ContactsController extends ControllerAdmin
             if($model->validate())
             {
 
+                
                 $contactTrlObj = ContactsBlockTrl::model()->find(array('condition'=>'lng_id=:lng_id AND block_id=:block_id','params'=>array('lng_id'=>$siteLng,'block_id'=>$id)));
-                $contactTrlObj->text=$_POST['SaveContactBlockForm']['description'];
-                 $contactTrlObj->title=$_POST['SaveContactBlockForm']['title'];
+              
+                $contactTrlObj->text=$_POST['SaveContactBlockForm']['text'];
+                $contactTrlObj->title=$_POST['SaveContactBlockForm']['title'];
                 $contactTrlObj->meta_description=$_POST['SaveContactBlockForm']['meta'];
+
                 $contactTrlObj->update(); 
 
                 $objBlock->page_id=$_POST['SaveContactBlockForm']['page_id'];
@@ -510,7 +532,7 @@ class ContactsController extends ControllerAdmin
 
         //$objPage = ExtPage::model()->findByPk($id);
         //$arrPage = ExtContacts::model()->getContact($id,$curr_prefix);
-        $arrPage = ContactsPageTrl::model()->find(array('condition'=>'Page_id=:id AND lng_id=:siteLng','params'=>array('id'=>$id,'siteLng'=>$siteLng)));
+        $arrPage = ContactsBlockTrl::model()->find(array('condition'=>'block_id=:id AND lng_id=:siteLng','params'=>array('id'=>$id,'siteLng'=>$siteLng)));
         //Debug::d($arrPage);
         $this->render('editBlock', array('arrPage' => $arrPage, 'model' => $model, 'contact_id' => $id, 'siteLng' => $siteLng, 'prefix' => $prefix, 'page_id'=>$objBlock->page_id));
     }//edit

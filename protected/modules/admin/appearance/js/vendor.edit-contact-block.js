@@ -47,20 +47,20 @@ $(document).ready(function() {
 
 function getLangValues(pageId,lngId,prefix){
    var title = '';
-   var description = '';
+   var text = '';
    var meta = '';
    var email = '';
    $.ajaxSetup({async:false});
-   var link = "/"+prefix+"/admin/contacts/EditContentAjax/"+pageId;
+   var link = "/"+prefix+"/admin/contacts/EditContentBlockAjax/"+pageId;
     $.ajax({ type: "post",url:link,data:{lngId:lngId}}).done(function(data){
         obj = jQuery.parseJSON(data);
         if(obj.title)
         {
             title = obj.title; 
         }
-        if(obj.description)
+        if(obj.text)
         {
-            description = obj.description; 
+            text = obj.text; 
         }
         if(obj.meta)
         {
@@ -73,7 +73,7 @@ function getLangValues(pageId,lngId,prefix){
         }
         */
         $('#title').val(title);
-        $('#edit').val(description);
+        $('#edit').val(text);
         $('#meta').val(meta);
         //$('#email').val(email);
         console.log(obj);
