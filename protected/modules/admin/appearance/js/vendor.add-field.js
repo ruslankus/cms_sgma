@@ -18,6 +18,18 @@ var qnt = undefined;
 
         var id = $(this).data('show_variants_for');
 
+        var opener_type = $(this).data('open_on');
+        var opening_element_id = $(this).data('open_id');
+
+        if(opener_type == $(this).val())
+        {
+            $('#'+opening_element_id).attr('style','');
+        }
+        else
+        {
+            $('#'+opening_element_id).css({'display':'none'});
+        }
+
         if(id == $(this).val())
         {
             $('.hidden-selector').css({'visibility':'visible'});

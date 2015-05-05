@@ -33,6 +33,11 @@
     .content .inner-content .addable .input-block .input-name{width: 135px; display: block; float: left;}
     .content .inner-content .addable .input-block .input-value{width: 130px; display: block; float: left; margin-left: 5px;}
     .content .inner-content .addable .input-block .input-delete{min-width: 70px; display: block; float: left; margin-left: 5px; background-color: #ff3a36; border: 1px solid #cd0000; visibility: hidden; padding: 0;}
+
+    .content.menu-content .inner-content input.half-sized-inputs
+    {
+        width: 40%;
+    }
 </style>
 
 <?php $params = array(); ?>
@@ -91,7 +96,7 @@
                     </tr>
                     <tr class="addable">
                         <td class="label"><?php echo $form->labelEx($form_mdl,'type_id'); ?></td>
-                        <td class="value"><?php echo $form->dropDownList($form_mdl,'type_id',$types,array('data-show_variants_for' => ExtProductFieldTypes::TYPE_SELECTABLE, 'options' => array($field->type_id => array('selected' => true)))); ?></td>
+                        <td class="value"><?php echo $form->dropDownList($form_mdl,'type_id',$types,array('data-show_variants_for' => ExtProductFieldTypes::TYPE_SELECTABLE, 'data-open_on' => ExtProductFieldTypes::TYPE_IMAGES, 'data-open_id' => 'img-sizes', 'options' => array($field->type_id => array('selected' => true)))); ?></td>
                         <td class="value hidden-selector" <?php echo $field->type_id != ExtProductFieldTypes::TYPE_SELECTABLE ? "style='visibility: hidden'" : ''; ?>>
                             <div class="field-in-addable">
                                 <?php if($field->type_id == ExtProductFieldTypes::TYPE_SELECTABLE): ?>
@@ -114,6 +119,21 @@
                             </div>
                         </td>
                     </tr>
+
+                    <tr <?php if($field->type_id != ExtProductFieldTypes::TYPE_IMAGES): ?> style="display: none" <?php endif; ?> id="img-sizes">
+                        <td class="label"><?php echo $form->label($form_mdl,'img_sizes'); ?></td>
+                        <td class="value">
+                            <?php $form_mdl->img_fit = $field->img_fit; ?>
+                            <?php $labels = $form_mdl->attributeLabels(); ?>
+
+                            <?php echo $form->textField($form_mdl,'img_w',array('placeholder' => $labels['img_w'], 'class' => 'half-sized-inputs', 'value' => $field->img_w)); ?>
+                            <?php echo $form->textField($form_mdl,'img_h',array('placeholder' => $labels['img_h'], 'class' => 'half-sized-inputs', 'value' => $field->img_h)); ?>
+
+                            <?php echo $form->label($form_mdl,'img_fit'); ?>
+                            <?php echo $form->checkBox($form_mdl,'img_fit'); ?>
+                        </td>
+                    </tr>
+
                     <tr>
                         <td class="label">&nbsp;</td>
                         <td class="value">
@@ -130,6 +150,8 @@
                             <?php echo $form->error($form_mdl,'group_id',array('class'=>'float-right errorMessage')); ?>
                             <?php echo $form->error($form_mdl,'field_name',array('class'=>'float-right errorMessage')); ?>
                             <?php echo $form->error($form_mdl,'type_id',array('class'=>'float-right errorMessage')); ?>
+                            <?php echo $form->error($form_mdl,'img_w',array('class'=>'float-right errorMessage')); ?>
+                            <?php echo $form->error($form_mdl,'img_h',array('class'=>'float-right errorMessage')); ?>
                         </td>
                         <td class="value"></td>
                     </tr>
