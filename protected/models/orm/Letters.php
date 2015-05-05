@@ -9,6 +9,8 @@
  * @property string $email
  * @property string $email_from
  * @property string $content
+ * @property string $ip
+ * @property integer $created_at
  *
  * The followings are the available model relations:
  * @property ContactsPage $page
@@ -31,12 +33,13 @@ class Letters extends CActiveRecord
 		// NOTE: you should only define rules for those attributes that
 		// will receive user inputs.
 		return array(
-			array('page_id', 'numerical', 'integerOnly'=>true),
+			array('page_id, created_at', 'numerical', 'integerOnly'=>true),
 			array('email, email_from', 'length', 'max'=>128),
+			array('ip', 'length', 'max'=>256),
 			array('content', 'safe'),
 			// The following rule is used by search().
 			// @todo Please remove those attributes that should not be searched.
-			array('id, page_id, email, email_from, content', 'safe', 'on'=>'search'),
+			array('id, page_id, email, email_from, content, ip, created_at', 'safe', 'on'=>'search'),
 		);
 	}
 
@@ -64,6 +67,8 @@ class Letters extends CActiveRecord
 			'email' => 'Email',
 			'email_from' => 'Email From',
 			'content' => 'Content',
+			'ip' => 'Ip',
+			'created_at' => 'Created At',
 		);
 	}
 
@@ -90,6 +95,8 @@ class Letters extends CActiveRecord
 		$criteria->compare('email',$this->email,true);
 		$criteria->compare('email_from',$this->email_from,true);
 		$criteria->compare('content',$this->content,true);
+		$criteria->compare('ip',$this->ip,true);
+		$criteria->compare('created_at',$this->created_at);
 
 		return new CActiveDataProvider($this, array(
 			'criteria'=>$criteria,
