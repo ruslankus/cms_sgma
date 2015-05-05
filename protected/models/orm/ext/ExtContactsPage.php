@@ -85,7 +85,7 @@ class ExtContactsPage extends ContactsPage
         $con = $this->dbConnection;
         $arrData = $con->createCommand($sql)->queryRow();
         //adding translation
-        $sql  = "SELECT t1.title, t1.description,t1.meta_description, t1.meta_keywords " ;
+        $sql  = "SELECT t1.title, t1.description,t1.meta_description, t1.meta_keywords, t1.email " ;
         $sql .= "FROM contacts_page_trl t1 ";
         $sql .= "JOIN languages t2 ON t1.lng_id = t2.id ";
         $sql .= "WHERE t2.prefix = :prefix AND page_id = ".(int)$page_id;    

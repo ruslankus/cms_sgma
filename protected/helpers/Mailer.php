@@ -32,11 +32,11 @@ class Mailer {
 
 		//$mail->AddReplyTo($to,"Reply toto");
 		 
-		$mail->SetFrom('cms@cms.com', 'ContactForm');
+		$mail->SetFrom($params['mail_from'], $params['name']);
 		 
 		//$mail->AddReplyTo("cms@cms.com","reply to me");
 		 
-		$mail->AddAddress($params['mail'], $params['name']);
+		$mail->AddAddress($params['mail_to'], $params['name']);
 		
 		$mail->Subject    = $params['subject'];
 		$mail->MsgHTML($params['body']);

@@ -55,7 +55,7 @@ class ContactsController extends Controller
                     // is write to db checkeds
                     $objLetter = new Letters();
                     $objLetter->page_id = $id;
-                    $objLetter->email = "cms@cms.com";
+                    $objLetter->email = $arrData['content']['email'];
                     $objLetter->email_from = $_POST['SendContactPageForm']['email_from'];
                     $objLetter->name = $_POST['SendContactPageForm']['name'];
                     $objLetter->content = $_POST['SendContactPageForm']['content'];
@@ -64,9 +64,10 @@ class ContactsController extends Controller
                     if ($objLetter->save()) {
                         Yii::app()->user->setFlash('success', Trl::t()->getLabel('Your message send'));
                     }
-                } else {
+                } 
+                if($arrData['content']['email']) {
                     // send mail
-                    $data = Mailer::sendMail(array($_POST['SendContactPageForm']['name'], 'mail'=>$_POST['SendContactPageForm']['email_from'],'subject' => Trl::t()->getLabel('New message from page form'),'body' => $_POST['SendContactPageForm']['content']));
+                    $data = Mailer::sendMail(array($_POST['SendContactPageForm']['name'],'mail_to'=>$arrData['content']['email'], 'name' => $_POST['SendContactPageForm']['name'],'mail_from'=>$_POST['SendContactPageForm']['email_from'],'subject' => Trl::t()->getLabel('New message from page form'),'body' => $_POST['SendContactPageForm']['content']));
                     Yii::app()->user->setFlash('success', $data);
 
                 }
