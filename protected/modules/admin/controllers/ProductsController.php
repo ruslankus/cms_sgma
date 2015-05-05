@@ -838,8 +838,10 @@ class ProductsController extends ControllerAdmin
     {
         //include menu necessary scripts
         Yii::app()->clientScript->registerCssFile($this->assetsPath.'/css/vendor.lightbox.css');
-        Yii::app()->clientScript->registerCssFile($this->assetsPath.'/css/jquery-ui.min.css');
+        Yii::app()->clientScript->registerCssFile($this->assetsPath.'/css/ui-lightness/jquery-ui-1.10.4.custom.css');
+
         Yii::app()->clientScript->registerCssFile($this->assetsPath.'/css/vendor.dynamic-fields.css');
+
         Yii::app()->clientScript->registerScriptFile($this->assetsPath.'/js/vendor.add-menu.js',CClientScript::POS_END);
         Yii::app()->clientScript->registerScriptFile($this->assetsPath.'/js/vendor.dynamic-fields.js',CClientScript::POS_END);
 
