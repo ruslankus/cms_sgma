@@ -12,6 +12,9 @@
  * @property integer $time_created
  * @property integer $time_updated
  * @property integer $last_change_by
+ * @property integer $img_w
+ * @property integer $img_h
+ * @property integer $img_fit
  *
  * The followings are the available model relations:
  * @property ProductFieldSelectOptions[] $productFieldSelectOptions
@@ -38,11 +41,11 @@ class ProductFields extends CActiveRecord
 		// NOTE: you should only define rules for those attributes that
 		// will receive user inputs.
 		return array(
-			array('type_id, group_id, priority, time_created, time_updated, last_change_by', 'numerical', 'integerOnly'=>true),
+			array('type_id, group_id, priority, time_created, time_updated, last_change_by, img_w, img_h, img_fit', 'numerical', 'integerOnly'=>true),
 			array('field_name', 'length', 'max'=>256),
 			// The following rule is used by search().
 			// @todo Please remove those attributes that should not be searched.
-			array('id, field_name, type_id, group_id, priority, time_created, time_updated, last_change_by', 'safe', 'on'=>'search'),
+			array('id, field_name, type_id, group_id, priority, time_created, time_updated, last_change_by, img_w, img_h, img_fit', 'safe', 'on'=>'search'),
 		);
 	}
 
@@ -76,6 +79,9 @@ class ProductFields extends CActiveRecord
 			'time_created' => 'Time Created',
 			'time_updated' => 'Time Updated',
 			'last_change_by' => 'Last Change By',
+			'img_w' => 'Img W',
+			'img_h' => 'Img H',
+			'img_fit' => 'Img Fit',
 		);
 	}
 
@@ -105,6 +111,9 @@ class ProductFields extends CActiveRecord
 		$criteria->compare('time_created',$this->time_created);
 		$criteria->compare('time_updated',$this->time_updated);
 		$criteria->compare('last_change_by',$this->last_change_by);
+		$criteria->compare('img_w',$this->img_w);
+		$criteria->compare('img_h',$this->img_h);
+		$criteria->compare('img_fit',$this->img_fit);
 
 		return new CActiveDataProvider($this, array(
 			'criteria'=>$criteria,
