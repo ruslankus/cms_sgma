@@ -15,6 +15,7 @@
 CORE LAYOUT
 <?php echo DynamicWidgets::get('Additional'); ?>
 <?php echo DynamicWidgets::get('Main'); ?>
+<?php echo DynamicWidgets::get('Bottom'); ?>
 <?php echo $content; ?>
 </body>
 

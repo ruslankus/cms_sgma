@@ -1,5 +1,5 @@
 <?php
-class SysLanguages extends CWidget
+class SysLatestProducts extends CWidget
 {
     /**
      * @var ExtSystemWidget
