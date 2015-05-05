@@ -25,7 +25,8 @@
         </div><!--/tab-line-->
 
         <div class="inner-content">
-            <?php $form=$this->beginWidget('CActiveForm', array('id' =>'add-item-form','enableAjaxValidation'=>true,'htmlOptions'=>array('data-update_url' => Yii::app()->createUrl('/admin/menu/AjaxContentItemsByType')),'clientOptions' => array('validateOnSubmit'=>true))); ?>
+            <div class="form-zone">
+            <?php $form=$this->beginWidget('CActiveForm', array('id' =>'add-item-form','enableAjaxValidation'=>true,'htmlOptions'=>array('enctype' => 'multipart/form-data'),'clientOptions' => array('validateOnSubmit'=>true))); ?>
             <div class="tabs">
                 <?php foreach($languages as $index => $language): ?>
                     <table data-tab="<?php echo $language->prefix; ?>" <?php if($index == 0): ?> class="active" <?php endif; ?>>
@@ -43,6 +44,10 @@
 
             <table>
                 <tr>
+                    <td class="label"><?php echo $form->labelEx($form_model,'image'); ?></td>
+                    <td class="value"><?php echo $form->fileField($form_model,'image',array('data-label' => ATrl::t()->getLabel('Browse...'))); ?></td>
+                </tr>
+                <tr>
                     <td class="label"><?php echo $form->labelEx($form_model,'label'); ?></td>
                     <td class="value"><?php echo $form->textField($form_model,'label',array('placeholder' => ATrl::t()->getLabel('label'), 'value' => $tag->label)); ?></td>
                 </tr>
@@ -56,11 +61,31 @@
                     <td class="label">&nbsp;</td>
                     <td class="value">
                         <?php echo $form->error($form_model,'label',array('class'=>'float-right errorMessage')); ?>
+                        <?php echo $form->error($form_model,'image',array('class'=>'float-right errorMessage')); ?>
                     </td>
                 </tr>
             </table>
             <?php $this->endWidget(); ?>
-        </div><!--/inner-content-->
+            </div>
 
+            <div class="image-zone">
+                <strong><?php echo ATrl::t()->getLabel('Image'); ?></strong>
+                <div class="list">
+                    <?php $image = $tag->getFirstImage(); ?>
+                    <?php if(!empty($image)): ?>
+                        <div class="image">
+                            <img src="<?php echo $image->getCachedUrl(160,120); ?>" alt="">
+                            <a href="<?php echo Yii::app()->createUrl('admin/products/deletetagimage',array('id' => $tag->imagesOfTags[0]->id)) ?>" class="delete active" data-id="1"></a>
+                        </div>
+                    <?php else: ?>
+                        <div class="image">
+                            <img src="<?php echo Image::getUrlOf('no-image-upload.png',true); ?>" alt="">
+                            <a href="#" class="delete"></a>
+                        </div>
+                    <?php endif;?>
+                </div><!--/list-->
+            </div><!--/image-zone-->
+
+        </div><!--/inner-content-->
     </div><!--/content translate-->
 </main>

@@ -3,6 +3,7 @@
  * Class ExtTag
  * @property TagTrl $trl
  * @property ExtTagsOfProduct[] $tagsOfProducts
+ * @property ExtImagesOfTags[] $imagesOfTags
  */
 class ExtTag extends Tag
 {
@@ -40,6 +41,20 @@ class ExtTag extends Tag
         $trl -> lng_id = $lngId;
 
         return $trl;
+    }
+
+    /**
+     * Returns first image if exist
+     * @return ExtImages|null
+     */
+    public function getFirstImage()
+    {
+        if(count($this->imagesOfTags) > 0)
+        {
+            return $this->imagesOfTags[0]->image;
+        }
+
+        return null;
     }
 
     /**

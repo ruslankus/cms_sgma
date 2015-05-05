@@ -1,25 +1,25 @@
 <?php
 
 /**
- * This is the model class for table "tag".
+ * This is the model class for table "images_of_tags".
  *
- * The followings are the available columns in table 'tag':
+ * The followings are the available columns in table 'images_of_tags':
  * @property integer $id
- * @property string $label
+ * @property integer $tag_id
+ * @property integer $image_id
  *
  * The followings are the available model relations:
- * @property ImagesOfTags[] $imagesOfTags
- * @property TagTrl[] $tagTrls
- * @property TagsOfProduct[] $tagsOfProducts
+ * @property Images $image
+ * @property Tag $tag
  */
-class Tag extends CActiveRecord
+class ImagesOfTags extends CActiveRecord
 {
 	/**
 	 * @return string the associated database table name
 	 */
 	public function tableName()
 	{
-		return 'tag';
+		return 'images_of_tags';
 	}
 
 	/**
@@ -30,10 +30,10 @@ class Tag extends CActiveRecord
 		// NOTE: you should only define rules for those attributes that
 		// will receive user inputs.
 		return array(
-			array('label', 'length', 'max'=>128),
+			array('tag_id, image_id', 'numerical', 'integerOnly'=>true),
 			// The following rule is used by search().
 			// @todo Please remove those attributes that should not be searched.
-			array('id, label', 'safe', 'on'=>'search'),
+			array('id, tag_id, image_id', 'safe', 'on'=>'search'),
 		);
 	}
 
@@ -45,9 +45,8 @@ class Tag extends CActiveRecord
 		// NOTE: you may need to adjust the relation name and the related
 		// class name for the relations automatically generated below.
 		return array(
-			'imagesOfTags' => array(self::HAS_MANY, 'ImagesOfTags', 'tag_id'),
-			'tagTrls' => array(self::HAS_MANY, 'TagTrl', 'tag_id'),
-			'tagsOfProducts' => array(self::HAS_MANY, 'TagsOfProduct', 'tag_id'),
+			'image' => array(self::BELONGS_TO, 'Images', 'image_id'),
+			'tag' => array(self::BELONGS_TO, 'Tag', 'tag_id'),
 		);
 	}
 
@@ -58,7 +57,8 @@ class Tag extends CActiveRecord
 	{
 		return array(
 			'id' => 'ID',
-			'label' => 'Label',
+			'tag_id' => 'Tag',
+			'image_id' => 'Image',
 		);
 	}
 
@@ -81,7 +81,8 @@ class Tag extends CActiveRecord
 		$criteria=new CDbCriteria;
 
 		$criteria->compare('id',$this->id);
-		$criteria->compare('label',$this->label,true);
+		$criteria->compare('tag_id',$this->tag_id);
+		$criteria->compare('image_id',$this->image_id);
 
 		return new CActiveDataProvider($this, array(
 			'criteria'=>$criteria,
@@ -92,7 +93,7 @@ class Tag extends CActiveRecord
 	 * Returns the static model of the specified AR class.
 	 * Please note that you should have this exact method in all your CActiveRecord descendants!
 	 * @param string $className active record class name.
-	 * @return Tag the static model class
+	 * @return ImagesOfTags the static model class
 	 */
 	public static function model($className=__CLASS__)
 	{

@@ -1802,6 +1802,16 @@ class ProductsController extends ControllerAdmin
 
 
     /**
+     * Delete image of tag
+     * @param $id
+     */
+    public function actionDeleteTagImage($id)
+    {
+        ExtImagesOfTags::model()->deleteByPk((int)$id);
+        $this->redirect(Yii::app()->request->urlReferrer);
+    }
+
+    /**
      * Editing tags
      * @param $id
      */
@@ -1840,6 +1850,7 @@ class ProductsController extends ControllerAdmin
             if($_POST['TagForm'])
             {
                 $form_mdl->attributes = $_POST['TagForm'];
+                $form_mdl->image = CUploadedFile::getInstance($form_mdl,'image');
 
                 if($form_mdl->validate())
                 {
@@ -1858,6 +1869,34 @@ class ProductsController extends ControllerAdmin
 
                         $titles = $_POST['TagForm']['titles'];
                         $descriptions = $_POST['TagForm']['descriptions'];
+
+                        if(!empty($form_mdl->image))
+                        {
+                            //new name for our image
+                            $randomName = uniqid();
+
+                            //if saved
+                            if($form_mdl->image->saveAs(Image::UPLOAD_DIR.DS.$randomName.'.'.$form_mdl->image->extensionName))
+                            {
+                                //add image item to db (to site gallery)
+                                $image = new ExtImages();
+                                $image -> filename = $randomName.'.'.$form_mdl->image->extensionName;
+                                $image -> size = $form_mdl->image->size;
+                                $image -> mime_type = $form_mdl->image->type;
+                                $image -> label = 'Image of tag "'.$tagItem->label.'"';
+                                $image -> status_id = ExtStatus::VISIBLE;
+                                $image -> save();
+
+                                //delete all image-relations of this tag
+                                ExtImagesOfTags::model()->deleteAllByAttributes(array('tag_id' => $tagItem->id));
+
+                                //Create one image-tag relation (one image of tag)
+                                $iot = new ExtImagesOfTags();
+                                $iot -> image_id = $image->id;
+                                $iot -> tag_id = $tagItem->id;
+                                $iot -> save();
+                            }
+                        }
 
                         //translations
                         foreach($titles as $lngId => $title)
