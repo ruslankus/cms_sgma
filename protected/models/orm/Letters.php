@@ -59,6 +59,7 @@ class Letters extends CActiveRecord
 	{
 		return array(
 			'id' => 'ID',
+			'name' => 'Your name',
 			'page_id' => 'Page',
 			'email' => 'Email',
 			'email_from' => 'Email From',
@@ -94,7 +95,6 @@ class Letters extends CActiveRecord
 			'criteria'=>$criteria,
 		));
 	}
-
 	/**
 	 * Returns the static model of the specified AR class.
 	 * Please note that you should have this exact method in all your CActiveRecord descendants!

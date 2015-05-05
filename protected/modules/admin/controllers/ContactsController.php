@@ -127,8 +127,21 @@ class ContactsController extends ControllerAdmin
           ));
     }//edit
     
-   public function actionEditSetup($id = null)
-   {
+    public function ActionRequests($id = null, $page = 1)
+    {
+        //Yii::app()->clientScript->registerScriptFile($this->assetsPath.'/js/vendor.contacts-requests.js',CClientScript::POS_END);
+        $objPages = ExtLetters::model()->findAllByAttributes(array('page_id'=>$id));
+        $objPaging = CPaginator::getInstance($objPages,$this->arrSettings['per_page'],$page);
+        $objPages = $objPaging->getPreparedArray();
+        $totalPages = $objPaging->getTotalPages();
+        $currentPage = $objPaging->getCurrentPage();
+        $showPaginator = $objPaging->showPaginator();
+        $this->render('requests',array('objPages' => $objPages, 'contact_id' => $id, 'currLng' => $currLng,
+           'totalPages' => $totalPages, 'currentPage' => $currentPage,'showPaginator' => $showPaginator));
+    }
+
+    public function actionEditSetup($id = null)
+    {
         $model = new SaveContactSetupForm();
         $objContactPage = ContactsPage::model()->findByPk($id);
         if ($_POST['SaveContactSetupForm']) {
