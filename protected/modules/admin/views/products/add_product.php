@@ -81,6 +81,10 @@
                     <td class="value"><?php echo $form->textField($form_model,'product_code',array('value' => $product_code)); ?></td>
                 </tr>
                 <tr>
+                    <td class="label"><?php echo $form->labelEx($form_model,'is_new'); ?></td>
+                    <td class="value"><?php echo $form->checkBox($form_model,'is_new'); ?></td>
+                </tr>
+                <tr>
                     <td class="label">&nbsp;</td>
                     <td class="value">
                         <?php echo CHtml::submitButton(ATrl::t()->getLabel('Save'),array()); ?>

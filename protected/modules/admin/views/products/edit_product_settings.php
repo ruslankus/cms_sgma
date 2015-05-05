@@ -66,6 +66,11 @@
                             <td class="label"><?php echo $form->labelEx($form_model,'product_code'); ?></td>
                             <td class="value"><?php echo $form->textField($form_model,'product_code',array('value' => $item->product_code)); ?></td>
                         </tr>
+                        <tr>
+                            <?php $form_model->is_new = $item->is_new; ?>
+                            <td class="label"><?php echo $form->labelEx($form_model,'is_new'); ?></td>
+                            <td class="value"><?php echo $form->checkBox($form_model,'is_new'); ?></td>
+                        </tr>
                         <?php if(!empty($tags)): ?>
                             <tr>
                                 <td class="label" style="vertical-align: top;"><?php echo $form->labelEx($form_model,'selected_tags'); ?></td>
