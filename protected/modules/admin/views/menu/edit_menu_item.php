@@ -63,11 +63,7 @@
                 </tr>
                 <tr id="loadable-selector">
                     <?php echo $form->hiddenField($form_model,'content_item_id',array('value' => '')); ?>
-                    <?php $this->renderPartial('_ajax_content_items',array('objContentItems' => $content_items, 'type' => $first_type, 'selected' => $menuItem->content_item_id)); ?>
-                </tr>
-                <tr>
-                    <td class="label"><?php echo ATrl::t()->getLabel('Link'); ?></td>
-                    <td class="value"><input id="link_field_ajax" value="<?php echo $menuItem->getUrl(true);?>" type="text" name="link" class="link" /></td>
+                    <?php $this->renderPartial('_ajax_content_items',array('objContentItems' => $content_items, 'type' => $first_type, 'selected' => $menuItem->content_item_id, 'value' => $menuItem->link_string)); ?>
                 </tr>
                 <tr>
                     <td class="label"><?php echo $form->labelEx($form_model,'parent_id'); ?></td>
@@ -97,6 +93,7 @@
                         <?php echo $form->error($form_model,'type_id',array('class'=>'float-right errorMessage')); ?>
                         <?php echo $form->error($form_model,'parent_id',array('class'=>'float-right errorMessage')); ?>
                         <?php echo $form->error($form_model,'content_item_id',array('class'=>'float-right errorMessage')); ?>
+                        <?php echo $form->error($form_model,'link_string',array('class'=>'float-right errorMessage')); ?>
                     </td>
                 </tr>
             </table>

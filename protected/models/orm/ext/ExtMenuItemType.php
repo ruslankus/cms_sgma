@@ -11,6 +11,7 @@ class ExtMenuItemType extends MenuItemType
     const TYPE_PRODUCTS_CATALOG = 3;
     const TYPE_CONTACT_FORM = 4;
     const TYPE_COMPLEX_PAGE = 5;
+    const TYPE_LINK = 6;
 
     /**
      * @param string $className

@@ -216,6 +216,9 @@ class MenuController extends ControllerAdmin
 
         if(Yii::app()->request->isAjaxRequest)
         {
+            //attributes
+            $form_mdl->rules_for_link = $_POST['MenuItemForm']['type_id'] == ExtMenuItemType::TYPE_LINK;
+
             //if ajax validation
             if(isset($_POST['ajax']))
             {
@@ -231,6 +234,7 @@ class MenuController extends ControllerAdmin
             //if have form
             if($_POST['MenuItemForm'])
             {
+                $form_mdl->rules_for_link = $_POST['MenuItemForm']['type_id'] == ExtMenuItemType::TYPE_LINK;
                 $form_mdl->attributes = $_POST['MenuItemForm'];
 
                 if($form_mdl->validate())
@@ -323,6 +327,9 @@ class MenuController extends ControllerAdmin
 
         if(Yii::app()->request->isAjaxRequest)
         {
+            //attributes
+            $form_mdl->rules_for_link = $_POST['MenuItemForm']['type_id'] == ExtMenuItemType::TYPE_LINK;
+
             //if ajax validation
             if(isset($_POST['ajax']))
             {
@@ -338,6 +345,7 @@ class MenuController extends ControllerAdmin
             //if have form
             if($_POST['MenuItemForm'])
             {
+                $form_mdl->rules_for_link = $_POST['MenuItemForm']['type_id'] == ExtMenuItemType::TYPE_LINK;
                 $form_mdl->attributes = $_POST['MenuItemForm'];
 
                 if($form_mdl->validate())

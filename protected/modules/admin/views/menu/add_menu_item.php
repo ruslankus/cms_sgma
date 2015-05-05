@@ -59,16 +59,19 @@
                             <?php echo $form->dropDownList($form_model,'type_id',$types,array('class'=>'load-items-selector'));?>
                         </td>
                     </tr>
+
                     <tr id="loadable-selector">
                         <?php echo $form->hiddenField($form_model,'content_item_id',array('value' => '')); ?>
                         <?php $this->renderPartial('_ajax_content_items',array('objContentItems' => $content_items, 'type' => $first_type)); ?>
                     </tr>
+
                     <tr>
                         <td class="label"><?php echo $form->labelEx($form_model,'parent_id'); ?></td>
                         <td class="value">
                             <?php echo $form->dropDownList($form_model,'parent_id',$parent_items,array('class'=>''));?>
                         </td>
                     </tr>
+
                     <tr>
                         <td class="label">&nbsp;</td>
                         <td class="value">
@@ -83,6 +86,7 @@
                             <?php echo $form->error($form_model,'type_id',array('class'=>'float-right errorMessage')); ?>
                             <?php echo $form->error($form_model,'parent_id',array('class'=>'float-right errorMessage')); ?>
                             <?php echo $form->error($form_model,'content_item_id',array('class'=>'float-right errorMessage')); ?>
+                            <?php echo $form->error($form_model,'link_string',array('class'=>'float-right errorMessage')); ?>
                         </td>
                     </tr>
                 </table>

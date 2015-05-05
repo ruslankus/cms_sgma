@@ -15,7 +15,7 @@
  * @property integer $time_created
  * @property integer $time_updated
  * @property integer $last_change_by
- * @property integer $link_target
+ * @property string $link_string
  *
  * The followings are the available model relations:
  * @property MenuItemType $type
@@ -41,11 +41,12 @@ class MenuItem extends CActiveRecord
 		// NOTE: you should only define rules for those attributes that
 		// will receive user inputs.
 		return array(
-			array('menu_id, parent_id, priority, type_id, content_item_id, status_id, time_created, time_updated, last_change_by, link_target', 'numerical', 'integerOnly'=>true),
+			array('menu_id, parent_id, priority, type_id, content_item_id, status_id, time_created, time_updated, last_change_by', 'numerical', 'integerOnly'=>true),
 			array('label', 'length', 'max'=>128),
+			array('link_string', 'safe'),
 			// The following rule is used by search().
 			// @todo Please remove those attributes that should not be searched.
-			array('id, menu_id, label, parent_id, priority, type_id, content_item_id, status_id, time_created, time_updated, last_change_by, link_target', 'safe', 'on'=>'search'),
+			array('id, menu_id, label, parent_id, priority, type_id, content_item_id, status_id, time_created, time_updated, last_change_by, link_string', 'safe', 'on'=>'search'),
 		);
 	}
 
@@ -81,7 +82,7 @@ class MenuItem extends CActiveRecord
 			'time_created' => 'Time Created',
 			'time_updated' => 'Time Updated',
 			'last_change_by' => 'Last Change By',
-			'link_target' => 'Link Target',
+			'link_string' => 'Link String',
 		);
 	}
 
@@ -114,7 +115,7 @@ class MenuItem extends CActiveRecord
 		$criteria->compare('time_created',$this->time_created);
 		$criteria->compare('time_updated',$this->time_updated);
 		$criteria->compare('last_change_by',$this->last_change_by);
-		$criteria->compare('link_target',$this->link_target);
+		$criteria->compare('link_string',$this->link_string,true);
 
 		return new CActiveDataProvider($this, array(
 			'criteria'=>$criteria,

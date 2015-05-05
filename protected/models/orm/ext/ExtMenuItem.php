@@ -42,22 +42,36 @@ class ExtMenuItem extends MenuItem
      */
     public function getUrlForSite($abs = false, $default_action = 'show', $type = null, $content_item_id = null)
     {
+        //if type or content item not set
         if($type == null || $content_item_id == null)
         {
+            //if this is remote direct link
+            if($this->type_id == ExtMenuItemType::TYPE_LINK)
+            {
+                //just return it
+                return $this->link_string;
+            }
+
+            //if should return absolute
             if($abs)
             {
+                //create absolute url using type and content item of this menu item
                 return Yii::app()->createAbsoluteUrl(
                     $this->controllerMatches[$this->type_id].'/'.$default_action,
                     array('id' => $this->content_item_id)
                 );
             }
+
+            //create relative url using type and content item of this menu item
             return Yii::app()->createUrl(
                 $this->controllerMatches[$this->type_id].'/'.$default_action,
                 array('id' => $this->content_item_id)
             );
         }
+        //if set content item and type
         else
         {
+            //create links using this data
             if($abs)
             {
                 return Yii::app()->createAbsoluteUrl(
@@ -83,8 +97,11 @@ class ExtMenuItem extends MenuItem
      */
     public function getUrl($abs = false, $default_action = 'show', $type = null, $content_item_id = null)
     {
+        //get all languages
         $arrSiteLanguages = SiteLng::lng()->getLngs();
+        //get first language
         $firstLng = !empty($arrSiteLanguages) ? $arrSiteLanguages[0] : null;
+        //empty url
         $url = '';
 
         if($abs)
