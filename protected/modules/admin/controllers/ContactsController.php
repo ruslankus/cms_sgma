@@ -180,14 +180,14 @@ class ContactsController extends ControllerAdmin
             $this->redirect(Yii::app()->createUrl('admin/contacts/pages'));
         }
     }
-/*
-    public function actionDeleteContact($id=null)
-    {
-    	$objContact = ContactsPage::model()->findByPk($id);
-    	$objContact->delete();
-    	$this->redirect(array('index'));
-    }
-*/
+    /*
+        public function actionDeleteContact($id=null)
+        {
+        	$objContact = ContactsPage::model()->findByPk($id);
+        	$objContact->delete();
+        	$this->redirect(array('index'));
+        }
+    */
 
     public function actionContactSettings($id=null)
     {
