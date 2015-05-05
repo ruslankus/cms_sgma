@@ -58,10 +58,10 @@
         <?php for($p=1; $p <= $totalPages; $p++): ?>
             <?php if($p == $currentPage):?>
                 <?php echo CHtml::link($p,array('/admin/contacts/requests/',
-                    'page'=> $p),array('class'=>'active')); ?>
+                    'page'=> $p, 'id'=>$contact_id),array('class'=>'active')); ?>
             <?php else:?>
                 <?php echo CHtml::link($p,array('/admin/contacts/requests/',
-                    'page'=> $p,'id'=>$contact_id)); ?>
+                    'page'=> $p, 'id'=>$contact_id)); ?>
             <?php endif;?>
         <?php endfor;?>
     <?php endif;?>

@@ -60,7 +60,7 @@ class ContactsController extends Controller
                     $objLetter->name = $_POST['SendContactPageForm']['name'];
                     $objLetter->content = $_POST['SendContactPageForm']['content'];
                     $objLetter->ip = CHttpRequest::getUserHostAddress();
-                    $objLetter-> created_at = date('Y-m-d H:i:s');
+                    $objLetter->created_at = date('Y-m-d H:i:s');
                     if ($objLetter->save()) {
                         Yii::app()->user->setFlash('success', Trl::t()->getLabel('Your message send'));
                     }

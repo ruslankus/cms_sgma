@@ -33,7 +33,7 @@ class Letters extends CActiveRecord
 		// NOTE: you should only define rules for those attributes that
 		// will receive user inputs.
 		return array(
-			array('page_id, created_at', 'numerical', 'integerOnly'=>true),
+			array('page_id', 'numerical', 'integerOnly'=>true),
 			array('email, email_from', 'length', 'max'=>128),
 			array('ip', 'length', 'max'=>256),
 			array('content', 'safe'),
