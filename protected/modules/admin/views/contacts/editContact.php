@@ -39,6 +39,11 @@
 			)); ?>
 			<div class="inner-top">
 			<?php
+                foreach(Yii::app()->user->getFlashes() as $key => $message) {
+                    echo '<div class="message">' . $message . "</div>\n";
+                }
+			?>
+			<?php
 				if($_POST['SaveContactForm']['lngId']){
 					$selected = $_POST['SaveContactForm']['lngId'];
 				}

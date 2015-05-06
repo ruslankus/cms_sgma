@@ -99,7 +99,10 @@ class ContactsController extends ControllerAdmin
                 $contactTrlObj->title=$_POST['SaveContactForm']['title'];
                 $contactTrlObj->meta_description=$_POST['SaveContactForm']['meta'];
                 $contactTrlObj->email=$_POST['SaveContactForm']['email'];
-                $contactTrlObj->save(); 
+                $upd = $contactTrlObj->save(); 
+                if($upd) {
+                    Yii::app()->user->setFlash('success', Trl::t()->getLabel('Data saved'));
+                }
 
             }
         }//if isset post 
@@ -522,8 +525,11 @@ class ContactsController extends ControllerAdmin
 
                 $objBlock->page_id=$_POST['SaveContactBlockForm']['page_id'];
 
-                $objBlock->update();
+                $upd = $objBlock->update();
 
+                if($upd) {
+                    Yii::app()->user->setFlash('success', Trl::t()->getLabel('Data saved'));
+                }
             }
         } 
 
