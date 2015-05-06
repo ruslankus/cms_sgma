@@ -21,10 +21,13 @@
 					<span class="bar d"></span><!--triangle-->
 				</div><!--/menu-->
 				<span class="logo">Voyaje CMS</span><!--/logo-->
-				
+				<?php
+				/*
 				<a href="" class="calendar"></a>
 				<a href="" class="messages"><span class="bubble">305</span></a>
 				<a href="" class="notices"><span class="bubble">305</span></a>
+				*/
+				?>
 				<a href="" class="user"></a>
 				
 				 <?php $this->widget('admin.widgets.UsrMenu'); ?>
